@@ -1,0 +1,48 @@
+# ===== SECRETS — never commit (project has had plaintext secrets slip in before) =====
+.env
+.env.*
+*.env
+env.txt
+brisnet_cookies.json
+
+# ===== Python =====
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ===== Browser automation artifacts =====
+chrome_selenium_profile/
+brisnet_page.html
+brisnet_debug.png
+diag_page_*.html
+diag_screenshot_*.png
+
+# ===== Logs & runtime state (machine-specific, regenerated each run) =====
+*.log
+pipeline_state.json
+pipeline_state.json.bak
+*.bak
+
+# ===== Nested web app — has its own git repo & remote, keep it out of this one =====
+dts-web/
+
+# ===== Generated handicapping cards (regenerated each run — keep out of Git) =====
+# These patterns catch the current generated PDFs by track-code / suffix.
+sample_*.pdf
+*_FINAL.pdf
+*_PREVIEW.pdf
+*_prototype.pdf
+*_NEW_logic.pdf
+CDX*.pdf
+cdx*.pdf
+MNR*.pdf
+
+# Brand & reference PDFs are intentionally NOT ignored and WILL be tracked:
+#   Brand Guidelines / Brand Identity / Partner & Investor Pitch / Feature_Benefit
+#   How_to_Read_DTS_Card / Partner_Onboarding
+#
+# RECOMMENDED next step (later, not Phase 0): have the pipeline write generated
+# cards into a dedicated  output/  folder, then this whole section becomes one line:
+#   output/
+# That's far more robust than per-track-code patterns as you add tracks.

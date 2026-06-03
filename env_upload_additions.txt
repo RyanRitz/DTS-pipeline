@@ -1,0 +1,14 @@
+# ============================================================
+# DTS Publishing — append these to your existing .env file
+# (C:\Users\ryanr\Documents\BTSM\FullAutomation\.env)
+# ============================================================
+
+# The upload endpoint built in Phase 1
+DTS_UPLOAD_URL=https://downthestretch.ai/api/sheets/upload
+
+# The shared secret you set as DTS_UPLOAD_SECRET in Vercel
+# (must match the Vercel env var exactly, character for character)
+DTS_UPLOAD_SECRET=PASTE_THE_SAME_SECRET_YOU_PUT_IN_VERCEL_HERE
+
+# Phase 3 — cleanup endpoint. Safe to set now; not used until Phase 3.
+DTS_CLEANUP_URL=https://downthestretch.ai/api/sheets/cleanup
