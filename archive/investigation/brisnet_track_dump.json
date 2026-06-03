@@ -1,0 +1,252 @@
+{
+  "total_tracks": 39,
+  "first_track_keys": [
+    "country",
+    "trackType",
+    "trackCode",
+    "trackName",
+    "dayEvening",
+    "availableDates",
+    "availableDatesByIndex",
+    "$$hashKey"
+  ],
+  "first_three_tracks": [
+    {
+      "country": "USA",
+      "trackType": "TB",
+      "trackCode": "BAQ",
+      "trackName": "Belmont At The Big A",
+      "dayEvening": "D",
+      "availableDates": [
+        {
+          "productDate": "2026-05-07T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "F",
+              "purchaseStatus": "Purchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        },
+        {
+          "productDate": "2026-05-08T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "F",
+              "purchaseStatus": "Purchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        },
+        {
+          "productDate": "2026-05-09T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "O",
+              "purchaseStatus": "NotPurchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        },
+        {
+          "productDate": "2026-05-10T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "O",
+              "purchaseStatus": "NotPurchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "availableDatesByIndex": [
+        "2026-05-07T19:00:00.000Z",
+        "2026-05-08T19:00:00.000Z",
+        "2026-05-09T19:00:00.000Z",
+        "2026-05-10T19:00:00.000Z",
+        null,
+        null,
+        null
+      ],
+      "$$hashKey": "object:18"
+    },
+    {
+      "country": "USA",
+      "trackType": "TB",
+      "trackCode": "BTP",
+      "trackName": "Belterra Park",
+      "dayEvening": "D",
+      "availableDates": [
+        {
+          "productDate": "2026-05-08T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "F",
+              "purchaseStatus": "Purchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        },
+        {
+          "productDate": "2026-05-09T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "F",
+              "purchaseStatus": "Purchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        },
+        {
+          "productDate": "2026-05-10T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "O",
+              "purchaseStatus": "NotPurchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "availableDatesByIndex": [
+        null,
+        "2026-05-08T19:00:00.000Z",
+        "2026-05-09T19:00:00.000Z",
+        "2026-05-10T19:00:00.000Z",
+        null,
+        null,
+        null
+      ],
+      "$$hashKey": "object:19"
+    },
+    {
+      "country": "CAN",
+      "trackType": "TB",
+      "trackCode": "CTM",
+      "trackName": "Century Mile TB",
+      "dayEvening": "D",
+      "availableDates": [
+        {
+          "productDate": "2026-05-08T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "F",
+              "purchaseStatus": "Purchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        },
+        {
+          "productDate": "2026-05-09T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "F",
+              "purchaseStatus": "Purchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "availableDatesByIndex": [
+        null,
+        "2026-05-08T19:00:00.000Z",
+        "2026-05-09T19:00:00.000Z",
+        null,
+        null,
+        null,
+        null
+      ],
+      "$$hashKey": "object:20"
+    }
+  ]
+}

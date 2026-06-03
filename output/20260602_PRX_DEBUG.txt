@@ -1,0 +1,31 @@
+=== DTS Pipeline Debug (PRX 20260602) ===
+
+[Step 1] After apply_scratches:
+  df rows: 50
+  per-race counts: {1: 5, 2: 6, 3: 6, 4: 6, 5: 6, 6: 4, 7: 5, 8: 6, 9: 6}
+  scratches dropped: 5
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 50
+  per-race counts: {1: 5, 2: 6, 3: 6, 4: 6, 5: 6, 6: 4, 7: 5, 8: 6, 9: 6}
+  baseprob2 per race: {1: 0.2, 2: 0.16666666666666666, 3: 0.16666666666666666, 4: 0.16666666666666666, 5: 0.16666666666666666, 6: 0.25, 7: 0.2, 8: 0.16666666666666666, 9: 0.16666666666666666}
+  NumOfEntries per race: {1: 5, 2: 6, 3: 6, 4: 6, 5: 6, 6: 4, 7: 5, 8: 6, 9: 6}
+  HorsesRan per race: {1: 5, 2: 6, 3: 6, 4: 6, 5: 6, 6: 4, 7: 5, 8: 6, 9: 6}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 50
+  Race 10 rows: 0
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'DTSOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+Empty DataFrame
+Columns: [HorseName, predicted, norm_predprob, ProbToWin, DTSOdds, baseprob2, HorsesRan, NumOfEntries]
+Index: []
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 0
+
+

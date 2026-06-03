@@ -116,25 +116,59 @@ def _value_tier(btsm, ml) -> int:
     """
     Map DTS odds vs ML odds to a 0-4 value tier.
 
-    Tier 3 is split by absolute price to distinguish:
-      - heavy favorites (DTS < 2.5) where DTS just confirms the chalk
-      - longer-priced horses where DTS materially disagrees with ML
-    Same split applied at tier 4. The numeric tier returned doesn't
-    encode the split — _value_phrase() uses the underlying odds to
-    pick wording. Tier numbers still drive best-bet selection.
+    Bands are keyed on OVERLAY = ML/DTS - 1 ("the line exceeds fair by X%").
+    Computed on overlay directly (not the reciprocal r=DTS/ML) so the 25/40/60
+    boundaries land exactly:
+
+        tier 4 : overlay >= 60%    very strong
+        tier 3 : overlay >= 40%    GOLD-eligible (real overlay)
+        tier 2 : overlay >= 25%    GREEN (light value tint)
+        tier 1 : overlay >=  0%    mild / about right (DTS at or below ML)
+        tier 0 : overlay <   0%    overbet (DTS longer than ML)
+
+    Shading gates downstream:
+        GREEN   = tier >= 2  (>=25% overlay)
+        GOLD    = tier >= 3 (>=40% overlay) AND win-prob rank in top half of
+                  field — see best_bet_flag(). Gold is intentionally rare; a
+                  race may have none.
+    _value_phrase() still uses the underlying odds for wording nuance.
     """
     try:
         b = float(btsm); m = float(ml)
-        if m <= 0:
+        if b <= 0 or m <= 0:
             return 0
-        r = b / m
+        # Round to 6 places so exact boundary overlays (e.g. 5.6/4.0 == 0.40)
+        # aren't lost to float error like 0.3999999999999. Genuine near-misses
+        # (e.g. 0.395) are unaffected.
+        overlay = round(m / b - 1.0, 6)   # line exceeds fair odds by this fraction
     except (TypeError, ValueError):
         return 0
-    if r < 0.50: return 4
-    if r < 0.75: return 3
-    if r < 0.90: return 2
-    if r < 1.15: return 1
+    if overlay >= 0.60: return 4
+    if overlay >= 0.40: return 3
+    if overlay >= 0.25: return 2
+    if overlay >= 0.0:  return 1
     return 0
+
+
+def best_bet_flag(btsm, ml_adj, rank, field_size) -> bool:
+    """
+    GOLD best-bet gate. True only when BOTH:
+      - value tier >= 3  (the line exceeds fair odds by 40%+), using the
+        SCRATCH-ADJUSTED morning line, and
+      - the horse's win-probability rank sits in the top half of the field
+        (rank / field_size <= 0.5).
+
+    Intentionally strict — many races will have zero gold best bets.
+    """
+    try:
+        if _value_tier(btsm, ml_adj) < 3:
+            return False
+        r = float(rank); n = float(field_size)
+        if n <= 0:
+            return False
+        return (r / n) <= 0.5
+    except (TypeError, ValueError):
+        return False
 
 
 def _value_phrase(tier: int, btsm, ml) -> str:
@@ -195,11 +229,18 @@ def compose_comment(row) -> str:
     else:
         s1 = "No standout attributes either way."
 
-    # Build sentence 2 — value vs ML
+    # Build sentence 2 — value vs ML.
+    # The TIER (gold/green/best-bet driver) is computed against the
+    # SCRATCH-ADJUSTED morning line (MornOddsAdj) so it stays consistent with
+    # the highlighting. The phrase wording only references absolute price,
+    # never the adjusted number — nothing about the adjustment is surfaced.
     btsm = row.get("btsm_odds") if "btsm_odds" in row else row.get("DTSOdds")
-    ml   = row.get("ml_odds")   if "ml_odds"   in row else row.get("MornOdds")
-    tier = _value_tier(btsm, ml)
-    s2   = _value_phrase(tier, btsm, ml)
+    ml_raw = row.get("ml_odds") if "ml_odds" in row else row.get("MornOdds")
+    ml_adj = row.get("MornOddsAdj")
+    if ml_adj is None or (isinstance(ml_adj, float) and ml_adj != ml_adj):
+        ml_adj = ml_raw
+    tier = _value_tier(btsm, ml_adj)
+    s2   = _value_phrase(tier, btsm, ml_adj)
 
     return f"{s1} {s2}".strip()
 
@@ -273,9 +314,29 @@ def generate_excel(
     # Compose the two-sentence Comments column and a numeric ValueTier
     # (0-4) derived from DTS-vs-ML. The legacy SmartComment/$$$ pivot is
     # gone; downstream logic should consult ValueTier (>= 3 == best bet).
+    #
+    # ValueTier + all value flagging below use the SCRATCH-ADJUSTED morning
+    # line (MornOddsAdj, built in score._build_output). Displayed ML columns
+    # still show the raw MornOdds. _ml_cmp is the behind-the-curtain Series
+    # used for every DTS-vs-ML comparison in this file.
+    if "MornOddsAdj" in scored.columns:
+        _ml_cmp = scored["MornOddsAdj"].where(
+            scored["MornOddsAdj"].notna(), scored["MornOdds"])
+    else:
+        _ml_cmp = scored["MornOdds"]
+    scored["_MLCmp"] = _ml_cmp
     scored['Comments']  = scored.apply(compose_comment, axis=1)
+    # GREEN tint  = ValueTier >= 2 (line exceeds DTS fair odds by >=25%)
+    # GOLD / best = BestBet flag (>=40% overlay AND win-prob rank in top half
+    #               of the field). Rare by design; a race may have none.
     scored['ValueTier'] = scored.apply(
-        lambda r: value_tier(r.get('DTSOdds'), r.get('MornOdds')), axis=1
+        lambda r: value_tier(r.get('DTSOdds'), r.get('_MLCmp')), axis=1
+    )
+    # Per-race field size (post-scratch) for the top-50%-probability gold gate.
+    scored['_FieldSize'] = scored.groupby('Race')['Race'].transform('size')
+    scored['BestBet'] = scored.apply(
+        lambda r: best_bet_flag(r.get('DTSOdds'), r.get('_MLCmp'),
+                                r.get('rank'), r.get('_FieldSize')), axis=1
     )
 
     wb = Workbook()
@@ -350,9 +411,10 @@ def _build_summary(ws, scored, track, race_date, dirt_condition, turf_condition)
     c.fill = _fill(C_SUMM_BG)
     row += 1
 
-    # Best bets are the top-tier value plays (ValueTier >= 3 == real overlay or stronger).
-    value_plays = scored[scored["DTSOdds"] < scored["MornOdds"]].sort_values("DTSOdds")
-    big_bets    = value_plays[value_plays["ValueTier"] >= 3]
+    # Best bets are the GOLD plays: BestBet flag (>=40% overlay AND win-prob
+    # rank in the top half of the field). Rare by design. Comparison runs on
+    # the scratch-adjusted line; display stays raw.
+    big_bets = scored[scored["BestBet"]].sort_values("DTSOdds")
 
     for _, p in big_bets.head(6).iterrows():
         ws.merge_cells(f"A{row}:F{row}")
@@ -373,7 +435,7 @@ def _build_summary(ws, scored, track, race_date, dirt_condition, turf_condition)
 
     longshots = scored[
         (scored["DTSOdds"] >= 6) &
-        (scored["DTSOdds"] < scored["MornOdds"]) &
+        (scored["DTSOdds"] < scored["_MLCmp"]) &
         (scored["rank"] <= 3)
     ].sort_values("DTSOdds").head(5)
 
@@ -425,8 +487,8 @@ def _build_summary(ws, scored, track, race_date, dirt_condition, turf_condition)
             prev_race = horse.Race
             alt = False
 
-        is_val  = bool(horse.DTSOdds < horse.MornOdds)
-        is_big  = int(horse.get("ValueTier", 0) or 0) >= 3
+        is_val  = int(horse.get("ValueTier", 0) or 0) >= 2          # green: >=25% overlay
+        is_big  = bool(horse.get("BestBet", False))                  # gold: >=40% + top-half
         bg = C_VALUE_BG if is_val else (C_ALT if alt else C_WHITE)
         fg = C_VALUE_FG if is_val else "000000"
 
@@ -538,8 +600,8 @@ def _build_race_sheet(ws, r_df, race_num, rt, surf, dist, purse,
     # ── Horses ────────────────────────────────────────────────────────────────
     alt = False
     for _, horse in r_df.iterrows():
-        is_val   = bool(horse.DTSOdds < horse.MornOdds)
-        is_big   = int(horse.get("ValueTier", 0) or 0) >= 3
+        is_val   = int(horse.get("ValueTier", 0) or 0) >= 2          # green: >=25% overlay
+        is_big   = bool(horse.get("BestBet", False))                  # gold: >=40% + top-half
         bg       = C_VALUE_BG if is_val else (C_ALT if alt else C_WHITE)
         fg       = C_VALUE_FG if is_val else "000000"
 

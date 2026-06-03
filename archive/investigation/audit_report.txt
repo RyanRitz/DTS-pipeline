@@ -1,0 +1,148 @@
+====================================================================================================
+BTSM PYTHON-vs-SAS FEATURE AUDIT
+====================================================================================================
+DRF:          C:\Users\ryanr\Documents\BTSM\CDX\RAW_DATA\RACINGFORM\2026\CDX0509.DRF
+Track / date: CD / 20260509
+DataFrame:    108 rows x 5558 cols at scoring time
+Coeff dir:    C:\Users\ryanr\Documents\BTSM\FullAutomation\coefficients
+Coeff files:  27 found, 27 read OK, 0 skipped
+
+====================================================================================================
+COEFFICIENT FILE STRUCTURE
+====================================================================================================
+File                                                     Rows Row used                  _TYPE_ values
+----------------------------------------------------------------------------------------------------
+kee_maid_0426_m.sas7bdat                                    1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_md.sas7bdat                                   1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_mr.sas7bdat                                   1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_mrd.sas7bdat                                  1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_ms.sas7bdat                                   1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_msd.sas7bdat                                  1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_s.sas7bdat                                    1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_spd.sas7bdat                                  1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_spr.sas7bdat                                  1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_sprd.sas7bdat                                 1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_sprt.sas7bdat                                 1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_sps.sas7bdat                                  1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_spsd.sas7bdat                                 1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_spst.sas7bdat                                 1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+kee_maid_0426_spt.sas7bdat                                  1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keedirt042026_core.sas7bdat                                 1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keedirt042026c.sas7bdat                                     1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keedirt042026n.sas7bdat                                     1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keedirt042026r.sas7bdat                                     1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keedirt042026s.sas7bdat                                     1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keeturf042026apr.sas7bdat                                   1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keeturf042026hp.sas7bdat                                    1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keeturf042026lp.sas7bdat                                    1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keeturf042026oct.sas7bdat                                   1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keeturf042026r.sas7bdat                                     1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keeturf042026s.sas7bdat                                     1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+keeturf042026sar.sas7bdat                                   1 type=PARMS                PARMS  [non-numeric cols: 1 (_ESTTYPE_='MLE')]
+
+====================================================================================================
+PER-MODEL SUMMARY
+====================================================================================================
+Model file                                                Expected    Present    Missing    Intercept
+----------------------------------------------------------------------------------------------------
+kee_maid_0426_m.sas7bdat                                        10         10          0      -3.6742
+kee_maid_0426_md.sas7bdat                                       10         10          0      -3.6742
+kee_maid_0426_mr.sas7bdat                                        6          6          0      -3.7419
+kee_maid_0426_mrd.sas7bdat                                       6          6          0      -3.7419
+kee_maid_0426_ms.sas7bdat                                        8          8          0      -4.0475
+kee_maid_0426_msd.sas7bdat                                       7          7          0      -4.1009
+kee_maid_0426_s.sas7bdat                                        14         14          0      -4.6295
+kee_maid_0426_spd.sas7bdat                                      13         13          0      -4.3664
+kee_maid_0426_spr.sas7bdat                                      12         12          0      -4.7445
+kee_maid_0426_sprd.sas7bdat                                      9          9          0      -4.5053
+kee_maid_0426_sprt.sas7bdat                                      8          8          0      -5.6062
+kee_maid_0426_sps.sas7bdat                                      11         11          0      -4.2197
+kee_maid_0426_spsd.sas7bdat                                     10         10          0      -4.1603
+kee_maid_0426_spst.sas7bdat                                      3          3          0      -4.6787
+kee_maid_0426_spt.sas7bdat                                       8          8          0      -5.3862
+keedirt042026_core.sas7bdat                                     14         14          0      -3.8670
+keedirt042026c.sas7bdat                                         10         10          0      -4.0222
+keedirt042026n.sas7bdat                                         10         10          0      -4.0473
+keedirt042026r.sas7bdat                                          9          9          0      -4.0411
+keedirt042026s.sas7bdat                                         11         11          0      -4.1502
+keeturf042026apr.sas7bdat                                       12          7          5      -4.4488  <- GAP
+keeturf042026hp.sas7bdat                                        16         16          0      -3.5829
+keeturf042026lp.sas7bdat                                        12         12          0      -4.8049
+keeturf042026oct.sas7bdat                                       13          6          7      -4.4880  <- GAP
+keeturf042026r.sas7bdat                                         13         13          0      -4.6483
+keeturf042026s.sas7bdat                                         11         11          0      -4.0110
+keeturf042026sar.sas7bdat                                        7          4          3      -4.4011  <- GAP
+----------------------------------------------------------------------------------------------------
+TOTAL                                                          273        258         15
+
+====================================================================================================
+MISSING FEATURES — ranked by # of models using it, then max |coefficient|
+====================================================================================================
+Feature                                             #Models    Max|coef|  First seen in
+----------------------------------------------------------------------------------------------------
+eps4d_sard                                                3     0.131730  keeturf042026apr.sas7bdat
+xLTTurfWPpctSAR22                                         2     0.752366  keeturf042026oct.sas7bdat
+ipurse16_kta13                                            2     0.359364  keeturf042026apr.sas7bdat
+xhnumsar                                                  2     0.354526  keeturf042026apr.sas7bdat
+xHBL4c                                                    2     0.018720  keeturf042026apr.sas7bdat
+iauc_kta13                                                1     0.246174  keeturf042026oct.sas7bdat
+xstrtsFT_kta13                                            1     0.050665  keeturf042026apr.sas7bdat
+Bristrk_kta13                                             1     0.048376  keeturf042026oct.sas7bdat
+TrnITMTurf                                                1     0.022621  keeturf042026sar.sas7bdat
+
+Unique missing features: 9
+Total missing (model x feature occurrences): 15
+
+====================================================================================================
+HORSE-SPECIFIC IMPACT
+====================================================================================================
+
+  OUTFIELDER (idx 94, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  WALTER THE MASON (idx 93, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  IN AMERICA (idx 37, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  BLUEGRASS PIKE (idx 39, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  REB FIVE (idx 87, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  SANDAL'S SONG (idx 90, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  REBEL WITH A CAUSE (idx 91, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  KETCHUM (idx 92, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  SUPERCHARGER (idx 32, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0
+
+  COMPREHENSIVE (idx 38, ProgramNumber=?):
+    keeturf042026apr.sas7bdat                               expected= 12  missing-from-df=  5  present-but-NaN=  0
+    keeturf042026oct.sas7bdat                               expected= 13  missing-from-df=  7  present-but-NaN=  0
+    keeturf042026sar.sas7bdat                               expected=  7  missing-from-df=  3  present-but-NaN=  0

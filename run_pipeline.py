@@ -568,6 +568,17 @@ class ScoringResult(NamedTuple):
     track_status: "TrackStatus | None" = None   # First post + track conditions (None for PREVIEW)
 
 
+# ── Skip sentinel ────────────────────────────────────────────────────────────
+# run_scoring() returns SKIP_CARD (not None) when a card is intentionally
+# skipped rather than failed — e.g. an all-Quarter-Horse / non-thoroughbred
+# card, or an all-jumps card. DTS scores flat thoroughbreds only, so there is
+# nothing to score and this is the expected, correct outcome — NOT an error.
+# Callers must check `is SKIP_CARD` before `is None` and treat it as a no-op
+# success (no PDF, no upload, no failure count). `None` still means a genuine
+# scoring failure (missing DRF, etc.).
+SKIP_CARD = object()
+
+
 def run_scoring(
     track: str,
     race_date: str,
@@ -724,6 +735,94 @@ def run_scoring(
                     f"race {s.race} #{s.program_number} {s.horse_name}"
                 )
 
+    # ── 4a2. Thoroughbred-only filter ───────────────────────────────────
+    # DTS models are thoroughbred-only. BRISnet TB PP files can still contain
+    # Quarter Horse / Arabian / Mixed-breed races — several whitelisted tracks
+    # run mixed or QH cards (Sam Houston, Sunland, Zia, Remington, Lone Star).
+    # Harness (standardbred) never appears here: it's a separate data product
+    # (USTA), not in BRISnet TB DRFs. Scoring a non-TB race with the TB model
+    # produces garbage, so drop any row whose breed is explicitly non-TB.
+    # "TB" and blank are kept — blank guards against a legitimate TB card with
+    # a missing breed field. The check is per-row, so a mixed TB/QH card keeps
+    # only its thoroughbred races (the QH races drop out, like scratches).
+    if "BreedTypeifavailable" in df.columns:
+        _breed = df["BreedTypeifavailable"].astype(str).str.upper().str.strip()
+        _keep = _breed.isin(["TB", ""])
+        _n_drop = int((~_keep).sum())
+        if _n_drop:
+            _dropped = sorted(set(_breed[~_keep]))
+            _races = (sorted(set(df.loc[~_keep, "Race"].dropna().astype("Int64").astype(int)))
+                      if "Race" in df.columns else [])
+            log.warning(
+                f"  Breed filter: dropped {_n_drop} non-thoroughbred row(s) "
+                f"(breeds={_dropped}, races={_races}). DTS scores thoroughbreds only."
+            )
+            df = df[_keep].reset_index(drop=True)
+        if df.empty:
+            log.warning(
+                f"  Breed filter: no thoroughbred races left for {track} "
+                f"{race_date} — skipping (likely a Quarter-Horse / non-TB card)."
+            )
+            return SKIP_CARD
+
+    # ── 4a3. Exclude jump races (steeplechase / hurdle / timber) ─────────
+    # DTS handicaps FLAT thoroughbred racing only. Jump races are TB but a
+    # different discipline the flat models don't apply to. BRISnet has no clean
+    # jump flag, so detect via the descriptive RaceConditions text, which spells
+    # out the discipline (e.g. "...STEEPLECHASE...", "...OVER HURDLES..."). This
+    # is a heuristic — refine if a real steeplechase DRF surfaces. Per-row, so a
+    # mixed flat/jump card keeps only its flat races.
+    _rc_cols = [c for c in ["RaceConditions", "RaceConditions1", "RaceConditions2"]
+                if c in df.columns]
+    if _rc_cols:
+        _rc_text = df[_rc_cols].astype(str).agg(" ".join, axis=1).str.upper()
+        _jump_re = (r"STEEPLECHASE|HURDLE|TIMBER|OVER FENCES|OVER HURDLES|"
+                    r"NATIONAL FENCE")
+        _is_jump = _rc_text.str.contains(_jump_re, regex=True, na=False)
+        _n_jump = int(_is_jump.sum())
+        if _n_jump:
+            _jraces = (sorted(set(df.loc[_is_jump, "Race"].dropna()
+                                  .astype("Int64").astype(int)))
+                       if "Race" in df.columns else [])
+            log.warning(
+                f"  Jump filter: dropped {_n_jump} steeplechase/hurdle row(s) "
+                f"(races={_jraces}). DTS handicaps flat racing only."
+            )
+            df = df[~_is_jump].reset_index(drop=True)
+        if df.empty:
+            log.warning(
+                f"  Jump filter: no flat races left for {track} {race_date} — "
+                f"skipping (all-jumps card)."
+            )
+            return SKIP_CARD
+
+    # ── 4b. Synthetic / all-weather surface → score on the dirt model ────
+    # DTS ships Keeneland dirt + turf models but NO synthetic/Tapeta model.
+    # BRISnet codes all-weather as "A"; the dirt/turf scoring filters match an
+    # exact "D"/"T", so "A" races would otherwise fall through entirely
+    # unscored (non-maiden) or land on a turf model (maiden). We treat
+    # synthetic as dirt (Tapeta plays dirt-like): remap "A" -> "D" HERE, before
+    # feature engineering, so the race flows through features, scoring, AND
+    # attributions consistently as a dirt race (surfacedirt dummy, dirt-only
+    # feature filters, the dirt model filters, etc. all pick it up).
+    #
+    # The TRUE surface is stashed in SurfaceTrue and restored just before the
+    # Excel/PDF are built (see "Restore true surface" below), so the sheet
+    # still displays "All-Weather", not "Dirt". Affected whitelisted tracks:
+    # Turfway (TP/TPX), Presque Isle (PID), and Woodbine's (WO) main track.
+    if "Surface" in df.columns:
+        df = df.copy()
+        df["SurfaceTrue"] = df["Surface"]
+        _aw_mask = (df["Surface"].astype(str).str.upper().str.strip()
+                    .isin(["A", "AW"]))
+        _n_aw = int(_aw_mask.sum())
+        if _n_aw:
+            df.loc[_aw_mask, "Surface"] = "D"
+            log.info(
+                f"  Synthetic/all-weather: remapped {_n_aw} 'A' row(s) to the "
+                f"dirt model (true surface preserved for display)."
+            )
+
     # ── 5. Feature engineering (race-level stats now correct) ────────────
     log.info(f"  Engineering features on {len(df)} horses...")
     feature_df = engineer_features(df)
@@ -774,6 +873,41 @@ def run_scoring(
     scored_df = score_run_scoring(
         feature_df, scoring_config.COEFF_DIR, scoring_config
     )
+
+    # ── 6a. Safety net: drop fully-unscored races ────────────────────────
+    # A race where EVERY horse came back unscored (all ProbToWin NaN) is one
+    # no model covered — an unsupported surface/type that slipped through every
+    # filter above (an exotic surface code, a missing model file, a jump race
+    # the text heuristic missed, etc.). Such a race would otherwise publish as
+    # a fully BLANK race (predtotprob=0 -> NaN odds for every horse) with no
+    # warning. DTS handicaps traditional flat thoroughbred racing only, so drop
+    # these entirely and log loudly. This is the catch-all behind the specific
+    # breed/jump/surface filters: it catches any fall-through, known or not.
+    if "ProbToWin" in scored_df.columns and "Race" in scored_df.columns:
+        _scored_ok = scored_df.groupby("Race")["ProbToWin"].transform(
+            lambda s: s.notna().any())
+        _n_blank = int((~_scored_ok).sum())
+        if _n_blank:
+            _blank_races = sorted(set(
+                scored_df.loc[~_scored_ok, "Race"].dropna()
+                .astype("Int64").astype(int)))
+            _surf_by_race = {}
+            for _rn in _blank_races:
+                _s = scored_df.loc[scored_df["Race"] == _rn, "Surface"]
+                _surf_by_race[_rn] = (str(_s.iloc[0]) if len(_s) else "?")
+            log.warning(
+                f"  Unscored-race filter: dropped {_n_blank} horse(s) in race(s) "
+                f"{_blank_races} (surfaces={_surf_by_race}) — no model scored "
+                f"them; not published. DTS handicaps traditional flat "
+                f"thoroughbred racing only."
+            )
+            scored_df = scored_df[_scored_ok].reset_index(drop=True)
+        if scored_df.empty:
+            log.warning(
+                f"  Unscored-race filter: nothing scoreable for {track} "
+                f"{race_date} — skipping."
+            )
+            return None
 
     # ── DEBUG: log scored_df Race 10 to file ─────────────────────────────
     try:
@@ -875,6 +1009,15 @@ def run_scoring(
     except Exception as _e:
         log.warning(f"  DEBUG step-6 write failed: {_e}")
 
+    # ── 6c. Restore TRUE surface for display ─────────────────────────────
+    # Scoring + attributions ran with synthetic remapped to dirt; the sheet
+    # must still show the real surface ("All-Weather"). Put it back now, after
+    # all scoring is done and before the Excel/PDF read the Surface column.
+    # (scored_df feeds the Excel below AND is returned for generate_pdf.)
+    if "SurfaceTrue" in scored_df.columns:
+        scored_df["Surface"] = scored_df["SurfaceTrue"].where(
+            scored_df["SurfaceTrue"].notna(), scored_df["Surface"])
+
     # ── 7. Write Excel ───────────────────────────────────────────────────
     # Output filename: YYYYMMDD_TRACK_(PREVIEW|FINAL).xlsx in the configured
     # output dir. Don't overwrite the user's manual config.OUTPUT_XLSX.
@@ -922,101 +1065,145 @@ import re as _re
 
 _RC_ABBREVS = [
     # Class / claiming / starter
-    (r"\bFOR MAIDENS,?\s*", "Mdn, "),
     (r"\bMAIDEN SPECIAL WEIGHT\b", "Mdn SpWt"),
     (r"\bMAIDEN CLAIMING\b", "Mdn Clm"),
     (r"\bSTARTER OPTIONAL CLAIMING\b", "Str Opt Clm"),
     (r"\bOPTIONAL CLAIMING\b", "Opt Clm"),
     (r"\bSTARTER ALLOWANCE\b", "Str Alw"),
-    (r"\bSTARTER HANDICAP\b", "Str H'cap"),
-    (r"\bSTARTERS?\b", "Str"),
-    (r"\bCLAIMING PRICE\b", "Clm"),
     (r"\bCLAIMING\b", "Clm"),
     (r"\bALLOWANCE\b", "Alw"),
     (r"\bSTAKES\b", "Stk"),
     (r"\bHANDICAP\b", "H'cap"),
-    (r"\bSWEEPSTAKES\b", "Stk"),
 
     # Eligibility phrases
-    (r"\bNON-WINNERS OF\b", "NW"),
-    (r"\bNON WINNERS OF\b", "NW"),
-    (r"\bNON-?WINNERS\b", "NW"),
-    (r"\bWHICH HAVE NEVER WON\b", "Never won"),
-    (r"\bWHO HAVE NEVER WON\b", "Never won"),
-    (r"\bWHICH HAVE NOT WON\b", "Not won"),
+    (r"\bNON-?WINNERS OF\b", "NW"),
+    (r"\bWHICH HAVE NEVER WON\b", "NW"),
+    (r"\bWHO HAVE NEVER WON\b", "NW"),
+    (r"\bWHICH HAVE NOT WON\b", "NW"),
+    (r"\bNEVER WON\b", "NW"),
     (r"\bA RACE OTHER THAN\b", "other than"),
     (r"\bRACES? OTHER THAN\b", "other than"),
-    (r"\bMAIDEN, CLAIMING OR STARTER\b", "Mdn/Clm/Str"),
+    (r"\bMAIDEN, CLAIMING,? OR STARTER\b", "Mdn/Clm/Str"),
     (r"\bMAIDEN OR CLAIMING\b", "Mdn/Clm"),
     (r"\bSINCE\b", "since"),
-    (r"\bLIFETIME\b", "L"),
-    (r"\bAT A MILE OR OVER\b", "1m+"),
-    (r"\bAT ONE MILE OR OVER\b", "1m+"),
 
-    # Age / sex (after major class phrases so we don't break them)
-    (r"\bTHREE YEARS OLD AND UPWARD\b", "3YO+"),
-    (r"\bFOUR YEARS OLD AND UPWARD\b", "4YO+"),
-    (r"\bTHREE YEARS OLD AND OLDER\b", "3YO+"),
-    (r"\bFOUR YEARS OLD AND OLDER\b", "4YO+"),
-    (r"\bTHREE YEARS OLD\b", "3YO"),
-    (r"\bFOUR YEARS OLD\b", "4YO"),
-    (r"\bFIVE YEARS OLD\b", "5YO"),
-    (r"\bTWO YEARS OLD\b", "2YO"),
+    # Age / sex — handle BOTH "THREE YEARS OLD" and "THREE YEAR OLDS" phrasings
+    (r"\b(THREE|3) YEARS? OLDS? AND UPWARD\b", "3YO+"),
+    (r"\b(FOUR|4) YEARS? OLDS? AND UPWARD\b",  "4YO+"),
+    (r"\b(THREE|3) YEARS? OLDS? AND OLDER\b",  "3YO+"),
+    (r"\b(FOUR|4) YEARS? OLDS? AND OLDER\b",   "4YO+"),
+    (r"\b(THREE|3) YEARS? OLDS?\b", "3YO"),
+    (r"\b(FOUR|4) YEARS? OLDS?\b",  "4YO"),
+    (r"\b(FIVE|5) YEARS? OLDS?\b",  "5YO"),
+    (r"\b(TWO|2) YEARS? OLDS?\b",   "2YO"),
     (r"\bFILLIES AND MARES\b", "F&M"),
-    (r"\bFILLIES & MARES\b", "F&M"),
-    (r"\bFILLIES\b", "F"),
-    (r"\bMARES\b", "M"),
+    (r"\bFILLIES & MARES\b",   "F&M"),
+    (r"\bAND UPWARD\b", "+"),
+    (r"\bAND OLDER\b",  "+"),
 
     # Misc
-    (r"\bACCREDITED\b", "Acc"),
-    (r"\bREGISTERED\b", "Reg"),
-    (r"\bAND UPWARD\b", "+"),
-    (r"\bAND OLDER\b", "+"),
-    (r"\bAT TIME OF ENTRY\b", ""),
-    (r"\bWEIGHT\b", "Wt"),
-    (r"\bPOUNDS\b", "lbs"),
-    (r"\bA RACE\b", "race"),
-    (r"\bSUCH A RACE\b", "such race"),
-    (r"\bCLOSED\b", ""),
+    (r"\bTWO RACES\b",   "2 races"),
+    (r"\bTHREE RACES\b", "3 races"),
+    (r"\bFOUR RACES\b",  "4 races"),
+    (r"\bONE RACE\b",    "1 race"),
+    (r"\bTHOROUGHBRED\b", ""),
+    (r"\bREGISTERED\b",  ""),
+    (r"\bFOALED IN\b", "bred in"),
+]
+
+# State-bred restrictions → "XX-bred" (e.g. "ACCREDITED OHIO FOALS" -> "OH-bred",
+# "FOALED IN WEST VIRGINIA" -> "WV-bred"). Applied BEFORE _RC_ABBREVS so the
+# "REGISTERED"/"FOALED IN" strippers don't eat the phrase first.
+_STATE_ABBR = {
+    "WEST VIRGINIA": "WV", "NEW YORK": "NY", "NEW JERSEY": "NJ",
+    "NEW MEXICO": "NM", "OHIO": "OH", "PENNSYLVANIA": "PA", "KENTUCKY": "KY",
+    "FLORIDA": "FL", "LOUISIANA": "LA", "ARKANSAS": "AR", "CALIFORNIA": "CA",
+    "MARYLAND": "MD", "INDIANA": "IN", "OKLAHOMA": "OK", "TEXAS": "TX",
+    "DELAWARE": "DE", "IOWA": "IA", "VIRGINIA": "VA", "ONTARIO": "ON",
+    "MINNESOTA": "MN", "ILLINOIS": "IL", "MICHIGAN": "MI", "NEBRASKA": "NE",
+    "WASHINGTON": "WA", "COLORADO": "CO", "ARIZONA": "AZ", "OREGON": "OR",
+    "MASSACHUSETTS": "MA",
+}
+_STATE_ALT = "|".join(sorted(map(_re.escape, _STATE_ABBR), key=len, reverse=True))
+_STATE_PATS = [
+    _re.compile(rf"\bACCREDITED ({_STATE_ALT}) (?:FOALS|BREDS?)\b"),
+    _re.compile(rf"\bACCREDITED ({_STATE_ALT})\b"),
+    _re.compile(rf"\bREGISTERED ({_STATE_ALT})[- ]?BREDS?\b"),
+    _re.compile(rf"\bFOALED IN ({_STATE_ALT})\b"),
+    _re.compile(rf"\b({_STATE_ALT})[- ]BREDS?\b"),
 ]
 
 
-def _summarize_rc(rc1, rc2, max_len: int = 85) -> str:
-    """
-    Concatenate RaceConditions1 + RaceConditions2 and shorten to a single
-    line suitable for the race-header middle slot.
+def _rc_states(s: str) -> str:
+    """Collapse state-bred eligibility phrasing to 'XX-bred'."""
+    for pat in _STATE_PATS:
+        s = pat.sub(lambda m: _STATE_ABBR[m.group(1)] + "-bred", s)
+    s = _re.sub(r"\bSTATE[- ]BREDS?\b", "State-bred", s)
+    return s
 
-    BRISnet splits the field mid-word (e.g. "...OR C" + "LAIMING..."), so
-    we concat with no separator. Semicolons substitute for commas in the
-    raw feed; restore them. Apply abbreviation table, collapse whitespace,
-    truncate at word boundary at max_len.
+
+# Tokens whose casing we never touch when title-casing the summary.
+_RC_PRESERVE = {
+    "NW", "F&M", "3YO", "4YO", "5YO", "2YO", "3YO+", "4YO+", "5YO+", "2YO+",
+    "Mdn", "Clm", "Str", "SpWt", "Mdn/Clm/Str", "Mdn/Clm", "Alw", "Stk",
+    "Opt", "H'cap", "State-bred",
+}
+# Small connective words kept lowercase mid-phrase.
+_RC_LOWER = {"OTHER", "THAN", "SINCE", "OR", "AND", "IN", "A", "OF", "THE"}
+
+
+def _rc_case(word: str) -> str:
+    """Title-case a word unless it's a preserved token or a connective."""
+    if (word in _RC_PRESERVE or word.lower().endswith("-bred")
+            or any(c.isdigit() for c in word)
+            or "&" in word or "+" in word or "/" in word):
+        return word
+    if word.upper() in _RC_LOWER:
+        return word.lower()
+    return word.capitalize()
+
+
+def _summarize_rc(rc1, rc2=None, max_len: int = 64) -> str:
     """
-    a = "" if rc1 is None else str(rc1)
-    b = "" if rc2 is None else str(rc2)
-    s = (a + b).replace(";", ",").strip()
+    Build a clean one-line eligibility summary for the race-header middle slot.
+
+    The eligibility lives entirely in RaceConditions1, formatted as
+        "{RACETYPE}. Purse $X (...) FOR <eligibility>. <weight/price tail>"
+    We extract the "FOR <eligibility>" clause (dropping the race-type + purse
+    preamble, which is shown elsewhere on the header), keep just that first
+    sentence (dropping the weight/claiming-price tail), abbreviate, and
+    title-case. RaceConditions2 is intentionally ignored — it's the
+    weight/price continuation, and concatenating it risks merging words
+    mid-token (BRISnet splits the field without regard to word boundaries).
+    """
+    s = ("" if rc1 is None else str(rc1)).replace(";", ",").strip()
+    if not s and rc2 is not None:                 # rare: eligibility only in RC2
+        s = str(rc2).replace(";", ",").strip()
     if not s:
         return ""
-    s_up = s.upper()
+    up = s.upper()
+    m = _re.search(r"\bFOR\b", up)
+    core = up[m.end():] if m else up
+    # First sentence only (eligibility); drop weight / price / closing tail.
+    core = _re.split(r"\.\s|\. ", core)[0]
+    core = _re.split(r"\bWEIGHT\b|\d+\s*LBS|CLAIMING PRICE|CLOSED\b", core)[0]
+    # State-bred restrictions first (before REGISTERED/FOALED IN get stripped).
+    core = _rc_states(core)
     for pat, repl in _RC_ABBREVS:
-        s_up = _re.sub(pat, repl, s_up)
-    # Title-case for display but preserve our short tokens
-    out = s_up
-    # Collapse repeated punctuation / whitespace
-    out = _re.sub(r"\s+", " ", out)
-    out = _re.sub(r"\s*,\s*", ", ", out)
-    out = _re.sub(r",\s*,+", ", ", out)
-    out = _re.sub(r"\s*\.\s*", ". ", out)
-    out = out.strip(" ,.")
-    if not out:
+        core = _re.sub(pat, repl, core)
+    core = _re.sub(r"\s+", " ", core)
+    core = _re.sub(r"\s*,\s*", ", ", core).strip(" ,.")
+    if not core:
         return ""
-    # Truncate at word boundary
-    if len(out) > max_len:
-        cut = out[:max_len]
+    core = " ".join(_rc_case(w) for w in core.split(" "))
+    core = _re.sub(r"\s*,\s*", ", ", core).strip(" ,.")
+    if len(core) > max_len:
+        cut = core[:max_len]
         sp = cut.rfind(" ")
         if sp > max_len * 0.6:
             cut = cut[:sp]
-        out = cut.rstrip(" ,.") + "…"
-    return out
+        core = cut.rstrip(" ,.") + "…"
+    return core
 
 
 def generate_pdf(scoring_result: ScoringResult,
@@ -1053,18 +1240,45 @@ def generate_pdf(scoring_result: ScoringResult,
     # for "$$$" in prose.
     work = src.copy()
     try:
-        from output import compose_comment as _compose, value_tier as _tier
+        from output import (compose_comment as _compose,
+                            value_tier as _tier,
+                            best_bet_flag as _bestbet)
         # Comments need access to btsm_odds / ml_odds. The composer accepts
         # either the canonical (btsm_odds/ml_odds) or upstream (DTSOdds/
         # MornOdds) names via row.get(), so this works on scored_df rows.
         work["Comments"]  = work.apply(_compose, axis=1)
+
+        def _ml_adj(r):
+            v = r.get("MornOddsAdj")
+            if v is None or (isinstance(v, float) and v != v):
+                v = r.get("MornOdds")
+            return v
+
+        # ValueTier compares DTSOdds against the SCRATCH-ADJUSTED morning line
+        # (MornOddsAdj, built in score._build_output at the model's vig). Falls
+        # back to raw MornOdds if the adjusted column is unavailable. This is
+        # what drives gold/green highlighting + best bets — behind the curtain;
+        # the sheet still displays the raw MornOdds.
+        #   GREEN tint  = ValueTier >= 2  (line exceeds fair by >=25%)
+        #   GOLD / best = BestBet flag    (>=40% overlay AND top-half win prob)
         work["ValueTier"] = work.apply(
-            lambda r: _tier(r.get("DTSOdds"), r.get("MornOdds")), axis=1
-        )
+            lambda r: _tier(r.get("DTSOdds"), _ml_adj(r)), axis=1)
+
+        # Per-race field size (post-scratch) for the top-50%-of-probability
+        # gold gate.
+        if "Race" in work.columns:
+            _field = work.groupby("Race")["Race"].transform("size")
+        else:
+            _field = _pd.Series(len(work), index=work.index)
+        work["_field_size"] = _field
+        work["BestBet"] = work.apply(
+            lambda r: _bestbet(r.get("DTSOdds"), _ml_adj(r),
+                               r.get("rank"), r.get("_field_size")), axis=1)
     except Exception as e:
         log.warning(f"  generate_pdf: could not compose Comments: {e}")
         work["Comments"]  = ""
         work["ValueTier"] = 0
+        work["BestBet"]   = False
 
     # ── Merge feature columns we need for display from feature_df ───────
     # These live on feature_df (computed by features.py / race_normalize.py /
@@ -1140,10 +1354,27 @@ def generate_pdf(scoring_result: ScoringResult,
         rc1_col = "RaceConditions1" if "RaceConditions1" in work.columns else None
         rc2_col = "RaceConditions2" if "RaceConditions2" in work.columns else None
         _rc_by_race: dict = {}
+
+        def _first_nonblank(series):
+            """First non-blank value in a column for a race.
+
+            CRITICAL: BRISnet stamps the RaceConditions text on only ONE row
+            per race (the others are blank). Scoring re-sorts the rows, so a
+            naive .iloc[0] usually lands on a blank row and the description
+            comes out empty. Scan the whole group for the populated value.
+            """
+            for v in series:
+                if v is None:
+                    continue
+                s = str(v).strip()
+                if s and s.lower() != "nan" and s not in ("0", "0."):
+                    return v
+            return None
+
         if rc1_col or rc2_col:
             for race_num, grp in work.groupby("Race", sort=False):
-                rc1 = grp[rc1_col].iloc[0] if rc1_col else None
-                rc2 = grp[rc2_col].iloc[0] if rc2_col else None
+                rc1 = _first_nonblank(grp[rc1_col]) if rc1_col else None
+                rc2 = _first_nonblank(grp[rc2_col]) if rc2_col else None
                 try:
                     _rc_by_race[int(race_num)] = _summarize_rc(rc1, rc2)
                 except Exception:
@@ -1151,6 +1382,26 @@ def generate_pdf(scoring_result: ScoringResult,
         work["race_conditions_summary"] = (
             work["Race"].astype("Int64").map(_rc_by_race).fillna("")
         )
+
+    # ── Per-race number of turns (track geometry) ───────────────────────
+    # get_turns(track, surface, distance_yards) -> 1 | 2 | None. Computed once
+    # per race and mapped back. This populates the "turns" column the header
+    # consumes — previously never wired, so turns never displayed.
+    if "Race" in work.columns:
+        try:
+            from track_geometry import get_turns as _get_turns
+            _turns_by_race: dict = {}
+            for race_num, grp in work.groupby("Race", sort=False):
+                surf = str(grp["Surface"].iloc[0]).strip() if "Surface" in grp else ""
+                dist = grp["Distanceinyards"].iloc[0] if "Distanceinyards" in grp else None
+                try:
+                    _turns_by_race[int(race_num)] = _get_turns(track, surf, dist)
+                except Exception:
+                    _turns_by_race[int(race_num)] = None
+            work["turns"] = work["Race"].astype("Int64").map(_turns_by_race)
+        except Exception as e:
+            log.warning(f"  generate_pdf: turns lookup unavailable: {e}")
+            work["turns"] = None
 
     # ── Build the slim DataFrame that pdf.py consumes ──────────────────
     # Map BRISnet columns → pdf.py columns. Note the canonical names:
@@ -1207,13 +1458,17 @@ def generate_pdf(scoring_result: ScoringResult,
 
         # Odds — production uses canonical short names
         "ml_odds":         _col("MornOdds", "MornLineOddsifavailable"),
+        # Scratch-adjusted ML — behind the curtain; drives green/best-bet
+        # comparisons in pdf.py but is never displayed. Falls back to raw.
+        "ml_odds_adj":     _col("MornOddsAdj", "MornOdds"),
         "dts_odds":       _col("DTSOdds"),
 
         # Scoring outputs
         "prob_to_win":     _col("ProbToWin"),
         "rank":            _col("rank"),
         "smart_comment":   _col("Comments", default=""),    # 2-sentence prose
-        "value_tier":      _col("ValueTier", default=0),    # 0-4, drives best-bet styling
+        "value_tier":      _col("ValueTier", default=0),    # 0-4; >=2 => green tint
+        "best_bet":        _col("BestBet", default=False),  # gold + TOP DTS BETS gate
 
         # Visual bars — computed above from xBRISPd2 / jckcm2_sarm / trncm2_sart
         # on fixed absolute scales (cross-race comparable).
@@ -1224,13 +1479,28 @@ def generate_pdf(scoring_result: ScoringResult,
     })
 
     # Wagers — BRIS packs 9 WagerType columns. pdf.py splits on "/" and
-    # filters to multi-race bets.
+    # filters to multi-race bets. Like RaceConditions, the WagerType fields are
+    # SPARSE: the multi-race entries (Pick 3/4/5/6) live in WagerType2, which is
+    # only populated on some rows per race. So gather the per-RACE union of all
+    # non-blank WagerType strings (deduped) and map it onto every row of that
+    # race — otherwise the renderer's first-row read can miss the Pick bets.
     wager_cols = [f"WagerType{i}" for i in range(1, 10) if f"WagerType{i}" in work.columns]
-    if wager_cols:
-        pdf_df["wagers"] = work[wager_cols].apply(
-            lambda r: [v for v in r if isinstance(v, str) and v.strip()],
-            axis=1,
-        )
+    if wager_cols and "Race" in work.columns:
+        _wagers_by_race: dict = {}
+        for race_num, grp in work.groupby("Race", sort=False):
+            seen, vals = set(), []
+            for col in wager_cols:
+                for v in grp[col]:
+                    if isinstance(v, str) and v.strip() and v not in seen:
+                        seen.add(v)
+                        vals.append(v)
+            _wagers_by_race[int(race_num)] = vals
+        def _wlist(r):
+            try:
+                return _wagers_by_race.get(int(r), [])
+            except (TypeError, ValueError):
+                return []
+        pdf_df["wagers"] = [_wlist(r) for r in work["Race"]]
     else:
         pdf_df["wagers"] = [[] for _ in range(len(work))]
 
@@ -1342,6 +1612,12 @@ def should_publish_preview(drf: dict, state: dict) -> tuple[bool, str]:
 
     pub = state.get("published", {}).get(race_date, {}).get(track, {})
     prev = pub.get("preview")
+
+    # Intentionally-skipped card (non-thoroughbred / non-flat). Don't re-score
+    # it every tick unless the DRF file itself has changed.
+    skip = pub.get("skipped")
+    if skip and skip.get("drf_mtime", 0) >= mtime - 1:  # 1-sec tolerance
+        return False, "skipped (non-thoroughbred / non-flat card)"
 
     if not prev:
         return True, "no preview yet"
@@ -1456,6 +1732,13 @@ def should_publish_final(drf: dict, state: dict, now: datetime) -> tuple[bool, s
 
     # Has this anchor already fired for this (track, race_date)?
     pub = state.get("published", {}).get(race_date, {}).get(track, {})
+
+    # Intentionally-skipped card (non-thoroughbred / non-flat). Don't keep
+    # firing finals for it unless the DRF file itself has changed.
+    skip = pub.get("skipped")
+    if skip and skip.get("drf_mtime", 0) >= drf["mtime"] - 1:  # 1-sec tolerance
+        return False, "skipped (non-thoroughbred / non-flat card)"
+
     anchors_done = pub.get("final_anchors_done", [])
     if anchor_key in anchors_done:
         return False, (
@@ -1471,6 +1754,23 @@ def should_publish_final(drf: dict, state: dict, now: datetime) -> tuple[bool, s
 
 # ── Publish actions ──────────────────────────────────────────────────────────
 
+def _mark_card_skipped(state: dict, race_date: str, track: str, drf: dict) -> None:
+    """
+    Record that this card was intentionally skipped (non-thoroughbred / non-flat)
+    so should_publish_preview / should_publish_final stop re-scoring it every
+    tick. Keyed by drf_mtime so a re-keyed DRF (rare) still gets re-evaluated.
+    """
+    rec = (state.setdefault("published", {})
+                .setdefault(race_date, {})
+                .setdefault(track, {}))
+    rec["skipped"] = {
+        "reason":     "non-thoroughbred / non-flat card",
+        "skipped_at": datetime.now().isoformat(timespec="seconds"),
+        "drf_file":   drf["path"].name,
+        "drf_mtime":  drf["mtime"],
+    }
+
+
 def publish_preview(drf: dict, state: dict) -> bool:
     """Run the preview pipeline. Update state on success."""
     race_date = drf["race_date"]
@@ -1480,6 +1780,14 @@ def publish_preview(drf: dict, state: dict) -> bool:
     try:
         # No scratches for preview
         result = run_scoring(track, race_date, scratches=None)
+        if result is SKIP_CARD:
+            log.info(
+                f"[PREVIEW] {track} {race_date} -- skipped "
+                f"(non-thoroughbred / non-flat card, nothing to score)"
+            )
+            _mark_card_skipped(state, race_date, track, drf)
+            save_state(state)
+            return True
         if result is None:
             log.error(f"[PREVIEW] {track} {race_date} -- scoring failed")
             return False
@@ -1597,6 +1905,14 @@ def publish_final(drf: dict, state: dict) -> bool:
         result = run_scoring(
             track, race_date, scratches=scratches, track_status=ts,
         )
+        if result is SKIP_CARD:
+            log.info(
+                f"[FINAL]   {track} {race_date} -- skipped "
+                f"(non-thoroughbred / non-flat card, nothing to score)"
+            )
+            _mark_card_skipped(state, race_date, track, drf)
+            save_state(state)
+            return True
         if result is None:
             log.error(f"[FINAL]   {track} {race_date} -- scoring failed")
             return False

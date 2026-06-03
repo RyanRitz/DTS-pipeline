@@ -7,13 +7,10 @@ Setup (one-time):
   1. Enable 2-Step Verification on your Google Account
   2. Go to https://myaccount.google.com/apppasswords
   3. Create an App Password named "DTS Pipeline" (16-char password)
-  4. Add to .env (matches env.example schema):
-       GMAIL_USER=youraddress@gmail.com
-       GMAIL_NOTIFY_TO=youraddress@gmail.com     (or any other inbox)
-       GMAIL_APP_PASS=xxxx xxxx xxxx xxxx        (the 16-char App Password)
-
-  Legacy variable names (NOTIFY_FROM / NOTIFY_TO / NOTIFY_APP_PASSWORD) are
-  still accepted as a fallback, but GMAIL_* takes precedence.
+  4. Add to .env:
+       NOTIFY_FROM=youraddress@gmail.com
+       NOTIFY_TO=youraddress@gmail.com           (or any other inbox)
+       NOTIFY_APP_PASSWORD=xxxx xxxx xxxx xxxx   (the 16-char App Password)
 
 Usage from CLI:
   python notify.py "Subject line" "Body text"
@@ -45,31 +42,13 @@ GMAIL_PORT = 465  # SSL
 
 
 def send_failure_email(subject: str, body: str) -> bool:
-    """Send an email via Gmail SMTP. Returns True on success.
-
-    Env vars (in priority order):
-      GMAIL_USER       or NOTIFY_FROM           — sender address
-      GMAIL_APP_PASS   or NOTIFY_APP_PASSWORD   — 16-char Google App Password
-      GMAIL_NOTIFY_TO  or NOTIFY_TO             — recipient (defaults to sender)
-    """
-    sender = (
-        os.environ.get("GMAIL_USER")
-        or os.environ.get("NOTIFY_FROM")
-        or ""
-    )
-    password = (
-        os.environ.get("GMAIL_APP_PASS")
-        or os.environ.get("NOTIFY_APP_PASSWORD")
-        or ""
-    )
-    recipient = (
-        os.environ.get("GMAIL_NOTIFY_TO")
-        or os.environ.get("NOTIFY_TO")
-        or sender
-    )
+    """Send an email via Gmail SMTP. Returns True on success."""
+    sender   = os.environ.get("NOTIFY_FROM", "")
+    password = os.environ.get("NOTIFY_APP_PASSWORD", "")
+    recipient = os.environ.get("NOTIFY_TO", sender)
 
     if not sender or not password:
-        print("[notify] GMAIL_USER and GMAIL_APP_PASS must be set in .env",
+        print("[notify] NOTIFY_FROM and NOTIFY_APP_PASSWORD must be set in .env",
               file=sys.stderr)
         return False
 

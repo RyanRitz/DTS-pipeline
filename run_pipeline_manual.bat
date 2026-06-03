@@ -12,6 +12,10 @@ REM ============================================================
 setlocal
 cd /d "%~dp0"
 
+REM Clear stale Python bytecode so any code edits always take effect.
+REM (Insurance against __pycache__/*.pyc shadowing updated source.)
+if exist "__pycache__" rmdir /s /q "__pycache__"
+
 echo Running pipeline... output will go to pipeline_run.log
 python run_pipeline.py > "pipeline_run.log" 2>&1
 set RC=%ERRORLEVEL%

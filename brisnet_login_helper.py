@@ -15,17 +15,6 @@ import os
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
-# ── Load .env once at import time ───────────────────────────────────────────
-# Same convention as upload_to_dts.py / cleanup_dts.py.
-try:
-    from dotenv import load_dotenv
-    _env_path = Path(__file__).parent / ".env"
-    if _env_path.exists():
-        load_dotenv(_env_path)
-except ImportError:
-    # python-dotenv is optional; if absent, env vars must come from the shell.
-    pass
-
 COOKIES_FILE = Path(__file__).parent / "brisnet_cookies.json"
 
 CHROME_PATHS = [
@@ -77,9 +66,8 @@ def save_session():
     print("=" * 50)
     print("Chrome is open at Brisnet login page.")
     print()
-    user = os.environ.get("BRISNET_USER", "<set BRISNET_USER in .env>")
-    print(f"  1. Type your username: {user}")
-    print("  2. Type the password from your .env (BRISNET_PASS)")
+    print("  1. Type your username: 28ritzr")
+    print("  2. Type your password: GoPhillies1!")
     print("  3. Click LOGIN")
     print("  4. Wait until you see your account page")
     print("  5. Come back HERE and press ENTER")

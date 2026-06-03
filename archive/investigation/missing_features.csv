@@ -1,0 +1,16 @@
+feature,model,coefficient
+xhnumsar,keeturf042026apr.sas7bdat,0.2620945197937559
+xhnumsar,keeturf042026oct.sas7bdat,0.35452595542158555
+eps4d_sard,keeturf042026apr.sas7bdat,0.1175760628719412
+eps4d_sard,keeturf042026oct.sas7bdat,0.07064460787659975
+eps4d_sard,keeturf042026sar.sas7bdat,0.131730349303168
+ipurse16_kta13,keeturf042026apr.sas7bdat,0.3593641649607952
+ipurse16_kta13,keeturf042026oct.sas7bdat,0.2758206421963724
+xstrtsFT_kta13,keeturf042026apr.sas7bdat,-0.05066522369975716
+xHBL4c,keeturf042026apr.sas7bdat,0.01871968377063246
+xHBL4c,keeturf042026oct.sas7bdat,0.017968419743536038
+iauc_kta13,keeturf042026oct.sas7bdat,0.2461740478772412
+Bristrk_kta13,keeturf042026oct.sas7bdat,0.04837632938954581
+xLTTurfWPpctSAR22,keeturf042026oct.sas7bdat,0.7523659167201182
+xLTTurfWPpctSAR22,keeturf042026sar.sas7bdat,0.6268246401403478
+TrnITMTurf,keeturf042026sar.sas7bdat,0.022621217142756094

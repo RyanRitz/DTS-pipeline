@@ -1,0 +1,31 @@
+=== BTSM Pipeline Debug (TDN 20260516) ===
+
+[Step 1] After apply_scratches:
+  df rows: 66
+  per-race counts: {1: 6, 2: 8, 3: 8, 4: 6, 5: 7, 6: 8, 7: 6, 8: 9, 9: 8}
+  scratches dropped: 3
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 66
+  per-race counts: {1: 6, 2: 8, 3: 8, 4: 6, 5: 7, 6: 8, 7: 6, 8: 9, 9: 8}
+  baseprob2 per race: {1: 0.16666666666666666, 2: 0.125, 3: 0.125, 4: 0.16666666666666666, 5: 0.14285714285714285, 6: 0.125, 7: 0.16666666666666666, 8: 0.1111111111111111, 9: 0.125}
+  NumOfEntries per race: {1: 6, 2: 8, 3: 8, 4: 6, 5: 7, 6: 8, 7: 6, 8: 9, 9: 8}
+  HorsesRan per race: {1: 6, 2: 8, 3: 8, 4: 6, 5: 7, 6: 8, 7: 6, 8: 9, 9: 8}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 66
+  Race 10 rows: 0
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+Empty DataFrame
+Columns: [HorseName, predicted, norm_predprob, ProbToWin, BTSMOdds, baseprob2, HorsesRan, NumOfEntries]
+Index: []
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 0
+
+

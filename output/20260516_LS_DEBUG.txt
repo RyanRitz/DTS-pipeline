@@ -1,0 +1,49 @@
+=== BTSM Pipeline Debug (LS 20260516) ===
+
+[Step 1] After apply_scratches:
+  df rows: 65
+  per-race counts: {1: 4, 2: 5, 3: 6, 4: 6, 5: 8, 6: 5, 7: 7, 8: 7, 9: 7, 10: 10}
+  scratches dropped: 12
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 65
+  per-race counts: {1: 4, 2: 5, 3: 6, 4: 6, 5: 8, 6: 5, 7: 7, 8: 7, 9: 7, 10: 10}
+  baseprob2 per race: {1: 0.25, 2: 0.2, 3: 0.16666666666666666, 4: 0.16666666666666666, 5: 0.125, 6: 0.2, 7: 0.14285714285714285, 8: 0.14285714285714285, 9: 0.14285714285714285, 10: 0.1}
+  NumOfEntries per race: {1: 4, 2: 5, 3: 6, 4: 6, 5: 8, 6: 5, 7: 7, 8: 7, 9: 7, 10: 10}
+  HorsesRan per race: {1: 4, 2: 5, 3: 6, 4: 6, 5: 8, 6: 5, 7: 7, 8: 7, 9: 7, 10: 10}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 65
+  Race 10 rows: 10
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+         HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+  DOWN THE ISLANDS   0.084048       0.084868   0.084868       9.0        0.1         10            10
+        GOLD FRONT   0.062992       0.063607   0.063607      12.0        0.1         10            10
+    HEDGE THE RISK   0.182472       0.184251   0.184251       3.5        0.1         10            10
+     AUSTIN CRUISE   0.118981       0.120142   0.120142       6.0        0.1         10            10
+      HILLBILLY UP   0.127935       0.129183   0.129183       5.0        0.1         10            10
+       MARCUS GIFT   0.039423       0.039807   0.039807      20.0        0.1         10            10
+          HELICITY   0.075142       0.075875   0.075875      10.0        0.1         10            10
+ABSOLUTELY CERTAIN   0.191997       0.193870   0.193870       3.5        0.1         10            10
+            SHOGUN   0.067173       0.067829   0.067829      11.0        0.1         10            10
+      MISS MOZETTI   0.040177       0.040569   0.040569      19.0        0.1         10            10
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 10
+         HorseName                              why_like_1                        why_like_2                          why_like_3                          why_fade_1                          why_fade_2                          why_fade_3
+  DOWN THE ISLANDS                Physical profile an edge                Genuine turf horse             Favorable post position   Will need some luck from the back              No late kick last time           Speed profile doesn't fit
+        GOLD FRONT         Physical is right for this spot                   Drew well today                      Tactical speed           Didn't have a gear change            Jockey light record here              Work timing a question
+    HEDGE THE RISK Deep pockets and sharp eyes backing her       Showed late energy last out Post position sets her up perfectly       Spacing of works is a bit off Track has been tough for this rider               Unproven on synthetic
+     AUSTIN CRUISE               Bankroll says she can run       Type who should handle this              All-weather specialist           Running style fights pace      Empty in the stretch last time  Oval hasn't been kind to this jock
+      HILLBILLY UP              Owns this track on numbers Had a kick at the end — promising            Money rider at this oval         Physical profile a question            Light connection profile Numbers say she'd rather be on dirt
+       MARCUS GIFT                    Born to run on grass     Gets the jump out of the gate                Well-timed last work              Tough draw to overcome              No late kick last time          Physical raises some doubt
+          HELICITY            The speed figure leader here      Synthetic is her happy place        Trainer timed this perfectly Stuck on the outside — extra ground           Didn't have a gear change           Earnings don't back it up
+ABSOLUTELY CERTAIN                       Power connections     Fastest at this oval — period            Quality earnings profile                   No early position      Wide draw will cost her ground      Empty in the stretch last time
+            SHOGUN                 Has earned her way here          Physical profile an edge         Jockey cashes at this track           Style is a mismatch today              No late kick last time              Tough draw to overcome
+      MISS MOZETTI                 Pilot gets it done here  Turf is clearly her best surface         Presser style fits the pace           Didn't have a gear change Stuck on the outside — extra ground Physical may not fit the conditions
+

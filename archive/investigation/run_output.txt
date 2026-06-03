@@ -1,0 +1,112 @@
+2026-05-07 14:35:16,250 [INFO] ============================================================
+2026-05-07 14:35:16,251 [INFO]   Brisnet DRF Downloader v3 — 2026-05-07 14:35
+2026-05-07 14:35:16,251 [INFO] ============================================================
+2026-05-07 14:35:16,251 [INFO] [*] Reusing existing profile copy at C:\Users\ryanr\Documents\BTSM\FullAutomation\chrome_selenium_profile
+2026-05-07 14:35:20,306 [INFO] [*] Going to https://www.brisnet.com/product/data-files/DRS
+2026-05-07 14:35:25,494 [INFO] [*] Already logged in via profile cookies
+2026-05-07 14:35:25,508 [INFO] [*] Angular data populated: 39 rows ready
+2026-05-07 14:35:25,513 [INFO] [*] Skipped 0 non-finalized files (no post positions yet)
+2026-05-07 14:35:25,513 [INFO] [*] Found 0 tracks with viewable, FINAL DRS files
+2026-05-07 14:35:25,513 [WARNING] [!] No viewable files — running diagnostics and retrying login
+2026-05-07 14:35:25,625 [INFO] [diag] screenshot -> C:\Users\ryanr\Documents\BTSM\FullAutomation\diag_screenshot_before_relogin.png
+2026-05-07 14:35:25,661 [INFO] [diag] page html  -> C:\Users\ryanr\Documents\BTSM\FullAutomation\diag_page_before_relogin.html
+2026-05-07 14:35:25,665 [INFO] [diag] current url: https://www.brisnet.com/product/data-files/DRS
+2026-05-07 14:35:25,670 [INFO] [diag] cookies (5): ['OptanonConsent', '_ga', '_ga_C4QM4341HS', 'ak_bmsc', 'bm_sv']
+2026-05-07 14:35:25,752 [INFO] [diag] body sample: TWINSPIRES.COM | KENTUCKYDERBY.COM | NEWS ENTRIES PPS PICKS DATA FILES RESULTS TRACKS PEDIGREES PLANS MORE | Data Files PP Data Files (single) | Login My Products 0 | PP Data Files (single) | $1.50 | per race card | Comma-Delimited Past Performances (single file format). | TRACK | Today | May 7 | Fri | May 8 | Sat | May 9 | Sun | May 10 | Mon | May 11 | Tue | May 12 | Wed | May 13 | Belmont At The Big A | Belterra Park | Century Mile TB | Charles Town | Churchill Downs | Coast To Coast Pick 5 | Cross Country Pick 5 | Delta Downs | Emerald Downs | Evangeline Do
+2026-05-07 14:35:25,772 [INFO] [diag] .track.table-row count: 39
+2026-05-07 14:35:25,772 [INFO] [*] Going to https://www.brisnet.com/product/login
+2026-05-07 14:35:28,377 [INFO] [*] Typed username
+2026-05-07 14:35:28,460 [INFO] [*] Typed password
+2026-05-07 14:35:28,528 [INFO] [*] Clicked login
+2026-05-07 14:35:30,915 [INFO] [*] Logged in, now at https://www.brisnet.com/product/
+2026-05-07 14:35:30,915 [INFO] [*] Re-login successful, retrying scope extraction
+2026-05-07 14:35:33,536 [INFO] [*] Angular data populated: 39 rows ready
+2026-05-07 14:35:33,540 [INFO] [*] Skipped 12 non-finalized files (no post positions yet)
+2026-05-07 14:35:33,540 [INFO] [*] After re-login: found 38 tracks
+2026-05-07 14:35:33,540 [INFO]   -> Skip (exists): 20260507_BAQ_DRS.DRF
+2026-05-07 14:35:33,540 [INFO]   -> Skip (exists): 20260508_BAQ_DRS.DRF
+2026-05-07 14:35:33,540 [INFO]   -> Skip (exists): 20260509_BAQ_DRS.DRF
+2026-05-07 14:35:33,540 [INFO]   -> Skip (exists): 20260508_BTP_DRS.DRF
+2026-05-07 14:35:33,540 [INFO]   -> Skip (exists): 20260509_BTP_DRS.DRF
+2026-05-07 14:35:33,541 [INFO]   -> Skip (exists): 20260510_BTP_DRS.DRF
+2026-05-07 14:35:33,541 [INFO]   -> Skip (exists): 20260508_CTM_DRS.DRF
+2026-05-07 14:35:33,541 [INFO]   -> Skip (exists): 20260509_CTM_DRS.DRF
+2026-05-07 14:35:33,541 [INFO]   -> Skip (exists): 20260507_CT_DRS.DRF
+2026-05-07 14:35:33,541 [INFO]   -> Skip (exists): 20260508_CT_DRS.DRF
+2026-05-07 14:35:33,541 [INFO]   -> Skip (exists): 20260509_CT_DRS.DRF
+2026-05-07 14:35:33,541 [INFO]   -> Skip (exists): 20260507_CD_DRS.DRF
+2026-05-07 14:35:33,541 [INFO]   -> Skip (exists): 20260508_CD_DRS.DRF
+2026-05-07 14:35:33,542 [INFO]   -> Skip (exists): 20260509_CD_DRS.DRF
+2026-05-07 14:35:33,542 [INFO]   -> Skip (exists): 20260510_CD_DRS.DRF
+2026-05-07 14:35:33,542 [INFO]   -> Skip (exists): 20260508_EQK_DRS.DRF
+2026-05-07 14:35:33,542 [INFO]   -> Skip (exists): 20260508_CCP_DRS.DRF
+2026-05-07 14:35:33,542 [INFO]   -> Skip (exists): 20260507_DED_DRS.DRF
+2026-05-07 14:35:33,542 [INFO]   -> Skip (exists): 20260508_DED_DRS.DRF
+2026-05-07 14:35:33,542 [INFO]   -> Skip (exists): 20260509_DED_DRS.DRF
+2026-05-07 14:35:33,544 [INFO] [DL] Emerald Downs (EMD) 20260509
+2026-05-07 14:35:33,544 [INFO]      https://www.brisnet.com/product/download/2026-05-09/DRS/USA/TB/EMD/D/0/
+2026-05-07 14:35:38,277 [INFO]   OK 20260509_EMD_DRS.DRF (82,428 bytes)
+2026-05-07 14:35:38,277 [INFO]   -> Skip (exists): 20260507_EVD_DRS.DRF
+2026-05-07 14:35:38,278 [INFO]   -> Skip (exists): 20260508_EVD_DRS.DRF
+2026-05-07 14:35:38,278 [INFO]   -> Skip (exists): 20260509_EVD_DRS.DRF
+2026-05-07 14:35:38,279 [INFO]   -> Skip (exists): 20260509_FP_DRS.DRF
+2026-05-07 14:35:38,279 [INFO]   -> Skip (exists): 20260512_FP_DRS.DRF
+2026-05-07 14:35:38,279 [INFO]   -> Skip (exists): 20260511_FL_DRS.DRF
+2026-05-07 14:35:38,279 [INFO]   -> Skip (exists): 20260512_FL_DRS.DRF
+2026-05-07 14:35:38,280 [INFO]   -> Skip (exists): 20260508_GP_DRS.DRF
+2026-05-07 14:35:38,280 [INFO]   -> Skip (exists): 20260509_GP_DRS.DRF
+2026-05-07 14:35:38,280 [INFO]   -> Skip (exists): 20260508_EQB_DRS.DRF
+2026-05-07 14:35:38,281 [INFO]   -> Skip (exists): 20260507_HAW_DRS.DRF
+2026-05-07 14:35:38,281 [INFO]   -> Skip (exists): 20260510_HAW_DRS.DRF
+2026-05-07 14:35:38,281 [INFO]   -> Skip (exists): 20260507_IND_DRS.DRF
+2026-05-07 14:35:38,281 [INFO]   -> Skip (exists): 20260511_IND_DRS.DRF
+2026-05-07 14:35:38,282 [INFO]   -> Skip (exists): 20260511_SWA_DRS.DRF
+2026-05-07 14:35:38,282 [INFO]   -> Skip (exists): 20260508_LRL_DRS.DRF
+2026-05-07 14:35:38,284 [INFO] [DL] Laurel Park (LRL) 20260509
+2026-05-07 14:35:38,284 [INFO]      https://www.brisnet.com/product/download/2026-05-09/DRS/USA/TB/LRL/D/0/
+2026-05-07 14:35:42,400 [INFO]   OK 20260509_LRL_DRS.DRF (140,091 bytes)
+2026-05-07 14:35:42,400 [INFO]   -> Skip (exists): 20260509_LBG_DRS.DRF
+2026-05-07 14:35:42,400 [INFO]   -> Skip (exists): 20260510_LBG_DRS.DRF
+2026-05-07 14:35:42,400 [INFO]   -> Skip (exists): 20260508_LS_DRS.DRF
+2026-05-07 14:35:42,401 [INFO]   -> Skip (exists): 20260509_LS_DRS.DRF
+2026-05-07 14:35:42,401 [INFO]   -> Skip (exists): 20260510_LS_DRS.DRF
+2026-05-07 14:35:42,401 [INFO]   -> Skip (exists): 20260511_LAD_DRS.DRF
+2026-05-07 14:35:42,401 [INFO]   -> Skip (exists): 20260512_LAD_DRS.DRF
+2026-05-07 14:35:42,402 [INFO]   -> Skip (exists): 20260509_MTH_DRS.DRF
+2026-05-07 14:35:42,402 [INFO]   -> Skip (exists): 20260510_MNR_DRS.DRF
+2026-05-07 14:35:42,402 [INFO]   -> Skip (exists): 20260511_MNR_DRS.DRF
+2026-05-07 14:35:42,402 [INFO]   -> Skip (exists): 20260512_MNR_DRS.DRF
+2026-05-07 14:35:42,402 [INFO]   -> Skip (exists): 20260511_PRX_DRS.DRF
+2026-05-07 14:35:42,403 [INFO]   -> Skip (exists): 20260512_PRX_DRS.DRF
+2026-05-07 14:35:42,403 [INFO]   -> Skip (exists): 20260507_PEN_DRS.DRF
+2026-05-07 14:35:42,403 [INFO]   -> Skip (exists): 20260508_PEN_DRS.DRF
+2026-05-07 14:35:42,403 [INFO]   -> Skip (exists): 20260510_POD_DRS.DRF
+2026-05-07 14:35:42,403 [INFO]   -> Skip (exists): 20260508_PRM_DRS.DRF
+2026-05-07 14:35:42,403 [INFO]   -> Skip (exists): 20260509_PRM_DRS.DRF
+2026-05-07 14:35:42,404 [INFO]   -> Skip (exists): 20260509_PW_DRS.DRF
+2026-05-07 14:35:42,404 [INFO]   -> Skip (exists): 20260507_RP_DRS.DRF
+2026-05-07 14:35:42,404 [INFO]   -> Skip (exists): 20260508_RP_DRS.DRF
+2026-05-07 14:35:42,404 [INFO]   -> Skip (exists): 20260509_RP_DRS.DRF
+2026-05-07 14:35:42,404 [INFO]   -> Skip (exists): 20260510_RP_DRS.DRF
+2026-05-07 14:35:42,404 [INFO]   -> Skip (exists): 20260507_HOU_DRS.DRF
+2026-05-07 14:35:42,404 [INFO]   -> Skip (exists): 20260508_HOU_DRS.DRF
+2026-05-07 14:35:42,404 [INFO]   -> Skip (exists): 20260509_HOU_DRS.DRF
+2026-05-07 14:35:42,405 [INFO]   -> Skip (exists): 20260508_EQZ_DRS.DRF
+2026-05-07 14:35:42,405 [INFO]   -> Skip (exists): 20260509_EQZ_DRS.DRF
+2026-05-07 14:35:42,405 [INFO]   -> Skip (exists): 20260508_SA_DRS.DRF
+2026-05-07 14:35:42,405 [INFO]   -> Skip (exists): 20260509_SA_DRS.DRF
+2026-05-07 14:35:42,405 [INFO]   -> Skip (exists): 20260508_SRP_DRS.DRF
+2026-05-07 14:35:42,405 [INFO]   -> Skip (exists): 20260509_SRP_DRS.DRF
+2026-05-07 14:35:42,405 [INFO]   -> Skip (exists): 20260508_SWL_DRS.DRF
+2026-05-07 14:35:42,406 [INFO]   -> Skip (exists): 20260507_TDN_DRS.DRF
+2026-05-07 14:35:42,406 [INFO]   -> Skip (exists): 20260511_TDN_DRS.DRF
+2026-05-07 14:35:42,406 [INFO]   -> Skip (exists): 20260512_TDN_DRS.DRF
+2026-05-07 14:35:42,406 [INFO]   -> Skip (exists): 20260508_WBR_DRS.DRF
+2026-05-07 14:35:42,406 [INFO]   -> Skip (exists): 20260509_WBR_DRS.DRF
+2026-05-07 14:35:42,406 [INFO]   -> Skip (exists): 20260509_WIL_DRS.DRF
+2026-05-07 14:35:42,406 [INFO]   -> Skip (exists): 20260508_WO_DRS.DRF
+2026-05-07 14:35:42,406 [INFO]   -> Skip (exists): 20260509_WO_DRS.DRF
+2026-05-07 14:35:42,407 [INFO] ============================================================
+2026-05-07 14:35:42,407 [INFO]   Downloaded: 2  Skipped: 77  Failed: 0
+2026-05-07 14:35:42,407 [INFO]   Output: C:\Users\ryanr\Documents\BTSM\FullAutomation\DRF_Downloads
+2026-05-07 14:35:42,407 [INFO] ============================================================

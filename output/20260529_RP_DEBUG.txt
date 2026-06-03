@@ -1,0 +1,47 @@
+=== DTS Pipeline Debug (RP 20260529) ===
+
+[Step 1] After apply_scratches:
+  df rows: 109
+  per-race counts: {1: 9, 2: 9, 3: 8, 4: 9, 5: 10, 6: 9, 7: 10, 8: 7, 9: 9, 10: 9, 11: 10, 12: 10}
+  scratches dropped: 8
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 109
+  per-race counts: {1: 9, 2: 9, 3: 8, 4: 9, 5: 10, 6: 9, 7: 10, 8: 7, 9: 9, 10: 9, 11: 10, 12: 10}
+  baseprob2 per race: {1: 0.1111111111111111, 2: 0.1111111111111111, 3: 0.125, 4: 0.1111111111111111, 5: 0.1, 6: 0.1111111111111111, 7: 0.1, 8: 0.14285714285714285, 9: 0.1111111111111111, 10: 0.1111111111111111, 11: 0.1, 12: 0.1}
+  NumOfEntries per race: {1: 9, 2: 9, 3: 8, 4: 9, 5: 10, 6: 9, 7: 10, 8: 7, 9: 9, 10: 9, 11: 10, 12: 10}
+  HorsesRan per race: {1: 9, 2: 9, 3: 8, 4: 9, 5: 10, 6: 9, 7: 10, 8: 7, 9: 9, 10: 9, 11: 10, 12: 10}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 109
+  Race 10 rows: 9
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'DTSOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+           HorseName  predicted  norm_predprob  ProbToWin  DTSOdds  baseprob2  HorsesRan  NumOfEntries
+     KISSIN MARY ANN   0.085990       0.110596   0.110596      7.0   0.111111          9             9
+             STELLOR   0.075813       0.097506   0.097506      8.0   0.111111          9             9
+       TEMPTING SEIS   0.068589       0.088215   0.088215      8.0   0.111111          9             9
+     JESS DOWN CANDY   0.113913       0.146509   0.146509      4.5   0.111111          9             9
+        HALF A HOUSE   0.049612       0.063808   0.063808     12.0   0.111111          9             9
+            DASSAULT   0.061718       0.079378   0.079378      9.0   0.111111          9             9
+      SHES JUDGE TEE   0.075377       0.096946   0.096946      8.0   0.111111          9             9
+POLITICAL SUSPICIONS   0.147026       0.189097   0.189097      3.5   0.111111          9             9
+       AG CYBER KING   0.099480       0.127946   0.127946      5.0   0.111111          9             9
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 9
+           HorseName                      why_like_1                    why_like_2                     why_like_3                               why_fade_1                    why_fade_2                       why_fade_3
+     KISSIN MARY ANN       Barn is on fire right now  Tab says she's ready to fire Grizzled veteran knows the job            Hasn't earned at stakes level            Journeyman booking                                 
+             STELLOR Got a good blowout before today     A-team rider in the irons                                                Class is a real question     Figure history is erratic We don't know much about her yet
+       TEMPTING SEIS          Back figures are there      Don't fight this shedrow               Meet's top pilot           Year has been a disappointment    Works haven't turned heads          Lightly raced — unknown
+     JESS DOWN CANDY Trainer is tough to beat lately Best jockey at the meet is up                 Sharp work tab                  Can't pin down her best                                                               
+        HALF A HOUSE        Consistent speed history                                                              Journeyman up — connections going budget      Cold trainer at the meet               Quiet year to date
+            DASSAULT        Has earned at this level         Works have been crisp                                                Last figure was ordinary            Not the first call              Barn has gone quiet
+      SHES JUDGE TEE       Stable has the meet going      Recent work before today                                                   Light stakes earnings  Thin record leaves questions       Inconsistent speed history
+POLITICAL SUSPICIONS           Battle-tested veteran            Good season so far          Quick last-out figure Shedrow hasn't found the winner's circle Been a while since she worked  Rider is available for a reason
+       AG CYBER KING       A-team rider in the irons    Has run big figures before        Productive year to date                     Tab is underwhelming    Trainer is in a cold spell                                 
+

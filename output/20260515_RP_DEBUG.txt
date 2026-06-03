@@ -1,0 +1,49 @@
+=== BTSM Pipeline Debug (RP 20260515) ===
+
+[Step 1] After apply_scratches:
+  df rows: 102
+  per-race counts: {1: 7, 2: 8, 3: 8, 4: 10, 5: 10, 6: 10, 7: 9, 8: 10, 9: 10, 10: 10, 11: 10}
+  scratches dropped: 8
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 102
+  per-race counts: {1: 7, 2: 8, 3: 8, 4: 10, 5: 10, 6: 10, 7: 9, 8: 10, 9: 10, 10: 10, 11: 10}
+  baseprob2 per race: {1: 0.14285714285714285, 2: 0.125, 3: 0.125, 4: 0.1, 5: 0.1, 6: 0.1, 7: 0.1111111111111111, 8: 0.1, 9: 0.1, 10: 0.1, 11: 0.1}
+  NumOfEntries per race: {1: 7, 2: 8, 3: 8, 4: 10, 5: 10, 6: 10, 7: 9, 8: 10, 9: 10, 10: 10, 11: 10}
+  HorsesRan per race: {1: 7, 2: 8, 3: 8, 4: 10, 5: 10, 6: 10, 7: 9, 8: 10, 9: 10, 10: 10, 11: 10}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 102
+  Race 10 rows: 10
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+          HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+     STRAIT UP GONE   0.075498       0.098297   0.098297       7.0        0.1         10            10
+        I NEVER LIE   0.067259       0.087570   0.087570       8.0        0.1         10            10
+       PEVS CANDY P   0.048690       0.063394   0.063394      12.0        0.1         10            10
+       TRES A BLOOD   0.065533       0.085324   0.085324       9.0        0.1         10            10
+    CANDY EYED SUZE   0.091624       0.119294   0.119294       6.0        0.1         10            10
+START TO STUNNING T   0.120225       0.156532   0.156532       4.5        0.1         10            10
+            TOE TOE   0.051189       0.066648   0.066648      11.0        0.1         10            10
+    SHEZA GOLDIGGER   0.066280       0.086296   0.086296       9.0        0.1         10            10
+  TRES THIS DYNASTY   0.066231       0.086232   0.086232       9.0        0.1         10            10
+STARLIGHT CARTEL DF   0.115525       0.150413   0.150413       4.5        0.1         10            10
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 10
+          HorseName                          why_like_1                     why_like_2                      why_like_3                                 why_fade_1                       why_fade_2                               why_fade_3
+     STRAIT UP GONE              Back figures are there             Good season so far                                                     Could use another work We don't know much about her yet Journeyman up — connections going budget
+        I NEVER LIE            Consistent speed history                                                                                Not the meet for this barn              Stale between works                    Light stakes earnings
+       PEVS CANDY P                                                                                                                            Not the first call         Cold trainer at the meet               Inconsistent speed history
+       TRES A BLOOD          Has run big figures before      Stable has the meet going                                              Been a while since she worked  Rider is available for a reason                       Quiet year to date
+    CANDY EYED SUZE             Hot trainer at the meet Grizzled veteran knows the job                  Sharp work tab                    Better riders were busy    Hasn't earned at stakes level           Last-out number doesn't cut it
+START TO STUNNING T           Barn is on fire right now        Productive year to date Got a good blowout before today                    Lightly raced — unknown        Figure history is erratic                                         
+            TOE TOE            Don't fight this shedrow                                                                Hasn't found the winner's circle this year     Thin record leaves questions                     Tab is underwhelming
+    SHEZA GOLDIGGER       Best jockey at the meet is up         Back figures are there        Has earned at this level                         Unimpressive works              Barn has gone quiet         We don't know much about her yet
+  TRES THIS DYNASTY               Battle-tested veteran       Recent work before today                                                         Journeyman booking             Slow last-out figure           Year has been a disappointment
+STARLIGHT CARTEL DF Has seen it all — experience counts        Class is not a question           Works have been crisp   Journeyman up — connections going budget                                                                          
+

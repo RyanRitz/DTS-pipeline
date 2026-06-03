@@ -1,0 +1,49 @@
+=== BTSM Pipeline Debug (HOU 20260516) ===
+
+[Step 1] After apply_scratches:
+  df rows: 91
+  per-race counts: {1: 8, 2: 9, 3: 10, 4: 10, 5: 9, 6: 8, 7: 9, 8: 9, 9: 9, 10: 10}
+  scratches dropped: 7
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 91
+  per-race counts: {1: 8, 2: 9, 3: 10, 4: 10, 5: 9, 6: 8, 7: 9, 8: 9, 9: 9, 10: 10}
+  baseprob2 per race: {1: 0.125, 2: 0.1111111111111111, 3: 0.1, 4: 0.1, 5: 0.1111111111111111, 6: 0.125, 7: 0.1111111111111111, 8: 0.1111111111111111, 9: 0.1111111111111111, 10: 0.1}
+  NumOfEntries per race: {1: 8, 2: 9, 3: 10, 4: 10, 5: 9, 6: 8, 7: 9, 8: 9, 9: 9, 10: 10}
+  HorsesRan per race: {1: 8, 2: 9, 3: 10, 4: 10, 5: 9, 6: 8, 7: 9, 8: 9, 9: 9, 10: 10}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 91
+  Race 10 rows: 10
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+           HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+        GO LOTA GIRL   0.041712       0.051331   0.051331      15.0        0.1         10            10
+    POLITICAL POLICY   0.040987       0.050439   0.050439      15.0        0.1         10            10
+CORONAS FAMOUSCARTEL   0.054545       0.067124   0.067124      11.0        0.1         10            10
+         KISSBEHAVIN   0.111894       0.137697   0.137697       5.0        0.1         10            10
+           ELEMYNTAL   0.081254       0.099992   0.099992       7.0        0.1         10            10
+    THE FISCAL CHICK   0.049366       0.060750   0.060750      13.0        0.1         10            10
+       LONELY LEGACY   0.144879       0.178290   0.178290       3.5        0.1         10            10
+       IB RELENTLESS   0.109650       0.134937   0.134937       5.0        0.1         10            10
+         LG PRINCESS   0.065325       0.080390   0.080390       9.0        0.1         10            10
+   STREAKIN N KISSES   0.112993       0.139050   0.139050       5.0        0.1         10            10
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 10
+           HorseName                          why_like_1                      why_like_2               why_like_3                               why_fade_1                                 why_fade_2                     why_fade_3
+        GO LOTA GIRL                    Meet's top pilot                                                                          Class is a real question                 Not the meet for this barn      Figure history is erratic
+    POLITICAL POLICY        Short rest has worked before           Works have been crisp                                    Year has been a disappointment                       Slow last-out figure       Cold trainer at the meet
+CORONAS FAMOUSCARTEL           Stable has the meet going                                                                          Last figure was ordinary                       Tab is underwhelming             Not the first call
+         KISSBEHAVIN            Recent work before today         Hot trainer at the meet       Good season so far                  Can't pin down her best                                                                          
+           ELEMYNTAL          Has run big figures before   Best jockey at the meet is up Has earned at this level                      Stale between works                    Lightly raced — unknown            Barn has gone quiet
+    THE FISCAL CHICK         Well-placed off recent race    Tab says she's ready to fire                                        Inconsistent speed history            Rider is available for a reason             Quiet year to date
+       LONELY LEGACY Has seen it all — experience counts         Productive year to date           Sharp work tab                  Better riders were busy                                                                          
+       IB RELENTLESS           Barn is on fire right now          Back figures are there                                     Been a while since she worked Hasn't found the winner's circle this year             Journeyman booking
+         LG PRINCESS            Don't fight this shedrow        Consistent speed history    Works have been crisp Journeyman up — connections going budget            Needs to be sharp off the bench Year has been a disappointment
+   STREAKIN N KISSES      Grizzled veteran knows the job Trainer is tough to beat lately  Class is not a question                       Not the first call                                                                          
+

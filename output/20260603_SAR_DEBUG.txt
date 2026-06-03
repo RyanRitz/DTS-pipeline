@@ -1,0 +1,53 @@
+=== DTS Pipeline Debug (SAR 20260603) ===
+
+[Step 1] After apply_scratches:
+  df rows: 85
+  per-race counts: {1: 7, 2: 6, 3: 6, 4: 7, 5: 7, 6: 11, 7: 12, 8: 9, 9: 8, 10: 12}
+  scratches dropped: 25
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 84
+  per-race counts: {1: 6, 2: 6, 3: 6, 4: 7, 5: 7, 6: 11, 7: 12, 8: 9, 9: 8, 10: 12}
+  baseprob2 per race: {1: 0.16666666666666666, 2: 0.16666666666666666, 3: 0.16666666666666666, 4: 0.14285714285714285, 5: 0.14285714285714285, 6: 0.09090909090909091, 7: 0.08333333333333333, 8: 0.1111111111111111, 9: 0.125, 10: 0.08333333333333333}
+  NumOfEntries per race: {1: 6, 2: 6, 3: 6, 4: 7, 5: 7, 6: 11, 7: 12, 8: 9, 9: 8, 10: 12}
+  HorsesRan per race: {1: 6, 2: 6, 3: 6, 4: 7, 5: 7, 6: 11, 7: 12, 8: 9, 9: 8, 10: 12}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 84
+  Race 10 rows: 12
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'DTSOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+      HorseName  predicted  norm_predprob  ProbToWin  DTSOdds  baseprob2  HorsesRan  NumOfEntries
+      ROSSBEIGH   0.138098       0.138064   0.138064      5.0   0.083333         12            12
+         G FIVE   0.013879       0.013876   0.013876     59.0   0.083333         12            12
+ OUT OF THE FOG   0.203183       0.203133   0.203133      3.0   0.083333         12            12
+BLAME IT ON K J   0.045577       0.045566   0.045566     17.0   0.083333         12            12
+ BOURBONCENTRIC   0.052599       0.052587   0.052587     15.0   0.083333         12            12
+     PILOT KNOB   0.039238       0.039228   0.039228     20.0   0.083333         12            12
+   FREE REFILLS   0.084031       0.084011   0.084011      9.0   0.083333         12            12
+ ZEUS LIGHTNING   0.039912       0.039902   0.039902     20.0   0.083333         12            12
+            NAZ   0.038178       0.038169   0.038169     21.0   0.083333         12            12
+       LOBBYIST   0.046523       0.046512   0.046512     17.0   0.083333         12            12
+    BEAU CHEVAL   0.288753       0.288682   0.288682      1.8   0.083333         12            12
+   UNCLE BARRIE   0.010272       0.010269   0.010269     80.0   0.083333         12            12
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 12
+      HorseName                        why_like_1             why_like_2                                why_like_3                   why_fade_1                               why_fade_2                    why_fade_3
+      ROSSBEIGH             Strong win percentage Sharp last race number                                                    Lackluster work tab                                                                       
+         G FIVE            Wins at a healthy clip                                                                     Clockers aren't impressed                    Dull last race number                              
+ OUT OF THE FOG             Eye-catching workouts                                                                           Thin win percentage Last effort left something to be desired                              
+BLAME IT ON K J      Last out effort was no fluke                                                                      Doesn't win often enough      Works leave something to be desired                              
+ BOURBONCENTRIC Know how to get to the wire first  Came to run last time                                                    Lackluster work tab                                                                       
+     PILOT KNOB            Sharp last race number  Strong win percentage                                              Clockers aren't impressed                                                                       
+   FREE REFILLS          Bullet work in the books Wins at a healthy clip                                             Figures trending wrong way                                                                       
+ ZEUS LIGHTNING Know how to get to the wire first  Clockers have noticed                                                  Dull last race number                                                                       
+            NAZ                                                                                                             No bullets recently Last effort left something to be desired Hasn't figured out how to win
+       LOBBYIST                                                                                                    No bullets in the recent tab                      Thin win percentage    Figures trending wrong way
+    BEAU CHEVAL      Last out effort was no fluke  Strong win percentage Works have been the talk of the barn area                                                                                                    
+   UNCLE BARRIE                                                                                                           Dull last race number          Works haven't featured a bullet      Doesn't win often enough
+

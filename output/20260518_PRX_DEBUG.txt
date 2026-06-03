@@ -1,0 +1,45 @@
+=== BTSM Pipeline Debug (PRX 20260518) ===
+
+[Step 1] After apply_scratches:
+  df rows: 65
+  per-race counts: {1: 8, 2: 6, 3: 7, 4: 7, 5: 5, 6: 7, 7: 7, 8: 4, 9: 6, 10: 8}
+  scratches dropped: 9
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 65
+  per-race counts: {1: 8, 2: 6, 3: 7, 4: 7, 5: 5, 6: 7, 7: 7, 8: 4, 9: 6, 10: 8}
+  baseprob2 per race: {1: 0.125, 2: 0.16666666666666666, 3: 0.14285714285714285, 4: 0.14285714285714285, 5: 0.2, 6: 0.14285714285714285, 7: 0.14285714285714285, 8: 0.25, 9: 0.16666666666666666, 10: 0.125}
+  NumOfEntries per race: {1: 8, 2: 6, 3: 7, 4: 7, 5: 5, 6: 7, 7: 7, 8: 4, 9: 6, 10: 8}
+  HorsesRan per race: {1: 8, 2: 6, 3: 7, 4: 7, 5: 5, 6: 7, 7: 7, 8: 4, 9: 6, 10: 8}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 65
+  Race 10 rows: 8
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+        HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+    THIRTYNINERED   0.044239       0.039726   0.039726      20.0      0.125          8             8
+      POLAR MAGIC   0.081051       0.072781   0.072781      10.0      0.125          8             8
+   PUNCH AND JUDY   0.141202       0.126796   0.126796       6.0      0.125          8             8
+WARRIOR BUNNY ZEE   0.052333       0.046994   0.046994      17.0      0.125          8             8
+ANITA GLASSOFWINE   0.064110       0.057570   0.057570      13.0      0.125          8             8
+       STAY LOYAL   0.247844       0.222558   0.222558       2.5      0.125          8             8
+      EMMYASWIFTY   0.048159       0.043245   0.043245      18.0      0.125          8             8
+  LEGAL LIGHTNING   0.434679       0.390331   0.390331       1.2      0.125          8             8
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 8
+        HorseName                               why_like_1                   why_like_2                                why_like_3                         why_fade_1                            why_fade_2                               why_fade_3
+    THIRTYNINERED                                                                                                                                Lacks the foot here    Trip may expose a pedigree concern               Hasn't earned at this trip
+      POLAR MAGIC             Distance pedigree fits today        Clockers have noticed                       Trainer in top form      Hasn't figured out how to win                Doesn't have the gears       Jockey-distance combo is a concern
+   PUNCH AND JUDY              Speed to burn vs this field  Earns well at this distance Works have been the talk of the barn area           Jockey struggles at trip          Distance pedigree a question                                         
+WARRIOR BUNNY ZEE                    Eye-catching workouts                                                                                Distance earnings are thin                  Shedrow is in a funk Pilot has a thin record at this distance
+ANITA GLASSOFWINE             Last out effort was no fluke   Barn is clicking right now                 Distance has been the key Jockey-distance combo is a concern Pedigree doesn't scream this distance                      Lackluster work tab
+       STAY LOYAL                    Clockers have noticed   Right rider for this route                    Bred to love this trip                  Trip may not suit         Speed edge goes the other way            Trainer win rate has dried up
+      EMMYASWIFTY Pedigree page says the distance is right                                                                                Hasn't earned at this trip                  Trainer running cold                Clockers aren't impressed
+  LEGAL LIGHTNING                Jockey earns at this trip Distance pedigree fits today            Trainer hitting at a high rate             Work tab lacks bullets                                                                               
+

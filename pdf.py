@@ -200,40 +200,44 @@ def _paginate_races(df: pd.DataFrame, races: list) -> list[dict]:
 
 def _select_top3_best_bets(df: pd.DataFrame) -> list[dict]:
     """
-    Pick up to 3 horses that qualify as DTS Best Value Bets — meaning
-    their value_tier is >= 3 (real overlay or stronger), their rank
-    is <= 3 in their race, and DTS odds beat the morning line.
+    Pick up to 3 horses that qualify as DTS Best (Gold) Bets — the `best_bet`
+    gate computed upstream: the adjusted line exceeds DTS fair odds by >=40%
+    AND the horse's win-probability rank is in the top half of its field.
 
-    Value tiers (from output.value_tier()):
-        4 = Strong value (DTS/ML < 0.50)
-        3 = Real overlay (0.50 - 0.75)
-        2 = Modest value, 1 = Fair, 0 = Overbet
+    Overlay tiers (output.value_tier(), keyed on ML/DTS-1):
+        4 = >=60% overlay   3 = >=40% (gold)   2 = >=25% (green)
+        1 = mild/fair       0 = overbet
 
-    If more than 3 qualify, take the top 3 by ProbToWin descending.
-    Returns dicts with race / program / horse / dts_odds / ml_odds.
+    Gold is intentionally rare — a race may contribute none. If more than 3
+    qualify across the card, take the top 3 by ProbToWin descending.
+    Returns dicts with race / program / horse / dts_odds / ml_odds (raw, for
+    the (ML X) display).
     """
     candidates = []
     for _, row in df.iterrows():
-        rank  = row.get("rank")
         btsm  = row.get("dts_odds")
-        ml    = row.get("ml_odds")
-        tier  = row.get("value_tier")
-        try:
-            t = int(tier) if tier is not None else 0
-        except (TypeError, ValueError):
-            t = 0
-        if t < 3:
-            continue
-        if not _is_num(rank) or int(rank) > 3:
-            continue
-        if not (_is_num(btsm) and _is_num(ml) and float(btsm) < float(ml)):
+        ml    = row.get("ml_odds")          # raw ML — for DISPLAY only
+        ml_cmp = row.get("ml_odds_adj")     # adjusted ML — behind the curtain
+        if not _is_num(ml_cmp):
+            ml_cmp = ml
+        # TOP DTS BETS are exactly the GOLD best bets: >=40% overlay AND the
+        # horse's win prob is in the top half of its field. That gate is
+        # computed upstream as `best_bet`. Fall back to value_tier>=3 if the
+        # flag isn't present (older rows).
+        bb = row.get("best_bet")
+        if bb is None:
+            try:
+                bb = int(row.get("value_tier") or 0) >= 3
+            except (TypeError, ValueError):
+                bb = False
+        if not bool(bb):
             continue
         candidates.append({
             "race":    int(row["race"]),
             "program": str(row["program"]),
             "horse":   row["horse"],
-            "btsm":    float(btsm),
-            "ml":      float(ml),
+            "btsm":    float(btsm) if _is_num(btsm) else 0.0,
+            "ml":      float(ml) if _is_num(ml) else float(ml_cmp),  # raw ML shown as (ML X)
             "prob":    float(row.get("prob_to_win") or 0),
         })
 
@@ -462,17 +466,26 @@ def _build_horse_row(row: pd.Series) -> str:
     ml   = row.get("ml_odds")
     smart = row.get("smart_comment", "") or ""
 
-    # Value highlight when DTS odds beat the morning line
+    # GREEN tint = ValueTier >= 2 (the adjusted line exceeds DTS fair odds by
+    # >=25%). ValueTier is computed upstream against the SCRATCH-ADJUSTED ML,
+    # so a stale, too-long raw line doesn't over-flag value after scratches.
     val_class = ""
-    if _is_num(btsm) and _is_num(ml) and float(btsm) < float(ml):
-        val_class = " value-row"
-    # Best-bet styling now driven by numeric value_tier (>=3 = real overlay)
-    # rather than grepping for "$$$" in the comment prose.
     try:
-        if int(row.get("value_tier") or 0) >= 3:
-            val_class += " best-bet"
+        if int(row.get("value_tier") or 0) >= 2:
+            val_class = " value-row"
     except (TypeError, ValueError):
         pass
+    # GOLD best-bet = the BestBet gate (>=40% overlay AND win-prob rank in the
+    # top half of the field), computed upstream. Intentionally rare — a race
+    # may have none. Falls back to value_tier>=3 only if the flag is absent.
+    bb = row.get("best_bet")
+    if bb is None:
+        try:
+            bb = int(row.get("value_tier") or 0) >= 3
+        except (TypeError, ValueError):
+            bb = False
+    if bool(bb):
+        val_class += " best-bet"
 
     speed_bar = int(float(row.get("speed_bar") or 0))
     jock_bar  = int(float(row.get("jockey_bar") or 0))
@@ -753,12 +766,21 @@ def _format_race_title(row: pd.Series) -> dict:
     purse_str = f"${int(float(purse)/1000)}K" if _is_num(purse) and float(purse) > 0 else ""
 
     # ── Middle slot ────────────────────────────────────────────────────
-    # Prefer the pre-summarized RaceConditions1 text if the pipeline
-    # supplied one (concise, abbreviated). Otherwise fall back to the
-    # composed age/class/turns string.
+    # Turns suffix applies to BOTH branches below (RC summary and fallback) —
+    # previously it lived only in the fallback, so turns vanished whenever the
+    # RC summary was present. Compute it once here.
+    turns_str = ""
+    turns = row.get("turns")
+    if _is_num(turns):
+        n = int(turns)
+        turns_str = f"{n} Turn{'s' if n != 1 else ''}"
+
+    # Prefer the pre-summarized RaceConditions1 text if the pipeline supplied
+    # one (concise, abbreviated eligibility). Otherwise fall back to the
+    # composed age/class string. Either way, append turns.
     rc_summary = (row.get("race_conditions_summary") or "").strip()
     if rc_summary:
-        middle = _html_escape(rc_summary)
+        middle_parts = [_html_escape(rc_summary)]
     else:
         middle_parts = []
 
@@ -774,18 +796,16 @@ def _format_race_title(row: pd.Series) -> dict:
         if suffix:
             middle_parts.append(suffix)
 
-        # 3) Turns
-        turns = row.get("turns")
-        if _is_num(turns):
-            n = int(turns)
-            middle_parts.append(f"{n} Turn{'s' if n != 1 else ''}")
-
-        # 4) Named race / feature (rare on day-to-day cards, common in stakes)
+        # 3) Named race / feature (rare on day-to-day cards, common in stakes)
         race_name = (row.get("race_name") or "").strip()
         if race_name:
             middle_parts.insert(0, race_name)  # prepend so it leads
 
-        middle = " &nbsp;·&nbsp; ".join(middle_parts)
+    # Turns last — shown for every race we can resolve the geometry for.
+    if turns_str:
+        middle_parts.append(turns_str)
+
+    middle = " &nbsp;·&nbsp; ".join(middle_parts)
 
     detail_parts = [surface, dist_str]
     if purse_str:
@@ -847,6 +867,10 @@ def _decode_age_sex(code: str) -> str:
 # a digit ('OClm 80000n2x') and digit/letter is not a word boundary.
 import re as _re
 _NWX_RE = _re.compile(r"n[wW]?\s*(\d+)\s*x\b", _re.IGNORECASE)
+# Leading price prefix on a wager token: "$1 ", "$.50 ", "50 CENT ", "10 CENT ".
+# BRISnet prefixes each wager with its minimum bet, which would otherwise break
+# the startswith() classification (e.g. "$.50 PICK 3" never matches "PICK 3").
+_WAGER_PRICE_RE = _re.compile(r"^(\$\s*[\d.]+|\d+\s*CENT)\s+", _re.IGNORECASE)
 
 
 def _extract_nwx(classification: str) -> str:
@@ -891,7 +915,9 @@ def _format_multi_race_wagers(wagers) -> str:
     keep = []
     seen = set()
     for w in pieces:
-        wu = w.upper()
+        # Strip the leading minimum-bet price ("$.50 PICK 3" -> "PICK 3") so the
+        # startswith() classification works regardless of bet denomination.
+        wu = _WAGER_PRICE_RE.sub("", w.upper()).strip()
         # Exact match on multi-race tokens.  Order matters: check the
         # longer match first ("PICK 3" before "PICK").
         if wu.startswith("DAILY DOUBLE") or wu == "DD":
@@ -917,11 +943,13 @@ def _format_multi_race_wagers(wagers) -> str:
 
 def self_label(base: str, raw: str) -> str:
     """
-    Preserve race-range parens when present.
-        'PICK 3 (RACES 1-2-3)' -> 'Pick 3 (Races 1-2-3)'
+    Preserve race-range parens when present, dropping any trailing note
+    (e.g. carryover) after the closing paren.
+        'PICK 3 (RACES 1-2-3)'                  -> 'Pick 3 (Races 1-2-3)'
+        'PICK 6 (RACES 3-8) - 70% CARRYOVER'    -> 'Pick 6 (Races 3-8)'
     """
-    if "(" in raw:
-        rng = raw[raw.find("("):].title()
+    if "(" in raw and ")" in raw:
+        rng = raw[raw.find("("):raw.find(")") + 1].title()
         return f"{base} {rng}"
     return base
 

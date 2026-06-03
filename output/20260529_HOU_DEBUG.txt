@@ -1,0 +1,49 @@
+=== DTS Pipeline Debug (HOU 20260529) ===
+
+[Step 1] After apply_scratches:
+  df rows: 92
+  per-race counts: {1: 7, 2: 9, 3: 7, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 9, 10: 10}
+  scratches dropped: 5
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 92
+  per-race counts: {1: 7, 2: 9, 3: 7, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 9, 10: 10}
+  baseprob2 per race: {1: 0.14285714285714285, 2: 0.1111111111111111, 3: 0.14285714285714285, 4: 0.1, 5: 0.1, 6: 0.1, 7: 0.1, 8: 0.1, 9: 0.1111111111111111, 10: 0.1}
+  NumOfEntries per race: {1: 7, 2: 9, 3: 7, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 9, 10: 10}
+  HorsesRan per race: {1: 7, 2: 9, 3: 7, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 9, 10: 10}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 92
+  Race 10 rows: 10
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'DTSOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+           HorseName  predicted  norm_predprob  ProbToWin  DTSOdds  baseprob2  HorsesRan  NumOfEntries
+             CHAPINA   0.016678       0.024775   0.024775     32.0        0.1         10            10
+   TAKEMTOTHASTATION   0.065603       0.097450   0.097450      8.0        0.1         10            10
+SHAKERS SECRET JETTA   0.031117       0.046224   0.046224     17.0        0.1         10            10
+        EAGLE LEEDER   0.070662       0.104966   0.104966      7.0        0.1         10            10
+       GOLIATH STONE   0.170027       0.252569   0.252569      2.5        0.1         10            10
+      ROSE CHA CHING   0.072921       0.108321   0.108321      7.0        0.1         10            10
+     LIGHTS OF MARFA   0.074600       0.110815   0.110815      6.0        0.1         10            10
+  MR BORDERTOWN BUZZ   0.049453       0.073460   0.073460     10.0        0.1         10            10
+       POOR DECISION   0.055605       0.082599   0.082599      9.0        0.1         10            10
+           BUTTERFLI   0.066524       0.098820   0.098820      7.0        0.1         10            10
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 10
+           HorseName                                why_like_1                    why_like_2                     why_like_3                               why_fade_1                                         why_fade_2                           why_fade_3
+             CHAPINA                                                                                                                              Barn has gone cold                          Quiet meet for this rider           Partnership has cooled off
+   TAKEMTOTHASTATION           These two win when they hook up         Outearns most in here                                              Figures trending wrong way                       No bullets in the recent tab               Jockey quiet this meet
+SHAKERS SECRET JETTA            Pilot is in the zone right now                                                                          Earnings lag the competition              Trainer not getting them there lately                Dull last race number
+        EAGLE LEEDER                     Clockers have noticed Call this rider — he's firing Trainer hitting at a high rate Last effort left something to be desired                          Trainer/jockey combo cold        Hasn't figured out how to win
+       GOLIATH STONE                 Trainer & jockey clicking         Came to run last time          Hot hand in the irons          Works haven't featured a bullet                                                                                        
+      ROSE CHA CHING                    Wins at a healthy clip        Sharp last race number                                         Pilot has gone cold at the meet This combo hasn't found the winner's circle lately                 Shedrow is in a funk
+     LIGHTS OF MARFA Works have been the talk of the barn area    The money says she's legit                                              Figures trending wrong way                      Trainer win rate has dried up Meet hasn't been kind to this jockey
+  MR BORDERTOWN BUZZ              Last out effort was no fluke                                                                                  Trainer running cold                          Earns below field average        Jockey searching for a winner
+       POOR DECISION                     Eye-catching workouts           Trainer in top form                                                      Field outearns her                          Quiet meet for this rider           Partnership has cooled off
+           BUTTERFLI                     Clockers have noticed    Barn is clicking right now         Proven earner vs field                   Jockey quiet this meet                          Trainer/jockey combo cold                Dull last race number
+

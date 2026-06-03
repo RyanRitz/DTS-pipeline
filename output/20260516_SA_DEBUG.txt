@@ -1,0 +1,47 @@
+=== BTSM Pipeline Debug (SA 20260516) ===
+
+[Step 1] After apply_scratches:
+  df rows: 73
+  per-race counts: {1: 8, 2: 5, 3: 7, 4: 6, 5: 7, 6: 7, 7: 8, 8: 7, 9: 9, 10: 9}
+  scratches dropped: 4
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 73
+  per-race counts: {1: 8, 2: 5, 3: 7, 4: 6, 5: 7, 6: 7, 7: 8, 8: 7, 9: 9, 10: 9}
+  baseprob2 per race: {1: 0.125, 2: 0.2, 3: 0.14285714285714285, 4: 0.16666666666666666, 5: 0.14285714285714285, 6: 0.14285714285714285, 7: 0.125, 8: 0.14285714285714285, 9: 0.1111111111111111, 10: 0.1111111111111111}
+  NumOfEntries per race: {1: 8, 2: 5, 3: 7, 4: 6, 5: 7, 6: 7, 7: 8, 8: 7, 9: 9, 10: 9}
+  HorsesRan per race: {1: 8, 2: 5, 3: 7, 4: 6, 5: 7, 6: 7, 7: 8, 8: 7, 9: 9, 10: 9}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 73
+  Race 10 rows: 9
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+       HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+ JUDY LYNN STARR   0.055273       0.052485   0.052485      15.0   0.111111          9             9
+   GENUINE GRACE   0.027302       0.025925   0.025925      31.0   0.111111          9             9
+MELBA MONTGOMERY   0.139397       0.132366   0.132366       5.0   0.111111          9             9
+ UNUSUAL CRAVING   0.032643       0.030996   0.030996      26.0   0.111111          9             9
+     FIRST LIGHT   0.057475       0.054576   0.054576      14.0   0.111111          9             9
+   JACKLYN LUCAS   0.202149       0.191952   0.191952       3.5   0.111111          9             9
+ ALL IN THE GAME   0.277236       0.263252   0.263252       2.0   0.111111          9             9
+        BIG MISS   0.012819       0.012173   0.012173      67.0   0.111111          9             9
+     TIS SUNRISE   0.248826       0.236275   0.236275       2.5   0.111111          9             9
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 9
+       HorseName                                why_like_1                           why_like_2                 why_like_3                                  why_fade_1                                  why_fade_2                           why_fade_3
+ JUDY LYNN STARR                     Eye-catching workouts                                                                 Pedigree page isn't going to impress anyone                      Doesn't have the gears            Moving up asks a question
+   GENUINE GRACE                     Clockers have noticed          The pedigree page is loaded                                              Connections struggle here    Last effort left something to be desired Meet hasn't been kind to this jockey
+MELBA MONTGOMERY Works have been the talk of the barn area Jock's been cashing tickets all meet  Trainer & jockey clicking                             Modest pedigree                          Field outearns her                                     
+ UNUSUAL CRAVING               Dynamic duo firing together                                                                               Speed edge goes the other way                    Pedigree is unremarkable           Distance earnings are thin
+     FIRST LIGHT                     Eye-catching workouts                                                                                         Lacks the foot here Pedigree page isn't going to impress anyone                    Trip may not suit
+   JACKLYN LUCAS           These two win when they hook up                Outearns most in here Jockey riding a hot streak                             Modest pedigree         Works leave something to be desired                                     
+ ALL IN THE GAME                Right rider for this route           The money says she's legit  Trainer & jockey clicking                    Pedigree is unremarkable                  Figures trending wrong way                  Lackluster work tab
+        BIG MISS              Last out effort was no fluke                                                                 Pedigree page isn't going to impress anyone                    Jockey struggles at trip            Clockers aren't impressed
+     TIS SUNRISE                    Proven earner vs field       Pilot is in the zone right now      Came to run last time                             Modest pedigree                   Trainer/jockey combo cold                                     
+

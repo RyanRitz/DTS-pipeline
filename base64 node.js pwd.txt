@@ -1,0 +1,7 @@
+Generating a secure random base64 string using Node.js.
+
+Ran terminal command: console.log(require('crypto').randomBytes(64).toString('base64'))
+
+Here is the generated random base64 string:
+
+`9wqpvj8uLThnksddZ75NGxTk3yGys1S4gTOYHWqXwKJprjOofVXPmScEgQbjqvqYEym+N9UC/Bq33sqAfwdFKQ==`

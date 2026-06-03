@@ -1,0 +1,37 @@
+=== BTSM Pipeline Debug (CD 20260510) ===
+
+[Step 1] After apply_scratches:
+  df rows: 90
+  per-race counts: {1: 8, 2: 8, 3: 5, 4: 7, 5: 11, 6: 9, 7: 10, 8: 13, 9: 7, 10: 12}
+  scratches dropped: 18
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 90
+  per-race counts: {1: 8, 2: 8, 3: 5, 4: 7, 5: 11, 6: 9, 7: 10, 8: 13, 9: 7, 10: 12}
+  baseprob2 per race: {1: 0.125, 2: 0.125, 3: 0.2, 4: 0.14285714285714285, 5: 0.09090909090909091, 6: 0.1111111111111111, 7: 0.1, 8: 0.07692307692307693, 9: 0.14285714285714285, 10: 0.08333333333333333}
+  NumOfEntries per race: {1: 8, 2: 8, 3: 5, 4: 7, 5: 11, 6: 9, 7: 10, 8: 13, 9: 7, 10: 12}
+  HorsesRan per race: {1: 8, 2: 8, 3: 5, 4: 7, 5: 11, 6: 9, 7: 10, 8: 13, 9: 7, 10: 12}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 90
+  Race 10 rows: 12
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+         HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+      MUNNY REIGNS   0.016570       0.015364   0.015364      53.0   0.083333         12            12
+      EMPRESS SISI   0.015209       0.014103   0.014103      58.0   0.083333         12            12
+  ONE HAPPY ISLAND   0.039930       0.037025   0.037025      21.0   0.083333         12            12
+            WUJOOD   0.014286       0.013247   0.013247      62.0   0.083333         12            12
+         BIRCH RUN   0.022365       0.020738   0.020738      39.0   0.083333         12            12
+      EMERALD SPUN   0.100991       0.093644   0.093644       8.0   0.083333         12            12
+        LADY SYBIL   0.072499       0.067226   0.067226      11.0   0.083333         12            12
+AMERICAN DEBUTANTE   0.255570       0.236978   0.236978       2.5   0.083333         12            12
+     ELIDA'S ANGEL   0.208825       0.193634   0.193634       3.5   0.083333         12            12
+  PRIVATE PROPERTY   0.039502       0.036628   0.036628      22.0   0.083333         12            12
+             TULIP   0.064314       0.059636   0.059636      13.0   0.083333         12            12
+     JUST ENTITLED   0.228391       0.211777   0.211777       3.0   0.083333         12            12
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+

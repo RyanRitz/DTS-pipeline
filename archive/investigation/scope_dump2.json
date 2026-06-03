@@ -1,0 +1,132 @@
+{
+  "[data-ng-controller]": {
+    "keys": [
+      "category",
+      "product",
+      "track",
+      "trackDates",
+      "date",
+      "menu",
+      "plan",
+      "plans",
+      "getCurrentYear",
+      "clearScope",
+      "isParentCategory"
+    ],
+    "hasAvailableTracks": false,
+    "availableTracksLen": 0
+  },
+  "[ng-controller]": "element not found",
+  "body": {
+    "keys": [
+      "category",
+      "product",
+      "track",
+      "trackDates",
+      "date",
+      "menu",
+      "plan",
+      "plans",
+      "getCurrentYear",
+      "clearScope",
+      "isParentCategory"
+    ],
+    "hasAvailableTracks": false,
+    "availableTracksLen": 0
+  },
+  ".track.table-row": {
+    "keys": [
+      "track"
+    ],
+    "hasAvailableTracks": true,
+    "availableTracksLen": 39,
+    "firstTrack": {
+      "country": "CAN",
+      "trackType": "TB",
+      "trackCode": "AJX",
+      "trackName": "Ajax Downs",
+      "dayEvening": "D",
+      "availableDates": [
+        {
+          "productDate": "2026-05-06T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "F",
+              "purchaseStatus": "NotPurchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "availableDatesByIndex": [
+        "2026-05-06T19:00:00.000Z",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "displayName": "Ajax Downs"
+  },
+  "[data-ng-repeat=\"track in availableTracks\"]": {
+    "keys": [
+      "track"
+    ],
+    "hasAvailableTracks": true,
+    "availableTracksLen": 39,
+    "firstTrack": {
+      "country": "CAN",
+      "trackType": "TB",
+      "trackCode": "AJX",
+      "trackName": "Ajax Downs",
+      "dayEvening": "D",
+      "availableDates": [
+        {
+          "productDate": "2026-05-06T19:00:00.000Z",
+          "availableProducts": [
+            {
+              "productCode": "DRS",
+              "customerAvailability": "View",
+              "productStatus": "F",
+              "purchaseStatus": "NotPurchased",
+              "customerPrice": 0,
+              "raceNumber": 0,
+              "availableRaces": [],
+              "productName": "PP Data Files (single)",
+              "sampleURL": "",
+              "description": "Comma-Delimited Past Performances (single file format).",
+              "freeWithBet": false,
+              "itemType": "PRODUCT",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "availableDatesByIndex": [
+        "2026-05-06T19:00:00.000Z",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "displayName": "Ajax Downs"
+  },
+  "$rootScope_keys": [
+    "showHeaderFooter"
+  ]
+}

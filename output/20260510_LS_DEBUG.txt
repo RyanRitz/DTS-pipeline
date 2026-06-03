@@ -1,0 +1,37 @@
+=== BTSM Pipeline Debug (LS 20260510) ===
+
+[Step 1] After apply_scratches:
+  df rows: 84
+  per-race counts: {1: 6, 2: 6, 3: 9, 4: 6, 5: 10, 6: 6, 7: 9, 8: 11, 9: 9, 10: 12}
+  scratches dropped: 12
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 84
+  per-race counts: {1: 6, 2: 6, 3: 9, 4: 6, 5: 10, 6: 6, 7: 9, 8: 11, 9: 9, 10: 12}
+  baseprob2 per race: {1: 0.16666666666666666, 2: 0.16666666666666666, 3: 0.1111111111111111, 4: 0.16666666666666666, 5: 0.1, 6: 0.16666666666666666, 7: 0.1111111111111111, 8: 0.09090909090909091, 9: 0.1111111111111111, 10: 0.08333333333333333}
+  NumOfEntries per race: {1: 6, 2: 6, 3: 9, 4: 6, 5: 10, 6: 6, 7: 9, 8: 11, 9: 9, 10: 12}
+  HorsesRan per race: {1: 6, 2: 6, 3: 9, 4: 6, 5: 10, 6: 6, 7: 9, 8: 11, 9: 9, 10: 12}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 84
+  Race 10 rows: 12
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+        HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+      MONEYSTRIKE   0.021718       0.017109   0.017109      48.0   0.083333         12            12
+        MONEYLINE   0.272410       0.214597   0.214597       3.0   0.083333         12            12
+       GOLD PRIZE   0.088521       0.069735   0.069735      11.0   0.083333         12            12
+   HE'S A STRIKER   0.120199       0.094690   0.094690       8.0   0.083333         12            12
+            RANGO   0.091748       0.072277   0.072277      10.0   0.083333         12            12
+     GHOST NATION   0.076679       0.060406   0.060406      13.0   0.083333         12            12
+SUPERSECRETWEAPON   0.116465       0.091749   0.091749       8.0   0.083333         12            12
+   BRILLIANT SPIN   0.061599       0.048526   0.048526      16.0   0.083333         12            12
+      ARIES HONOR   0.038960       0.030692   0.030692      26.0   0.083333         12            12
+    SIPPIN SCOTCH   0.038634       0.030435   0.030435      26.0   0.083333         12            12
+     TEXIAN DEVIL   0.277969       0.218977   0.218977       3.0   0.083333         12            12
+ DEVIL'S MISCHIEF   0.064497       0.050809   0.050809      15.0   0.083333         12            12
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+

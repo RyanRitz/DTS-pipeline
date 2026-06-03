@@ -1,0 +1,32 @@
+=== BTSM Pipeline Debug (MC 20260510) ===
+
+[Step 1] After apply_scratches:
+  df rows: 60
+  per-race counts: {1: 6, 2: 5, 3: 5, 4: 5, 5: 6, 6: 6, 7: 8, 8: 6, 9: 6, 10: 7}
+  scratches dropped: 1
+  scratches unmatched: 2
+[Step 2] After engineer_features:
+  feature_df rows: 60
+  per-race counts: {1: 6, 2: 5, 3: 5, 4: 5, 5: 6, 6: 6, 7: 8, 8: 6, 9: 6, 10: 7}
+  baseprob2 per race: {1: 0.16666666666666666, 2: 0.2, 3: 0.2, 4: 0.2, 5: 0.16666666666666666, 6: 0.16666666666666666, 7: 0.125, 8: 0.16666666666666666, 9: 0.16666666666666666, 10: 0.14285714285714285}
+  NumOfEntries per race: {1: 6, 2: 5, 3: 5, 4: 5, 5: 6, 6: 6, 7: 8, 8: 6, 9: 6, 10: 7}
+  HorsesRan per race: {1: 6, 2: 5, 3: 5, 4: 5, 5: 6, 6: 6, 7: 8, 8: 6, 9: 6, 10: 7}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 60
+  Race 10 rows: 7
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+         HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+         DARNQUICK   0.484211       0.358713   0.358713       1.4   0.142857          7             7
+             CORTE   0.022491       0.016662   0.016662      49.0   0.142857          7             7
+BIG HEARTED FACTOR   0.085809       0.063569   0.063569      12.0   0.142857          7             7
+HALF OURS N STORMY   0.157949       0.117012   0.117012       6.0   0.142857          7             7
+         RALLY CAT   0.370573       0.274528   0.274528       2.0   0.142857          7             7
+    HOPPYS CLASSIC   0.074110       0.054902   0.054902      14.0   0.142857          7             7
+     PADDY'S HOUSE   0.154712       0.114614   0.114614       6.0   0.142857          7             7
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+

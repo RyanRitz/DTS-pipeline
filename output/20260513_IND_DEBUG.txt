@@ -1,0 +1,47 @@
+=== BTSM Pipeline Debug (IND 20260513) ===
+
+[Step 1] After apply_scratches:
+  df rows: 88
+  per-race counts: {1: 5, 2: 6, 3: 6, 4: 5, 5: 8, 6: 10, 7: 10, 8: 10, 9: 7, 10: 9, 11: 12}
+  scratches dropped: 16
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 88
+  per-race counts: {1: 5, 2: 6, 3: 6, 4: 5, 5: 8, 6: 10, 7: 10, 8: 10, 9: 7, 10: 9, 11: 12}
+  baseprob2 per race: {1: 0.2, 2: 0.16666666666666666, 3: 0.16666666666666666, 4: 0.2, 5: 0.125, 6: 0.1, 7: 0.1, 8: 0.1, 9: 0.14285714285714285, 10: 0.1111111111111111, 11: 0.08333333333333333}
+  NumOfEntries per race: {1: 5, 2: 6, 3: 6, 4: 5, 5: 8, 6: 10, 7: 10, 8: 10, 9: 7, 10: 9, 11: 12}
+  HorsesRan per race: {1: 5, 2: 6, 3: 6, 4: 5, 5: 8, 6: 10, 7: 10, 8: 10, 9: 7, 10: 9, 11: 12}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 88
+  Race 10 rows: 9
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+        HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+JR MISS BUTTERCUP   0.190421       0.152291   0.152291       4.5   0.111111          9             9
+          LA PUMA   0.068535       0.054812   0.054812      14.0   0.111111          9             9
+     LOLLY POPPIN   0.022923       0.018333   0.018333      44.0   0.111111          9             9
+          YALORDE   0.032561       0.026041   0.026041      31.0   0.111111          9             9
+DIAMOND ROCK HILL   0.061328       0.049048   0.049048      16.0   0.111111          9             9
+    AMANI'S MUSIC   0.637259       0.509652   0.509652       0.6   0.111111          9             9
+  STARTIN TROUBLE   0.144012       0.115175   0.115175       6.0   0.111111          9             9
+  AMERICAN SURFER   0.069399       0.055502   0.055502      14.0   0.111111          9             9
+  NO SELF CONTROL   0.023941       0.019147   0.019147      42.0   0.111111          9             9
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 9
+        HorseName                                why_like_1                    why_like_2                      why_like_3                                  why_fade_1                                  why_fade_2                                         why_fade_3
+JR MISS BUTTERCUP               Speed to burn vs this field         Clockers have noticed      Right rider for this route                             Modest pedigree                  Partnership has cooled off                      Hasn't figured out how to win
+          LA PUMA                 Has handled similar today        Sharp last race number These two win when they hook up                    Pedigree is unremarkable                        Trainer running cold                      Jockey searching for a winner
+     LOLLY POPPIN                   Pricey pedigree — class                                                                                        Barn has gone cold                   Quiet meet for this rider                          Trainer/jockey combo cold
+          YALORDE Works have been the talk of the barn area Call this rider — he's firing                                       Trainer not getting them there lately Pedigree page isn't going to impress anyone This combo hasn't found the winner's circle lately
+DIAMOND ROCK HILL                 Jockey earns at this trip        Wins at a healthy clip     The pedigree page is loaded             Works haven't featured a bullet                        Shedrow is in a funk                         Partnership has cooled off
+    AMANI'S MUSIC         Know how to get to the wire first      Figures say she's faster       Trainer & jockey clicking                             Modest pedigree                         Lackluster work tab                                                   
+  STARTIN TROUBLE                     Eye-catching workouts     Comfortable at this level           Hot hand in the irons                      Doesn't have the gears                                                                                               
+  AMERICAN SURFER                     Clockers have noticed                                                                                  Pedigree is unremarkable                  Figures trending wrong way                      Trainer win rate has dried up
+  NO SELF CONTROL               Dynamic duo firing together    Barn is clicking right now                                 Pedigree page isn't going to impress anyone                      Jockey quiet this meet                            May be in over her head
+

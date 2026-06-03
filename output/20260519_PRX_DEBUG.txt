@@ -1,0 +1,47 @@
+=== BTSM Pipeline Debug (PRX 20260519) ===
+
+[Step 1] After apply_scratches:
+  df rows: 72
+  per-race counts: {1: 7, 2: 8, 3: 7, 4: 7, 5: 7, 6: 7, 7: 9, 8: 5, 9: 6, 10: 9}
+  scratches dropped: 6
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 72
+  per-race counts: {1: 7, 2: 8, 3: 7, 4: 7, 5: 7, 6: 7, 7: 9, 8: 5, 9: 6, 10: 9}
+  baseprob2 per race: {1: 0.14285714285714285, 2: 0.125, 3: 0.14285714285714285, 4: 0.14285714285714285, 5: 0.14285714285714285, 6: 0.14285714285714285, 7: 0.1111111111111111, 8: 0.2, 9: 0.16666666666666666, 10: 0.1111111111111111}
+  NumOfEntries per race: {1: 7, 2: 8, 3: 7, 4: 7, 5: 7, 6: 7, 7: 9, 8: 5, 9: 6, 10: 9}
+  HorsesRan per race: {1: 7, 2: 8, 3: 7, 4: 7, 5: 7, 6: 7, 7: 9, 8: 5, 9: 6, 10: 9}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 72
+  Race 10 rows: 9
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+        HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+         MALIBLUE   0.245795       0.169673   0.169673       4.0   0.111111          9             9
+       BAD ADVICE   0.044284       0.030569   0.030569      26.0   0.111111          9             9
+     JERRY'S TURN   0.015149       0.010457   0.010457      78.0   0.111111          9             9
+     ADIOS JERSEY   0.394521       0.272340   0.272340       2.0   0.111111          9             9
+   FIGHT FIERCELY   0.143961       0.099377   0.099377       7.0   0.111111          9             9
+   TWENTY ONE KID   0.094645       0.065334   0.065334      12.0   0.111111          9             9
+        CISCO KID   0.296644       0.204775   0.204775       3.0   0.111111          9             9
+ONLYGODCANJUDGEME   0.026813       0.018509   0.018509      44.0   0.111111          9             9
+ CAPITAL CONQUEST   0.186823       0.128965   0.128965       5.0   0.111111          9             9
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 9
+        HorseName                              why_like_1                      why_like_2                    why_like_3                                 why_fade_1                                  why_fade_2                         why_fade_3
+         MALIBLUE                 Speed advantage is real                  Tactical speed     Profitable barn to follow   Journeyman up — connections going budget                          Quiet year to date         Works haven't turned heads
+       BAD ADVICE Age and experience working in her favor Back quickly — fresh off a race Gets the jump out of the gate                 Not the meet for this barn                          Not the first call      Hasn't earned at stakes level
+     JERRY'S TURN               Rates off the pace nicely                                                                          Rider is available for a reason                    Cold trainer at the meet           Class is a real question
+     ADIOS JERSEY                    Brings the most foot         Hot trainer at the meet                Sharp work tab                                                                                                                          
+   FIGHT FIERCELY                Simply the fastest horse         Productive year to date                                                  Better riders were busy            We don't know much about her yet                Barn has gone quiet
+   TWENTY ONE KID                         Peak racing age  Grizzled veteran knows the job         Works have been crisp   Shedrow hasn't found the winner's circle                          Journeyman booking   Gets away slowly — uphill battle
+        CISCO KID                  Elite lifetime figures    Tab says she's ready to fire     A-team rider in the irons Hasn't found the winner's circle this year                  Trainer is in a cold spell                                   
+ONLYGODCANJUDGEME            Short rest has worked before                                                                 Journeyman up — connections going budget              Year has been a disappointment Return on investment has been poor
+ CAPITAL CONQUEST          Career-best form is right here                  Sharp work tab         Stakes-caliber earner                    Lightly raced — unknown Time takes its toll — she may be feeling it                                   
+

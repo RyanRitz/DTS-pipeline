@@ -252,7 +252,7 @@ def main():
         log.info("Skipping track status fetch (--no-track-status)")
 
     # ── 3-6. Run scoring chain via the same function the orchestrator uses ──
-    from run_pipeline import run_scoring
+    from run_pipeline import run_scoring, SKIP_CARD
     log.info("Starting scoring chain...")
     result = run_scoring(
         track=track,
@@ -261,6 +261,10 @@ def main():
         track_status=track_status,
         drf_path_override=drf_override,
     )
+
+    if result is SKIP_CARD:
+        log.info("Card skipped: non-thoroughbred / non-flat card, nothing to score.")
+        sys.exit(0)
 
     if result is None:
         log.error("Scoring failed. See messages above.")

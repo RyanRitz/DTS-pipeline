@@ -1,0 +1,39 @@
+=== BTSM Pipeline Debug (LRL 20260516) ===
+
+[Step 1] After apply_scratches:
+  df rows: 124
+  per-race counts: {1: 11, 2: 8, 3: 11, 4: 5, 5: 14, 6: 6, 7: 7, 8: 7, 9: 7, 10: 5, 11: 8, 12: 11, 13: 14, 14: 10}
+  scratches dropped: 15
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 124
+  per-race counts: {1: 11, 2: 8, 3: 11, 4: 5, 5: 14, 6: 6, 7: 7, 8: 7, 9: 7, 10: 5, 11: 8, 12: 11, 13: 14, 14: 10}
+  baseprob2 per race: {1: 0.09090909090909091, 2: 0.125, 3: 0.09090909090909091, 4: 0.2, 5: 0.07142857142857142, 6: 0.16666666666666666, 7: 0.14285714285714285, 8: 0.14285714285714285, 9: 0.14285714285714285, 10: 0.2, 11: 0.125, 12: 0.09090909090909091, 13: 0.07142857142857142, 14: 0.1}
+  NumOfEntries per race: {1: 11, 2: 8, 3: 11, 4: 5, 5: 14, 6: 6, 7: 7, 8: 7, 9: 7, 10: 5, 11: 8, 12: 11, 13: 14, 14: 10}
+  HorsesRan per race: {1: 11, 2: 8, 3: 11, 4: 5, 5: 14, 6: 6, 7: 7, 8: 7, 9: 7, 10: 5, 11: 8, 12: 11, 13: 14, 14: 10}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 124
+  Race 10 rows: 5
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'BTSMOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+         HorseName  predicted  norm_predprob  ProbToWin  BTSMOdds  baseprob2  HorsesRan  NumOfEntries
+     WHAT SAY THEE   0.089695       0.091872   0.091872       8.0        0.2          5             5
+   CRUISE THE NILE   0.355117       0.363735   0.363735       1.2        0.2          5             5
+   FORT WASHINGTON   0.265241       0.271678   0.271678       2.0        0.2          5             5
+A BOURBON FOR TOBY   0.177983       0.182303   0.182303       3.5        0.2          5             5
+            HARROW   0.088270       0.090413   0.090413       8.0        0.2          5             5
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 5
+         HorseName                   why_like_1                     why_like_2                     why_like_3                              why_fade_1                          why_fade_2                           why_fade_3
+     WHAT SAY THEE      Favorable post position     Works grade out at the top Traffic is nothing new for her               Style is a mismatch today         Physical profile a question                Modest yearling value
+   CRUISE THE NILE      Has earned her way here   Heavy hitters in the corners     Owns this track on numbers      Oval hasn't been kind to this jock          Physical raises some doubt  Numbers say she'd rather be on dirt
+   FORT WASHINGTON The speed figure leader here      Bankroll says she can run Training tab is among the best                     Mostly small fields            Jockey light record here          Faces an uncomfortable trip
+A BOURBON FOR TOBY     Physical profile an edge Grizzled veteran knows the job      Comfortable at this level Small fields have been her comfort zone              Tough draw to overcome            Running style fights pace
+            HARROW           Genuine turf horse    Jockey cashes at this track                                              Style is a mismatch today Physical may not fit the conditions Big field is a step into the unknown
+

@@ -355,12 +355,23 @@ def _merge_scored_parts(
     """
     key_cols = ["Track", "Date", "Race", "HorseName"]
 
-    # Start with base info from original_df
+    # Start with base info from original_df.
+    # NOTE: this is an explicit carry-through whitelist — any column NOT listed
+    # here is dropped during scoring. The display-only race-level fields
+    # (RaceConditions1/2, WagerType1-9, AgeSexRestrictions, RaceName) must be
+    # carried so the PDF race header can show the eligibility description and
+    # the multi-race wager line. Omitting them silently blanks those fields.
     base_cols = key_cols + ["horsenum", "ProgramNumberifavailable",
                              "RaceType", "Surface", "Distanceinyards",
                              "NumOfEntries", "HorsesRan", "baseprob1", "baseprob2",
                              "MornLineOddsifavailable", "TodaysJockey", "TodaysTrainer",
-                             "TodaysRaceClassification", "Purse"]
+                             "TodaysRaceClassification", "Purse",
+                             # ── display-only race-level fields (header) ──
+                             "AgeSexRestrictions", "RaceName",
+                             "RaceConditions1", "RaceConditions2",
+                             "WagerType1", "WagerType2", "WagerType3",
+                             "WagerType4", "WagerType5", "WagerType6",
+                             "WagerType7", "WagerType8", "WagerType9"]
     base_cols = [c for c in base_cols if c in original_df.columns]
     result = original_df[base_cols].copy()
     result["model"] = model_id
@@ -543,6 +554,33 @@ def _build_output(df: pd.DataFrame) -> pd.DataFrame:
 
     df["MornOdds"]  = df.get("MornLineOddsifavailable", np.nan)
     df["ProbToWin"] = df["norm_predprob"]
+
+    # -----------------------------------------------------------------------
+    # Scratch-adjusted morning line  (MornOddsAdj) — BEHIND THE CURTAIN
+    # -----------------------------------------------------------------------
+    # After scratches are removed upstream (apply_scratches), the raw morning
+    # line no longer forms a coherent book: the scratched horses' implied
+    # probability is simply gone, so the surviving field's prices are stale
+    # (too long). We rebuild a consistent line by:
+    #   1. converting each survivor's raw ML to implied prob  p = 1/(ml+1)
+    #   2. renormalizing the per-race field to the model's vig (VIG=1.2049),
+    #      the SAME vig baked into DTSOdds — so DTSOdds and the adjusted ML
+    #      sit on an apples-to-apples footing for value/best-bet flagging
+    #   3. converting back to odds  ml_adj = (1/p_adj) - 1
+    # This is used ONLY for value_tier / highlighting / best bets. The raw
+    # MornOdds is still what gets DISPLAYED on the sheet.
+    _ml = pd.to_numeric(df["MornOdds"], errors="coerce")
+    _mlprob = 1.0 / (_ml + 1.0)                      # NaN where ML missing
+    _race_key = ["Track", "Date", "Race"]
+    _race_sum = df.assign(_p=_mlprob).groupby(_race_key)["_p"].transform("sum")
+    # Scale factor maps the surviving field's prob mass onto VIG.
+    _adj_prob = _mlprob * (VIG / _race_sum)
+    # Clamp to (0, 0.99] so a tiny post-scratch field can't yield prob >= 1
+    # (which would give zero/negative odds).
+    _adj_prob = _adj_prob.clip(lower=1e-6, upper=0.99)
+    df["MornOddsAdj"] = (1.0 / _adj_prob) - 1.0
+    # Where the race had no usable ML at all, fall back to the raw value.
+    df["MornOddsAdj"] = df["MornOddsAdj"].where(_race_sum > 0, df["MornOdds"])
 
     # po variants
     df["po"]   = df["pred_odds"]

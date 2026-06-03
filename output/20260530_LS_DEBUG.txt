@@ -1,0 +1,53 @@
+=== DTS Pipeline Debug (LS 20260530) ===
+
+[Step 1] After apply_scratches:
+  df rows: 84
+  per-race counts: {1: 8, 2: 7, 3: 7, 4: 8, 5: 8, 6: 6, 7: 12, 8: 8, 9: 8, 10: 12}
+  scratches dropped: 6
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 84
+  per-race counts: {1: 8, 2: 7, 3: 7, 4: 8, 5: 8, 6: 6, 7: 12, 8: 8, 9: 8, 10: 12}
+  baseprob2 per race: {1: 0.125, 2: 0.14285714285714285, 3: 0.14285714285714285, 4: 0.125, 5: 0.125, 6: 0.16666666666666666, 7: 0.08333333333333333, 8: 0.125, 9: 0.125, 10: 0.08333333333333333}
+  NumOfEntries per race: {1: 8, 2: 7, 3: 7, 4: 8, 5: 8, 6: 6, 7: 12, 8: 8, 9: 8, 10: 12}
+  HorsesRan per race: {1: 8, 2: 7, 3: 7, 4: 8, 5: 8, 6: 6, 7: 12, 8: 8, 9: 8, 10: 12}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 84
+  Race 10 rows: 12
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'DTSOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+        HorseName  predicted  norm_predprob  ProbToWin  DTSOdds  baseprob2  HorsesRan  NumOfEntries
+   CARLY'S SHANCE   0.075385       0.067685   0.067685     11.0   0.083333         12            12
+    PRONUNCIATION   0.160826       0.144398   0.144398      4.5   0.083333         12            12
+CODE OF THE SOUTH   0.117845       0.105808   0.105808      7.0   0.083333         12            12
+  STRIKE THE BELL   0.117482       0.105482   0.105482      7.0   0.083333         12            12
+  WILDEST PROBLEM   0.039621       0.035574   0.035574     22.0   0.083333         12            12
+    TOPIC THUNDER   0.149557       0.134281   0.134281      5.0   0.083333         12            12
+   SHE'S A READER   0.092661       0.083197   0.083197      9.0   0.083333         12            12
+    TIMELESS LOVE   0.168719       0.151485   0.151485      4.5   0.083333         12            12
+       LASKO LADY   0.040791       0.036624   0.036624     22.0   0.083333         12            12
+   GOLDEN PELICAN   0.058239       0.052290   0.052290     15.0   0.083333         12            12
+            TODDY   0.018140       0.016287   0.016287     50.0   0.083333         12            12
+  GOLD MAKIN GIRL   0.074499       0.066889   0.066889     11.0   0.083333         12            12
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 12
+        HorseName                              why_like_1                             why_like_2                                why_like_3                                    why_fade_1                               why_fade_2                               why_fade_3
+   CARLY'S SHANCE                Quality earnings profile                  Battle-tested veteran       Post position sets her up perfectly                    Works rank near the bottom                              Cold jockey  Small fields have been her comfort zone
+    PRONUNCIATION                    Born to run on grass                Favorable post position               Presser style fits the pace Didn't cost much as a yearling — and it shows             Gets outfigured at this oval                  Lightly raced — unknown
+CODE OF THE SOUTH              Owns this track on numbers                        Drew well today           Last work was right on schedule          Big field is a step into the unknown               Turf has not been her game              Faces an uncomfortable trip
+  STRIKE THE BELL        Was running at the end last time           Heavy hitters in the corners         Running style made for this setup           Numbers say she'd rather be on dirt        Budget purchase in a pricey field                  Modest earnings profile
+  WILDEST PROBLEM     Has seen it all — experience counts                   Well-timed last work       Post position sets her up perfectly                           Mostly small fields                  Rider has gone ice cold                Running style fights pace
+    TOPIC THUNDER            The speed figure leader here                Has earned her way here Cost a fortune — now here to earn it back                     Style is a mismatch today Connections haven't been getting it done      Track has been tough for this rider
+   SHE'S A READER            Short rest has worked before              Bankroll says she can run                 Will be in the right spot                      Light connection profile      Stuck on the outside — extra ground                     Prefers off the lawn
+    TIMELESS LOVE Deep pockets and sharp eyes backing her           Closed into the stretch well             Fastest at this oval — period           Training tab doesn't grade out well       Oval hasn't been kind to this jock           Wide draw will cost her ground
+       LASKO LADY             Well-placed off recent race Expensive yearling — class is in there          Turf is clearly her best surface                   Faces an uncomfortable trip                   Tough draw to overcome                     Connections lack pop
+   GOLDEN PELICAN                      Genuine turf horse               Wins at today's distance                         Power connections           Jockey not getting them home lately                Running style fights pace      Stuck on the outside — extra ground
+            TODDY          Grizzled veteran knows the job            Presser style fits the pace                   Seasoned in full fields                    Turf has not been her game                    Modest yearling value Connections haven't been getting it done
+  GOLD MAKIN GIRL                   Figures point her way                   Born to run on grass               Jockey cashes at this track Didn't cost much as a yearling — and it shows                Style is a mismatch today                    Distance is uncharted
+

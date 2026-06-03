@@ -1,0 +1,43 @@
+=== DTS Pipeline Debug (CD 20260530) ===
+
+[Step 1] After apply_scratches:
+  df rows: 82
+  per-race counts: {1: 6, 2: 7, 3: 8, 4: 10, 5: 8, 6: 7, 7: 7, 8: 6, 9: 7, 10: 7, 11: 9}
+  scratches dropped: 17
+  scratches unmatched: 0
+[Step 2] After engineer_features:
+  feature_df rows: 82
+  per-race counts: {1: 6, 2: 7, 3: 8, 4: 10, 5: 8, 6: 7, 7: 7, 8: 6, 9: 7, 10: 7, 11: 9}
+  baseprob2 per race: {1: 0.16666666666666666, 2: 0.14285714285714285, 3: 0.125, 4: 0.1, 5: 0.125, 6: 0.14285714285714285, 7: 0.14285714285714285, 8: 0.16666666666666666, 9: 0.14285714285714285, 10: 0.14285714285714285, 11: 0.1111111111111111}
+  NumOfEntries per race: {1: 6, 2: 7, 3: 8, 4: 10, 5: 8, 6: 7, 7: 7, 8: 6, 9: 7, 10: 7, 11: 9}
+  HorsesRan per race: {1: 6, 2: 7, 3: 8, 4: 10, 5: 8, 6: 7, 7: 7, 8: 6, 9: 7, 10: 7, 11: 9}
+
+[Step 3] Spot check Race 10 OUTFIELDER raw features:
+  OUTFIELDER not found in feature_df Race 10
+
+[Step 4] After score_run_scoring (Race 10):
+  scored_df rows total: 82
+  Race 10 rows: 7
+  columns shown: ['HorseName', 'predicted', 'norm_predprob', 'ProbToWin', 'DTSOdds', 'baseprob2', 'HorsesRan', 'NumOfEntries']
+    HorseName  predicted  norm_predprob  ProbToWin  DTSOdds  baseprob2  HorsesRan  NumOfEntries
+RATTLE N ROLL   0.193022       0.193321   0.193321      3.5   0.142857          7             7
+ HALL OF FAME   0.190877       0.191172   0.191172      3.5   0.142857          7             7
+     HIT SHOW   0.299652       0.300115   0.300115      1.8   0.142857          7             7
+ CAPITAL IDEA   0.045998       0.046069   0.046069     17.0   0.142857          7             7
+      WHO DEY   0.073457       0.073571   0.073571     10.0   0.142857          7             7
+ ORIGINAL SIN   0.135953       0.136163   0.136163      5.0   0.142857          7             7
+ LIBERAL ARTS   0.059497       0.059589   0.059589     13.0   0.142857          7             7
+
+[Step 5] feature_df Race 10 OUTFIELDER full feature row at scoring time:
+
+[Step 6] After add_attributions (Race 10):
+  Race 10 rows: 7
+    HorseName                                 why_like_1                          why_like_2                  why_like_3                               why_fade_1                       why_fade_2                                  why_fade_3
+RATTLE N ROLL                     Elite lifetime figures             Productive year to date     Hot trainer at the meet             Thin record leaves questions             Age may factor today                                            
+ HALL OF FAME                  Barn is on fire right now            Simply the fastest horse      Barn and rider in sync                          Solo works only               Quiet year to date                                            
+     HIT SHOW          Has been cashing checks this year      Career-best form is right here    Don't fight this shedrow  Has only worked alone — company unknown We don't know much about her yet Time takes its toll — she may be feeling it
+ CAPITAL IDEA    Age and experience working in her favor Has seen it all — experience counts                                                 Lighter turf booking          No company in her works    Shedrow hasn't found the winner's circle
+      WHO DEY Working with horses around her — good sign      Grizzled veteran knows the job             Peak racing age               Not known as a grass rider          Partnership needs a win                 Gets left flat-footed early
+ ORIGINAL SIN                         Right in her prime               Battle-tested veteran Company works say she's fit            Jockey less effective on turf          Barn and rider off sync  Hasn't found the winner's circle this year
+ LIBERAL ARTS    Age and experience working in her favor Has seen it all — experience counts                             Trainer and jock haven't been connecting             Lighter turf booking                             Solo works only
+
