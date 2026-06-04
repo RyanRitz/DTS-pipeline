@@ -21,7 +21,7 @@ cd /d "%~dp0"
 echo [%date% %time%] update_and_run: pulling origin/main >> update.log
 git pull origin main >> update.log 2>&1
 if %ERRORLEVEL% NEQ 0 (
-    echo [%date% %time%] WARNING: git pull failed (exit %ERRORLEVEL%) -- running existing code >> update.log
+    echo [%date% %time%] WARNING: git pull failed - running existing code anyway >> update.log
 ) else (
     echo [%date% %time%] git pull OK >> update.log
 )
