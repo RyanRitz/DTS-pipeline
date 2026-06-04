@@ -45,7 +45,7 @@
   </Settings>
   <Actions Context="Author">
     <Exec>
-      <Command>C:\Users\ryanr\Documents\BTSM\FullAutomation\run_pipeline.bat</Command>
+      <Command>C:\Users\ryanr\Documents\BTSM\FullAutomation\update_and_run.bat</Command>
       <WorkingDirectory>C:\Users\ryanr\Documents\BTSM\FullAutomation</WorkingDirectory>
     </Exec>
   </Actions>
