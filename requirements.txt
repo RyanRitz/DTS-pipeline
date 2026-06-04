@@ -1,0 +1,20 @@
+# BTSM / Down The Stretch pipeline — Python dependencies
+# Generated from imports across the repo's .py files.
+# Install with:  pip install -r requirements.txt
+
+# Browser automation (Brisnet downloader)
+selenium
+webdriver-manager
+playwright
+
+# HTTP
+requests
+
+# Data / modeling
+pandas
+numpy
+openpyxl
+pyreadstat
+
+# Feeds
+feedparser

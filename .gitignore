@@ -24,6 +24,16 @@ pipeline_state.json
 pipeline_state.json.bak
 *.bak
 
+# ===== Generated data & outputs (regenerated each run — keep OUT of Git) =====
+# Tracking these made every run dirty hundreds of files and broke `git pull`
+# auto-deploy. coefficients/ is intentionally NOT ignored — those are model
+# inputs the pipeline needs to run.
+DRF_Downloads/
+raw_data/
+output/
+logs/
+pipeline/
+
 # ===== Nested web app — has its own git repo & remote, keep it out of this one =====
 dts-web/
 

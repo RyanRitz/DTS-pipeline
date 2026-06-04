@@ -215,14 +215,21 @@ def ensure_profile_copy() -> Path:
     src = Path(CHROME_LIVE_PROFILE)
     dst = CHROME_PROFILE_COPY / "Default"
 
-    if dst.exists():
-        log.info(f"[*] Reusing existing profile copy at {CHROME_PROFILE_COPY}")
-        return CHROME_PROFILE_COPY
+    # Always rebuild the profile copy fresh. Reusing a prior copy can leave
+    # Chrome lock / Preferences files in a state that triggers
+    # "session not created: failed to write prefs file" on the next launch
+    # (seen on machines where the live Chrome profile is sparse or rarely
+    # used). The copy is small and fast, and the downloader logs in via
+    # .env credentials each run anyway, so a fresh profile every run is the
+    # reliable choice for unattended/scheduled operation.
+    if CHROME_PROFILE_COPY.exists():
+        log.info(f"[*] Removing stale profile copy at {CHROME_PROFILE_COPY}")
+        shutil.rmtree(CHROME_PROFILE_COPY, ignore_errors=True)
 
     if not src.exists():
         raise FileNotFoundError(f"Live Chrome profile not found: {src}")
 
-    log.info(f"[*] Copying Chrome profile (one-time, ~30-60 sec)...")
+    log.info(f"[*] Copying Chrome profile (fresh each run)...")
     log.info(f"    From: {src}")
     log.info(f"    To:   {dst}")
     dst.parent.mkdir(parents=True, exist_ok=True)
@@ -613,6 +620,31 @@ def _list_partial_downloads() -> set[Path]:
            {p for p in OUTPUT_DIR.glob("*.tmp")}
 
 
+def _sweep_stale_partials() -> None:
+    """
+    Delete any leftover .crdownload/.tmp partials before a run starts.
+
+    A single stuck partial (e.g. left behind when a download returned an
+    HTML error blob instead of a file) makes _wait_for_new_file() block on
+    every subsequent download: it never returns while any partial exists,
+    so each download silently times out and gets mislabeled NOT READY --
+    even finalized cards that actually downloaded fine. Sweeping them at
+    startup makes the unattended/scheduled run self-healing.
+    """
+    stale = _list_partial_downloads()
+    if not stale:
+        return
+    removed = 0
+    for p in stale:
+        try:
+            p.unlink()
+            removed += 1
+            log.info(f"[*] Swept stale partial: {p.name}")
+        except Exception as e:
+            log.warning(f"    could not remove stale partial {p.name}: {e}")
+    log.info(f"[*] Cleared {removed} stale partial download(s) before run")
+
+
 def _wait_for_new_file(before: set[Path], timeout: int = 30) -> Path | None:
     """Wait for a new (non-partial) file to appear in OUTPUT_DIR."""
     end = time.time() + timeout
@@ -783,6 +815,10 @@ def main():
         return
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Clear any stuck partial downloads from a prior run so they don't
+    # poison _wait_for_new_file() and cause false NOT_READY results.
+    _sweep_stale_partials()
 
     driver = get_driver()
     try:

@@ -11,8 +11,11 @@ FOR /F "tokens=1,2 delims==" %%A IN (
     "%~dp0.env"
 ) DO SET %%A=%%B
 
+REM Use the project venv interpreter (locked versions + weasyprint), not global python.
+set "PY=%~dp0.venv\Scripts\python.exe"
+
 REM Run the downloader
-python "%~dp0brisnet_download.py" ^
+"%PY%" "%~dp0brisnet_download.py" ^
     --days 4 ^
     --out  "C:\Users\ryanr\Documents\BTSM\FullAutomation\raw_data"
 

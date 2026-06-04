@@ -22,8 +22,11 @@ setlocal
 REM Move to the script's directory so relative paths in .env work
 cd /D "%~dp0"
 
+REM Use the project venv interpreter (locked versions + weasyprint), not global python.
+set "PY=%~dp0.venv\Scripts\python.exe"
+
 REM Run the cleanup
-python cleanup_dts.py
+"%PY%" cleanup_dts.py
 set RC=%ERRORLEVEL%
 
 REM ── Catastrophic-failure path ─────────────────────────────
@@ -36,8 +39,8 @@ IF %RC% GEQ 2 (
     REM Try to send a wrapper alert. notify.py is the same module
     REM cleanup_dts.py uses, but we call it directly here in case
     REM cleanup_dts.py was the thing that crashed.
-    python notify.py "DTS cleanup wrapper FAILED (exit %RC%)" ^
-        "run_cleanup.bat exited with code %RC%. This means cleanup_dts.py could not run at all — typically Python is missing from PATH, a dependency failed to import, or the script file is missing. The cleanup did NOT happen today. Check Task Scheduler history and run `python cleanup_dts.py` manually to diagnose."
+    "%PY%" notify.py "DTS cleanup wrapper FAILED (exit %RC%)" ^
+        "run_cleanup.bat exited with code %RC%. This means cleanup_dts.py could not run at all — typically Python is missing from PATH, a dependency failed to import, or the script file is missing. The cleanup did NOT happen today. Check Task Scheduler history and run `.venv\Scripts\python.exe cleanup_dts.py` manually to diagnose."
 
     exit /b %RC%
 )
