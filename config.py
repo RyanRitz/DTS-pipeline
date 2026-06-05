@@ -169,6 +169,7 @@ DTS_TRACK_WHITELIST: set[str] | None = {
     "CNL",              # Colonial Downs
     "PRM",              # Prairie Meadows
     "TP",  "TPX",       # Turfway Park
+    "CBY",              # Canterbury Park
 }
 
 # =============================================================================
@@ -220,5 +221,4 @@ MAIDEN_MODELS = {
 SCORE_WEIGHTS = {
     "score1": 0.50,   # dirt/maiden core models
     "score2": 0.25,   # maiden sprint/route
-    "score3": 0.25,   # turf + dirt sprint/route
-}
+    "scor
