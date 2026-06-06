@@ -681,12 +681,16 @@ def _compute_ix_variables(df: pd.DataFrame) -> pd.DataFrame:
         raw = df[col]
         ave = df[ave_col]
 
-        # Convert datetime to numeric (days since SAS epoch 1960-01-01)
-        # SAS date serial = days since Jan 1 1960
+        # Convert datetime to numeric (days since SAS epoch 1960-01-01).
+        # SAS date serial = days since Jan 1 1960. Use FRACTIONAL days (divide by
+        # a 1-day Timedelta) rather than .dt.days, which floors: the race mean
+        # (ave) is a fractional date, and flooring it shifts x{date} by up to a
+        # full day and flips threshold tests like xwrkdate>=30.
         if pd.api.types.is_datetime64_any_dtype(raw):
             sas_epoch = pd.Timestamp('1960-01-01')
-            raw = (raw - sas_epoch).dt.days.astype(float)
-            ave = (ave - sas_epoch).dt.days.astype(float) if pd.api.types.is_datetime64_any_dtype(ave) else ave
+            raw = (raw - sas_epoch) / pd.Timedelta(days=1)
+            ave = ((ave - sas_epoch) / pd.Timedelta(days=1)
+                   if pd.api.types.is_datetime64_any_dtype(ave) else ave)
 
         # I-prefix: ratio (default 1 when avg is 0 or missing)
         df[i_col] = np.where(

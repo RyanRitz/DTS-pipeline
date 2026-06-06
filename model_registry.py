@@ -46,6 +46,14 @@ class _Family:
     maiden_models: dict
     score_weights: dict
     coeff_dir:     Path
+    # Optional family-specific dirt ensemble composition.
+    #   dirt_ensemble : list of (model_key, filter_name) — see score._score_dirt.
+    #                   None => legacy [c,n,s,r] blend (no core).
+    #   dirt_ny_model : model_key scoring NY-bred-restricted races alone.
+    dirt_ensemble: Optional[list] = None
+    dirt_ny_model: Optional[str] = None
+    # Dirt-scoring variable swaps. None => legacy KEE swap; {} => none (SAR).
+    dirt_var_overrides: Optional[dict] = None
 
 
 @dataclass
@@ -65,6 +73,11 @@ class ScoringConfig:
     MAIDEN_MODELS: dict
     SCORE_WEIGHTS: dict
     COEFF_DIR:     Path
+
+    # Family-specific dirt ensemble composition (None => legacy c/n/s/r blend)
+    DIRT_ENSEMBLE: Optional[list] = None
+    DIRT_NY_MODEL: Optional[str] = None
+    DIRT_VAR_OVERRIDES: Optional[dict] = None
 
     # Reference to the underlying real config module for pass-through access
     _underlying: Any = None
@@ -97,6 +110,9 @@ def register_family(
     score_weights: dict,
     coeff_dir,
     set_as_default: bool = False,
+    dirt_ensemble: Optional[list] = None,
+    dirt_ny_model: Optional[str] = None,
+    dirt_var_overrides: Optional[dict] = None,
 ) -> None:
     """
     Register a model family.
@@ -124,6 +140,9 @@ def register_family(
         maiden_models=dict(maiden_models),
         score_weights=dict(score_weights),
         coeff_dir=Path(coeff_dir),
+        dirt_ensemble=dirt_ensemble,
+        dirt_ny_model=dirt_ny_model,
+        dirt_var_overrides=dirt_var_overrides,
     )
     if set_as_default or _DEFAULT_FAMILY is None:
         _DEFAULT_FAMILY = name
@@ -173,6 +192,9 @@ def get_scoring_models(track: str, underlying_config: Any) -> ScoringConfig:
         MAIDEN_MODELS=fam.maiden_models,
         SCORE_WEIGHTS=fam.score_weights,
         COEFF_DIR=fam.coeff_dir,
+        DIRT_ENSEMBLE=fam.dirt_ensemble,
+        DIRT_NY_MODEL=fam.dirt_ny_model,
+        DIRT_VAR_OVERRIDES=fam.dirt_var_overrides,
         _underlying=underlying_config,
     )
 

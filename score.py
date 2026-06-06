@@ -75,45 +75,113 @@ def run_scoring(df: pd.DataFrame, coeff_dir: str | Path, config) -> pd.DataFrame
 # Segment scoring
 # =============================================================================
 
+def _dirt_ny_restricted(df: pd.DataFrame) -> pd.Series:
+    """
+    Race-level NY-bred-restricted flag.  True for every horse in a race whose
+    RaceConditions1 text mentions "NEW YORK" — matching the SAS
+    index(res_condition1,"NEW YORK") test used to fit the Saratoga NY model.
+    RaceConditions1 is stamped on only one row per race, so the per-row hit is
+    propagated to all rows in the race via groupby-any.  If the column is
+    absent, the flag is all-False (NY routing is simply inactive).
+    """
+    rc = (df.get("RaceConditions1", pd.Series("", index=df.index))
+            .fillna("").astype(str).str.upper())
+    has_ny = rc.str.contains("NEW YORK", regex=False).astype(int)
+    grp = [df.get(c, pd.Series("", index=df.index)) for c in ["Track", "Date", "Race"]]
+    # propagate to all rows in the race (max of 0/1 == "any"), robust across pandas versions
+    return has_ny.groupby(grp).transform("max").astype(bool)
+
+
 def _score_dirt(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
-    """Score all dirt non-maiden races — 4 models: c, n, s, r."""
-    results = []
+    """
+    Score all dirt non-maiden races.
 
-    # Model definitions: (key, filter_fn, output_col)
-    dirt_c = lambda d: _filter(d, surf="D", maiden=False, clm=True)
-    dirt_n = lambda d: _filter(d, surf="D", maiden=False, clm=False)
-    dirt_s = lambda d: _filter(d, surf="D", maiden=False, sprint=True)
-    dirt_r = lambda d: _filter(d, surf="D", maiden=False, sprint=False)
+    The ensemble composition is FAMILY-CONFIGURABLE via config.DIRT_ENSEMBLE,
+    a list of (model_key, filter_name) pairs.  When a family declares nothing
+    (e.g. KEE), it defaults to the legacy [c, n, s, r] blend with no core —
+    so existing families score exactly as before.
 
-    models = [
-        ("c", dirt_c, "res_markerc"),
-        ("n", dirt_n, "res_markern"),
-        ("s", dirt_s, "res_markers"),
-        ("r", dirt_r, "res_markerr"),
-    ]
+      filter_name -> subset
+        all       : every dirt non-maiden horse        (the "core" model)
+        claim     : claiming       (clm=True)
+        nonclaim  : non-claiming   (clm=False)
+        sprint    : sprint         (sprint=True)
+        route     : route          (sprint=False)
+
+    config.DIRT_NY_MODEL (optional): a model key whose coefficient file scores
+    NY-bred-restricted races ALONE, bypassing the ensemble — replicating the
+    SAS Saratoga build (predicted = predictedcoreNY for NY races).  Because the
+    ensemble = mean of whichever sub-models scored a horse, restricting the
+    ensemble components to non-NY races and scoring NY races only with the NY
+    model makes NY horses collapse to the NY prediction automatically.
+    """
+    spec = getattr(config, "DIRT_ENSEMBLE", None) or [
+        ("c", "claim"), ("n", "nonclaim"), ("s", "sprint"), ("r", "route")]
+    ny_key = getattr(config, "DIRT_NY_MODEL", None)
+
+    filters = {
+        "all":      lambda d: _filter(d, surf="D", maiden=False),
+        "claim":    lambda d: _filter(d, surf="D", maiden=False, clm=True),
+        "nonclaim": lambda d: _filter(d, surf="D", maiden=False, clm=False),
+        "sprint":   lambda d: _filter(d, surf="D", maiden=False, sprint=True),
+        "route":    lambda d: _filter(d, surf="D", maiden=False, sprint=False),
+    }
+
+    ny_mask = (_dirt_ny_restricted(df) if ny_key
+               else pd.Series(False, index=df.index))
+
+    # dirt-specific variable swaps. Default (KEE) replaces trnwcm_sart / jckcm2_sarm
+    # with their dirt-std variants. A family can override with its own dict (or {}
+    # for none) via config.DIRT_VAR_OVERRIDES — SAR uses {} because its models were
+    # built on the plain (general-std) trnwcm_sart.
+    overrides = getattr(config, "DIRT_VAR_OVERRIDES", None)
+    if overrides is None:
+        overrides = {"trnwcm_sart": "trnwcm_sart_tempdirt",
+                     "jckcm2_sarm": "jckcm2_sarm_DIRT"}
+
+    def _dirt_overrides(subset):
+        for target, source in overrides.items():
+            if source in df.columns:
+                subset[target] = subset.get(source, np.nan)
+        return subset
 
     scored_parts = {}
-    for key, filter_fn, output_col in models:
-        coeff_file = coeff_dir / config.DIRT_MODELS.get(key, "")
-        if not coeff_file.exists():
+    marker_map = []
+
+    # Ensemble components (restricted to non-NY races when NY routing is on)
+    for key, fname in spec:
+        fn = filters.get(fname)
+        if fn is None:
+            logger.warning(f"  Unknown dirt filter '{fname}' for model '{key}' — skipped")
+            continue
+        coeff_name = config.DIRT_MODELS.get(key, "")
+        coeff_file = coeff_dir / coeff_name
+        if not coeff_name or not coeff_file.exists():
             logger.warning(f"  Dirt model '{key}' coefficient file not found: {coeff_file}")
             continue
-        subset = filter_fn(df).copy()
-        # Apply dirt-specific variable overrides
-        if "trnwcm_sart_tempdirt" in df.columns:
-            subset["trnwcm_sart"] = subset.get("trnwcm_sart_tempdirt", np.nan)
-        if "jckcm2_sarm_DIRT" in df.columns:
-            subset["jckcm2_sarm"] = subset.get("jckcm2_sarm_DIRT", np.nan)
+        subset = fn(df).copy()
+        if ny_key:
+            subset = subset.loc[~ny_mask.reindex(subset.index).fillna(False)]
+        subset = _dirt_overrides(subset)
+        scored_parts[key] = _proc_score(subset, coeff_file, f"res_marker{key}")
+        marker_map.append((key, f"res_marker{key}", f"predicted{key}"))
 
-        scored = _proc_score(subset, coeff_file, output_col)
-        scored_parts[key] = scored
+    # NY-bred-restricted races -> scored by the NY model ALONE
+    if ny_key:
+        coeff_name = config.DIRT_MODELS.get(ny_key, "")
+        coeff_file = coeff_dir / coeff_name
+        if coeff_name and coeff_file.exists():
+            subset = _filter(df, surf="D", maiden=False).copy()
+            subset = subset.loc[ny_mask.reindex(subset.index).fillna(False)]
+            if len(subset):
+                subset = _dirt_overrides(subset)
+                scored_parts[ny_key] = _proc_score(subset, coeff_file, f"res_marker{ny_key}")
+                marker_map.append((ny_key, f"res_marker{ny_key}", f"predicted{ny_key}"))
+        else:
+            logger.warning(f"  Dirt NY model '{ny_key}' coefficient file not found: {coeff_file}")
 
-    return _merge_scored_parts(scored_parts, df, [
-        ("c", "res_markerc", "predictedc"),
-        ("n", "res_markern", "predictedn"),
-        ("s", "res_markers", "predicteds"),
-        ("r", "res_markerr", "predictedr"),
-    ], ensemble_col="predicted", model_id=1)
+    return _merge_scored_parts(scored_parts, df, marker_map,
+                                ensemble_col="predicted", model_id=1)
 
 
 def _score_turf(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:

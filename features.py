@@ -98,8 +98,12 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
             raw = df[_col]
             ave = df[_ave]
             if _is_dt:
-                raw = (raw - SAS_EPOCH).dt.days.astype(float)
-                ave = (ave - SAS_EPOCH).dt.days.astype(float) if pd.api.types.is_datetime64_any_dtype(ave) else ave
+                # fractional days (not .dt.days, which floors and drops the
+                # fractional part of the race mean — that shift flips
+                # threshold tests like xwrkdate>=30 by up to a full day)
+                raw = (raw - SAS_EPOCH) / pd.Timedelta(days=1)
+                ave = ((ave - SAS_EPOCH) / pd.Timedelta(days=1)
+                       if pd.api.types.is_datetime64_any_dtype(ave) else ave)
             df[_icol] = np.where(ave.isna()|(ave==0), 1.0, np.where(raw.isna(), np.nan, raw/ave))
             df[_xcol] = np.where(ave.isna()|raw.isna(), np.nan, raw-ave)
 

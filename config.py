@@ -221,4 +221,5 @@ MAIDEN_MODELS = {
 SCORE_WEIGHTS = {
     "score1": 0.50,   # dirt/maiden core models
     "score2": 0.25,   # maiden sprint/route
-    "scor
+    "score3": 0.25,   # turf + dirt sprint/route
+}

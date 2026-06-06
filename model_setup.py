@@ -55,29 +55,42 @@ def setup_registry(config) -> None:
     # with real filenames, drop the .sas7bdat files into the matching
     # subdirectory under config.COEFF_DIR, and uncomment the block.
 
-    # ── Saratoga (NYRA summer meet) ───────────────────────────────────────
-    # register_family(
-    #     "SAR",
-    #     dirt_models={
-    #         "c": "sardirt072026c.sas7bdat",
-    #         "n": "sardirt072026n.sas7bdat",
-    #         "s": "sardirt072026s.sas7bdat",
-    #         "r": "sardirt072026r.sas7bdat",
-    #     },
-    #     turf_models={
-    #         "s":  "sarturf072026s.sas7bdat",
-    #         "r":  "sarturf072026r.sas7bdat",
-    #         "hp": "sarturf072026hp.sas7bdat",
-    #         "lp": "sarturf072026lp.sas7bdat",
-    #     },
-    #     maiden_models={
-    #         # 1: "sar_maid_0726_spst.sas7bdat",
-    #         # ... fill in as built
-    #     },
-    #     score_weights={"score1": 0.50, "score2": 0.25, "score3": 0.25},
-    #     coeff_dir=Path(config.COEFF_DIR) / "SAR",
-    # )
-    # register_track("SAR", "SAR")
+    # ── Saratoga (NYRA summer meet) — DIRT v1 (2026) ──────────────────────
+    # Dirt scores on the SAR family: a [core + claim/nonclaim + sprint/route]
+    # ensemble, with NY-bred-restricted races routed to the core_ny model alone
+    # (see score._score_dirt / config.DIRT_ENSEMBLE / DIRT_NY_MODEL).
+    # Turf & maiden are NOT built yet -> they fall back to the KEE universal
+    # models, so SAR turf/maiden races still score (on KEE) until those SAR
+    # families are added.  All coefficient files (SAR dirt + KEE turf/maiden)
+    # live in COEFF_DIR root.
+    register_family(
+        "SAR",
+        dirt_models={
+            "core":    "sardirt2026_core.sas7bdat",
+            "core_ny": "sardirt2026_core_ny.sas7bdat",
+            "c":       "sardirt2026c.sas7bdat",
+            "n":       "sardirt2026n.sas7bdat",
+            "s":       "sardirt2026s.sas7bdat",
+            "r":       "sardirt2026r.sas7bdat",
+        },
+        dirt_ensemble=[
+            ("core", "all"),
+            ("c",    "claim"),
+            ("n",    "nonclaim"),
+            ("s",    "sprint"),
+            ("r",    "route"),
+        ],
+        dirt_ny_model="core_ny",
+        # SAR models were built on the plain trnwcm_sart (general meet-std),
+        # so skip the KEE dirt-std swap.
+        dirt_var_overrides={},
+        # Turf & maiden fall back to KEE until SAR versions are built.
+        turf_models=dict(config.TURF_MODELS),
+        maiden_models=dict(config.MAIDEN_MODELS),
+        score_weights=dict(config.SCORE_WEIGHTS),
+        coeff_dir=Path(config.COEFF_DIR),
+    )
+    register_track("SAR", "SAR")
 
     # ── Churchill Downs ───────────────────────────────────────────────────
     # register_family(

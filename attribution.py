@@ -601,8 +601,12 @@ def _load_coefficient_sets(config, coeff_dir: Path, available_columns) -> dict:
 
     out = {1: {}, 2: {}, 3: {}}
 
-    # Dirt
-    for sub_key in DIRT_SUBMODELS:
+    # Dirt — load every model key the family declares, not just the legacy
+    # c/n/s/r.  KEE => c/n/s/r; SAR => core/core_ny/c/n/s/r; future families
+    # may add purse splits etc.  The per-horse firing logic keys off the
+    # predicted{sub_key} columns score.py emits, so whatever loads here is
+    # blended exactly as the ensemble was (incl. NY races -> core_ny alone).
+    for sub_key in getattr(config, "DIRT_MODELS", {}):
         fname = getattr(config, "DIRT_MODELS", {}).get(sub_key)
         if fname:
             coefs = _read_one(fname)

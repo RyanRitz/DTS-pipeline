@@ -308,6 +308,21 @@ def _sard_vars(df: pd.DataFrame) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 
 def _keeod_vars(df: pd.DataFrame) -> pd.DataFrame:
+    # Components of TrainerKEEOct17 — these were referenced below but never
+    # built, so TrainerKEEOct17 was always 0.  SAS scoring (~lines 1244-1253):
+    #   xtran_wpct_50ckeeod = clip(xtran_wpct_50, -13, 13)  (NaN if source NaN)
+    #   xtran_wpct_55ckeeod = clip(xtran_wpct_55, -13, 13)  (NaN if source NaN)
+    #   xks_w_winpctakeeod  = clip(xKS_w_winpct->0 if missing, -0.15, 0.15)
+    #   kswpct_100keeod     = xks_w_winpctakeeod * 100
+    # (race_norm builds the centered source as xKS_w_winpct — capital KS.)
+    x50 = _g(df, "xtran_wpct_50", np.nan)
+    df["xtran_wpct_50ckeeod"] = np.where(x50.notna(), x50.clip(-13, 13), np.nan)
+    x55 = _g(df, "xtran_wpct_55", np.nan)
+    df["xtran_wpct_55ckeeod"] = np.where(x55.notna(), x55.clip(-13, 13), np.nan)
+    xksw_kee = _clip(_g(df, "xKS_w_winpct", np.nan).fillna(0), -0.15, 0.15)
+    df["xks_w_winpctakeeod"] = xksw_kee
+    df["kswpct_100keeod"]    = xksw_kee * 100
+
     # TrainerKEEOct17 — trainer route/sprint/AW composite
     cols = ["kswpct_100keeod", "xtran_wpct_50ckeeod", "xtran_wpct_55ckeeod"]
     existing = [c for c in cols if c in df.columns]
@@ -695,5 +710,53 @@ def _shared_final_vars(df: pd.DataFrame) -> pd.DataFrame:
     if "xR309c" not in df.columns:
         xr309 = _g(df, "xR309", np.nan)
         df["xR309c"] = np.where(xr309.notna(), _clip(xr309, -2, 5), np.nan)
+
+    # -----------------------------------------------------------------
+    # SAR dirt model inputs (also used by the current KEE APR26 build,
+    # so this re-syncs the KEE port too).  Definitions verified
+    # byte-for-byte identical in BTSM_SAR_DirtModel_2026.sas and
+    # BTSM_KEE_DirtModel_APR26_VF.sas.  All source columns
+    # (xDRFSpeedRating1, xr101109, IBRISTwofPaceFig1, xTrainerCurYrWPpct)
+    # are produced by race_normalize from race_norm_vars.txt — pure add.
+    # -----------------------------------------------------------------
+
+    # xdrfsp1m — DRF speed last race, race-centered, clipped ±10;
+    # zeroed when the race has <4 horses carrying a PPR (brisPPR_indr<4).
+    # SAS: if xDRFSpeedRating1=. or brisPPR_indr<4 then 0; else clip(±10)
+    if "xdrfsp1m" not in df.columns:
+        xdrf1m = _g(df, "xDRFSpeedRating1", np.nan)
+        bppr   = _g(df, "brisPPR_indr", 0).fillna(0)
+        df["xdrfsp1m"] = np.where(
+            xdrf1m.isna() | (bppr < 4), 0,
+            _clip(xdrf1m, -10, 10))
+
+    # jnt365_sarm — joint jockey-trainer 365-day combo (xr101109), race-centered.
+    # NOTE: distinct from jntWP365Ko25 (that one uses xr101109gt10, caps -0.15/0.30).
+    # SAS: if xr101109=. then -0.1; else clip(xr101109, -0.3, 0.3)
+    if "jnt365_sarm" not in df.columns:
+        xr101 = _g(df, "xr101109", np.nan)
+        df["jnt365_sarm"] = np.where(
+            xr101.isna(), -0.1,
+            _clip(xr101, -0.3, 0.3))
+
+    # twofurspd1 — early (2-furlong) pace-figure indicator, indexed.
+    # SAS: if IBRISTwofPaceFig1>=1 then 1; else 0
+    if "twofurspd1" not in df.columns:
+        ibtf = _g(df, "IBRISTwofPaceFig1", np.nan)
+        df["twofurspd1"] = np.where(ibtf >= 1, 1, 0)
+
+    # TrnCY_WPpct — trainer current-year W+P pct (TrainerCurYrWPpct),
+    # race-centered, missing -> 0.
+    # SAS: if xTrainerCurYrWPpct=. then 0; else xTrainerCurYrWPpct
+    if "TrnCY_WPpct" not in df.columns:
+        xtcy = _g(df, "xTrainerCurYrWPpct", np.nan)
+        df["TrnCY_WPpct"] = xtcy.fillna(0)
+
+    # iearningscyind — current-year earnings indicator (active in SAR sprint model;
+    # core/NC use the newer ieps_LTCYR26 instead).
+    # SAS: if IEarningsCurYearRec>1.3 then 1; else 0  (missing -> 0)
+    if "iearningscyind" not in df.columns:
+        iecyr = _g(df, "IEarningsCurYearRec", np.nan)
+        df["iearningscyind"] = np.where(iecyr > 1.3, 1, 0)
 
     return df
