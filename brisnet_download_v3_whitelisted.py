@@ -846,6 +846,37 @@ def main():
 
                 downloaded_file = download_via_browser(driver, url)
                 if downloaded_file:
+                    # Brisnet serves an HTML page (Chrome saves it as
+                    # downloads.htm) instead of a .DRF when a card isn't
+                    # posted yet. That's NOT_READY (expected for future
+                    # dates), not a rename failure -- detect the HTML blob,
+                    # delete it so it can't poison later runs, and skip.
+                    if downloaded_file.suffix.lower() in (".htm", ".html"):
+                        try:
+                            downloaded_file.unlink()
+                        except Exception:
+                            pass
+                        from datetime import date as _date
+                        try:
+                            race_dt = _date(int(date_str[:4]),
+                                            int(date_str[4:6]),
+                                            int(date_str[6:8]))
+                            days_out = (race_dt - _date.today()).days
+                        except Exception:
+                            days_out = 0
+                        log.info(
+                            f"  NOT READY (HTML page, not a DRF; race in "
+                            f"{days_out}d): {name} ({code}) {date_str} "
+                            f"— Brisnet likely hasn't posted this card yet"
+                        )
+                        failed += 1
+                        _record_failure(
+                            "NOT_READY",
+                            f"{name} ({code}) {date_str}: Brisnet returned an "
+                            f"HTML page instead of a DRF (card not yet "
+                            f"available, race in {days_out} days). URL: {url}",
+                        )
+                        continue
                     try:
                         if downloaded_file != target_path:
                             if target_path.exists():
