@@ -142,6 +142,7 @@ DTS_TRACK_WHITELIST: set[str] | None = {
     "OP",  "OPX",       # Oaklawn Park
     "DMR",              # Del Mar
     "AQU",              # Aqueduct
+    "BAQ",              # Belmont at the Big A (Belmont meet run at Aqueduct)
     "KEE",              # Keeneland
     "KD",               # Kentucky Downs
     "MTH",              # Monmouth Park
