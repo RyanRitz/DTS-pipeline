@@ -18,3 +18,7 @@ pyreadstat
 
 # Feeds
 feedparser
+
+# PDF rendering (pinned to 68.1 in requirements.lock.txt).
+# NOTE: on Windows this ALSO needs native GTK/Pango libs - see install-weasyprint-gtk.ps1
+weasyprint
