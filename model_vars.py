@@ -53,6 +53,7 @@ def build_model_vars(df: pd.DataFrame) -> pd.DataFrame:
     df = _sard_vars(df)
     df = _keeod_vars(df)
     df = _kta13_vars(df)
+    df = _sar_turf_v8_vars(df)
     df = _ko25_vars(df)
     df = _apr26_vars(df)
     df = _shared_final_vars(df)
@@ -374,6 +375,68 @@ def _kta13_vars(df: pd.DataFrame) -> pd.DataFrame:
 
     # LastWOatTT_kta13 — last workout at today's track ratio
     df["LastWOatTT_kta13"] = _g(df, "ILastWOatTT", 1.0).fillna(1.0)
+
+    return df
+
+
+# ---------------------------------------------------------------------------
+# SAR Turf v8 model vars (BTSM_SAR_Turf_2026.sas)
+# ---------------------------------------------------------------------------
+# The 10 turf-only inputs to the v8 hierarchical ensemble that were not already
+# produced by the dirt/KEE ports.  Each recode reads an upstream x-residual /
+# I-index column emitted by race_normalize (all confirmed present in
+# race_norm_vars.txt).  SAS line refs are from BTSM_SAR_Turf_2026.sas.
+# (xNYBred is already built in features.py; not repeated here.)
+
+def _sar_turf_v8_vars(df: pd.DataFrame) -> pd.DataFrame:
+    # eps4d_sard (SAS 1355/1666) — 4-part indexed EPS composite.
+    #   each part: NaN -> 1, then clip [0.2, 2.5]  (the _sard15 recode)
+    def _sard15(col):
+        v = _g(df, col, np.nan)
+        return np.where(v.isna(), 1.0, np.clip(v, 0.2, 2.5))
+    df["eps4d_sard"] = (_sard15("IEPS_LTDist") + _sard15("IEPS_LTTrack")
+                        + _sard15("IEPS_LTCyr") + _sard15("IEPS_LT"))
+
+    # TrnITMTurf (SAS 1987) — trainer turf ITM%, race-centered.
+    #   NaN -> 15, clip [-15, 15]
+    df["TrnITMTurf"] = _clip(_g(df, "xtran_itm_58", np.nan), -15, 15, fill=15)
+
+    # XjockeycypyW_dmrd (SAS 1084-1092) — jockey prior+current-year wins,
+    # each race-centered then clipped, rescaled and summed.
+    xjkycywdmr = _clip(_g(df, "xJockeyCurYrWins", np.nan), -100, 150, fill=0)
+    xjkypywdmr = _clip(_g(df, "xJockeyPrvYrWins", np.nan), -150, 200, fill=0)
+    df["XjockeycypyW_dmrd"] = (xjkypywdmr + 0.05) / 75.7 + (xjkycywdmr + 0.02) / 49.6
+
+    # xHBL4c (SAS 1901) — horses-beaten last 4, race-centered.  NaN -> 0, clip ±14
+    df["xHBL4c"] = _clip(_g(df, "xHBL4", np.nan), -14, 14, fill=0)
+
+    # ipurse16_kta13 (SAS 1925-1933) — mean of last-6 indexed purses, each
+    # clipped [0.25, 2.5].  SAS treats missing as < .25 (missing -> 0.25), so
+    # every element is filled to 0.25 and the nmiss=6 branch is dead code.
+    purse_parts = [_clip(_g(df, f"IPurse{i}", np.nan), 0.25, 2.5, fill=0.25)
+                   for i in range(1, 7)]
+    df["ipurse16_kta13"] = pd.concat(purse_parts, axis=1).mean(axis=1)
+
+    # xLTTurfWPpctSAR22 (SAS 1923) — lifetime turf WP%, race-centered.
+    #   NaN -> -0.35, clip ±0.35
+    df["xLTTurfWPpctSAR22"] = _clip(_g(df, "xLTturfRecWPpct", np.nan),
+                                    -0.35, 0.35, fill=-0.35)
+
+    # qsp_kta13 (SAS 1883) — Quirin speed points, indexed.  NaN -> 1, clip [0.5, 2.5]
+    df["qsp_kta13"] = _clip(_g(df, "IQuirinstyleSpeedPoints", np.nan),
+                            0.5, 2.5, fill=1.0)
+
+    # xTrainerCurMtWPSpctc (SAS 1910) — trainer current-meet WPS%, race-centered.
+    #   NaN -> 0, clip ±0.33
+    df["xTrainerCurMtWPSpctc"] = _clip(_g(df, "xTrainerCurMtWPSpct", np.nan),
+                                       -0.33, 0.33, fill=0)
+
+    # xDRFSPR2SAR (SAS 1950) — DRF speed 2nd-last race, race-centered.
+    #   NaN -> 6, clip ±18   (note the non-zero missing default)
+    df["xDRFSPR2SAR"] = _clip(_g(df, "xDRFSpeedRating2", np.nan), -18, 18, fill=6)
+
+    # EPS_SAR25 (SAS 1913) — current-year EPS, race-centered.  NaN -> 0, clip ±30000
+    df["EPS_SAR25"] = _clip(_g(df, "xEPS_LTCyr", np.nan), -30000, 30000, fill=0)
 
     return df
 

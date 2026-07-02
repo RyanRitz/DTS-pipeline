@@ -1273,7 +1273,9 @@ def generate_pdf(scoring_result: ScoringResult,
         work["_field_size"] = _field
         work["BestBet"] = work.apply(
             lambda r: _bestbet(r.get("DTSOdds"), _ml_adj(r),
-                               r.get("rank"), r.get("_field_size")), axis=1)
+                               r.get("rank"), r.get("_field_size"),
+                               r.get("RaceType"), r.get("Surface"), r.get("Track"),
+                               r.get("RaceConditions1")), axis=1)
     except Exception as e:
         log.warning(f"  generate_pdf: could not compose Comments: {e}")
         work["Comments"]  = ""

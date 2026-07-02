@@ -69,6 +69,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     # These weren't available during the first race_normalize pass.
     # ------------------------------------------------------------------
     _SUPPLEMENT_VARS = [
+        "tran_itm_58",                      # trainer turf-ITM% (Block 5) -> xtran_itm_58 feeds TrnITMTurf
         "r101109gt10", "r101109",          # jockey-trainer combo (Block 6)
         "TurfyLast5",                       # turf tendency (Block 3, PascalCase)
         "turffy_last5",                     # lowercase alias
@@ -463,10 +464,16 @@ def _block6_speed_slopes_indicators(df: pd.DataFrame) -> pd.DataFrame:
 
     # Horses beaten (L3, L4)
     for n, label in [(4, "L4"), (3, "L3")]:
-        ent_cols = [f"NumOfEntrants{i}" for i in range(1, n+1) if f"NumOfEntrants{i}" in df.columns]
-        fin_cols = [f"FinishPosition{i}" for i in range(1, n+1) if f"FinishPosition{i}" in df.columns]
-        fp_last  = f"FinishPosition{n}"
-        if fp_last in df.columns and len(ent_cols) == n and len(fin_cols) == n:
+        # Resolve names case-insensitively: the DRF schema uses
+        # 'Numofentrants#' / 'Finishposition#', not the 'NumOfEntrants#' /
+        # 'FinishPosition#' spelling this loop assumed — so HorsesBeatenL4/L3
+        # (and hence xHBL4 -> xHBL4c) were never built.
+        # SAS: horsesbeatenL4 = sum(numofentrants1-4) - sum(finishposition1-4).
+        _lc = {c.lower(): c for c in df.columns}
+        ent_cols = [_lc.get(f"numofentrants{i}") for i in range(1, n+1)]
+        fin_cols = [_lc.get(f"finishposition{i}") for i in range(1, n+1)]
+        fp_last  = _lc.get(f"finishposition{n}")
+        if fp_last and all(ent_cols) and all(fin_cols):
             valid = df[fp_last].notna()
             df[f"HorsesBeaten{label}"] = np.where(
                 valid,

@@ -185,7 +185,24 @@ def _score_dirt(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
 
 
 def _score_turf(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
-    """Score all turf non-maiden races — 4 models: s, r, hp, lp."""
+    """
+    Score all turf non-maiden races.
+
+    Two paths, selected by config.TURF_ENSEMBLE:
+      * None (KEE, default)  -> legacy flat 4-model blend (s/r/hp/lp). Unchanged.
+      * list of cells (SAR)  -> course x distance x class HIERARCHY, with the
+                                probabilities of whichever cells a horse
+                                qualifies for averaged (matches the SAS hcall
+                                mean), plus coreNY/NYr NY-bred routing.
+    """
+    ensemble = getattr(config, "TURF_ENSEMBLE", None)
+    if ensemble:
+        return _score_turf_hierarchy(df, coeff_dir, config, ensemble)
+    return _score_turf_legacy(df, coeff_dir, config)
+
+
+def _score_turf_legacy(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """Legacy KEE turf scorer — 4 models: s, r, hp, lp. Unchanged behaviour."""
     models = [
         ("s",  lambda d: _filter(d, surf="T", maiden=False, sprint=True),              "res_markers"),
         ("r",  lambda d: _filter(d, surf="T", maiden=False, sprint=False),             "res_markerr"),
@@ -209,6 +226,93 @@ def _score_turf(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
         ("hp", "res_markerehp", "predictedhp"),
         ("lp", "res_markerelp", "predictedlp"),
     ], ensemble_col="predicted", model_id=2)
+
+
+def _score_turf_hierarchy(df: pd.DataFrame, coeff_dir: Path, config,
+                          ensemble: list) -> pd.DataFrame:
+    """
+    SAR turf hierarchy. Each cell = (model_key, course, dist, cls):
+       course : 'i' inner ('t'), 'o' Mellon ('T'), or None (all turf)
+       dist   : 'sp' sprint (<=1540y), 'rt' route (>1540y), or None
+       cls    : 'cl' claiming (RaceType in C/CO), 'nc' non-claiming, or None
+    A horse's prediction is the mean of the sigmoid of every cell whose mask it
+    satisfies (NaN-skipping, via _merge_scored_parts) — bit-for-bit the SAS
+    `mean(pval)` over hcall. The Mellon fix is encoded by the ensemble simply
+    not listing any 'o' cells, so Mellon horses fall to the pooled cells.
+
+    NY-bred-restricted turf races (RaceConditions1 ~ 'NEW YORK') bypass the
+    hierarchy: they are scored by TURF_NY_MODEL (all NY) and, for routes,
+    averaged with TURF_NY_ROUTE_MODEL — matching the SAS
+    `predicted = mean(of predictedcoreNY, predictedNYr)`.
+
+    Inner vs Mellon is read from the *case* of Surface ('t' vs 'T'); the column
+    must reach scoring un-uppercased (it does — features.py uses a local copy).
+    """
+    tm = config.TURF_MODELS
+    ny_model       = getattr(config, "TURF_NY_MODEL", None)
+    ny_route_model = getattr(config, "TURF_NY_ROUTE_MODEL", None)
+    ny_mask = (_dirt_ny_restricted(df) if ny_model
+               else pd.Series(False, index=df.index))
+
+    surf_raw = df.get("Surface", pd.Series("", index=df.index)).astype(str)
+    surf_u   = surf_raw.str.upper().fillna("")
+    rt       = df.get("RaceType", pd.Series("", index=df.index)).fillna("").astype(str).str.upper()
+    dist     = df.get("Distanceinyards", pd.Series(np.nan, index=df.index)).abs()
+
+    is_turf      = surf_u == "T"
+    is_nonmaiden = ~rt.isin(["M", "S"])
+    is_inner     = surf_raw == "t"          # case-sensitive: lowercase 't' = inner
+    is_sprint    = dist <= 1540
+    is_route     = dist > 1540
+    is_claim     = rt.isin(["C", "CO"])
+
+    def cell_mask(course, dst, cls):
+        m = is_turf & is_nonmaiden & (~ny_mask)
+        if   course == "i": m = m & is_inner
+        elif course == "o": m = m & is_turf & (~is_inner)
+        if   dst == "sp":   m = m & is_sprint
+        elif dst == "rt":   m = m & is_route
+        if   cls == "cl":   m = m & is_claim
+        elif cls == "nc":   m = m & (~is_claim)
+        return m
+
+    scored_parts = {}
+    marker_map = []
+
+    # ── Non-NY hierarchy cells ────────────────────────────────────────────
+    for cell in ensemble:
+        key, course, dst, cls = cell
+        coeff_name = tm.get(key, "")
+        coeff_file = coeff_dir / coeff_name
+        if not coeff_name or not coeff_file.exists():
+            logger.warning(f"  Turf cell '{key}' coeff file missing: {coeff_file}")
+            continue
+        subset = df[cell_mask(course, dst, cls)].copy()
+        if len(subset) == 0:
+            continue
+        scored_parts[key] = _proc_score(subset, coeff_file, f"res_marker_t_{key}")
+        marker_map.append((key, f"res_marker_t_{key}", f"predicted_t_{key}"))
+
+    # ── NY-bred turf: coreNY (all NY) + NYr (NY routes) ───────────────────
+    for nk, route_only in [(ny_model, False), (ny_route_model, True)]:
+        if not nk:
+            continue
+        coeff_name = tm.get(nk, "")
+        coeff_file = coeff_dir / coeff_name
+        if not coeff_name or not coeff_file.exists():
+            logger.warning(f"  Turf NY model '{nk}' coeff file missing: {coeff_file}")
+            continue
+        m = is_turf & is_nonmaiden & ny_mask
+        if route_only:
+            m = m & is_route
+        subset = df[m].copy()
+        if len(subset) == 0:
+            continue
+        scored_parts[nk] = _proc_score(subset, coeff_file, f"res_marker_t_{nk}")
+        marker_map.append((nk, f"res_marker_t_{nk}", f"predicted_t_{nk}"))
+
+    return _merge_scored_parts(scored_parts, df, marker_map,
+                               ensemble_col="predicted", model_id=2)
 
 
 def _score_maiden(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:

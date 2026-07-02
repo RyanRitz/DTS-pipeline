@@ -84,8 +84,54 @@ def setup_registry(config) -> None:
         # SAR models were built on the plain trnwcm_sart (general meet-std),
         # so skip the KEE dirt-std swap.
         dirt_var_overrides={},
-        # Turf & maiden fall back to KEE until SAR versions are built.
-        turf_models=dict(config.TURF_MODELS),
+        # ── Turf: SAR v8 hierarchy (course x distance x class) ────────────
+        # 15 used cells (the Mellon-fix v8 build: NO outer-course 'o' cells —
+        # Mellon horses fall to the pooled cells). + coreNY / NYr for NY-bred
+        # turf races. Coefficient files are the PROC LOGISTIC outest= datasets
+        # written by SAR_TURF_HIER_v8_FINAL.sas to SAS_DATA (SAS lowercases the
+        # physical .sas7bdat names) — copy them into COEFF_DIR before a run.
+        turf_models={
+            "core":    "sar_turf_2026_core.sas7bdat",
+            "c_i":     "sar_turf_2026_c_i.sas7bdat",
+            "d_sp":    "sar_turf_2026_d_sp.sas7bdat",
+            "d_rt":    "sar_turf_2026_d_rt.sas7bdat",
+            "k_cl":    "sar_turf_2026_k_cl.sas7bdat",
+            "k_nc":    "sar_turf_2026_k_nc.sas7bdat",
+            "tD_i_rt": "sar_turf_2026_td_i_rt.sas7bdat",
+            "tK_i_cl": "sar_turf_2026_tk_i_cl.sas7bdat",
+            "tK_i_nc": "sar_turf_2026_tk_i_nc.sas7bdat",
+            "dK_sp_cl":"sar_turf_2026_dk_sp_cl.sas7bdat",
+            "dK_sp_nc":"sar_turf_2026_dk_sp_nc.sas7bdat",
+            "dK_rt_cl":"sar_turf_2026_dk_rt_cl.sas7bdat",
+            "dK_rt_nc":"sar_turf_2026_dk_rt_nc.sas7bdat",
+            "x_i_rt_cl":"sar_turf_2026_x_i_rt_cl.sas7bdat",
+            "x_i_rt_nc":"sar_turf_2026_x_i_rt_nc.sas7bdat",
+            # NY-bred turf models
+            "coreNY":  "sar_turf_core2026ny.sas7bdat",
+            "NYr":     "sar_turf_2026nyr.sas7bdat",
+        },
+        # (model_key, course, dist, cls): course 'i'=inner('t')/'o'=Mellon('T'),
+        # dist 'sp'/'rt', cls 'cl'/'nc'. No 'o' cells => Mellon fix.
+        turf_ensemble=[
+            ("core",     None, None, None),
+            ("c_i",      "i",  None, None),
+            ("d_sp",     None, "sp", None),
+            ("d_rt",     None, "rt", None),
+            ("k_cl",     None, None, "cl"),
+            ("k_nc",     None, None, "nc"),
+            ("tD_i_rt",  "i",  "rt", None),
+            ("tK_i_cl",  "i",  None, "cl"),
+            ("tK_i_nc",  "i",  None, "nc"),
+            ("dK_sp_cl", None, "sp", "cl"),
+            ("dK_sp_nc", None, "sp", "nc"),
+            ("dK_rt_cl", None, "rt", "cl"),
+            ("dK_rt_nc", None, "rt", "nc"),
+            ("x_i_rt_cl","i",  "rt", "cl"),
+            ("x_i_rt_nc","i",  "rt", "nc"),
+        ],
+        turf_ny_model="coreNY",
+        turf_ny_route_model="NYr",
+        # Maiden falls back to KEE until a SAR maiden family is built.
         maiden_models=dict(config.MAIDEN_MODELS),
         score_weights=dict(config.SCORE_WEIGHTS),
         coeff_dir=Path(config.COEFF_DIR),

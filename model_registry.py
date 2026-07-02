@@ -54,6 +54,20 @@ class _Family:
     dirt_ny_model: Optional[str] = None
     # Dirt-scoring variable swaps. None => legacy KEE swap; {} => none (SAR).
     dirt_var_overrides: Optional[dict] = None
+    # Optional family-specific TURF ensemble (the SAR hierarchy). None => legacy
+    # KEE 4-model (s/r/hp/lp) turf blend — KEE scores exactly as before.
+    #   turf_ensemble : list of (model_key, course, dist, cls) cells consumed by
+    #                   score._score_turf. course in {'i','o',None} keyed off the
+    #                   Surface case ('t'=inner, 'T'=Mellon); dist in
+    #                   {'sp','rt',None}; cls in {'cl','nc',None}. The Mellon fix
+    #                   is expressed simply by NOT listing any 'o' cells.
+    #   turf_ny_model       : model_key scoring NY-bred turf races (all).
+    #   turf_ny_route_model : model_key scoring NY-bred turf ROUTES, averaged
+    #                         with turf_ny_model for NY routes (NY sprints score
+    #                         on turf_ny_model alone — matches the SAS).
+    turf_ensemble: Optional[list] = None
+    turf_ny_model: Optional[str] = None
+    turf_ny_route_model: Optional[str] = None
 
 
 @dataclass
@@ -78,6 +92,11 @@ class ScoringConfig:
     DIRT_ENSEMBLE: Optional[list] = None
     DIRT_NY_MODEL: Optional[str] = None
     DIRT_VAR_OVERRIDES: Optional[dict] = None
+
+    # Family-specific turf ensemble (None => legacy KEE s/r/hp/lp blend)
+    TURF_ENSEMBLE: Optional[list] = None
+    TURF_NY_MODEL: Optional[str] = None
+    TURF_NY_ROUTE_MODEL: Optional[str] = None
 
     # Reference to the underlying real config module for pass-through access
     _underlying: Any = None
@@ -113,6 +132,9 @@ def register_family(
     dirt_ensemble: Optional[list] = None,
     dirt_ny_model: Optional[str] = None,
     dirt_var_overrides: Optional[dict] = None,
+    turf_ensemble: Optional[list] = None,
+    turf_ny_model: Optional[str] = None,
+    turf_ny_route_model: Optional[str] = None,
 ) -> None:
     """
     Register a model family.
@@ -143,6 +165,9 @@ def register_family(
         dirt_ensemble=dirt_ensemble,
         dirt_ny_model=dirt_ny_model,
         dirt_var_overrides=dirt_var_overrides,
+        turf_ensemble=turf_ensemble,
+        turf_ny_model=turf_ny_model,
+        turf_ny_route_model=turf_ny_route_model,
     )
     if set_as_default or _DEFAULT_FAMILY is None:
         _DEFAULT_FAMILY = name
@@ -195,6 +220,9 @@ def get_scoring_models(track: str, underlying_config: Any) -> ScoringConfig:
         DIRT_ENSEMBLE=fam.dirt_ensemble,
         DIRT_NY_MODEL=fam.dirt_ny_model,
         DIRT_VAR_OVERRIDES=fam.dirt_var_overrides,
+        TURF_ENSEMBLE=fam.turf_ensemble,
+        TURF_NY_MODEL=fam.turf_ny_model,
+        TURF_NY_ROUTE_MODEL=fam.turf_ny_route_model,
         _underlying=underlying_config,
     )
 

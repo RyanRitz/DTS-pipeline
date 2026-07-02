@@ -150,14 +150,37 @@ def _value_tier(btsm, ml) -> int:
     return 0
 
 
-def best_bet_flag(btsm, ml_adj, rank, field_size) -> bool:
-    """
-    GOLD best-bet gate. True only when BOTH:
-      - value tier >= 3  (the line exceeds fair odds by 40%+), using the
-        SCRATCH-ADJUSTED morning line, and
-      - the horse's win-probability rank sits in the top half of the field
-        (rank / field_size <= 0.5).
+_CLAIMING_TYPES = {"C", "CO"}
 
+def best_bet_flag(btsm, ml_adj, rank, field_size,
+                  racetype=None, surface=None, track=None,
+                  race_conditions=None) -> bool:
+    """
+    GOLD best-bet gate. True only when value tier >= 3 (the line exceeds fair
+    odds by 40%+, using the SCRATCH-ADJUSTED morning line) AND a
+    win-probability rank gate is met:
+      - default             : rank in the top half of the field (rank/field <= 0.5)
+      - SAR turf claiming    : rank == 1 (top pick only)
+      - SAR turf NY-bred     : rank in the top 25% of the field
+
+    Both tighter SAR-turf gates are evidence-based, measured on the SAR turf
+    backtest (2006-2025, in-sample):
+
+      * CLAIMING -> rank 1 only. Claiming gold bets below the top pick bleed
+        (rank 2 -19%, rank 4 -25%) while the top pick returns +21% — the
+        lower-ranked claiming "overlays" are longshots the model under-rates.
+
+      * NY-BRED -> top 25%. NY-bred favorites are badly under-priced while the
+        model's lower-half NY-bred picks lose: at the default top-50% gate
+        NY-bred runs -5.5%, but tightening to top-25% flips it to +53% (rank-1
+        +20%). Same favorite-bias signature as claiming, only stronger.
+
+    A NY-bred RACE is identified the same way the SAS build does: SAR + turf +
+    RaceConditions1 text contains "NEW YORK" (the eligibility restriction).
+    Claiming takes precedence over the NY-bred gate (it is the stricter rule)
+    for the rare NY-bred claiming turf race.
+
+    Scoped to SAR + turf because that is where these were measured.
     Intentionally strict — many races will have zero gold best bets.
     """
     try:
@@ -166,7 +189,23 @@ def best_bet_flag(btsm, ml_adj, rank, field_size) -> bool:
         r = float(rank); n = float(field_size)
         if n <= 0:
             return False
-        return (r / n) <= 0.5
+        is_sar_turf = (
+            str(track).strip().upper() == "SAR"
+            and str(surface).strip().upper() == "T"          # 'T'/'t' both -> turf
+        )
+        is_sar_turf_claim = (
+            is_sar_turf
+            and str(racetype).strip().upper() in _CLAIMING_TYPES
+        )
+        is_sar_turf_nybred = (
+            is_sar_turf
+            and "NEW YORK" in str(race_conditions).upper()   # NY-bred restricted race
+        )
+        if is_sar_turf_claim:
+            return r <= 1                                    # SAR turf claiming: top pick only
+        if is_sar_turf_nybred:
+            return (r / n) <= 0.25                           # SAR turf NY-bred: top 25%
+        return (r / n) <= 0.5                                # everything else: top half
     except (TypeError, ValueError):
         return False
 
@@ -336,7 +375,9 @@ def generate_excel(
     scored['_FieldSize'] = scored.groupby('Race')['Race'].transform('size')
     scored['BestBet'] = scored.apply(
         lambda r: best_bet_flag(r.get('DTSOdds'), r.get('_MLCmp'),
-                                r.get('rank'), r.get('_FieldSize')), axis=1
+                                r.get('rank'), r.get('_FieldSize'),
+                                r.get('RaceType'), r.get('Surface'), r.get('Track'),
+                                r.get('RaceConditions1')), axis=1
     )
 
     wb = Workbook()
