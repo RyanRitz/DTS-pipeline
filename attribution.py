@@ -613,8 +613,16 @@ def _load_coefficient_sets(config, coeff_dir: Path, available_columns) -> dict:
             if coefs is not None:
                 out[1][sub_key] = coefs
 
-    # Turf
-    for sub_key in TURF_SUBMODELS:
+    # Turf — load every turf model key the family declares, not just the
+    # legacy KEE s/r/hp/lp.  KEE => s/r/hp/lp; SAR => the v8 hierarchy cells
+    # (core/c_i/d_sp/.../x_i_rt_nc) plus the NY-bred models (coreNY/NYr).
+    # Iterating the dict (as the dirt loader does) keeps attribution in step
+    # with whatever ensemble score._score_turf actually blended.  The
+    # per-horse firing logic in _blend_contribution keys off the predicted
+    # columns score.py emits (predicted_t_{key} for the hierarchy,
+    # predicted{key} for the legacy blend), so whatever loads here is
+    # attributed exactly as it was scored (incl. NY races -> coreNY/NYr).
+    for sub_key in getattr(config, "TURF_MODELS", {}):
         fname = getattr(config, "TURF_MODELS", {}).get(sub_key)
         if fname:
             coefs = _read_one(fname)
@@ -785,9 +793,18 @@ def _blend_contribution(
             fvals[f] = 0.0
 
     # Which sub-models actually scored this horse?
+    # score.py emits the per-sub-model probability column that tells us a cell
+    # fired.  The turf HIERARCHY (SAR) writes predicted_t_{key}; every other
+    # path (dirt, maiden, and the legacy KEE turf blend) writes predicted{key}.
+    # Prefer the _t_ column for turf when it exists, else fall back — this keeps
+    # KEE turf and all dirt/maiden scoring detected exactly as before.
     firing = []
     for sub_key in sub_coefs.keys():
         pred_col = f"predicted{sub_key}"
+        if model_id == 2:
+            t_col = f"predicted_t_{sub_key}"
+            if t_col in horse_row.index:
+                pred_col = t_col
         v = horse_row.get(pred_col)
         if v is not None and not (isinstance(v, float) and pd.isna(v)):
             firing.append(sub_key)
