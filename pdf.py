@@ -332,21 +332,44 @@ def _build_race_page(
 
     fp = f"1st Post: <b>{_html_escape(first_post)}</b>" if first_post else ""
 
-    # ── Banner: prefer logo_uri (caller-supplied), else built-in DTS banner.
-    # The built-in is shipped as DTS_banner.png in the same dir as pdf.py.
-    banner_uri = logo_uri or _encode_logo(Path(__file__).parent / "DTS_banner.png")
-    if banner_uri:
+    # ── Banner. A caller-supplied logo_path (logo_uri) still wins and renders
+    # as an image. Otherwise we render the typographic DTS masthead: a crisp,
+    # print-resolution header — Deep Forest field, Racing Gold Constantia
+    # wordmark, and an upward-opening horseshoe + DTS monogram flanking each
+    # side. This replaced the raster DTS_banner.png so the header stays sharp
+    # at print DPI and matches the downthestretch.ai brand system.
+    if logo_uri:
         banner_html = (
-            f'<img class="dts-banner" src="{banner_uri}" alt="Down The Stretch AI"/>'
+            f'<img class="dts-banner" src="{logo_uri}" alt="Down The Stretch AI"/>'
         )
     else:
-        # Fallback typeset wordmark (kept from Phase 4 v1) — used only if no
-        # banner asset is on disk and no logo_path was provided
+        _shoe = (
+            '<svg class="dts-shoe" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">'
+            '<path d="M26.5 8.7 A13 13 0 1 1 13.5 8.7" fill="none" stroke="#C9A84C" '
+            'stroke-width="4.5" stroke-linecap="round"/>'
+            '<circle cx="31.8" cy="25.5" r="1.2" fill="#0D2B1E"/>'
+            '<circle cx="25.5" cy="31.8" r="1.2" fill="#0D2B1E"/>'
+            '<circle cx="20" cy="33" r="1.2" fill="#0D2B1E"/>'
+            '<circle cx="14.5" cy="31.8" r="1.2" fill="#0D2B1E"/>'
+            '<circle cx="8.2" cy="25.5" r="1.2" fill="#0D2B1E"/>'
+            '<text x="20" y="24" text-anchor="middle" '
+            'font-family="Constantia, Georgia, serif" font-size="8" fill="#C9A84C">DTS</text>'
+            '</svg>'
+        )
         banner_html = (
-            '<div class="dts-wordmark">'
-            '<div class="dts-wordmark-line1">DOWN <span class="amp">THE</span> STRETCH</div>'
-            '<div class="dts-wordmark-rule"></div>'
-            '<div class="dts-wordmark-tag">Intelligence at Full Stride</div>'
+            '<div class="dts-masthead">'
+            f'{_shoe}'
+            '<div class="dts-mh-center">'
+            '<div class="dts-mh-word">DOWN THE STRETCH AI</div>'
+            '<div class="dts-mh-tagrow">'
+            '<span class="dts-mh-rule"></span>'
+            '<span class="dts-mh-tag">INTELLIGENCE AT FULL STRIDE</span>'
+            '<span class="dts-mh-rule"></span>'
+            '</div>'
+            '<div class="dts-mh-heritage">The evolution of Be The Smart Money '
+            '&#183; Est. 2009</div>'
+            '</div>'
+            f'{_shoe}'
             '</div>'
         )
 
@@ -1186,6 +1209,49 @@ body {
   /* The banner art is forest-green field with gold artwork.
      A subtle gold hairline below it would compete with the banner's
      own bottom gold line, so we leave it bare. */
+}
+
+/* ── DTS typographic masthead (Deep Forest field · Racing Gold) ───────── */
+.dts-masthead {
+  background: #0D2B1E;
+  border-top: 1pt solid #C9A84C;
+  border-bottom: 1pt solid #C9A84C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20pt;
+  padding: 7pt 16pt 6pt 16pt;
+  line-height: 1;
+}
+.dts-shoe { width: 46pt; height: 46pt; flex: 0 0 auto; }
+.dts-mh-center { text-align: center; }
+.dts-mh-word {
+  font-family: Constantia, "Hoefler Text", Georgia, serif;
+  font-size: 21pt;
+  letter-spacing: 4pt;
+  color: #C9A84C;
+  line-height: 1;
+}
+.dts-mh-tagrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8pt;
+  margin-top: 5pt;
+}
+.dts-mh-rule { display: inline-block; height: 0.75pt; width: 46pt; background: #C9A84C; }
+.dts-mh-tag {
+  font-family: Constantia, "Hoefler Text", Georgia, serif;
+  font-size: 8pt;
+  letter-spacing: 2.5pt;
+  color: #8BAF8E;
+}
+.dts-mh-heritage {
+  font-family: Constantia, "Hoefler Text", Georgia, serif;
+  font-style: italic;
+  font-size: 7.5pt;
+  color: #8BAF8E;
+  margin-top: 4pt;
 }
 
 /* ── Meta strip (below banner: track, conditions, best bets) ─────────── */
