@@ -46,6 +46,7 @@ from datetime import date, datetime
 from html import unescape
 from typing import Iterable, Optional
 
+import socket
 import feedparser
 
 logger = logging.getLogger(__name__)
@@ -239,10 +240,27 @@ def fetch_all_changes(track: str, timeout: int = 15) -> list[ChangeEntry]:
     url = _build_rss_url(track)
     logger.info("Fetching Equibase RSS: %s", url)
 
-    parsed = feedparser.parse(
-        url,
-        request_headers={"User-Agent": "Mozilla/5.0 (BTSM Automation)"},
-    )
+    # feedparser.parse fetches via urllib, which has NO timeout by default, so a
+    # slow / hanging Equibase feed would block the whole pipeline tick forever —
+    # in particular stalling the FINAL publish, which pulls scratches inline.
+    # The `timeout` arg was declared but never enforced; bound the fetch with a
+    # global socket timeout for its duration, then restore. On timeout feedparser
+    # sets parsed.bozo with no entries, which the check below turns into [].
+    _prev_timeout = socket.getdefaulttimeout()
+    socket.setdefaulttimeout(timeout)
+    try:
+        parsed = feedparser.parse(
+            url,
+            request_headers={"User-Agent": "Mozilla/5.0 (BTSM Automation)"},
+        )
+    except Exception as exc:
+        # Slow/unreachable feed: the socket timeout surfaces here as a
+        # TimeoutError/URLError. Log and return no changes so the FINAL still
+        # publishes (with whatever manual scratches exist) instead of hanging.
+        logger.warning("Equibase RSS fetch failed for %s (%s) — returning no changes.", track, exc)
+        return []
+    finally:
+        socket.setdefaulttimeout(_prev_timeout)
 
     if parsed.bozo and not parsed.entries:
         reason = getattr(parsed, "bozo_exception", "unknown error")
