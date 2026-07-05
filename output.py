@@ -154,14 +154,20 @@ _CLAIMING_TYPES = {"C", "CO"}
 
 def best_bet_flag(btsm, ml_adj, rank, field_size,
                   racetype=None, surface=None, track=None,
-                  race_conditions=None) -> bool:
+                  race_conditions=None, prob_above=None) -> bool:
     """
     GOLD best-bet gate. True only when value tier >= 3 (the line exceeds fair
     odds by 40%+, using the SCRATCH-ADJUSTED morning line) AND a
     win-probability rank gate is met:
-      - default             : rank in the top half of the field (rank/field <= 0.5)
+      - default             : cumulative win prob above the horse < 0.50
       - SAR turf claiming    : rank == 1 (top pick only)
-      - SAR turf NY-bred     : rank in the top 25% of the field
+      - SAR turf NY-bred     : cumulative win prob above the horse < 0.25
+
+    The two "top X%" gates are measured on WIN-PROBABILITY MASS, not field
+    position. prob_above is the summed ProbToWin of every horse ranked above
+    this one, so a dominant favorite can push a positionally-top-half horse
+    past the 50% mark and out of gold. Falls back to the positional rank/field
+    test only when prob_above is not supplied (legacy callers / unit tests).
 
     Both tighter SAR-turf gates are evidence-based, measured on the SAR turf
     backtest (2006-2025, in-sample):
@@ -186,9 +192,12 @@ def best_bet_flag(btsm, ml_adj, rank, field_size,
     try:
         if _value_tier(btsm, ml_adj) < 3:
             return False
-        r = float(rank); n = float(field_size)
-        if n <= 0:
-            return False
+        # rank / field are needed only for the claiming gate and the positional
+        # fallback; tolerate their absence so the prob_above path still works.
+        try:
+            r = float(rank); n = float(field_size)
+        except (TypeError, ValueError):
+            r = n = None
         is_sar_turf = (
             str(track).strip().upper() == "SAR"
             and str(surface).strip().upper() == "T"          # 'T'/'t' both -> turf
@@ -202,7 +211,23 @@ def best_bet_flag(btsm, ml_adj, rank, field_size,
             and "NEW YORK" in str(race_conditions).upper()   # NY-bred restricted race
         )
         if is_sar_turf_claim:
-            return r <= 1                                    # SAR turf claiming: top pick only
+            return r is not None and r <= 1                  # SAR turf claiming: top pick only
+
+        # The two "top X%" gates key on CUMULATIVE win probability — the share
+        # of win prob held by horses ranked ABOVE this one (prob_above) — not
+        # field position. A favorite-heavy race can push a positionally-top-half
+        # horse past the 50% probability mark; that horse is not a best bet.
+        if prob_above is not None:
+            try:
+                pa = float(prob_above)
+            except (TypeError, ValueError):
+                pa = None
+            if pa is not None:
+                return pa < (0.25 if is_sar_turf_nybred else 0.50)
+
+        # Positional fallback (prob_above unavailable — legacy callers/tests).
+        if r is None or n is None or n <= 0:
+            return False
         if is_sar_turf_nybred:
             return (r / n) <= 0.25                           # SAR turf NY-bred: top 25%
         return (r / n) <= 0.5                                # everything else: top half
@@ -371,13 +396,21 @@ def generate_excel(
     scored['ValueTier'] = scored.apply(
         lambda r: value_tier(r.get('DTSOdds'), r.get('_MLCmp')), axis=1
     )
-    # Per-race field size (post-scratch) for the top-50%-probability gold gate.
+    # Per-race field size (post-scratch) — kept for the positional fallback.
     scored['_FieldSize'] = scored.groupby('Race')['Race'].transform('size')
+    # Cumulative win probability held by horses ranked ABOVE each horse (the
+    # summed ProbToWin of everything with a higher win prob in the race). This
+    # drives the gold gate's "top X%" test on probability mass, not field
+    # position — see best_bet_flag.
+    _cum = (scored.sort_values(['Race', 'ProbToWin'], ascending=[True, False])
+                  .groupby('Race')['ProbToWin'].cumsum())
+    scored['_ProbAbove'] = _cum - scored['ProbToWin']
     scored['BestBet'] = scored.apply(
         lambda r: best_bet_flag(r.get('DTSOdds'), r.get('_MLCmp'),
                                 r.get('rank'), r.get('_FieldSize'),
                                 r.get('RaceType'), r.get('Surface'), r.get('Track'),
-                                r.get('RaceConditions1')), axis=1
+                                r.get('RaceConditions1'),
+                                prob_above=r.get('_ProbAbove')), axis=1
     )
 
     wb = Workbook()

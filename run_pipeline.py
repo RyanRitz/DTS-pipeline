@@ -1264,18 +1264,26 @@ def generate_pdf(scoring_result: ScoringResult,
         work["ValueTier"] = work.apply(
             lambda r: _tier(r.get("DTSOdds"), _ml_adj(r)), axis=1)
 
-        # Per-race field size (post-scratch) for the top-50%-of-probability
-        # gold gate.
+        # Per-race field size (post-scratch) — kept for the positional fallback.
         if "Race" in work.columns:
             _field = work.groupby("Race")["Race"].transform("size")
         else:
             _field = _pd.Series(len(work), index=work.index)
         work["_field_size"] = _field
+        # Cumulative win prob held by horses ranked ABOVE each horse — drives
+        # the gold gate's "top X%" test on probability mass (see best_bet_flag).
+        if "Race" in work.columns and "ProbToWin" in work.columns:
+            _cum = (work.sort_values(["Race", "ProbToWin"], ascending=[True, False])
+                        .groupby("Race")["ProbToWin"].cumsum())
+            work["_prob_above"] = _cum - work["ProbToWin"]
+        else:
+            work["_prob_above"] = None
         work["BestBet"] = work.apply(
             lambda r: _bestbet(r.get("DTSOdds"), _ml_adj(r),
                                r.get("rank"), r.get("_field_size"),
                                r.get("RaceType"), r.get("Surface"), r.get("Track"),
-                               r.get("RaceConditions1")), axis=1)
+                               r.get("RaceConditions1"),
+                               prob_above=r.get("_prob_above")), axis=1)
     except Exception as e:
         log.warning(f"  generate_pdf: could not compose Comments: {e}")
         work["Comments"]  = ""
