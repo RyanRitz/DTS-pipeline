@@ -1242,7 +1242,8 @@ def generate_pdf(scoring_result: ScoringResult,
     try:
         from output import (compose_comment as _compose,
                             value_tier as _tier,
-                            best_bet_flag as _bestbet)
+                            best_bet_flag as _bestbet,
+                            green_flag as _greenflag)
         # Comments need access to btsm_odds / ml_odds. The composer accepts
         # either the canonical (btsm_odds/ml_odds) or upstream (DTSOdds/
         # MornOdds) names via row.get(), so this works on scored_df rows.
@@ -1284,11 +1285,16 @@ def generate_pdf(scoring_result: ScoringResult,
                                r.get("RaceType"), r.get("Surface"), r.get("Track"),
                                r.get("RaceConditions1"),
                                prob_above=r.get("_prob_above")), axis=1)
+        # GREEN 'longshot looker' = bottom-half win-prob + edge >= 1.75 (all tracks)
+        work["GreenFlag"] = work.apply(
+            lambda r: _greenflag(r.get("DTSOdds"), _ml_adj(r),
+                                 r.get("_prob_above")), axis=1)
     except Exception as e:
         log.warning(f"  generate_pdf: could not compose Comments: {e}")
         work["Comments"]  = ""
         work["ValueTier"] = 0
         work["BestBet"]   = False
+        work["GreenFlag"] = False
 
     # ── Merge feature columns we need for display from feature_df ───────
     # These live on feature_df (computed by features.py / race_normalize.py /

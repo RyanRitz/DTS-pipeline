@@ -241,6 +241,35 @@ def best_bet_flag(btsm, ml_adj, rank, field_size,
         return False
 
 
+def green_flag(btsm, ml_adj, prob_above) -> bool:
+    """
+    GREEN 'longshot looker' flag (all tracks/models). True when a horse the
+    model ranks in the BOTTOM half of the field by win-probability mass still
+    shows a big edge over the fair, scratch-adjusted morning line: edge >= 1.75
+    (model win-prob >= 1.75x the ML). These are live longshots to use
+    underneath in exotics — NOT win bets (flat-win ROI is negative; the value
+    is in the price and the tail). Deliberately limited (edge 1.75, ~30% of
+    races) so GOLD stays the visual focus.
+
+    Mutually exclusive with GOLD by construction: gold = top-half win-prob
+    mass, green = bottom-half. A horse is at most one of the two.
+    """
+    try:
+        pa = float(prob_above)
+    except (TypeError, ValueError):
+        return False
+    if pa < 0.5:                        # top half -> gold territory, not green
+        return False
+    try:
+        b = float(btsm); m = float(ml_adj)
+        if b < 0 or m < 0:
+            return False
+        edge = (m + 1.0) / (b + 1.0)    # de-vigged prob edge (same basis as gold)
+    except (TypeError, ValueError, ZeroDivisionError):
+        return False
+    return edge >= 1.75
+
+
 def _value_phrase(tier: int, btsm, ml) -> str:
     """Render the value-vs-ML sentence, sensitive to absolute price."""
     try:
@@ -396,9 +425,9 @@ def generate_excel(
         _ml_cmp = scored["MornOdds"]
     scored["_MLCmp"] = _ml_cmp
     scored['Comments']  = scored.apply(compose_comment, axis=1)
-    # GREEN tint  = ValueTier >= 2 (line exceeds DTS fair odds by >=25%)
-    # GOLD / best = BestBet flag (>=40% overlay AND win-prob rank in top half
-    #               of the field). Rare by design; a race may have none.
+    # GREEN tint  = green_flag (bottom-half win-prob + edge >= 1.75 longshot looker)
+    # GOLD / best = BestBet flag (edge >= 1.5 AND top-half win-prob mass).
+    #               Rare by design; a race may have none.
     scored['ValueTier'] = scored.apply(
         lambda r: value_tier(r.get('DTSOdds'), r.get('_MLCmp')), axis=1
     )
@@ -417,6 +446,10 @@ def generate_excel(
                                 r.get('RaceType'), r.get('Surface'), r.get('Track'),
                                 r.get('RaceConditions1'),
                                 prob_above=r.get('_ProbAbove')), axis=1
+    )
+    scored['GreenFlag'] = scored.apply(
+        lambda r: green_flag(r.get('DTSOdds'), r.get('_MLCmp'),
+                             r.get('_ProbAbove')), axis=1
     )
 
     wb = Workbook()
@@ -567,9 +600,9 @@ def _build_summary(ws, scored, track, race_date, dirt_condition, turf_condition)
             prev_race = horse.Race
             alt = False
 
-        is_val  = int(horse.get("ValueTier", 0) or 0) >= 2          # green: >=25% overlay
-        is_big  = bool(horse.get("BestBet", False))                  # gold: >=40% + top-half
-        bg = C_VALUE_BG if is_val else (C_ALT if alt else C_WHITE)
+        is_val  = bool(horse.get("GreenFlag", False))               # green: bottom-half + edge>=1.75 longshot looker
+        is_big  = bool(horse.get("BestBet", False))                  # gold: edge>=1.5 + top-half win-prob
+        bg = C_LONGSHOT_BG if is_big else (C_VALUE_BG if is_val else (C_ALT if alt else C_WHITE))
         fg = C_VALUE_FG if is_val else "000000"
 
         row_data = [
@@ -680,9 +713,9 @@ def _build_race_sheet(ws, r_df, race_num, rt, surf, dist, purse,
     # ── Horses ────────────────────────────────────────────────────────────────
     alt = False
     for _, horse in r_df.iterrows():
-        is_val   = int(horse.get("ValueTier", 0) or 0) >= 2          # green: >=25% overlay
-        is_big   = bool(horse.get("BestBet", False))                  # gold: >=40% + top-half
-        bg       = C_VALUE_BG if is_val else (C_ALT if alt else C_WHITE)
+        is_val   = bool(horse.get("GreenFlag", False))              # green: bottom-half + edge>=1.75 longshot looker
+        is_big   = bool(horse.get("BestBet", False))                  # gold: edge>=1.5 + top-half win-prob
+        bg       = C_LONGSHOT_BG if is_big else (C_VALUE_BG if is_val else (C_ALT if alt else C_WHITE))
         fg       = C_VALUE_FG if is_val else "000000"
 
         ppr_v = pd.to_numeric(horse.get("xBRISPd2"),    errors="coerce")
