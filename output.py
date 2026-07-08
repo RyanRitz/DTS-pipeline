@@ -114,39 +114,44 @@ def _lc_first(s: str) -> str:
 
 def _value_tier(btsm, ml) -> int:
     """
-    Map DTS odds vs ML odds to a 0-4 value tier.
+    Map the model's win-probability EDGE over the scratch-adjusted morning line
+    to a 0-4 value tier.
 
-    Bands are keyed on OVERLAY = ML/DTS - 1 ("the line exceeds fair by X%").
-    Computed on overlay directly (not the reciprocal r=DTS/ML) so the 25/40/60
-    boundaries land exactly:
+    EDGE = model win-prob / fair ML win-prob. `MornOddsAdj` (passed as `ml`) is
+    renormalized to the model's own vig (VIG=1.2049 — the SAME vig baked into
+    `DTSOdds`, passed as `btsm`), so both odds sit on the same overround and the
+    vig cancels in the ratio. The de-vigged edge is therefore just:
 
-        tier 4 : overlay >= 60%    very strong
-        tier 3 : overlay >= 40%    GOLD-eligible (real overlay)
-        tier 2 : overlay >= 25%    GREEN (light value tint)
-        tier 1 : overlay >=  0%    mild / about right (DTS at or below ML)
-        tier 0 : overlay <   0%    overbet (DTS longer than ML)
+        edge = (ml + 1) / (btsm + 1)      # = [1/(btsm+1)] / [1/(ml+1)]
+
+    Bands are grounded in win-bet ROI at ~17% takeout, ROI ~= edge*(1-take) - 1:
+
+        tier 4 : edge >= 2.00   very strong   (~+66% expected ROI)
+        tier 3 : edge >= 1.50   GOLD-eligible (covers takeout + ~25% ROI target)
+        tier 2 : edge >= 1.20   GREEN         (covers the ~17% takeout; +EV)
+        tier 1 : edge >= 1.00   about right / no edge vs the line
+        tier 0 : edge <  1.00   overbet (model shorter than the fair line)
 
     Shading gates downstream:
-        GREEN   = tier >= 2  (>=25% overlay)
-        GOLD    = tier >= 3 (>=40% overlay) AND win-prob rank in top half of
-                  field — see best_bet_flag(). Gold is intentionally rare; a
-                  race may have none.
+        GREEN = tier >= 2  (edge >= 1.20 - positive expected value)
+        GOLD  = tier >= 3  (edge >= 1.50) AND top-half win-prob mass - see
+                best_bet_flag(). Per-segment gates may override. Gold is
+                intentionally rare; a race may have none.
     _value_phrase() still uses the underlying odds for wording nuance.
     """
     try:
         b = float(btsm); m = float(ml)
-        if b <= 0 or m <= 0:
+        if b < 0 or m < 0:
             return 0
-        # Round to 6 places so exact boundary overlays (e.g. 5.6/4.0 == 0.40)
-        # aren't lost to float error like 0.3999999999999. Genuine near-misses
-        # (e.g. 0.395) are unaffected.
-        overlay = round(m / b - 1.0, 6)   # line exceeds fair odds by this fraction
-    except (TypeError, ValueError):
+        # de-vigged prob edge: model_prob / ml_prob = (ml+1)/(btsm+1).
+        # Round to 6 places so exact boundary edges aren't lost to float error.
+        edge = round((m + 1.0) / (b + 1.0), 6)
+    except (TypeError, ValueError, ZeroDivisionError):
         return 0
-    if overlay >= 0.60: return 4
-    if overlay >= 0.40: return 3
-    if overlay >= 0.25: return 2
-    if overlay >= 0.0:  return 1
+    if edge >= 2.00: return 4
+    if edge >= 1.50: return 3
+    if edge >= 1.20: return 2
+    if edge >= 1.00: return 1
     return 0
 
 
@@ -156,9 +161,10 @@ def best_bet_flag(btsm, ml_adj, rank, field_size,
                   racetype=None, surface=None, track=None,
                   race_conditions=None, prob_above=None) -> bool:
     """
-    GOLD best-bet gate. True only when value tier >= 3 (the line exceeds fair
-    odds by 40%+, using the SCRATCH-ADJUSTED morning line) AND a
-    win-probability rank gate is met:
+    GOLD best-bet gate. True only when value tier >= 3 (model win-prob >= 1.5x
+    the fair, scratch-adjusted, de-vigged morning line - i.e. a 50% edge that
+    covers the ~17% takeout plus a ~25% ROI target) AND a win-probability rank
+    gate is met:
       - default             : cumulative win prob above the horse < 0.50
       - SAR turf claiming    : rank == 1 (top pick only)
       - SAR turf NY-bred     : cumulative win prob above the horse < 0.25
