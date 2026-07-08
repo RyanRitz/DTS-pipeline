@@ -70,6 +70,10 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     # ------------------------------------------------------------------
     _SUPPLEMENT_VARS = [
         "tran_itm_58",                      # trainer turf-ITM% (Block 5) -> xtran_itm_58 feeds TrnITMTurf
+        # trainer starts-by-category (Block 5) -> xtran_st_* feed the SAR maiden
+        # *_s25 recodes; built after the first race_normalize pass, same as itm_58
+        "tran_st_9", "tran_st_18", "tran_st_34",
+        "tran_st_44", "tran_st_55", "tran_st_50",
         "r101109gt10", "r101109",          # jockey-trainer combo (Block 6)
         "TurfyLast5",                       # turf tendency (Block 3, PascalCase)
         "turffy_last5",                     # lowercase alias

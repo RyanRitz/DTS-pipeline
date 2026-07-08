@@ -54,6 +54,7 @@ def build_model_vars(df: pd.DataFrame) -> pd.DataFrame:
     df = _keeod_vars(df)
     df = _kta13_vars(df)
     df = _sar_turf_v8_vars(df)
+    df = _sar_maiden_vars(df)
     df = _ko25_vars(df)
     df = _apr26_vars(df)
     df = _shared_final_vars(df)
@@ -437,6 +438,39 @@ def _sar_turf_v8_vars(df: pd.DataFrame) -> pd.DataFrame:
 
     # EPS_SAR25 (SAS 1913) — current-year EPS, race-centered.  NaN -> 0, clip ±30000
     df["EPS_SAR25"] = _clip(_g(df, "xEPS_LTCyr", np.nan), -30000, 30000, fill=0)
+
+    return df
+
+
+# ---------------------------------------------------------------------------
+# SAR maiden model vars (BTSM_SAR_MadienModel_2026.sas)
+# ---------------------------------------------------------------------------
+# The 10 maiden-only recodes not already produced by the dirt/turf ports.
+# Each reads an upstream x-residual / I-index from race_normalize (all raw
+# sources confirmed in race_norm_vars.txt; the tran_st_* residuals are built
+# via the supplement pass in features.py). (xBRISRunstyle_S is the raw
+# x-residual used directly — no recode needed.)
+
+def _sar_maiden_vars(df: pd.DataFrame) -> pd.DataFrame:
+    # xtran_st_*_s25 — trainer starts-by-category, race-centered, clip +/-400 (NaN->0)
+    for n in (9, 18, 34, 44, 55, 50):
+        df[f"xtran_st_{n}_s25"] = _clip(_g(df, f"xtran_st_{n}", np.nan), -400, 400, fill=0)
+
+    # xr101109c25 — jockey-trainer 365-day combo, race-centered, clip +/-0.3 (NaN->0)
+    df["xr101109c25"] = _clip(_g(df, "xr101109", np.nan), -0.3, 0.3, fill=0)
+
+    # xRaceDate1_25 — days-since-last-race (last-race date), race-centered, clip +/-100 (NaN->0)
+    df["xRaceDate1_25"] = _clip(_g(df, "xRaceDate1", np.nan), -100, 100, fill=0)
+
+    # xSameTrackraces_keeod — starts at today's track, race-centered, clip +/-1 (NaN->0)
+    df["xSameTrackraces_keeod"] = _clip(_g(df, "xSameTrackraces", np.nan), -1, 1, fill=0)
+
+    # ipurseSAR25 — mean of last-3 indexed purses WITH a constant 1 in the pool.
+    # SAS: mean(of ipurse1,ipurse2,ipurse3,1); all-3-missing -> 1 (dead branch since
+    # the constant 1 keeps the mean defined).
+    pool = [_g(df, f"IPurse{i}", np.nan) for i in (1, 2, 3)]
+    pool.append(pd.Series(1.0, index=df.index))
+    df["ipurseSAR25"] = pd.concat(pool, axis=1).mean(axis=1, skipna=True)
 
     return df
 

@@ -316,7 +316,13 @@ def _score_turf_hierarchy(df: pd.DataFrame, coeff_dir: Path, config,
 
 
 def _score_maiden(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
-    """Score all maiden / maiden special weight races — 15 active models."""
+    """Score all maiden / maiden special weight races.
+
+    Two paths: config.MAIDEN_ENSEMBLE set (SAR 3-suite 32-cell blend) ->
+    _score_maiden_sar; otherwise the legacy KEE 15-model blend below.
+    """
+    if getattr(config, "MAIDEN_ENSEMBLE", None):
+        return _score_maiden_sar(df, coeff_dir, config)
     surf = df["Surface"].str.upper().fillna("")
     rt   = df["RaceType"].fillna("")
     dist = df["Distanceinyards"].abs()
@@ -415,6 +421,75 @@ def _score_maiden(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
     is_maiden_turf = (result.get("RaceType", "") == "M") & (~surf_upper.isin(["D"]))
     result.loc[is_maiden_turf, "predicted"] = result.loc[is_maiden_turf, "score3"]
 
+    return result
+
+
+def _score_maiden_sar(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """
+    SAR maiden 3-suite blend (mirrors BTSM_SAR_MadienModel_2026 scoring):
+
+        predicted = 0.50*score1 + 0.25*score2 + 0.25*score3
+
+    where each suite score is the mean over the single cell a horse falls in:
+        suite 1 (leaf)      : racetype x distance x surface   (x NY)
+        suite 2 (rt x surf) : racetype x surface, pooled over distance
+        suite 3 (rt x dist) : racetype x distance, pooled over surface
+
+    32 cells (16 open + 16 NY-bred). Each maiden horse matches exactly one cell
+    per suite; NY-bred horses route to the *NY cells. Turf = surface not in {D}.
+    """
+    surf = df.get("Surface", pd.Series("", index=df.index)).astype(str).str.upper().fillna("")
+    rt   = df.get("RaceType", pd.Series("", index=df.index)).astype(str).str.upper().fillna("")
+    is_dirt = surf.isin(["D"])
+    if "sprint" in df.columns:
+        sp = pd.to_numeric(df["sprint"], errors="coerce").fillna(0).astype(int) == 1
+    else:
+        sp = df.get("Distanceinyards", pd.Series(np.nan, index=df.index)).abs() <= 1540
+    ny = pd.to_numeric(df.get("NYBredRace", pd.Series(0, index=df.index)),
+                       errors="coerce").fillna(0).astype(int)
+
+    def cell_mask(racetype, d, s, nyv):
+        m = (rt == racetype) & (ny == nyv)
+        if   d == "sp": m = m & sp
+        elif d == "rt": m = m & (~sp)
+        if   s == "T":  m = m & (~is_dirt)     # turf = not dirt
+        elif s == "D":  m = m & is_dirt
+        return m
+
+    scored_parts = {}
+    suite_cells = {1: [], 2: [], 3: []}        # suite -> [(key, marker_col, pred_col)]
+    for fname, suite, racetype, d, s, nyv in config.MAIDEN_ENSEMBLE:
+        coeff_file = coeff_dir / fname
+        if not coeff_file.exists():
+            logger.warning(f"  Maiden cell coeff missing: {coeff_file}")
+            continue
+        key = fname.replace(".sas7bdat", "")
+        subset = df[cell_mask(racetype, d, s, nyv)].copy()
+        if len(subset) == 0:
+            continue
+        mcol = f"res_marker_m_{key}"
+        scored_parts[key] = _proc_score(subset, coeff_file, mcol)
+        suite_cells[suite].append((key, mcol, f"pred_m_{key}"))
+
+    marker_map = [(k, mcol, pcol) for s in (1, 2, 3) for (k, mcol, pcol) in suite_cells[s]]
+    result = _merge_scored_parts(scored_parts, df, marker_map, ensemble_col=None, model_id=3)
+
+    def suite_mean(suite):
+        pcols = []
+        for key, mcol, pcol in suite_cells[suite]:
+            if mcol in result.columns:
+                result[pcol] = sigmoid(result[mcol])
+                pcols.append(pcol)
+        pcols = [c for c in pcols if c in result.columns]
+        return (result[pcols].mean(axis=1, skipna=True) if pcols
+                else pd.Series(np.nan, index=result.index))
+
+    result["score1"] = suite_mean(1)
+    result["score2"] = suite_mean(2)
+    result["score3"] = suite_mean(3)
+    result["predicted"] = (result["score1"] * 0.50
+                           + result["score2"] * 0.25
+                           + result["score3"] * 0.25)
     return result
 
 

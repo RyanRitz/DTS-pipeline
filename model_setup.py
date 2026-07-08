@@ -131,8 +131,50 @@ def setup_registry(config) -> None:
         ],
         turf_ny_model="coreNY",
         turf_ny_route_model="NYr",
-        # Maiden falls back to KEE until a SAR maiden family is built.
+        # ── Maiden: SAR 3-suite blend (0.5 leaf + 0.25 rt*surf + 0.25 rt*dist) ──
+        # 32 cells = (racetype S/M) x (dist/surf) x (NY 0/1), mirroring
+        # BTSM_SAR_MadienModel_2026.sas. Each entry = (coeff_file, suite,
+        # racetype, dist{'sp','rt',None}, surf{'T','D',None}, ny). maiden_models
+        # stays as the KEE dict for the loader's file-count log; the ensemble
+        # below is what _score_maiden_sar actually consumes.
         maiden_models=dict(config.MAIDEN_MODELS),
+        maiden_ensemble=[
+            # suite 1 — leaf: racetype x dist x surface (open, then NY)
+            ("sar_maid_2026_spst.sas7bdat", 1, "S", "sp", "T", 0),
+            ("sar_maid_2026_spsd.sas7bdat", 1, "S", "sp", "D", 0),
+            ("sar_maid_2026_sprt.sas7bdat", 1, "S", "rt", "T", 0),
+            ("sar_maid_2026_sprd.sas7bdat", 1, "S", "rt", "D", 0),
+            ("sar_maid_2026_mst.sas7bdat",  1, "M", "sp", "T", 0),
+            ("sar_maid_2026_msd.sas7bdat",  1, "M", "sp", "D", 0),
+            ("sar_maid_2026_mrt.sas7bdat",  1, "M", "rt", "T", 0),
+            ("sar_maid_2026_mrd.sas7bdat",  1, "M", "rt", "D", 0),
+            ("sar_maid_2026_spstny.sas7bdat", 1, "S", "sp", "T", 1),
+            ("sar_maid_2026_spsdny.sas7bdat", 1, "S", "sp", "D", 1),
+            ("sar_maid_2026_sprtny.sas7bdat", 1, "S", "rt", "T", 1),
+            ("sar_maid_2026_sprdny.sas7bdat", 1, "S", "rt", "D", 1),
+            ("sar_maid_2026_mstny.sas7bdat",  1, "M", "sp", "T", 1),
+            ("sar_maid_2026_msdny.sas7bdat",  1, "M", "sp", "D", 1),
+            ("sar_maid_2026_mrtny.sas7bdat",  1, "M", "rt", "T", 1),
+            ("sar_maid_2026_mrdny.sas7bdat",  1, "M", "rt", "D", 1),
+            # suite 2 — racetype x surface (pooled over distance)
+            ("sar_maid_2026_spt.sas7bdat", 2, "S", None, "T", 0),
+            ("sar_maid_2026_spd.sas7bdat", 2, "S", None, "D", 0),
+            ("sar_maid_2026_mt.sas7bdat",  2, "M", None, "T", 0),
+            ("sar_maid_2026_md.sas7bdat",  2, "M", None, "D", 0),
+            ("sar_maid_2026_sptny.sas7bdat", 2, "S", None, "T", 1),
+            ("sar_maid_2026_spdny.sas7bdat", 2, "S", None, "D", 1),
+            ("sar_maid_2026_mtny.sas7bdat",  2, "M", None, "T", 1),
+            ("sar_maid_2026_mdny.sas7bdat",  2, "M", None, "D", 1),
+            # suite 3 — racetype x distance (pooled over surface)
+            ("sar_maid_2026_sps.sas7bdat", 3, "S", "sp", None, 0),
+            ("sar_maid_2026_spr.sas7bdat", 3, "S", "rt", None, 0),
+            ("sar_maid_2026_ms.sas7bdat",  3, "M", "sp", None, 0),
+            ("sar_maid_2026_mr.sas7bdat",  3, "M", "rt", None, 0),
+            ("sar_maid_2026_spsny.sas7bdat", 3, "S", "sp", None, 1),
+            ("sar_maid_2026_sprny.sas7bdat", 3, "S", "rt", None, 1),
+            ("sar_maid_2026_msny.sas7bdat",  3, "M", "sp", None, 1),
+            ("sar_maid_2026_mrny.sas7bdat",  3, "M", "rt", None, 1),
+        ],
         score_weights=dict(config.SCORE_WEIGHTS),
         coeff_dir=Path(config.COEFF_DIR),
     )

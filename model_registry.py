@@ -69,6 +69,13 @@ class _Family:
     turf_ny_model: Optional[str] = None
     turf_ny_route_model: Optional[str] = None
 
+    #   maiden_ensemble : list of maiden cells for the SAR 3-suite blend. Each
+    #                     entry = (coeff_file, suite, racetype, dist, surf, ny):
+    #                     suite in {1,2,3} (0.5/0.25/0.25), racetype in {'S','M'},
+    #                     dist in {'sp','rt',None}, surf in {'T','D',None}, ny 0/1.
+    #                     None => legacy KEE maiden blend.
+    maiden_ensemble: Optional[list] = None
+
 
 @dataclass
 class ScoringConfig:
@@ -97,6 +104,9 @@ class ScoringConfig:
     TURF_ENSEMBLE: Optional[list] = None
     TURF_NY_MODEL: Optional[str] = None
     TURF_NY_ROUTE_MODEL: Optional[str] = None
+
+    # Family-specific maiden ensemble (None => legacy KEE maiden blend)
+    MAIDEN_ENSEMBLE: Optional[list] = None
 
     # Reference to the underlying real config module for pass-through access
     _underlying: Any = None
@@ -135,6 +145,7 @@ def register_family(
     turf_ensemble: Optional[list] = None,
     turf_ny_model: Optional[str] = None,
     turf_ny_route_model: Optional[str] = None,
+    maiden_ensemble: Optional[list] = None,
 ) -> None:
     """
     Register a model family.
@@ -168,6 +179,7 @@ def register_family(
         turf_ensemble=turf_ensemble,
         turf_ny_model=turf_ny_model,
         turf_ny_route_model=turf_ny_route_model,
+        maiden_ensemble=maiden_ensemble,
     )
     if set_as_default or _DEFAULT_FAMILY is None:
         _DEFAULT_FAMILY = name
@@ -223,6 +235,7 @@ def get_scoring_models(track: str, underlying_config: Any) -> ScoringConfig:
         TURF_ENSEMBLE=fam.turf_ensemble,
         TURF_NY_MODEL=fam.turf_ny_model,
         TURF_NY_ROUTE_MODEL=fam.turf_ny_route_model,
+        MAIDEN_ENSEMBLE=fam.maiden_ensemble,
         _underlying=underlying_config,
     )
 
