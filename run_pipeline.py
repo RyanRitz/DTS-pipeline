@@ -1602,7 +1602,7 @@ def generate_pdf(scoring_result: ScoringResult,
             label=label,
             first_post=first_post_str,
             conditions=conditions,
-            logo_path=logo_path,
+            logo_path=None,
             is_preview=(not is_final),
         )
         log.info(f"  PDF generated: {result_path}")
