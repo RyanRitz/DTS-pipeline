@@ -982,7 +982,11 @@ def run_scoring(
                 f"a like, {n_with_fade}/{len(scored_df)} with a fade"
             )
     except Exception as _e:
-        log.warning(f"  Attribution computation failed (non-fatal): {_e}")
+        # log.exception (not warning): a silent failure here blanks EVERY
+        # why_like/why_fade on the card, so every horse reads "No standout
+        # attributes either way". Without the traceback that's near-impossible
+        # to diagnose from the log.
+        log.exception(f"  Attribution computation failed (non-fatal): {_e}")
         # Make sure the columns exist even on failure, so output.py's
         # horse.get('why_like_1', '') reads cleanly.
         for _i in range(1, 4):
