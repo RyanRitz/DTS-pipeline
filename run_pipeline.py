@@ -1485,6 +1485,11 @@ def generate_pdf(scoring_result: ScoringResult,
         "smart_comment":   _col("Comments", default=""),    # 2-sentence prose
         "value_tier":      _col("ValueTier", default=0),    # 0-4; >=2 => green tint
         "best_bet":        _col("BestBet", default=False),  # gold + TOP DTS BETS gate
+        # GREEN 'longshot looker' tint. Must be passed explicitly: without it
+        # pdf.py falls back to value_tier>=2, which tints ANY edge>=1.20 horse
+        # green (both halves of the field) and lets a gold horse also read as
+        # green. The real gate is bottom-half win-prob mass AND edge >= 1.75.
+        "green_flag":      _col("GreenFlag", default=False),
 
         # Visual bars — computed above from xBRISPd2 / jckcm2_sarm / trncm2_sart
         # on fixed absolute scales (cross-race comparable).
