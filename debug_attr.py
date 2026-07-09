@@ -71,20 +71,26 @@ def main() -> int:
                               (3, "MAIDEN", sc.MAIDEN_MODELS)):
         print(f"\n=== {name} sub-models ({len(models)})")
         for sub_key, fname in models.items():
+            # maiden keys are ints (1..16) — force str before the width spec
+            sk = str(sub_key)
             p = cdir / fname
             if not p.exists():
-                print(f"   {sub_key:10s} MISSING FILE {fname}")
+                print(f"   {sk:10s} MISSING FILE {fname}")
                 continue
             try:
                 cdf, _ = pyreadstat.read_sas7bdat(str(p))
             except Exception as e:
-                print(f"   {sub_key:10s} UNREADABLE  {fname}: {e}")
+                print(f"   {sk:10s} UNREADABLE  {fname}: {e}")
                 continue
             cols = [c for c in cdf.columns if c not in getattr(attribution, "EXCLUDE", set())]
             survive = [c for c in cols if c in available]
             labeled = [c for c in survive if c in label_map_keys]
             flag = "  <-- 0 SURVIVORS" if not survive else ("  <-- 0 LABELED" if not labeled else "")
-            print(f"   {sub_key:10s} coefs={len(cols):3d}  in_data={len(survive):3d}  labeled={len(labeled):3d}{flag}")
+            print(f"   {sk:10s} coefs={len(cols):3d}  in_data={len(survive):3d}  labeled={len(labeled):3d}{flag}")
+            # Does score.py actually emit the column that marks this cell as fired?
+            pc = f"predicted_t_{sk}" if name == "TURF" and f"predicted_t_{sk}" in available else f"predicted{sk}"
+            if pc not in available:
+                print(f"              FIRING COL MISSING: {pc}  <-- this sub-model can never fire")
             if cols and not survive:
                 print(f"              e.g. not in data: {cols[:6]}")
             elif survive and not labeled:

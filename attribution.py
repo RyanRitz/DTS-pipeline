@@ -698,9 +698,28 @@ def _compute_attributions(race_df, model_id, sub_coefs):
     if not contrib_rows:
         return None
 
+    # Diagnostic: a horse whose blend found no firing sub-model gets an empty
+    # contribution dict. If that happens to every horse the race produces no
+    # reasons at all, which is the "No standout attributes either way" bug.
+    n_empty = sum(1 for v in contrib_rows.values() if not v)
+    if n_empty:
+        pred_cols = [c for c in race_df.columns if str(c).startswith("predicted")]
+        logger.warning(
+            "attribution: model=%s — %d/%d horses had NO firing sub-model. "
+            "sub_coefs keys=%s ; predicted* cols present=%s",
+            model_id, n_empty, len(contrib_rows),
+            sorted(map(str, sub_coefs.keys()))[:20],
+            sorted(pred_cols)[:20],
+        )
+
     # ── Subtract race average per feature ──────────────────────────────────
-    cdf2  = pd.DataFrame.from_dict(contrib_rows, orient="index", columns=all_feats)
-    cdf2  = cdf2.fillna(0.0)
+    # NOTE: build with an explicit index/column axis. pandas' from_dict with
+    # dict values silently DROPS rows whose dict is empty (and returns an
+    # empty RangeIndex frame when every row is empty), which used to blow up
+    # `rel.loc[idx]` below with KeyError. Reindexing pins the row axis to the
+    # race's own index so non-firing horses survive as all-zero rows.
+    cdf2  = pd.DataFrame.from_dict(contrib_rows, orient="index")
+    cdf2  = cdf2.reindex(index=list(race_df.index), columns=all_feats).fillna(0.0)
     r_avg = cdf2.mean(axis=0)
     rel   = cdf2.subtract(r_avg, axis=1)
 
