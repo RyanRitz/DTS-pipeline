@@ -22,8 +22,9 @@ Layout: one race per US Letter page (portrait). Each page has:
               mini-bars | Smart Comment
       Line 2: Jockey/Trainer | ML
       LIKE/FADE panel: two columns, up to 3 reasons each
-    Row highlight: sage tint when DTSOdds < MornLineOdds (value)
-    Gold left-bar + bold call-out when value_tier >= 3 (real overlay)
+    Row highlight: sage tint on green_flag (longshot looker: bottom-half
+                   win-prob rank AND de-vigged edge vs adj-ML >= 1.75)
+    Gold left-bar + bold call-out on best_bet (gold gate: >=1.5 edge + top-half)
   - Footer: heritage attribution + downthestretch.ai + "Intelligence at Full Stride"
 
 Public API:
@@ -489,15 +490,20 @@ def _build_horse_row(row: pd.Series) -> str:
     ml   = row.get("ml_odds")
     smart = row.get("smart_comment", "") or ""
 
-    # GREEN tint = ValueTier >= 2 (the adjusted line exceeds DTS fair odds by
-    # >=25%). ValueTier is computed upstream against the SCRATCH-ADJUSTED ML,
-    # so a stale, too-long raw line doesn't over-flag value after scratches.
+    # GREEN tint = the "longshot looker" gate (green_flag): win-prob rank in the
+    # BOTTOM half of the field AND de-vigged edge vs the scratch-adjusted ML
+    # >= 1.75. Computed upstream (run_pipeline.green_flag) so green stays rare
+    # and visually cedes focus to the gold best bets. Falls back to the legacy
+    # value_tier>=2 tint only if the flag is absent from the frame.
     val_class = ""
-    try:
-        if int(row.get("value_tier") or 0) >= 2:
-            val_class = " value-row"
-    except (TypeError, ValueError):
-        pass
+    gf = row.get("green_flag")
+    if gf is None:
+        try:
+            gf = int(row.get("value_tier") or 0) >= 2
+        except (TypeError, ValueError):
+            gf = False
+    if bool(gf):
+        val_class = " value-row"
     # GOLD best-bet = the BestBet gate (>=40% overlay AND win-prob rank in the
     # top half of the field), computed upstream. Intentionally rare — a race
     # may have none. Falls back to value_tier>=3 only if the flag is absent.
