@@ -430,6 +430,33 @@ MAIDEN_BUCKETS = {
 MAIDEN_BUCKET_WEIGHTS = {"score1": 0.50, "score2": 0.25, "score3": 0.25}
 
 
+def _maiden_plan(config):
+    """
+    Resolve the family's maiden blend into (buckets, weights, pred_col_fn).
+
+    Two shapes, mirroring score._score_maiden:
+
+      * SAR — `config.MAIDEN_ENSEMBLE` is a list of
+        (filename, suite, racetype, dist, surface, ny) tuples describing a
+        3-suite / 32-cell blend. Sub-model keys are the filename stems and
+        score.py marks a fired cell with `pred_m_{key}`.
+
+      * KEE (legacy) — `config.MAIDEN_MODELS` keyed 1..16/M/S, bucketed by
+        MAIDEN_BUCKETS, fired cells marked with `predicted{key}`.
+
+    Both blend as 0.50*score1 + 0.25*score2 + 0.25*score3.
+    """
+    ens = getattr(config, "MAIDEN_ENSEMBLE", None)
+    if ens:
+        buckets = {"score1": [], "score2": [], "score3": []}
+        for row in ens:
+            fname, suite = row[0], row[1]
+            key = str(fname).replace(".sas7bdat", "")
+            buckets.setdefault(f"score{suite}", []).append(key)
+        return buckets, MAIDEN_BUCKET_WEIGHTS, (lambda k: f"pred_m_{k}")
+    return MAIDEN_BUCKETS, MAIDEN_BUCKET_WEIGHTS, (lambda k: f"predicted{k}")
+
+
 # ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
@@ -488,6 +515,10 @@ def add_attributions(
         logger.warning("attribution: no coefficient files loaded — skipping")
         return df
 
+    # How this family blends its maiden sub-models, and what column marks a
+    # fired cell. SAR = 3-suite MAIDEN_ENSEMBLE (pred_m_*); KEE = legacy.
+    maiden_plan = _maiden_plan(config)
+
     # Track synonym usage across the whole card (like and fade separately)
     like_usage: dict[str, int] = {}
     fade_usage: dict[str, int] = {}
@@ -498,7 +529,7 @@ def add_attributions(
         if not sub_coefs:
             continue
 
-        attributions = _compute_attributions(rg, model_id, sub_coefs)
+        attributions = _compute_attributions(rg, model_id, sub_coefs, maiden_plan)
         if not attributions:
             continue
 
@@ -629,10 +660,22 @@ def _load_coefficient_sets(config, coeff_dir: Path, available_columns) -> dict:
             if coefs is not None:
                 out[2][sub_key] = coefs
 
-    # Maiden — only the buckets that feed predicted (score1/2/3).
-    # Keys "M" and "S" feed score4, which isn't in predicted, so skip.
+    # Maiden — SAR declares MAIDEN_ENSEMBLE (3-suite, 32 cells, keys are the
+    # coefficient-file stems). KEE uses the legacy MAIDEN_MODELS map keyed
+    # 1..16/M/S, of which only the buckets feeding predicted (score1/2/3) are
+    # attributed; "M"/"S" feed score4, which isn't in predicted, so skip them.
+    maiden_ens = getattr(config, "MAIDEN_ENSEMBLE", None)
+    if maiden_ens:
+        for row in maiden_ens:
+            fname = row[0]
+            coefs = _read_one(fname)
+            if coefs is not None:
+                out[3][str(fname).replace(".sas7bdat", "")] = coefs
+        _maiden_legacy = {}
+    else:
+        _maiden_legacy = getattr(config, "MAIDEN_MODELS", {})
     maiden_keys_in_use = {k for ks in MAIDEN_BUCKETS.values() for k in ks}
-    for sub_key, fname in getattr(config, "MAIDEN_MODELS", {}).items():
+    for sub_key, fname in _maiden_legacy.items():
         if sub_key not in maiden_keys_in_use:
             continue
         if fname:
@@ -654,7 +697,7 @@ def _load_coefficient_sets(config, coeff_dir: Path, available_columns) -> dict:
 # Attribution computation
 # ---------------------------------------------------------------------------
 
-def _compute_attributions(race_df, model_id, sub_coefs):
+def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None):
     """
     Compute per-horse relative feature contributions for one race.
 
@@ -692,7 +735,7 @@ def _compute_attributions(race_df, model_id, sub_coefs):
     for idx in race_df.index:
         row = race_df.loc[idx]
         contrib_rows[idx] = _blend_contribution(
-            row, model_id, sub_coefs, all_feats
+            row, model_id, sub_coefs, all_feats, maiden_plan
         )
 
     if not contrib_rows:
@@ -786,6 +829,7 @@ def _blend_contribution(
     model_id: int,
     sub_coefs: dict,
     feats: list[str],
+    maiden_plan=None,
 ) -> dict:
     """
     Compute per-feature contribution for a single horse, replicating
@@ -817,6 +861,11 @@ def _blend_contribution(
     # path (dirt, maiden, and the legacy KEE turf blend) writes predicted{key}.
     # Prefer the _t_ column for turf when it exists, else fall back — this keeps
     # KEE turf and all dirt/maiden scoring detected exactly as before.
+    m_buckets, m_weights, m_pred_col = (
+        maiden_plan if maiden_plan
+        else (MAIDEN_BUCKETS, MAIDEN_BUCKET_WEIGHTS, (lambda k: f"predicted{k}"))
+    )
+
     firing = []
     for sub_key in sub_coefs.keys():
         pred_col = f"predicted{sub_key}"
@@ -824,6 +873,10 @@ def _blend_contribution(
             t_col = f"predicted_t_{sub_key}"
             if t_col in horse_row.index:
                 pred_col = t_col
+        elif model_id == 3:
+            # SAR's 3-suite maiden marks a fired cell with pred_m_{key};
+            # the legacy KEE maiden uses predicted{key}.
+            pred_col = m_pred_col(sub_key)
         v = horse_row.get(pred_col)
         if v is not None and not (isinstance(v, float) and pd.isna(v)):
             firing.append(sub_key)
@@ -848,7 +901,7 @@ def _blend_contribution(
     # ── Maiden: weighted bucket blend mirroring _score_maiden ──────────────
     if model_id == 3:
         bucket_contribs = {}  # bucket_name → {feat: contribution} or None
-        for bucket_name, bucket_keys in MAIDEN_BUCKETS.items():
+        for bucket_name, bucket_keys in m_buckets.items():
             firing_in_bucket = [k for k in bucket_keys if k in firing]
             if not firing_in_bucket:
                 bucket_contribs[bucket_name] = None
@@ -871,7 +924,7 @@ def _blend_contribution(
         # contributes 0 to predicted. We mirror that behavior here so the
         # attribution profile reflects what actually went into the score.
         contrib = {f: 0.0 for f in feats}
-        for bucket_name, weight in MAIDEN_BUCKET_WEIGHTS.items():
+        for bucket_name, weight in m_weights.items():
             bc = bucket_contribs.get(bucket_name)
             if bc is None:
                 continue
