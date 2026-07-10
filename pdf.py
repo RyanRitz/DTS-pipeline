@@ -94,7 +94,9 @@ def generate_pdf(
         label=label,
         conditions=conditions or {},
         first_post=first_post,
-        scratches_note=scratches_note or "No Scratches Updated",
+        # Empty string = render nothing. The caller decides what (if anything)
+        # to say; a PREVIEW has no change feed to report on.
+        scratches_note=scratches_note or "",
         logo_path=logo_path,
         track_full_name=track_full_name or track,
         is_preview=is_preview,
@@ -333,6 +335,14 @@ def _build_race_page(
 
     fp = f"1st Post: <b>{_html_escape(first_post)}</b>" if first_post else ""
 
+    # ── Change-feed freshness line ───────────────────────────────────────
+    # Sits under 1st Post / conditions. Equibase's own "Last Updated" stamp is
+    # in ET, the same clock as first_post, so the two lines agree. Blank on a
+    # PREVIEW (no change feed has been read yet) — we render nothing rather
+    # than an empty element so the strip doesn't gain dead vertical space.
+    sn = (f'<span class="ms-updated">{_html_escape(scratches_note)}</span>'
+          if scratches_note else "")
+
     # ── Banner. A caller-supplied logo_path (logo_uri) still wins and renders
     # as an image. Otherwise we render the typographic DTS masthead: a crisp,
     # print-resolution header — Deep Forest field, Racing Gold Constantia
@@ -435,6 +445,7 @@ def _build_race_page(
       <div class="ms-mid-inner">
         <span class="ms-fp">{fp}</span>
         <span class="ms-cond">{cond_str}</span>
+        {sn}
       </div>
     </div>
     <div class="ms-right">
@@ -1299,6 +1310,16 @@ body {
 .ms-mid-inner b { color: #0D2B1E; }
 .ms-fp   { display: block; white-space: nowrap; }
 .ms-cond { display: block; white-space: nowrap; }
+/* Change-feed freshness. Deliberately quieter than the two lines above it —
+   Sage Mist, smaller, italic: informational provenance, not a headline. */
+.ms-updated {
+  display: block;
+  white-space: nowrap;
+  font-size: 8.5pt;
+  font-style: italic;
+  color: #8BAF8E;
+  margin-top: 1pt;
+}
 
 .ms-right {
   flex: 0 0 32%;

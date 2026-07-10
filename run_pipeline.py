@@ -1575,6 +1575,30 @@ def generate_pdf(scoring_result: ScoringResult,
         if getattr(ts, "turf_condition", ""):
             conditions["turf"] = ts.turf_condition
 
+    # ── "Changes updated through …" ─────────────────────────────────────
+    # Equibase stamps its late-changes page with "Last Updated: May 8, 1:14 PM
+    # ET" — the same page scratches.py reads via RSS. track_status captures it
+    # verbatim in `last_updated_raw`, already in ET, which is the same clock
+    # the first-post time uses. Strip the leading date so the header carries
+    # only the time; the sheet already states the race date.
+    scratches_note = None
+    if ts is not None:
+        _lu = getattr(ts, "last_updated_raw", None)
+        _m = _re.search(r"(\d{1,2}:\d{2})\s*(AM|PM)\s*ET",
+                        _lu or "", _re.IGNORECASE)
+        if _m:
+            scratches_note = (
+                f"Changes updated through {_m.group(1)} {_m.group(2).upper()} ET"
+            )
+        else:
+            # We read the page and it carried no "Last Updated" stamp.
+            scratches_note = "No changes posted"
+    # ts is None => the status fetch failed or was skipped (every PREVIEW).
+    # Say NOTHING. Scratches arrive over the RSS feed independently, so a
+    # failed status fetch tells us nothing about whether changes exist —
+    # claiming "No changes posted" here would be a lie on a card that did
+    # scratch horses.
+
     # ── Logo path: optional ─────────────────────────────────────────────
     # Look for the DTS banner in canonical locations. If not found here,
     # pdf.py will fall back to its own DTS_banner.png lookup next to the
@@ -1611,6 +1635,7 @@ def generate_pdf(scoring_result: ScoringResult,
             label=label,
             first_post=first_post_str,
             conditions=conditions,
+            scratches_note=scratches_note,
             logo_path=None,
             is_preview=(not is_final),
         )
