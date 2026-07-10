@@ -74,11 +74,15 @@ IN_CARD_ANCHOR_MIN_BEFORE_RACE = 20
 # track for the day — racing is over, no more useful changes will arrive.
 CARD_COMPLETE_GRACE_MIN = 5
 
-# Per-tick cap on the number of tracks we'll do a Selenium fetch for. Equibase
-# can hang for 2-5 minutes when Imperva is fussy, so we cap fetches per tick
-# to keep the pipeline from running over its 30-min slot. Tracks deferred to
-# the next tick still hit their anchor window (+/-15 min covers the wait).
-MAX_FETCHES_PER_TICK = 4
+# Per-tick cap on the number of EXPENSIVE FINAL publishes (each does one
+# Equibase Selenium fetch, which can hang 2-5 min when Imperva is fussy) —
+# bounds the tick against its 30-min Task Scheduler slot. As of the fetch-
+# budget refactor this counts ONLY genuine publishes (a track whose scratch
+# signature actually changed); cheap no-change checks and non-flat skips no
+# longer consume it, so the cap almost never binds and no track starves the
+# way Saratoga did on 2026-07-10. Deferred tracks retry next tick, well
+# inside their +/-15 min anchor tolerance.
+MAX_FETCHES_PER_TICK = 8
 
 # ── Logging ──────────────────────────────────────────────────────────────────
 # Rotate at 10 MB, keep last 3 archives (pipeline.log.1 .. pipeline.log.3).
@@ -1900,9 +1904,28 @@ def _active_anchor_for_drf(drf: dict, now: datetime) -> str | None:
     return active[0] if active else None
 
 
-def publish_final(drf: dict, state: dict) -> bool:
+def publish_final(drf: dict, state: dict, budget_remaining: int = 1) -> str:
     """
     Run the final pipeline (with scratches). Update state on success.
+
+    Returns a status string so the caller can spend the per-tick Selenium
+    budget on real work only:
+        "published" — did the expensive path (Equibase status fetch + score +
+                      PDF + upload). This is the ONLY status that should count
+                      against MAX_FETCHES_PER_TICK.
+        "unchanged" — scratch signature matched the last publish; cheap RSS
+                      check only, no Chrome. Free.
+        "skipped"   — non-thoroughbred / non-flat card; nothing to score.
+        "deferred"  — scratches changed but the Selenium budget for this tick
+                      is exhausted; left UNpublished (sig not recorded) so the
+                      next tick retries. Its anchor window (+/-15 min) covers
+                      the wait.
+        "failed"    — scoring / PDF / upload / exception.
+
+    `budget_remaining` is how many expensive fetches the caller will still
+    allow this tick. Only the sig-CHANGED path consumes it; the cheap
+    no-change and skip paths run regardless (that's the whole point — a track
+    with nothing new must never starve one with real scratches).
 
     Logic:
       1. Fetch scratches from Equibase.
@@ -1947,7 +1970,19 @@ def publish_final(drf: dict, state: dict) -> bool:
             state["published"][race_date][track].setdefault("final", {})
             state["published"][race_date][track]["final"]["last_checked_at"] = \
                 datetime.now().isoformat(timespec="seconds")
-            return True
+            return "unchanged"
+
+        # Scratch list changed (or first publish) — this is the expensive
+        # path (Selenium status fetch + score + PDF + upload). Gate it on the
+        # per-tick budget. If we're out, leave it UNpublished and unrecorded
+        # so the next tick retries; the anchor tolerance covers the delay.
+        if budget_remaining <= 0:
+            log.info(
+                f"[FINAL]   {track} {race_date} -- scratches changed "
+                f"({len(scratches)}) but Selenium budget spent this tick; "
+                f"deferring to next tick"
+            )
+            return "deferred"
 
         # Scratch list changed (or first publish) — full pipeline
         first_post, ts = _get_final_first_post(drf)
@@ -1962,19 +1997,19 @@ def publish_final(drf: dict, state: dict) -> bool:
             )
             _mark_card_skipped(state, race_date, track, drf)
             save_state(state)
-            return True
+            return "skipped"
         if result is None:
             log.error(f"[FINAL]   {track} {race_date} -- scoring failed")
-            return False
+            return "failed"
 
         pdf_path = generate_pdf(result, is_final=True)
         if not pdf_path:
             log.error(f"[FINAL]   {track} {race_date} -- PDF generation failed")
-            return False
+            return "failed"
 
         if not upload_to_dts(pdf_path, track, race_date, is_final=True):
             log.error(f"[FINAL]   {track} {race_date} -- upload failed")
-            return False
+            return "failed"
 
         track_status_dict = ts.as_dict() if ts is not None else None
 
@@ -2010,11 +2045,11 @@ def publish_final(drf: dict, state: dict) -> bool:
                 f"[FINAL]   {track} {race_date} -- OK (scratches changed: "
                 f"sig {prev_sig[:8]} -> {new_sig[:8]}, {len(scratches)} scratches, {anchor})"
             )
-        return True
+        return "published"
 
     except Exception as e:
         log.exception(f"[FINAL]   {track} {race_date} -- exception: {e}")
-        return False
+        return "failed"
 
 
 # ── Main ─────────────────────────────────────────────────────────────────────
@@ -2085,14 +2120,32 @@ def main() -> int:
     finals_published_this_tick = 0
     deferred_tracks: list[str] = []
 
-    # Sort DRFs by race_date, then by minutes-to-first-post (ascending) so
-    # that tracks closer to their next anchor get priority when the fetch
-    # cap is binding. Tracks with no parseable first post sort last.
+    # Sort DRFs so that, when the Selenium budget binds, the most
+    # time-critical FINAL publishes first. Priority is distance to the
+    # NEAREST ANCHOR — not time to first post. (Sorting by first post starved
+    # late-posting tracks: a track that went off 80 min ago sorted ahead of
+    # one 5 min from its next in-card anchor, so the morning slate ate the
+    # budget every tick and Saratoga never got a slot.) Uses the same
+    # DRF-heuristic anchor machinery as should_publish_final — no Selenium.
     def _priority(d: dict) -> tuple[str, float]:
         try:
-            fp = get_first_post(d["path"])
-            if fp:
-                return (d["race_date"], (fp - now).total_seconds())
+            race_posts = get_all_race_posts(d["path"])
+            if race_posts:
+                first_post = race_posts.get(1) or min(race_posts.values())
+                mins_to_first = (first_post - now).total_seconds() / 60.0
+                active = _find_active_anchor(mins_to_first, race_posts, now)
+                if active is not None:
+                    # In a window now — rank by closeness to the anchor centre.
+                    return (d["race_date"], active[1])
+                # Not in a window — rank by time to the next anchor moment, so
+                # a track approaching its window still beats one far from any.
+                future = [
+                    (p - now).total_seconds() / 60.0
+                    for p in race_posts.values()
+                    if p > now
+                ]
+                if future:
+                    return (d["race_date"], 1000.0 + min(future))
         except Exception:
             pass
         return (d["race_date"], 9_999_999)
@@ -2117,22 +2170,23 @@ def main() -> int:
             log.debug(f"[skip final]   {track} {race_date}: {reason_f}")
             continue
 
-        # In an anchor window — but enforce the per-tick fetch cap so we
-        # don't blow through our 30-min Task Scheduler slot if Equibase
-        # is slow.
-        if finals_published_this_tick >= MAX_FETCHES_PER_TICK:
+        # In an anchor window. publish_final does a CHEAP scratch-signature
+        # check first; only a genuine change triggers the expensive Equibase
+        # Selenium fetch. So we pass the remaining fetch budget and let it
+        # decide: cheap no-change checks and skips always run (a track with
+        # nothing new must never starve one with real scratches); only real
+        # publishes count against MAX_FETCHES_PER_TICK.
+        budget = MAX_FETCHES_PER_TICK - finals_published_this_tick
+        status = publish_final(drf, state, budget_remaining=budget)
+        if status == "published":
+            actions += 1
+            finals_published_this_tick += 1
+        elif status == "deferred":
             deferred_tracks.append(track)
-            log.info(
-                f"[defer final] {track} {race_date}: per-tick fetch cap "
-                f"({MAX_FETCHES_PER_TICK}) reached, deferring to next tick"
-            )
-            continue
-
-        actions += 1
-        finals_published_this_tick += 1
-        if not publish_final(drf, state):
+        elif status == "failed":
             failures.append(f"FINAL {track} {race_date}")
             save_state(state)
+        # "unchanged" / "skipped": no fetch spent, nothing to record here
 
     save_state(state)
 
