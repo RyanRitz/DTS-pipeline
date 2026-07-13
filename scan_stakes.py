@@ -49,11 +49,24 @@ def _first(row, col):
     return "" if s.lower() in ("nan", "none") else s
 
 def main() -> int:
+    out_path = _HERE / "stakes_scan.txt"
+    lines: list[str] = []
+    def emit(s: str = ""):
+        # Collect for the log file; also echo to console so a live run shows life.
+        lines.append(s)
+        try:
+            print(s)
+        except Exception:
+            pass  # console encoding hiccups shouldn't stop the scan
+
     drfs = sorted(DRF_DIR.glob("*.DRF")) + sorted(DRF_DIR.glob("*.drf"))
     if not drfs:
-        print(f"No DRFs in {DRF_DIR}")
+        emit(f"No DRFs in {DRF_DIR}")
+        out_path.write_text("\n".join(lines), encoding="utf-8")
         return 1
-    print(f"Scanning {len(drfs)} DRF(s) in {DRF_DIR}\n")
+    emit(f"Scanning {len(drfs)} DRF(s) in {DRF_DIR}")
+    emit(f"(mode: {'ALL races' if SHOW_ALL else 'stakes-looking races only'})")
+    emit("")
 
     hits = 0
     for path in drfs:
@@ -65,7 +78,7 @@ def main() -> int:
         try:
             df = load_drf(path, track, mmdd, year)
         except Exception as e:
-            print(f"  ! {path.name}: load failed ({e})")
+            emit(f"  ! {path.name}: load failed ({e})")
             continue
 
         # one row per race (header fields are identical across a race's horses)
@@ -77,18 +90,21 @@ def main() -> int:
                 continue
             hits += 1
             rc = int(row["Race"]) if str(row.get("Race")).replace(".0", "").isdigit() else row.get("Race")
-            print(f"== {track} {year}-{mmdd}  Race {rc}")
+            emit(f"== {track} {year}-{mmdd}  Race {rc}")
             for c in CAND:
                 v = _first(row, c)
                 if v:
-                    print(f"     {c:26s} : {v[:160]}")
-            print()
+                    emit(f"     {c:26s} : {v[:200]}")
+            emit("")
 
     if hits == 0:
-        print("No stakes-looking races found. Re-run with --all to dump every race.")
+        emit("No stakes-looking races found. Re-run with --all to dump every race.")
     else:
-        print(f"{hits} race(s) shown. Look for the NAME (e.g. 'Whitney') and note "
-              f"which field it sits in — that's the column to wire into race_name.")
+        emit(f"{hits} race(s) shown. Look for the NAME (e.g. 'Whitney') and note "
+             f"which field it sits in — that's the column to wire into race_name.")
+
+    out_path.write_text("\n".join(lines), encoding="utf-8")
+    print(f"\n---\nWrote {len(lines)} lines to: {out_path}")
     return 0
 
 if __name__ == "__main__":
