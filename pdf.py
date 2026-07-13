@@ -635,7 +635,7 @@ RACETYPE_MAP = {
     "S":  "Maiden SpWt",
     "M":  "Maiden Claim",
     "C":  "Claiming",
-    "N":  "Allow / NW",
+    "N":  "Stakes",       # nongraded stakes (Brisnet code N); named race leads the middle slot
     "A":  "Allowance",
     "AO": "Alw Opt. Claim",
     "G":  "Stakes",
@@ -836,10 +836,19 @@ def _format_race_title(row: pd.Series) -> dict:
         if suffix:
             middle_parts.append(suffix)
 
-        # 3) Named race / feature (rare on day-to-day cards, common in stakes)
-        race_name = (row.get("race_name") or "").strip()
-        if race_name:
-            middle_parts.insert(0, race_name)  # prepend so it leads
+    # Named stakes lead the middle slot (BOTH branches — previously this only
+    # fired in the fallback, but real cards always carry a race_conditions_
+    # summary, so the name never showed). For a graded stakes the grade token
+    # ('G3') rides right after the name; nongraded stakes show the name alone.
+    # race_name / race_grade are computed per race in run_pipeline
+    # (_stakes_name / _stakes_grade) from RaceConditions1.
+    race_name = (row.get("race_name") or "").strip()
+    if race_name:
+        lead = [_html_escape(race_name)]
+        race_grade = (row.get("race_grade") or "").strip()
+        if race_grade:
+            lead.append(_html_escape(race_grade))
+        middle_parts[0:0] = lead  # prepend so name (+grade) leads
 
     # Turns last — shown for every race we can resolve the geometry for.
     if turns_str:

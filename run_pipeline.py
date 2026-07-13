@@ -1214,6 +1214,86 @@ def _summarize_rc(rc1, rc2=None, max_len: int = 64) -> str:
     return core
 
 
+# ── Stakes NAME + grade (from RaceConditions1) ──────────────────────────────
+# Named stakes ("Irish War Cry Stakes", "Whitney") sit at the LEAD of
+# RaceConditions1, before the word "Purse". Ordinary races lead with a generic
+# class keyword ("CLAIMING.", "MAIDEN SPECIAL WEIGHT.") which we deliberately
+# skip. Only RaceType G (graded) / N (nongraded stakes) carry a real name.
+_STK_KEEP_UPPER = {
+    "CTBA", "TVG", "OBS", "TTA", "EL", "II", "III", "IV", "NY", "PA", "USA",
+}
+_STK_CONNECTIVES = {"AND", "OR", "OF", "THE", "FOR", "IN", "A", "DE", "LA"}
+_STK_SUFFIX = {"S": "Stakes", "H": "Handicap", "INV": "Invitational"}
+_STK_GENERIC = ("CLAIMING", "MAIDEN", "ALLOWANCE", "STARTER", "OPTIONAL",
+                "WAIVER", "TRIAL")
+
+
+def _clean_stakes_name(raw: str) -> str:
+    """Tier-A cleanup: title-case + expand the trailing suffix abbreviation.
+
+    'IRISH WAR CRY H.'      -> 'Irish War Cry Handicap'
+    'IOWA STALLION FILLY S.' -> 'Iowa Stallion Filly Stakes'
+    Known all-caps tokens (CTBA, TVG, roman numerals) keep their case.
+    """
+    s = (raw or "").strip().strip(".").strip()
+    if not s:
+        return ""
+    toks = s.split()
+    # Expand a trailing suffix abbreviation (S./H./INV.) to the full word.
+    tail = toks[-1].upper().rstrip(".")
+    if tail in _STK_SUFFIX:
+        toks[-1] = _STK_SUFFIX[tail]
+    out = []
+    for w in toks:
+        u = w.upper().rstrip(".")
+        if u in _STK_KEEP_UPPER:
+            out.append(u)
+        elif u in _STK_CONNECTIVES:
+            out.append(w.lower())
+        else:
+            out.append(w.capitalize())
+    name = " ".join(out).strip()
+    # Never leave the first word lowercased (a leading connective).
+    return (name[:1].upper() + name[1:]) if name else name
+
+
+def _stakes_name(rc1, racetype) -> str:
+    """Extract a display stakes name from RaceConditions1, or '' if not a
+    named stakes. Gate on RaceType G/N so ordinary races never match."""
+    rt = ("" if racetype is None else str(racetype)).strip().upper()
+    if rt not in ("G", "N"):
+        return ""
+    s = ("" if rc1 is None else str(rc1)).replace(";", ",").strip()
+    if not s:
+        return ""
+    lead = _re.split(r"PURSE", s, maxsplit=1, flags=_re.IGNORECASE)[0]
+    lead = lead.strip().strip(".").strip()
+    if not lead:
+        return ""
+    up = lead.upper()
+    if any(up.startswith(g) for g in _STK_GENERIC):
+        return ""   # generic class text, not a real name
+    return _clean_stakes_name(lead)
+
+
+def _stakes_grade(rc_full, classif, racetype) -> str:
+    """Return 'G1'/'G2'/'G3' for a GRADED stakes, else ''. Best-effort text
+    scan of RaceConditions + TodaysRaceClassification; only fires for
+    RaceType G. (No graded race in the current slate to verify against — safe
+    no-op until one appears.)"""
+    rt = ("" if racetype is None else str(racetype)).strip().upper()
+    if rt != "G":
+        return ""
+    blob = " ".join(str(x or "") for x in (rc_full, classif)).upper()
+    m = _re.search(r"\bGRADE\s*(I{1,3}|[123])\b", blob) or \
+        _re.search(r"\bG\s*([123])\b", blob)
+    if not m:
+        return ""
+    g = m.group(1)
+    g = {"I": "1", "II": "2", "III": "3"}.get(g, g)
+    return f"G{g}"
+
+
 def generate_pdf(scoring_result: ScoringResult,
                  is_final: bool = False) -> Path | None:
     """
@@ -1407,6 +1487,28 @@ def generate_pdf(scoring_result: ScoringResult,
             work["Race"].astype("Int64").map(_rc_by_race).fillna("")
         )
 
+        # ── Per-race stakes NAME + grade ────────────────────────────────
+        # Same one-value-per-race pattern as the summary above. Reuses the
+        # already-resolved rc1_col + _first_nonblank scanner.
+        rcfull_col = "RaceConditions" if "RaceConditions" in work.columns else None
+        rt_col     = "RaceType" if "RaceType" in work.columns else None
+        cls_col    = "TodaysRaceClassification" if "TodaysRaceClassification" in work.columns else None
+        _name_by_race: dict = {}
+        _grade_by_race: dict = {}
+        for race_num, grp in work.groupby("Race", sort=False):
+            rc1 = _first_nonblank(grp[rc1_col]) if rc1_col else None
+            rt  = _first_nonblank(grp[rt_col]) if rt_col else None
+            rcf = _first_nonblank(grp[rcfull_col]) if rcfull_col else None
+            cls = _first_nonblank(grp[cls_col]) if cls_col else None
+            try:
+                _name_by_race[int(race_num)]  = _stakes_name(rc1, rt)
+                _grade_by_race[int(race_num)] = _stakes_grade(rcf, cls, rt)
+            except Exception:
+                _name_by_race[int(race_num)]  = ""
+                _grade_by_race[int(race_num)] = ""
+        work["race_name"]  = work["Race"].astype("Int64").map(_name_by_race).fillna("")
+        work["race_grade"] = work["Race"].astype("Int64").map(_grade_by_race).fillna("")
+
     # ── Per-race number of turns (track geometry) ───────────────────────
     # get_turns(track, surface, distance_yards) -> 1 | 2 | None. Computed once
     # per race and mapped back. This populates the "turns" column the header
@@ -1473,7 +1575,8 @@ def generate_pdf(scoring_result: ScoringResult,
         "classif":         _col("TodaysRaceClassification", default=""),
         "purse":           _col("Purse"),
         "turns":           _col("turns"),
-        "race_name":       _col("RaceName", default=""),
+        "race_name":       _col("race_name", default=""),
+        "race_grade":      _col("race_grade", default=""),
         "race_conditions_summary": _col("race_conditions_summary", default=""),
 
         # Connections
