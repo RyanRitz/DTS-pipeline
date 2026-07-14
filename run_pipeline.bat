@@ -16,16 +16,22 @@ REM (Insurance against __pycache__/*.pyc shadowing updated source.)
 if exist "__pycache__" rmdir /s /q "__pycache__"
 
 "%PY%" run_pipeline.py > "pipeline_run.log" 2>&1
+set "RC=%ERRORLEVEL%"
 
-if %ERRORLEVEL% NEQ 0 (
-    echo Pipeline tick failed with exit code %ERRORLEVEL% — sending email
+REM Promote the day's downloaded DRFs into the permanent per-track database
+REM (<TRACK>\RAW_DATA\RACINGFORM\<year>\) so history accumulates for free and
+REM never has to be re-purchased. Runs every tick; idempotent, skips duplicates.
+"%PY%" archive_drfs.py >> "pipeline_run.log" 2>&1
+
+if %RC% NEQ 0 (
+    echo Pipeline tick failed with exit code %RC% — sending email
 
     REM Grab the last 30 lines of the log to embed in the email
     powershell -NoProfile -Command "Get-Content pipeline_run.log -Tail 30 | Out-File -Encoding utf8 _tail.txt"
     set /p TAIL=<_tail.txt
-    "%PY%" notify.py "Pipeline tick failed (exit %ERRORLEVEL%)" "Last log lines:\n\n!TAIL!\n\nFull log: %~dp0pipeline_run.log"
+    "%PY%" notify.py "Pipeline tick failed (exit %RC%)" "Last log lines:\n\n!TAIL!\n\nFull log: %~dp0pipeline_run.log"
     del _tail.txt 2>nul
-    exit /b %ERRORLEVEL%
+    exit /b %RC%
 )
 
 echo Pipeline tick OK
