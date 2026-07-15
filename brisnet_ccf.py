@@ -24,7 +24,7 @@ Files land RAW (unrenamed) in --dest. Format is inspected before we write the
 archiver, because we don't yet know if CCF ships one file per card or per race.
 """
 from __future__ import annotations
-import argparse, json, os, time
+import argparse, json, os, re, time
 from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -65,6 +65,107 @@ return JSON.stringify(out);
 """
 
 
+TRACKS_JS = r"""
+var rows = document.querySelectorAll('.track.table-row');
+var out = [];
+var seen = {};
+for (var i = 0; i < rows.length; i++) {
+    var s = angular.element(rows[i]).scope();
+    if (!s || !s.track) continue;
+    var t = s.track;
+    if (seen[t.trackCode]) continue;
+    seen[t.trackCode] = true;
+    var offers = 0;
+    var dates = t.availableDates || [];
+    for (var j = 0; j < dates.length; j++) {
+        var prods = dates[j].availableProducts || [];
+        for (var k = 0; k < prods.length; k++) {
+            if (prods[k].productCode === arguments[0]) offers++;
+        }
+    }
+    out.push({trackCode:t.trackCode, trackName:t.trackName, country:t.country,
+              trackType:t.trackType, dayEvening:t.dayEvening, offers:offers});
+}
+return JSON.stringify(out);
+"""
+
+
+def all_track_attrs(driver, product):
+    """
+    Track attrs for URL building, WITHOUT bd.extract_tracks()'s
+    customerAvailability=='View' filter. That filter is too strict: the grid
+    reports 'AddToCart' for every offer yet the files download fine (verified on
+    SAR 2026-07-11). Filtering on View yields an empty track list and silently
+    downloads nothing.
+    """
+    out = {}
+    for t in json.loads(driver.execute_script(TRACKS_JS, product)):
+        out[(t.get("trackCode") or "").upper()] = t
+    return out
+
+
+DRF_NAME = re.compile(r"^(\d{4})(\d{2})(\d{2})_([A-Za-z]{2,4})_DRS$", re.I)
+CANON_FOLDER = {"CD": "CDX", "GP": "GPX", "FG": "FGX"}
+
+
+def manifest_from_drfs(roots, start=None, end=None):
+    """
+    Build the exact (date, track) list of cards that ACTUALLY RACED, by reading
+    the DRF filenames we already hold (YYYYMMDD_TRACK_DRS.DRF).
+
+    Why: a blind date-range x track sweep is ~5,000 attempts for Mar-Jul, and
+    the overwhelming majority are dark days that each burn a full download
+    timeout. Pairing off the DRFs cuts it to ~650 real fetches and guarantees
+    every chart we pull matches a card we have predictors for - which is the
+    entire point (a chart with no DRF, or a DRF with no chart, can't fit).
+    """
+    seen = set()
+    for root in roots:
+        root = Path(root)
+        if not root.exists():
+            print(f"  [!] pair-from path not found: {root}")
+            continue
+        for f in root.rglob("*.DRF"):
+            m = DRF_NAME.match(f.stem)
+            if not m:
+                continue                      # legacy TRACKMMDD.DRF has no year - skip
+            y, mo, d, trk = m.groups()
+            try:
+                dt = datetime(int(y), int(mo), int(d)).date()
+            except ValueError:
+                continue
+            if start and dt < start: continue
+            if end and dt > end:     continue
+            seen.add((dt, trk.upper()))
+    return sorted(seen)
+
+
+def charts_already_local(dest_btsm: Path, dt, track: str) -> bool:
+    """True if this card's charts are already filed (any of the 6 parts)."""
+    folder = CANON_FOLDER.get(track.upper(), track.upper())
+    ydir = Path(dest_btsm) / folder / "RAW_DATA" / "RESULTS" / f"{dt:%Y}"
+    if not ydir.is_dir():
+        return False
+    stem = f"{track.upper()}{dt:%m%d%Y}"
+    try:
+        with os.scandir(ydir) as it:
+            return any(e.name.upper().startswith(stem) for e in it)
+    except OSError:
+        return False
+
+
+def drf_already_local(dest_btsm: Path, dt, track: str) -> bool:
+    """True if this card's DRF is already filed (archive_drfs naming)."""
+    folder = CANON_FOLDER.get(track.upper(), track.upper())
+    f = Path(dest_btsm) / folder / "RAW_DATA" / "RACINGFORM" / f"{dt:%Y}" / f"{track.upper()}{dt:%m%d}.DRF"
+    return f.exists()
+
+
+def already_have(product: str, dest_btsm: Path, dt, track: str) -> bool:
+    return (charts_already_local(dest_btsm, dt, track) if product.upper() == "CCF"
+            else drf_already_local(dest_btsm, dt, track))
+
+
 def authenticate(page_url):
     driver = bd.get_driver()
     driver.get("https://www.brisnet.com"); time.sleep(2); bd.dismiss_cookie_banner(driver)
@@ -97,11 +198,11 @@ def do_discover(driver):
     log.info("     exposes; older dates may still work via direct URL (try --probe).")
 
 
-def pull_one(driver, code, attrs, d, race, dest):
+def pull_one(driver, code, attrs, d, race, dest, timeout=25):
     track = {"trackCode": code, "country": attrs["country"],
              "trackType": attrs["trackType"], "dayEvening": attrs["dayEvening"]}
     url = bd.build_url(track, d.isoformat(), race)
-    got = bd.download_via_browser(driver, url, timeout=25)
+    got = bd.download_via_browser(driver, url, timeout=timeout)
     if not got:
         return None
     got = Path(got)
@@ -131,6 +232,10 @@ def main():
     ap.add_argument("--race", type=int, default=0, help="0=whole card; else race number")
     ap.add_argument("--dest", default=str(Path(bd.OUTPUT_DIR).parent / "CCF_Downloads"))
     ap.add_argument("--sleep", type=float, default=1.5)
+    ap.add_argument("--pair-from", default="", help="comma list of dirs holding YYYYMMDD_TRACK_DRS.DRF - fetch charts ONLY for cards that raced")
+    ap.add_argument("--btsm", default=str(Path(bd.OUTPUT_DIR).parent.parent), help="local BTSM root (to skip cards already filed)")
+    ap.add_argument("--timeout", type=int, default=25, help="per-download wait. Dark days burn the FULL timeout, so use ~8 for wide historical sweeps")
+    ap.add_argument("--no-skip", action="store_true", help="do not skip cards already on disk")
     a = ap.parse_args()
 
     page = a.page or (f"https://www.brisnet.com/product/data-files/{a.product}" if a.product else bd.DRS_URL)
@@ -143,19 +248,16 @@ def main():
         if a.discover or not a.product:
             do_discover(driver)
             return
-        live = {}
-        for t in bd.extract_tracks(driver):
-            live[(t.get("trackCode") or "").upper()] = {
-                "country": t["country"], "trackType": t["trackType"],
-                "dayEvening": t["dayEvening"], "trackName": t.get("trackName","")}
-        log.info(f"[*] {len(live)} track(s) offer {a.product} right now: {', '.join(sorted(live))}")
+        live = all_track_attrs(driver, a.product)
+        offering = [c for c, t in live.items() if t.get("offers")]
+        log.info(f"[*] {len(live)} track(s) on the grid; {len(offering)} offer {a.product}: {', '.join(sorted(offering))}")
         codes = [c.strip().upper() for c in a.tracks.split(",") if c.strip()] or sorted(live)
 
         if a.probe:
             for c in codes:
                 at = live.get(c)
                 if not at:
-                    log.warning(f"[probe] {c}: not offering {a.product} today — skipping"); continue
+                    log.warning(f"[probe] {c}: not on the grid today — cannot build URL; skipping"); continue
                 for ds in [x for x in a.test_dates.split(",") if x.strip()]:
                     d = datetime.fromisoformat(ds).date()
                     t = pull_one(driver, c, at, d, a.race, a.dest)
@@ -164,18 +266,49 @@ def main():
                     time.sleep(a.sleep)
             return
 
-        if not (a.start and a.end): raise SystemExit("[!] need --start and --end (or --probe/--discover)")
+        if a.pair_from:
+            start = datetime.fromisoformat(a.start).date() if a.start else None
+            end   = datetime.fromisoformat(a.end).date()   if a.end   else None
+            cards = manifest_from_drfs([x.strip() for x in a.pair_from.split(",") if x.strip()], start, end)
+            if codes:
+                cards = [(d, t) for (d, t) in cards if t in codes]
+            todo = [(d, t) for (d, t) in cards if not charts_already_local(Path(a.btsm), d, t)]
+            print(f"[*] {len(cards)} card(s) raced in range; {len(cards)-len(todo)} already have charts; fetching {len(todo)}")
+            got = defaultdict(int); miss = 0
+            for i, (d, t) in enumerate(todo, 1):
+                at = live.get(t)
+                if not at:
+                    miss += 1; continue
+                f = pull_one(driver, t, at, d, a.race, a.dest)
+                if f: got[t] += 1
+                else: miss += 1
+                if i % 25 == 0:
+                    print(f"    ...{i}/{len(todo)}  ok={sum(got.values())} miss={miss}", flush=True)
+                time.sleep(a.sleep)
+            print("=" * 50)
+            for c, n in sorted(got.items()): print(f"  {c}: {n} chart zip(s)")
+            print(f"  fetched {sum(got.values())}, missed {miss}. Raw zips in: {a.dest}")
+            print("  -> now run:  python archive_charts.py")
+            return
+
+        if not (a.start and a.end): raise SystemExit("[!] need --start and --end (or --probe/--discover/--pair-from)")
         s = datetime.fromisoformat(a.start).date(); e = datetime.fromisoformat(a.end).date()
         got = defaultdict(int)
         for c in codes:
             at = live.get(c)
             if not at:
                 log.warning(f"[!] {c}: not offering {a.product} today — skipping"); continue
-            d = s
+            d = s; tried = have = 0
             while d <= e:
-                t = pull_one(driver, c, at, d, a.race, a.dest)
+                if not a.no_skip and already_have(a.product, Path(a.btsm), d, c):
+                    have += 1; d += timedelta(days=1); continue
+                tried += 1
+                t = pull_one(driver, c, at, d, a.race, a.dest, a.timeout)
                 if t: got[c] += 1; log.info(f"    {c} {d}: OK -> {t.name}")
+                if tried % 25 == 0:
+                    log.info(f"    ...{c} through {d}: tried={tried} ok={got[c]} (skipped {have} already local)")
                 time.sleep(a.sleep); d += timedelta(days=1)
+            log.info(f"[*] {c}: {got[c]} downloaded, {have} already local, {tried-got[c]} not available")
         log.info("=" * 50)
         for c, n in sorted(got.items()): log.info(f"  {c}: {n} file(s)")
         log.info(f"  raw files in: {a.dest}")
