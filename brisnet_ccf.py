@@ -154,6 +154,48 @@ def charts_already_local(dest_btsm: Path, dt, track: str) -> bool:
         return False
 
 
+_DIAG_SAVED = [False]
+
+
+def _diagnose_reject(p: Path) -> None:
+    """
+    The FIRST rejected page gets saved + sniffed. A reject can mean two very
+    different things and they are indistinguishable by status alone:
+      - "not owned"  -> a cart/purchase page   (expected, harmless)
+      - "not logged in" -> a login page        (BUG - the whole run is useless)
+    Chrome cannot copy Cookies while Chrome is running (WinError 32 on
+    Network\Cookies), so an un-authenticated session is a very real failure mode.
+    """
+    if _DIAG_SAVED[0]:
+        return
+    _DIAG_SAVED[0] = True
+    try:
+        raw = p.open("rb").read(4000).decode("utf-8", "ignore").lower()
+    except OSError:
+        return
+    out = Path("diag_reject.html")
+    try:
+        out.write_bytes(p.open("rb").read())
+    except OSError:
+        pass
+    hints = []
+    for kw, msg in [("password", "LOGIN PAGE - session is NOT authenticated"),
+                    ("sign in", "LOGIN PAGE - session is NOT authenticated"),
+                    ("log in", "LOGIN PAGE - session is NOT authenticated"),
+                    ("add to cart", "cart/purchase page - card not owned"),
+                    ("shopping cart", "cart/purchase page - card not owned"),
+                    ("not authorized", "not authorized"),
+                    ("no data", "no data for this track/date")]:
+        if kw in raw:
+            hints.append(msg)
+    log.warning(f"[!] First rejected download saved to {out} ({p.stat().st_size} bytes)")
+    if hints:
+        for h in dict.fromkeys(hints):
+            log.warning(f"    -> looks like: {h}")
+    else:
+        log.warning(f"    -> unrecognised page; open {out} to see what Brisnet returned")
+
+
 def _is_real_data(p: Path) -> bool:
     """
     Reject Brisnet's "you don't own this" HTML page, which Chrome saves as
@@ -218,6 +260,19 @@ def authenticate(page_url):
         driver.get(page_url); time.sleep(3); bd.dismiss_cookie_banner(driver)
     WebDriverWait(driver, 25).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.track.table-row")))
     bd.wait_for_angular_data(driver, timeout=30)
+    try:
+        body = driver.find_element(By.TAG_NAME, "body").text.lower()
+    except Exception:
+        body = ""
+    signed_in = any(k in body for k in ("logout", "sign out", "my account"))
+    if not signed_in:
+        log.warning("[!] Session does NOT look authenticated (no logout/my-account link).")
+        log.warning("    The data-files grid renders for anonymous users too, so a populated")
+        log.warning("    grid does NOT mean you are logged in - downloads will return a login page.")
+        log.warning("    CLOSE ALL CHROME WINDOWS and re-run: Chrome locks Network\\Cookies while")
+        log.warning("    running, so the profile copy starts with no session.")
+    else:
+        log.info("[*] Session looks authenticated.")
     return driver
 
 
@@ -248,7 +303,8 @@ def pull_one(driver, code, attrs, d, race, dest, timeout=25):
         return None
     got = Path(got)
     if not _is_real_data(got):
-        _safe_unlink(got)            # the not-owned HTML page
+        _diagnose_reject(got)        # tells us: not-owned vs NOT-LOGGED-IN
+        _safe_unlink(got)
         return None
     dest = Path(dest); dest.mkdir(parents=True, exist_ok=True)
     target = dest / f"{d:%Y%m%d}_{code}_{bd.PRODUCT_CODE}_r{race}{got.suffix}"
