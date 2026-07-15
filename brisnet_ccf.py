@@ -158,7 +158,7 @@ _DIAG_SAVED = [False]
 
 
 def _diagnose_reject(p: Path) -> None:
-    """
+    r"""
     The FIRST rejected page gets saved + sniffed. A reject can mean two very
     different things and they are indistinguishable by status alone:
       - "not owned"  -> a cart/purchase page   (expected, harmless)
@@ -250,29 +250,41 @@ def already_have(product: str, dest_btsm: Path, dt, track: str) -> bool:
 
 
 def authenticate(page_url):
+    r"""
+    Log in the way the PROVEN daily downloader does.
+
+    Critical lesson from the desktop's working log: the Chrome profile copy
+    ALWAYS fails to bring cookies across while Chrome is running (WinError 32 on
+    Network\Cookies) - that is normal and not the problem. The problem is that
+    is_logged_in() then FALSE-POSITIVES ("Already logged in via profile
+    cookies") while the grid actually returns ZERO tracks. brisnet_download
+    recovers via _verify_session_can_drive_grid(): if the grid is empty it
+    forces a typed login, and only then do downloads work. Without that step the
+    session is anonymous, the grid still renders (it is public), every product
+    shows AddToCart, and every download returns a login page.
+    """
+    user = os.environ.get("BRISNET_USER", "")
+    pw   = os.environ.get("BRISNET_PASS", "")
+    if not user or not pw:
+        raise SystemExit("[!] BRISNET_USER / BRISNET_PASS must be set in .env")
+
     driver = bd.get_driver()
     driver.get("https://www.brisnet.com"); time.sleep(2); bd.dismiss_cookie_banner(driver)
     driver.get(page_url); time.sleep(3); bd.dismiss_cookie_banner(driver)
     if not bd.is_logged_in(driver):
-        log.info("[*] Not logged in via profile — typing credentials")
-        if not bd.try_typed_login(driver, os.environ.get("BRISNET_USER",""), os.environ.get("BRISNET_PASS","")):
-            raise SystemExit("[!] Brisnet login failed — check BRISNET_USER/BRISNET_PASS in .env")
+        log.info("[*] Not logged in - typing credentials")
+        if not bd.try_typed_login(driver, user, pw):
+            raise SystemExit("[!] Brisnet login failed - check BRISNET_USER/BRISNET_PASS in .env")
         driver.get(page_url); time.sleep(3); bd.dismiss_cookie_banner(driver)
+
+    # THE step my earlier version was missing. A rendered grid proves nothing;
+    # only 'View'-able rows prove the session is real.
+    if not bd._verify_session_can_drive_grid(driver, user, pw, "startup"):
+        raise SystemExit("[!] Session cannot drive the grid even after a typed re-login.")
+
     WebDriverWait(driver, 25).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.track.table-row")))
     bd.wait_for_angular_data(driver, timeout=30)
-    try:
-        body = driver.find_element(By.TAG_NAME, "body").text.lower()
-    except Exception:
-        body = ""
-    signed_in = any(k in body for k in ("logout", "sign out", "my account"))
-    if not signed_in:
-        log.warning("[!] Session does NOT look authenticated (no logout/my-account link).")
-        log.warning("    The data-files grid renders for anonymous users too, so a populated")
-        log.warning("    grid does NOT mean you are logged in - downloads will return a login page.")
-        log.warning("    CLOSE ALL CHROME WINDOWS and re-run: Chrome locks Network\\Cookies while")
-        log.warning("    running, so the profile copy starts with no session.")
-    else:
-        log.info("[*] Session looks authenticated.")
+    log.info("[*] Session verified - grid is serving owned rows.")
     return driver
 
 
