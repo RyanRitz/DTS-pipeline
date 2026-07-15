@@ -187,8 +187,11 @@ def best_bet_flag(btsm, ml_adj, rank, field_size,
         NY-bred runs -5.5%, but tightening to top-25% flips it to +53% (rank-1
         +20%). Same favorite-bias signature as claiming, only stronger.
 
-    A NY-bred RACE is identified the same way the SAS build does: SAR + turf +
-    RaceConditions1 text contains "NEW YORK" (the eligibility restriction).
+    A NY-bred RACE is identified by SAR + turf + the actual eligibility
+    restriction text "FOALED IN NEW YORK" in RaceConditions1. A bare "NEW YORK"
+    match (the original SAS rule) false-positives on open races that merely have
+    "New York" in their name — e.g. the New York S. (a Grade I) and the New York
+    Stallion Series — which would wrongly subject them to this tighter gate.
     Claiming takes precedence over the NY-bred gate (it is the stricter rule)
     for the rare NY-bred claiming turf race.
 
@@ -214,7 +217,7 @@ def best_bet_flag(btsm, ml_adj, rank, field_size,
         )
         is_sar_turf_nybred = (
             is_sar_turf
-            and "NEW YORK" in str(race_conditions).upper()   # NY-bred restricted race
+            and "FOALED IN NEW YORK" in str(race_conditions).upper()  # NY-bred restricted race
         )
         if is_sar_turf_claim:
             return r is not None and r <= 1                  # SAR turf claiming: top pick only

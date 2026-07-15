@@ -78,15 +78,25 @@ def run_scoring(df: pd.DataFrame, coeff_dir: str | Path, config) -> pd.DataFrame
 def _dirt_ny_restricted(df: pd.DataFrame) -> pd.Series:
     """
     Race-level NY-bred-restricted flag.  True for every horse in a race whose
-    RaceConditions1 text mentions "NEW YORK" — matching the SAS
-    index(res_condition1,"NEW YORK") test used to fit the Saratoga NY model.
+    RaceConditions1 carries the actual eligibility restriction, "FOALED IN NEW
+    YORK [STATE]".
+
+    NOTE: this deliberately does NOT use a bare index(...,"NEW YORK") test.
+    That was the original SAS rule, but it false-positives on OPEN races that
+    merely have "New York" in their NAME — measured on the 2024 Saratoga meet it
+    flagged 127 races when only 124 are truly NY-bred restricted, wrongly
+    catching the New York S. (an open Grade I) and the New York Stallion Series.
+    Those races were then scored by the NY sub-model and hit the gold gate's
+    tighter NY-bred override (top 25% instead of top 50%). The restriction
+    phrasing is the reliable discriminator.
+
     RaceConditions1 is stamped on only one row per race, so the per-row hit is
     propagated to all rows in the race via groupby-any.  If the column is
     absent, the flag is all-False (NY routing is simply inactive).
     """
     rc = (df.get("RaceConditions1", pd.Series("", index=df.index))
             .fillna("").astype(str).str.upper())
-    has_ny = rc.str.contains("NEW YORK", regex=False).astype(int)
+    has_ny = rc.str.contains("FOALED IN NEW YORK", regex=False).astype(int)
     grp = [df.get(c, pd.Series("", index=df.index)) for c in ["Track", "Date", "Race"]]
     # propagate to all rows in the race (max of 0/1 == "any"), robust across pandas versions
     return has_ny.groupby(grp).transform("max").astype(bool)
