@@ -154,6 +154,47 @@ def charts_already_local(dest_btsm: Path, dt, track: str) -> bool:
         return False
 
 
+def _is_real_data(p: Path) -> bool:
+    """
+    Reject Brisnet's "you don't own this" HTML page, which Chrome saves as
+    downloads.htm. A naive head[:1]=='<' test misses it because the page can
+    start with a BOM/whitespace, so we strip those first and also reject the
+    obvious HTML/JSON extensions outright.
+    """
+    if p.suffix.lower() in (".htm", ".html", ".json", ".txt"):
+        return False
+    try:
+        if p.stat().st_size < 200:
+            return False
+        head = p.open("rb").read(512)
+    except OSError:
+        return False
+    t = head.lstrip(b"\xef\xbb\xbf \t\r\n")
+    return t[:1] not in (b"<", b"{")
+
+
+def _safe_unlink(p: Path, tries: int = 6) -> None:
+    for _ in range(tries):
+        try:
+            p.unlink(); return
+        except PermissionError:
+            time.sleep(0.4)          # Chrome may still hold the handle
+        except OSError:
+            return
+
+
+def _safe_move(src: Path, dst: Path, tries: int = 10) -> bool:
+    """Chrome can still have the file open the instant it appears -> WinError 32."""
+    for _ in range(tries):
+        try:
+            src.replace(dst); return True
+        except PermissionError:
+            time.sleep(0.5)
+        except OSError:
+            return False
+    return False
+
+
 def drf_already_local(dest_btsm: Path, dt, track: str) -> bool:
     """True if this card's DRF is already filed (archive_drfs naming)."""
     folder = CANON_FOLDER.get(track.upper(), track.upper())
@@ -206,18 +247,16 @@ def pull_one(driver, code, attrs, d, race, dest, timeout=25):
     if not got:
         return None
     got = Path(got)
-    try:
-        head = got.open("rb").read(4)
-    except Exception:
-        return None
-    if head[:1] in (b"<", b"{") or got.stat().st_size < 200:
-        try: got.unlink()
-        except Exception: pass
+    if not _is_real_data(got):
+        _safe_unlink(got)            # the not-owned HTML page
         return None
     dest = Path(dest); dest.mkdir(parents=True, exist_ok=True)
     target = dest / f"{d:%Y%m%d}_{code}_{bd.PRODUCT_CODE}_r{race}{got.suffix}"
-    if target.exists(): target.unlink()
-    got.rename(target)
+    if target.exists():
+        _safe_unlink(target)
+    if not _safe_move(got, target):
+        log.warning(f"    could not move {got.name} (locked) - leaving in place")
+        return None
     return target
 
 
