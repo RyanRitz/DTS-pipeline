@@ -375,6 +375,37 @@ def authenticate(page_url):
     return driver
 
 
+def ensure_alive(driver, page_url, tries: int = 3):
+    r"""
+    Rebuild Chrome if the session died, and re-authenticate.
+
+    Long sweeps DO kill Chrome ("Lost main window handle after download" ->
+    every later call returns "Chrome session is dead"). Without recovery the
+    loop keeps running, logs a dead session hundreds of times, and counts every
+    remaining date as "not available" - so an INCOMPLETE run reports success.
+    That is exactly how an SA/KEE sweep silently covered nothing.
+    brisnet_download's poller survives this by restarting the driver; so do we.
+    Returns a live driver, or raises after `tries` failed rebuilds.
+    """
+    if bd.is_session_alive(driver):
+        return driver
+    log.warning("[!] Chrome session died - rebuilding and re-authenticating...")
+    for attempt in range(1, tries + 1):
+        try:
+            try:
+                driver.quit()
+            except Exception:
+                pass
+            driver = authenticate(page_url)
+            log.info(f"[*] Session rebuilt (attempt {attempt}) - resuming.")
+            return driver
+        except Exception as e:
+            log.error(f"[!] Rebuild attempt {attempt}/{tries} failed: {e}")
+            time.sleep(5)
+    raise SystemExit("[!] Chrome kept dying and could not be rebuilt - ABORTING "
+                     "rather than reporting phantom 'not available' results.")
+
+
 def do_discover(driver):
     data = json.loads(driver.execute_script(DISCOVER_JS))
     if not data:
@@ -490,7 +521,8 @@ def main():
             got = defaultdict(int); miss = 0
             for i, (d, t) in enumerate(todo, 1):
                 at = live.get(t) or static_attrs(t)
-                f = pull_one(driver, t, at, d, a.race, a.dest)
+                driver = ensure_alive(driver, page)
+                f = pull_one(driver, t, at, d, a.race, a.dest, a.timeout)
                 if f: got[t] += 1
                 else: miss += 1
                 if i % 25 == 0:
@@ -513,6 +545,7 @@ def main():
                     dark += 1; d += timedelta(days=1); continue
                 if not a.no_skip and already_have(a.product, Path(a.btsm), d, c):
                     have += 1; d += timedelta(days=1); continue
+                driver = ensure_alive(driver, page)      # heal before each attempt
                 tried += 1
                 t = pull_one(driver, c, at, d, a.race, a.dest, a.timeout)
                 if t: got[c] += 1; log.info(f"    {c} {d}: OK -> {t.name}")
@@ -525,8 +558,10 @@ def main():
         for c, n in sorted(got.items()): log.info(f"  {c}: {n} file(s)")
         log.info(f"  raw files in: {a.dest}")
     finally:
-        try: driver.quit()
-        except Exception: pass
+        try:
+            driver.quit()
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":
