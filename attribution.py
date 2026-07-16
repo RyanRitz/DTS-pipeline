@@ -114,7 +114,7 @@ SYNONYMS = {
         ["Outgunned on pure speed", "Lacks the kick to keep up", "Gets left flat-footed early"],
     ),
     "xBRISPd6": (
-        ["Speed to burn vs this field", "Figures say she's faster", "Raw speed advantage here"],
+        ["Speed to burn vs this field", "Figures say {SUBJ}'s faster", "Raw speed advantage here"],
         ["Lacks the foot here", "Doesn't have the gears", "Speed edge goes the other way"],
     ),
     "XBPPR_tc12_3": (
@@ -122,7 +122,7 @@ SYNONYMS = {
         ["Can't match the speedsters", "Gets outfigured at this oval", "Speed profile doesn't fit"],
     ),
     "BBtrck_kaaw13": (
-        ["Best figure suits this track", "Track record says she can fire", "History here is encouraging"],
+        ["Best figure suits this track", "Track record says {SUBJ} can fire", "History here is encouraging"],
         ["Lacks speed for this track", "Figures don't translate here", "Track has been unkind"],
     ),
     "BrisRelatedKEEOct17D": (
@@ -134,7 +134,7 @@ SYNONYMS = {
         ["Soft speed figures", "Numbers a concern", "Figures don't inspire"],
     ),
     "BrisRelated_sarm": (
-        ["Sharp speed numbers", "Speed tab says she's live", "Figures point her way"],
+        ["Sharp speed numbers", "Speed tab says {SUBJ}'s live", "Figures point {POSS} way"],
         ["Thin speed numbers", "Speed tab is light", "Figures are a question mark"],
     ),
     "drf1_sart": (
@@ -143,18 +143,18 @@ SYNONYMS = {
     ),
     "histspd_dmrd": (
         ["Consistent speed history", "Has run big figures before", "Back figures are there"],
-        ["Inconsistent speed history", "Figure history is erratic", "Can't pin down her best"],
+        ["Inconsistent speed history", "Figure history is erratic", "Can't pin down {POSS} best"],
     ),
     "xBRISSpeedAWc_keeod": (
         ["Proven all-weather form", "Has figured it out on synthetic", "Likes the all-weather surface"],
         ["Limited all-weather form", "All-weather is a new look", "Synthetic surface unproven"],
     ),
     "xdrfsp1m_sard": (
-        ["Fast turf figures", "Turf numbers are sharp", "Figures say she's a turf horse"],
+        ["Fast turf figures", "Turf numbers are sharp", "Figures say {SUBJ}'s a turf horse"],
         ["Slow turf figures", "Turf numbers lag the field", "Figures don't say turf horse"],
     ),
     "xDRF2_Ko25": (
-        ["Back class shows up", "Second-last was a good effort", "Shows she can run"],
+        ["Back class shows up", "Second-last was a good effort", "Shows {SUBJ} can run"],
         ["Declining recent figures", "Numbers going in wrong direction", "Form is trending down"],
     ),
     # Pace / style
@@ -173,15 +173,15 @@ SYNONYMS = {
     ),
     "lrclass_kma13": (
         ["Comfortable at this level", "Class fits like a glove", "Has handled similar today"],
-        ["Class concern today", "May be in over her head", "Moving up asks a question"],
+        ["Class concern today", "May be in over {POSS} head", "Moving up asks a question"],
     ),
     "eps4dalt_sard": (
-        ["Quality earnings profile", "Has earned her way here", "Bankroll says she can run"],
+        ["Quality earnings profile", "Has earned {POSS} way here", "Bankroll says {SUBJ} can run"],
         ["Modest earnings profile", "Earnings don't back it up", "Thin earnings for this level"],
     ),
     "EPS3_SARD15": (
-        ["Proven earner vs field", "Outearns most in here", "The money says she's legit"],
-        ["Earns below field average", "Field outearns her", "Earnings lag the competition"],
+        ["Proven earner vs field", "Outearns most in here", "The money says {SUBJ}'s legit"],
+        ["Earns below field average", "Field outearns {OBJ}", "Earnings lag the competition"],
     ),
     "ieps_LTCYR26": (
         ["Productive year to date", "Has been cashing checks this year", "Good season so far"],
@@ -230,7 +230,7 @@ SYNONYMS = {
     ),
     # Jockey
     "jcky_d": (
-        ["Accomplished turf rider", "Knows her way around a turf course", "Pilot is at home on grass"],
+        ["Accomplished turf rider", "Knows the way around a turf course", "Pilot is at home on grass"],
         ["Lighter turf booking", "Not known as a grass rider", "Jockey less effective on turf"],
     ),
     "IJKYe_Ko25": (
@@ -246,7 +246,7 @@ SYNONYMS = {
         ["Jockey off form last year", "Last season was a step back", "Recent year in the irons was quiet"],
     ),
     "JKY_CM_WINSAPR25": (
-        ["Jockey riding a hot streak", "Pilot is in the zone right now", "Call this rider — he's firing",
+        ["Jockey riding a hot streak", "Pilot is in the zone right now", "Call this rider — firing right now",
          "Hot hand in the irons", "Jock's been cashing tickets all meet"],
         ["Jockey quiet this meet", "Pilot has gone cold at the meet", "Meet hasn't been kind to this jockey",
          "Jockey searching for a winner", "Quiet meet for this rider"],
@@ -281,12 +281,12 @@ SYNONYMS = {
         ["Connections struggle here", "Track hasn't been good to these connections", "This oval has been unkind"],
     ),
     "xR309c": (
-        ["Power connections", "Heavy hitters in the corners", "Deep pockets and sharp eyes backing her"],
+        ["Power connections", "Heavy hitters in the corners", "Deep pockets and sharp eyes backing {OBJ}"],
         ["Connections lack pop", "Connections haven't been getting it done", "Light connection profile"],
     ),
     # Workouts
     "wotimefrlg_sart": (
-        ["Sharp work tab", "Works have been crisp", "Tab says she's ready to fire"],
+        ["Sharp work tab", "Works have been crisp", "Tab says {SUBJ}'s ready to fire"],
         ["Unimpressive works", "Works haven't turned heads", "Tab is underwhelming"],
     ),
     "wotimefrlg_keeom": (
@@ -311,19 +311,19 @@ SYNONYMS = {
     ),
     "xwrkdateind": (
         ["Recent work before today", "Fresh off a work — sharp", "Got a good blowout before today"],
-        ["Stale between works", "Been a while since she worked", "Could use another work"],
+        ["Stale between works", "Been a while since {SUBJ} worked", "Could use another work"],
     ),
     "iworkoutpctrnk1_ckta13": (
         ["Top-ranked work tab", "Works grade out at the top", "Training tab is among the best"],
         ["Work tab ranks low", "Works rank near the bottom", "Training tab doesn't grade out well"],
     ),
     "woalone_dmrm": (
-        ["Works with company — sharp", "Working with horses around her — good sign", "Company works say she's fit"],
-        ["Solo works only", "Has only worked alone — company unknown", "No company in her works"],
+        ["Works with company — sharp", "Working with horses around {OBJ} — good sign", "Company works say {SUBJ}'s fit"],
+        ["Solo works only", "Has only worked alone — company unknown", "No company in {POSS} works"],
     ),
     # Form / spacing
     "xdaysoff26": (
-        ["Ideal spacing off last race", "Trainer has her perfectly placed", "Days between races is just right"],
+        ["Ideal spacing off last race", "Trainer has {OBJ} perfectly placed", "Days between races is just right"],
         ["Spacing looks a touch off", "Spacing is a bit unusual", "Days off raises a question"],
     ),
     "xNumDaysSinceLRcut": (
@@ -331,8 +331,8 @@ SYNONYMS = {
         ["Long layoff to overcome", "Rust is a factor after this absence", "Needs to be sharp off the bench"],
     ),
     "xNumDaysSinceLRcut2": (
-        ["Good freshness profile", "Comes in with a clean slate", "Spacing sets her up well"],
-        ["Extended absence", "Long time between starts — can she fire fresh?", "Layoff is a real question"],
+        ["Good freshness profile", "Comes in with a clean slate", "Spacing sets {OBJ} up well"],
+        ["Extended absence", "Long time between starts — can {SUBJ} fire fresh?", "Layoff is a real question"],
     ),
     "StretchBL_LR26": (
         ["Finished well last out", "Was running at the end last time", "Closed into the stretch well"],
@@ -344,7 +344,7 @@ SYNONYMS = {
     ),
     "ltstr_sart": (
         ["Battle-tested veteran", "Has seen it all — experience counts", "Grizzled veteran knows the job"],
-        ["Lightly raced — unknown", "Thin record leaves questions", "We don't know much about her yet"],
+        ["Lightly raced — unknown", "Thin record leaves questions", "We don't know much about {OBJ} yet"],
     ),
     # Distance / surface
     "xBRIS_DsPRn_dc": (
@@ -352,20 +352,20 @@ SYNONYMS = {
         ["Distance pedigree a question", "Pedigree doesn't scream this distance", "Trip may expose a pedigree concern"],
     ),
     "xturffy_last5": (
-        ["Genuine turf horse", "Born to run on grass", "Turf is clearly her best surface"],
-        ["Prefers off the lawn", "Turf has not been her game", "Numbers say she'd rather be on dirt"],
+        ["Genuine turf horse", "Born to run on grass", "Turf is clearly {POSS} best surface"],
+        ["Prefers off the lawn", "Turf has not been {POSS} game", "Numbers say {SUBJ}'d rather be on dirt"],
     ),
     "brisAW_c": (
-        ["All-weather specialist", "Synthetic is her happy place", "All-weather form is legitimate"],
+        ["All-weather specialist", "Synthetic is {POSS} happy place", "All-weather form is legitimate"],
         ["Unproven on synthetic", "Synthetic is a new question", "All-weather is unknown territory"],
     ),
     # Post / field
     "PPt12": (
-        ["Favorable post position", "Drew well today", "Post position sets her up perfectly"],
-        ["Tough draw to overcome", "Stuck on the outside — extra ground", "Wide draw will cost her ground"],
+        ["Favorable post position", "Drew well today", "Post position sets {OBJ} up perfectly"],
+        ["Tough draw to overcome", "Stuck on the outside — extra ground", "Wide draw will cost {OBJ} ground"],
     ),
     "xPostPosition": (
-        ["Good gate today", "Liked the draw", "Post gives her every chance"],
+        ["Good gate today", "Liked the draw", "Post gives {OBJ} every chance"],
         ["Wide post a concern", "Outside post is a headache", "A lot of ground to make up from here"],
     ),
     "xNumEntLast5cut": (
@@ -373,8 +373,8 @@ SYNONYMS = {
         ["Light field experience", "Hasn't faced many horses before", "Big fields may be a new experience"],
     ),
     "xNumEntLast5": (
-        ["Seasoned in full fields", "Traffic is nothing new for her", "Full fields don't rattle her"],
-        ["Mostly small fields", "Small fields have been her comfort zone", "Big field is a step into the unknown"],
+        ["Seasoned in full fields", "Traffic is nothing new for {OBJ}", "Full fields don't rattle {OBJ}"],
+        ["Mostly small fields", "Small fields have been {POSS} comfort zone", "Big field is a step into the unknown"],
     ),
     # Breeding / auction
     "IAucPri_keeA25": (
@@ -387,16 +387,16 @@ SYNONYMS = {
     ),
     # Age / physical
     "xcMonths_old": (
-        ["Peak racing age", "Right in her prime", "Age and experience working in her favor"],
-        ["Age may factor today", "Time takes its toll — she may be feeling it", "Father Time is undefeated"],
+        ["Peak racing age", "Right in {POSS} prime", "Age and experience working in {POSS} favor"],
+        ["Age may factor today", "Time takes its toll — {SUBJ} may be feeling it", "Father Time is undefeated"],
     ),
     "xsexcolt0425": (
         ["Physical profile an edge", "Physical is right for this spot", "Type who should handle this"],
         ["Physical profile a question", "Physical raises some doubt", "Physical may not fit the conditions"],
     ),
     "Weight_LR": (
-        ["Comfortable weight", "Weight is right in her wheelhouse", "Carries today's weight well"],
-        ["Weight shift to note", "Carrying more weight than she'd like", "Weight change is worth watching"],
+        ["Comfortable weight", "Weight is right in {POSS} wheelhouse", "Carries today's weight well"],
+        ["Weight shift to note", "Carrying more weight than {SUBJ}'d like", "Weight change is worth watching"],
     ),
 }
 
@@ -460,6 +460,43 @@ def _maiden_plan(config):
 # ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Pronoun substitution
+# ---------------------------------------------------------------------------
+# Comment phrases are authored with tokens ({SUBJ}/{POSS}/{OBJ}) so one phrase
+# renders correctly for either sex. The horse's sex comes from the DRF `Sex`
+# field: colt/horse/gelding/ridgling -> he/his/him; filly/mare -> she/her.
+# Codes seen in real feeds: C, H, G (and lowercase g), R = male; F, M = female.
+# (features.py names the "M" dummy sex_male, but M = Mare = female — that label
+# is a model-dummy misnomer, not our source of truth here.) Unknown/blank sex
+# falls back to female, which is the historical default, so nothing regresses.
+_MALE_SEX   = {"C", "H", "G", "R"}
+_FEMALE_SEX = {"F", "M"}
+_PRONOUNS = {
+    "male":   {"SUBJ": "he",  "POSS": "his", "OBJ": "him"},
+    "female": {"SUBJ": "she", "POSS": "her", "OBJ": "her"},
+}
+
+
+def _sex_to_gender(sex) -> str:
+    s = ("" if sex is None else str(sex)).strip().upper()
+    if s in _MALE_SEX:
+        return "male"
+    if s in _FEMALE_SEX:
+        return "female"
+    return "female"   # unknown / blank -> historical default
+
+
+def _apply_pronouns(text: str, sex) -> str:
+    """Fill {SUBJ}/{POSS}/{OBJ} tokens in a phrase from the horse's sex."""
+    if not text or "{" not in text:
+        return text
+    p = _PRONOUNS[_sex_to_gender(sex)]
+    for tok, word in p.items():
+        text = text.replace("{" + tok + "}", word)
+    return text
+
 
 def add_attributions(
     scored_df: pd.DataFrame,
@@ -540,17 +577,24 @@ def add_attributions(
                 continue
             oidx = orig.index[0]
 
+            # Horse sex drives pronoun substitution in the phrase templates
+            # (colt/horse/gelding/ridgling -> he/his/him; filly/mare -> she/her).
+            sex = merged.at[midx, "Sex"] if "Sex" in merged.columns else (
+                  df.at[oidx, "Sex"] if "Sex" in df.columns else "")
+
             for rank, item in enumerate(like_feats[:3], 1):
                 feat = item[0]
                 score = item[2] if len(item) >= 3 else float("nan")
-                label = _pick_synonym(feat, side="like", usage=like_usage)
+                label = _apply_pronouns(
+                    _pick_synonym(feat, side="like", usage=like_usage), sex)
                 df.at[oidx, f"why_like_{rank}"] = label
                 df.at[oidx, f"why_like_{rank}_score"] = float(score)
 
             for rank, item in enumerate(fade_feats[:3], 1):
                 feat = item[0]
                 score = item[2] if len(item) >= 3 else float("nan")
-                label = _pick_synonym(feat, side="fade", usage=fade_usage)
+                label = _apply_pronouns(
+                    _pick_synonym(feat, side="fade", usage=fade_usage), sex)
                 df.at[oidx, f"why_fade_{rank}"] = label
                 df.at[oidx, f"why_fade_{rank}_score"] = float(score)
 
