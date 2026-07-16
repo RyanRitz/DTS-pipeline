@@ -26,7 +26,7 @@ archiver, because we don't yet know if CCF ships one file per card or per race.
 from __future__ import annotations
 import argparse, json, os, re, time
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import brisnet_download as bd
@@ -90,6 +90,24 @@ return JSON.stringify(out);
 """
 
 
+# Verified from the desktop's WORKING download URLs (brisnet_download.log):
+#   .../DRS/USA/TB/CD/D/0/   .../DRS/USA/TB/SA/D/0/   .../DRS/CAN/TB/WO/D/0/
+# Every US thoroughbred track is USA/TB/<code>/D - even night tracks (MNR, TDN)
+# use "D". Woodbine is the lone CAN. So the URL attrs are NOT track-specific and
+# never needed the live grid at all.
+#
+# This matters: the grid only lists tracks racing in the next few days, so
+# seasonal tracks (CD, KEE, SA...) are absent most of the year. Relying on the
+# grid silently SKIPPED them - which is exactly the bug that made a CD/SA sweep
+# return zero and look like "you never bought them".
+CAN_TRACKS = {"WO", "FE", "AJX", "ASD", "CTM", "GPR", "MD", "NP", "PRV", "SWA", "SWJ", "WBR"}
+
+
+def static_attrs(code: str) -> dict:
+    return {"country": "CAN" if code.upper() in CAN_TRACKS else "USA",
+            "trackType": "TB", "dayEvening": "D", "trackName": code.upper(), "offers": 0}
+
+
 def all_track_attrs(driver, product):
     """
     Track attrs for URL building, WITHOUT bd.extract_tracks()'s
@@ -102,6 +120,48 @@ def all_track_attrs(driver, product):
     for t in json.loads(driver.execute_script(TRACKS_JS, product)):
         out[(t.get("trackCode") or "").upper()] = t
     return out
+
+
+# ---------------------------------------------------------------------------
+# Per-track racing calendar. The BIG lever: seasonal tracks race a fraction of
+# the year, so sweeping every date wastes ~80% of the run. A dark day returns
+# NOTHING and burns the full timeout (~30s), unlike a not-owned card which
+# returns an HTML page instantly - so dark days are the expensive misses.
+#
+# Windows are deliberately WIDE (a stray ping costs 30s; a too-narrow window
+# silently loses a card forever). Equibase's per-track calendars are
+# bot-protected, so these are meet windows confirmed by Ryan, not scraped.
+# Tracks absent from this dict are swept FULLY (no filtering) - safe default.
+#
+# dark = weekday numbers to skip (Mon=0 .. Sun=6).
+# GP evidence from the Mar-Apr 2025 sweep: raced Thu-Sun (+ occasional Wed),
+# dark Mon/Tue every week. Note GP's 2026 Championship dropped Wednesdays.
+# ---------------------------------------------------------------------------
+CALENDAR = {
+    "SAR": {"windows": [((7, 1), (9, 10))],                                    "dark": {0}},
+    "KEE": {"windows": [((3, 28), (5, 2)), ((9, 26), (11, 1))],                "dark": {0, 1}},
+    "DMR": {"windows": [((7, 10), (9, 14)), ((11, 1), (12, 5))],               "dark": {0, 1}},
+    "CD":  {"windows": [((4, 20), (7, 10)), ((9, 5), (10, 5)), ((10, 20), (12, 5))], "dark": {0, 1}},
+    "GP":  {"windows": [((1, 1), (12, 31))],                                   "dark": {0, 1}},
+    "SA":  {"windows": [((1, 1), (6, 30)), ((12, 20), (12, 31))],              "dark": {0, 1}},
+    # PRX / CT / TDN / MNR race year-round; their dark days are not reliably
+    # known, so they are intentionally left out -> full sweep, nothing lost.
+}
+
+
+def races_on(track: str, d) -> bool:
+    """False only when we're confident the track is dark - errs toward pinging."""
+    cal = CALENDAR.get(track.upper())
+    if not cal:
+        return True
+    if d.weekday() in cal.get("dark", set()):
+        return False
+    for (m1, d1), (m2, d2) in cal["windows"]:
+        start = date(d.year, m1, d1)
+        end = date(d.year, m2, d2)
+        if start <= d <= end:
+            return True
+    return False
 
 
 DRF_NAME = re.compile(r"^(\d{4})(\d{2})(\d{2})_([A-Za-z]{2,4})_DRS$", re.I)
@@ -215,6 +275,33 @@ def _is_real_data(p: Path) -> bool:
     return t[:1] not in (b"<", b"{")
 
 
+def drf_internal_id(p: Path):
+    r"""
+    Read (track, YYYYMMDD) from INSIDE a DRF - col 0 = Track, col 1 = Date.
+
+    Why this matters: a download that exceeds the timeout is logged as a miss,
+    but Chrome still finishes writing it - and the NEXT request's
+    _wait_for_new_file() then sees that late file as "new" and names it with the
+    WRONG date. That silently mislabels cards (verified: a 0406 card filed as
+    0407). Naming from the file's own contents makes that impossible.
+    """
+    try:
+        raw = p.open("rb").read()
+        if raw[:2] == b"PK":
+            import zipfile, io
+            z = zipfile.ZipFile(io.BytesIO(raw))
+            raw = z.read(z.namelist()[0])
+        import csv as _csv, io as _io
+        row = next(_csv.reader(_io.StringIO(raw.replace(b"\x00", b"").decode("latin-1"))))
+        trk = row[0].strip().upper()
+        dt = row[1].strip().replace("-", "").replace("/", "")
+        if len(dt) == 8 and dt.isdigit() and trk:
+            return trk, dt
+    except Exception:
+        pass
+    return None
+
+
 def _safe_unlink(p: Path, tries: int = 6) -> None:
     for _ in range(tries):
         try:
@@ -319,7 +406,20 @@ def pull_one(driver, code, attrs, d, race, dest, timeout=25):
         _safe_unlink(got)
         return None
     dest = Path(dest); dest.mkdir(parents=True, exist_ok=True)
-    target = dest / f"{d:%Y%m%d}_{code}_{bd.PRODUCT_CODE}_r{race}{got.suffix}"
+    if bd.PRODUCT_CODE.upper() == "DRS":
+        # Name from the file's OWN contents, never from the date we requested.
+        ident = drf_internal_id(got)
+        if not ident:
+            log.warning(f"    {code} {d}: downloaded but unreadable - discarding")
+            _safe_unlink(got); return None
+        itrk, idate = ident
+        if idate != f"{d:%Y%m%d}":
+            log.warning(f"    {code} {d}: file is actually {itrk} {idate} "
+                        f"(late arrival from an earlier request) - filing under its TRUE date")
+        # MUST match brisnet_download's convention or archive_drfs.py skips it.
+        target = dest / f"{idate}_{code}_DRS.DRF"
+    else:
+        target = dest / f"{d:%Y%m%d}_{code}_{bd.PRODUCT_CODE}_r{race}{got.suffix}"
     if target.exists():
         _safe_unlink(target)
     if not _safe_move(got, target):
@@ -341,8 +441,9 @@ def main():
     ap.add_argument("--sleep", type=float, default=1.5)
     ap.add_argument("--pair-from", default="", help="comma list of dirs holding YYYYMMDD_TRACK_DRS.DRF - fetch charts ONLY for cards that raced")
     ap.add_argument("--btsm", default=str(Path(bd.OUTPUT_DIR).parent.parent), help="local BTSM root (to skip cards already filed)")
-    ap.add_argument("--timeout", type=int, default=25, help="per-download wait. Dark days burn the FULL timeout, so use ~8 for wide historical sweeps")
+    ap.add_argument("--timeout", type=int, default=30, help="per-download wait. Do NOT shorten: a card you don't own returns an HTML page almost instantly, so a low timeout only truncates real downloads and silently loses cards")
     ap.add_argument("--no-skip", action="store_true", help="do not skip cards already on disk")
+    ap.add_argument("--no-calendar", action="store_true", help="ignore the per-track racing calendar and sweep every date")
     a = ap.parse_args()
 
     page = a.page or (f"https://www.brisnet.com/product/data-files/{a.product}" if a.product else bd.DRS_URL)
@@ -358,13 +459,18 @@ def main():
         live = all_track_attrs(driver, a.product)
         offering = [c for c, t in live.items() if t.get("offers")]
         log.info(f"[*] {len(live)} track(s) on the grid; {len(offering)} offer {a.product}: {', '.join(sorted(offering))}")
+        # Fill in any requested track the grid doesn't list today (seasonal
+        # tracks are absent most of the year) - the URL attrs are static.
+        for c in [x.strip().upper() for x in a.tracks.split(",") if x.strip()]:
+            if c not in live:
+                live[c] = static_attrs(c)
+                log.info(f"[*] {c}: not carded today - using static attrs "
+                         f"({live[c]['country']}/TB/{c}/D)")
         codes = [c.strip().upper() for c in a.tracks.split(",") if c.strip()] or sorted(live)
 
         if a.probe:
             for c in codes:
-                at = live.get(c)
-                if not at:
-                    log.warning(f"[probe] {c}: not on the grid today — cannot build URL; skipping"); continue
+                at = live.get(c) or static_attrs(c)
                 for ds in [x for x in a.test_dates.split(",") if x.strip()]:
                     d = datetime.fromisoformat(ds).date()
                     t = pull_one(driver, c, at, d, a.race, a.dest)
@@ -383,9 +489,7 @@ def main():
             print(f"[*] {len(cards)} card(s) raced in range; {len(cards)-len(todo)} already have charts; fetching {len(todo)}")
             got = defaultdict(int); miss = 0
             for i, (d, t) in enumerate(todo, 1):
-                at = live.get(t)
-                if not at:
-                    miss += 1; continue
+                at = live.get(t) or static_attrs(t)
                 f = pull_one(driver, t, at, d, a.race, a.dest)
                 if f: got[t] += 1
                 else: miss += 1
@@ -402,11 +506,11 @@ def main():
         s = datetime.fromisoformat(a.start).date(); e = datetime.fromisoformat(a.end).date()
         got = defaultdict(int)
         for c in codes:
-            at = live.get(c)
-            if not at:
-                log.warning(f"[!] {c}: not offering {a.product} today — skipping"); continue
-            d = s; tried = have = 0
+            at = live.get(c) or static_attrs(c)
+            d = s; tried = have = dark = 0
             while d <= e:
+                if not a.no_calendar and not races_on(c, d):
+                    dark += 1; d += timedelta(days=1); continue
                 if not a.no_skip and already_have(a.product, Path(a.btsm), d, c):
                     have += 1; d += timedelta(days=1); continue
                 tried += 1
@@ -415,7 +519,8 @@ def main():
                 if tried % 25 == 0:
                     log.info(f"    ...{c} through {d}: tried={tried} ok={got[c]} (skipped {have} already local)")
                 time.sleep(a.sleep); d += timedelta(days=1)
-            log.info(f"[*] {c}: {got[c]} downloaded, {have} already local, {tried-got[c]} not available")
+            log.info(f"[*] {c}: {got[c]} downloaded, {have} already local, "
+                     f"{tried-got[c]} not available, {dark} skipped by calendar")
         log.info("=" * 50)
         for c, n in sorted(got.items()): log.info(f"  {c}: {n} file(s)")
         log.info(f"  raw files in: {a.dest}")
