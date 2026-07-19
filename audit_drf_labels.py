@@ -42,7 +42,9 @@ def main() -> int:
         except Exception:
             pass
 
-    drfs = sorted(DRF_DIR.glob("*.DRF")) + sorted(DRF_DIR.glob("*.drf"))
+    # NOTE: one glob only. Windows is case-insensitive, so globbing both
+    # *.DRF and *.drf audits every file twice and doubles the counts.
+    drfs = sorted({p.resolve() for p in DRF_DIR.glob("*.[Dd][Rr][Ff]")})
     if not drfs:
         emit(f"No DRFs in {DRF_DIR}")
         OUT.write_text("\n".join(lines), encoding="utf-8")
