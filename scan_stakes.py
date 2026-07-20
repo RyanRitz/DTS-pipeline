@@ -76,7 +76,7 @@ def main() -> int:
             continue
         year, mmdd, track = m.group(1), m.group(2), m.group(3)
         try:
-            df = load_drf(path, track, mmdd, year)
+            df = load_drf(path, track, mmdd, year, validate=False)
         except Exception as e:
             emit(f"  ! {path.name}: load failed ({e})")
             continue

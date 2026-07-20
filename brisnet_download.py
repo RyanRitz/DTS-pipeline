@@ -492,19 +492,28 @@ def run_diagnostics(driver, suffix: str = "") -> None:
 
 # ── Angular scope extraction ─────────────────────────────────────────────────
 
+# Which productStatus values count as "downloadable", per product.
+# DRS (past performances) is only usable once posts are drawn -> 'F' (FINAL).
+# CCF (charts) is a RESULT product and never carries the DRS 'F' flag, so an
+# 'F'-only filter silently discards every chart (seen: 84 skipped -> 0 tracks
+# -> a misleading "session cannot drive the grid" abort). Empty list = accept all.
+ACCEPT_STATUSES = {"DRS": ["F"]}
+
+
 def extract_tracks(driver) -> list[dict]:
     """
     Pull all viewable tracks/dates for the configured product code.
     Filters:
       - productCode === PRODUCT_CODE  (e.g. 'DRS')
       - customerAvailability === 'View'  (you can download it)
-      - productStatus === 'F'  (FINAL — post positions set)
+      - productStatus in ACCEPT_STATUSES[PRODUCT_CODE] (DRS: 'F'; CCF: all)
     """
     js = """
     var rows = document.querySelectorAll('.track.table-row');
     var seen = {};
     var result = [];
     var skippedNonFinal = 0;
+    var statusHist = {};
     for (var i = 0; i < rows.length; i++) {
         var scope = angular.element(rows[i]).scope();
         if (!scope || !scope.track) continue;
@@ -518,7 +527,9 @@ def extract_tracks(driver) -> list[dict]:
             for (var k = 0; k < (d.availableProducts || []).length; k++) {
                 var p = d.availableProducts[k];
                 if (p.productCode === arguments[0] && p.customerAvailability === 'View') {
-                    if (p.productStatus === 'F') {
+                    statusHist[p.productStatus] = (statusHist[p.productStatus] || 0) + 1;
+                    var ok = arguments[1];
+                    if (ok.length === 0 || ok.indexOf(p.productStatus) >= 0) {
                         dates.push({
                             productDate: d.productDate,
                             raceNumber: p.raceNumber || 0
@@ -540,10 +551,13 @@ def extract_tracks(driver) -> list[dict]:
             });
         }
     }
-    return JSON.stringify({tracks: result, skippedNonFinal: skippedNonFinal});
+    return JSON.stringify({tracks: result, skippedNonFinal: skippedNonFinal, statusHist: statusHist});
     """
-    raw = driver.execute_script(js, PRODUCT_CODE)
+    accept = ACCEPT_STATUSES.get(PRODUCT_CODE, [])
+    raw = driver.execute_script(js, PRODUCT_CODE, accept)
     parsed = json.loads(raw)
+    log.info(f"[*] {PRODUCT_CODE} productStatus seen: {parsed.get('statusHist')} "
+             f"(accepting {accept or 'ALL'})")
     log.info(f"[*] Skipped {parsed['skippedNonFinal']} non-finalized files (no post positions yet)")
     return parsed["tracks"]
 
@@ -643,6 +657,22 @@ def _sweep_stale_partials() -> None:
         except Exception as e:
             log.warning(f"    could not remove stale partial {p.name}: {e}")
     log.info(f"[*] Cleared {removed} stale partial download(s) before run")
+
+
+def _drf_identity(path: Path):
+    """(track, YYYYMMDD) actually contained in a DRF, or (None, None)."""
+    try:
+        from ingest_drf import load_drf
+        df = load_drf(path, "XXX", "0101", "2026", validate=False)
+        t = df["Track"].dropna().astype(str).str.strip()
+        t = t[t != ""]
+        d = df["Date"].dropna()
+        if t.empty or len(d) == 0:
+            return None, None
+        return t.mode().iloc[0].upper(), d.iloc[0].strftime("%Y%m%d")
+    except Exception as e:
+        log.warning(f"  could not read identity from {path.name}: {e}")
+        return None, None
 
 
 def _wait_for_new_file(before: set[Path], timeout: int = 30) -> Path | None:
@@ -1008,6 +1038,39 @@ def main():
                             f"available, race in {days_out} days). URL: {url}",
                         )
                         continue
+                    # A slow download lands during the NEXT request's wait
+                    # window, so _wait_for_new_file can hand back a file we
+                    # didn't ask for. Trust the CONTENTS, never the request:
+                    # park the file under its true name and report the
+                    # requested card as not obtained so it gets retried.
+                    real_track, real_date = _drf_identity(downloaded_file)
+                    if real_track and real_date and not (
+                        real_track in (code.upper(), code.upper()[:2],
+                                       code.upper().rstrip("X"))
+                        and real_date == date_str
+                    ):
+                        true_name = f"{real_date}_{real_track}_{PRODUCT_CODE}.DRF"
+                        true_path = OUTPUT_DIR / true_name
+                        log.warning(
+                            f"  CONTENT MISMATCH: asked for {code} {date_str}, "
+                            f"got {real_track} {real_date}. Saving as {true_name} "
+                            f"(NOT {target_filename})."
+                        )
+                        try:
+                            if true_path.exists():
+                                true_path.unlink()
+                            downloaded_file.rename(true_path)
+                        except Exception as e:
+                            log.error(f"  could not park mismatched file: {e}")
+                        failed += 1
+                        _record_failure(
+                            "CONTENT_MISMATCH",
+                            f"{name} ({code}) {date_str}: download returned "
+                            f"{real_track} {real_date} instead. Saved as "
+                            f"{true_name}; {code} {date_str} still needed.",
+                        )
+                        continue
+
                     try:
                         if downloaded_file != target_path:
                             if target_path.exists():

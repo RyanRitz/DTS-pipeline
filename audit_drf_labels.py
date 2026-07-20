@@ -63,7 +63,7 @@ def main() -> int:
         year, mmdd, claim_track = m.group(1), m.group(2), m.group(3).upper()
         claim_date = f"{year}-{mmdd[:2]}-{mmdd[2:]}"
         try:
-            df = load_drf(path, claim_track, mmdd, year)
+            df = load_drf(path, claim_track, mmdd, year, validate=False)
         except Exception as e:
             emit(f"  ! {path.name}: load failed ({e})")
             skipped += 1

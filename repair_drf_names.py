@@ -47,7 +47,7 @@ def main() -> int:
             continue
         year, mmdd, claim = m.group(1), m.group(2), m.group(3).upper()
         try:
-            df = load_drf(path, claim, mmdd, year)
+            df = load_drf(path, claim, mmdd, year, validate=False)
         except Exception as e:
             print(f"  ! {path.name}: load failed ({e})")
             continue

@@ -32,7 +32,57 @@ logger = logging.getLogger(__name__)
 # Main entry point
 # ---------------------------------------------------------------------------
 
-def load_drf(drf_path: str | Path, track: str, date: str, year: str) -> pd.DataFrame:
+class DRFLabelMismatch(ValueError):
+    """
+    The DRF's contents disagree with the track/date the caller claimed.
+
+    Raised by load_drf(validate=True). Callers derive track/date from the
+    FILENAME, and the downloader can mis-name a file (see the 2026-07-19
+    incident: a Colonial Downs 7/22 card saved as 20260719_DMR_DRS.DRF and
+    published as "Del Mar, July 19"). The file carries its own Track and Date,
+    so we refuse rather than publish a card under the wrong identity.
+    """
+
+
+def _track_matches(claim: str, real: str) -> bool:
+    """Filenames may use a 3L canon (GPX/SAX/CDX) where the file says 2L."""
+    c, r = (claim or "").upper(), (real or "").upper()
+    if not c or not r:
+        return True
+    return r in (c, c[:2], c.rstrip("X")) or c in (r, r[:2])
+
+
+def _validate_identity(df: pd.DataFrame, track: str, date: str,
+                       year: str, drf_path) -> None:
+    real_track = ""
+    if "Track" in df.columns:
+        t = df["Track"].dropna().astype(str).str.strip()
+        t = t[t != ""]
+        if not t.empty:
+            real_track = t.mode().iloc[0]
+    real_date = ""
+    if "Date" in df.columns:
+        d = df["Date"].dropna()
+        if not d.empty:
+            real_date = d.iloc[0].strftime("%Y%m%d")
+
+    claim_date = f"{year}{date}"
+    problems = []
+    if real_track and not _track_matches(track, real_track):
+        problems.append(f"track: caller said {track.upper()}, file says {real_track.upper()}")
+    if real_date and real_date != claim_date:
+        problems.append(f"date: caller said {claim_date}, file says {real_date}")
+
+    if problems:
+        raise DRFLabelMismatch(
+            f"{Path(drf_path).name}: contents do not match the claimed "
+            f"identity ({'; '.join(problems)}). Refusing to load a mislabeled "
+            f"card. Run repair_drf_names.py to rename DRFs to their contents."
+        )
+
+
+def load_drf(drf_path: str | Path, track: str, date: str, year: str,
+             validate: bool = True) -> pd.DataFrame:
     """
     Load and parse a Brisnet DRF file into a clean DataFrame.
 
@@ -125,6 +175,11 @@ def load_drf(drf_path: str | Path, track: str, date: str, year: str) -> pd.DataF
     # ------------------------------------------------------------------
     # 5. Add metadata columns (mirrors SAS ScoreIt_FINAL.sas)
     # ------------------------------------------------------------------
+    # Refuse a file whose contents contradict the caller's claim. Must run
+    # BEFORE we stamp track3L, which is what silently rewrote identity before.
+    if validate:
+        _validate_identity(df, track, date, year, drf_path)
+
     df["track3L"] = track.upper()
     df["HorseName"] = df["HorseName"].str.upper()
 

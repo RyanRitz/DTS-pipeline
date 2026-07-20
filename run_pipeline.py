@@ -632,7 +632,7 @@ def run_scoring(
     tracks automatically.
     """
     import config
-    from ingest_drf import load_drf
+    from ingest_drf import load_drf, DRFLabelMismatch
     from apply_scratches import apply_scratches
     from features import engineer_features
     from score import run_scoring as score_run_scoring
@@ -690,7 +690,13 @@ def run_scoring(
     year = race_date[:4]
     mmdd = race_date[4:]
     log.info(f"  Loading DRF: {drf_path.name}")
-    df = load_drf(drf_path, track=track, date=mmdd, year=year)
+    try:
+        df = load_drf(drf_path, track=track, date=mmdd, year=year)
+    except DRFLabelMismatch as e:
+        # One mislabeled card must not kill the whole tick — skip it and let
+        # the other tracks publish (same philosophy as update_and_run.bat).
+        log.error(f"  run_scoring: REFUSING mislabeled DRF for {track} {race_date}: {e}")
+        return None
     initial_n = len(df)
     log.info(f"  Loaded {initial_n} horses across {df['Race'].nunique()} races")
 
