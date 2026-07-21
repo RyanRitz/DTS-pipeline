@@ -675,6 +675,76 @@ def _drf_identity(path: Path):
         return None, None
 
 
+# ── Orphaned-download recovery ────────────────────────────────────────────────
+# Chrome saves BRISnet's native single-card pack name verbatim (e.g.
+# "del0721k.zip", "gpx0328k.zip") whenever _wait_for_new_file() doesn't catch
+# and rename a download in time — a slow download that lands during the NEXT
+# request's wait window, exactly the timing that stranded the 2026-07-21
+# DEL/CBY packs. Left alone the pipeline can't discover them (it scans for
+# YYYYMMDD_TRACK_DRS.DRF), so the card silently goes missing. This sweep renames
+# any such pack to the canonical name — identity taken from the FILE CONTENTS,
+# never the raw filename — so downloads self-heal without a manual
+# recover_orphan_drfs.py pass.
+_ORPHAN_RE = re.compile(r"^([a-z]{2,4})(\d{2})(\d{2})k$", re.I)
+_ORPHAN_CANON = {"GPX": "GP", "CDX": "CD", "FGX": "FG"}  # raw pack -> grid code
+
+
+def _sweep_orphan_downloads() -> list[tuple[str, str]]:
+    """
+    Rename BRISnet raw packs left in OUTPUT_DIR to YYYYMMDD_TRACK_DRS.DRF.
+    Returns [(code, YYYYMMDD), ...] for the packs recovered.
+
+    Identity comes from the pack's own Track/Date via _drf_identity (load_drf
+    reads ZIPs by magic bytes); the raw filename is only a fallback when the
+    contents can't be parsed. Content-first naming is what stops a
+    mis-delivered pack from being published under the wrong card.
+    """
+    recovered: list[tuple[str, str]] = []
+    for f in sorted(OUTPUT_DIR.glob("*.zip")):
+        m = _ORPHAN_RE.match(f.stem)
+        if not m:
+            continue
+        real_track, real_date = _drf_identity(f)
+        if real_track and real_date:
+            code, date_str = real_track, real_date
+        else:
+            trk, mm, dd = m.groups()
+            code = _ORPHAN_CANON.get(trk.upper(), trk.upper())
+            # Raw name carries no year; infer from today with a Dec<->Jan wrap
+            # (cards are always within a few days of now).
+            today = datetime.now().date()
+            year = today.year
+            if int(mm) == 1 and today.month == 12:
+                year += 1
+            elif int(mm) == 12 and today.month == 1:
+                year -= 1
+            date_str = f"{year}{mm}{dd}"
+            log.warning(
+                f"  orphan {f.name}: unreadable contents; naming from "
+                f"filename -> {date_str}_{code}"
+            )
+        target = OUTPUT_DIR / f"{date_str}_{code}_{PRODUCT_CODE}.DRF"
+        try:
+            if target.exists():
+                f.unlink()  # canonical already present -> orphan is a duplicate
+                log.info(
+                    f"[*] Orphan {f.name}: {target.name} already present, "
+                    f"removed duplicate"
+                )
+                continue
+            f.rename(target)
+            recovered.append((code, date_str))
+            log.info(f"[*] Recovered orphan download: {f.name} -> {target.name}")
+        except Exception as e:
+            log.warning(f"    could not recover orphan {f.name}: {e}")
+    if recovered:
+        log.info(
+            f"[*] Recovered {len(recovered)} orphan download(s) to canonical "
+            f"name(s)"
+        )
+    return recovered
+
+
 def _wait_for_new_file(before: set[Path], timeout: int = 30) -> Path | None:
     """Wait for a new (non-partial) file to appear in OUTPUT_DIR."""
     end = time.time() + timeout
@@ -1144,6 +1214,25 @@ def main():
             driver.quit()
         except Exception:
             pass
+        # Recover any packs Chrome saved under BRISnet's raw name before the
+        # loop could rename them (a slow download landing late), so a late
+        # arrival doesn't strand a card as an undiscoverable .zip.
+        try:
+            recovered = _sweep_orphan_downloads()
+            if recovered:
+                counts["ok"] += len(recovered)
+                # The loop logged a failure for each of these before the file
+                # actually landed; drop those so a recovered card doesn't
+                # false-alarm the summary email.
+                _FAILURES[:] = [
+                    e for e in _FAILURES
+                    if not any(
+                        ds in e.get("detail", "") and f"({cd})" in e.get("detail", "")
+                        for cd, ds in recovered
+                    )
+                ]
+        except Exception as _sweep_err:
+            log.warning(f"[!] orphan sweep failed: {_sweep_err}")
         # Send summary email LAST — after driver cleanup, never before, so
         # we don't leave a zombie Chrome process if SMTP hangs.
         _send_run_summary_email(counts["ok"], counts["skipped"])
