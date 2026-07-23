@@ -97,6 +97,7 @@ TRACK_FULL_NAMES = {
     "LS":  "Lone Star Park",
     # Lower tier
     "DEL": "Delaware Park",
+    "PEN": "Penn National",
     "PID": "Presque Isle Downs",
     "HOU": "Sam Houston Race Park",
     "MVR": "Mahoning Valley",
@@ -158,6 +159,7 @@ DTS_TRACK_WHITELIST: set[str] | None = {
     "LS",               # Lone Star Park
     # Tracks 22–34
     "DEL",              # Delaware Park
+    "PEN",              # Penn National (customer request 2026-07; KEE-model fallback)
     "PID",              # Presque Isle Downs
     "HOU",              # Sam Houston
     "MVR",              # Mahoning Valley

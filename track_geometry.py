@@ -95,6 +95,7 @@ STANDARD_1MILE_DIRT_OVALS: set[str] = {
     "RP",    # 1-mile
     "IND",   # 1-mile
     "LS",    # 1-mile
+    "PEN",   # 1-mile dirt oval (two-turn mile, no chute)
     "PID",   # 1-mile synthetic
     "HOU",   # 1-mile
     "MVR",   # 1-mile
@@ -371,6 +372,15 @@ TRACK_TURNS: dict[tuple[str, str, int], int] = {
 
     # ── Presque Isle Downs ────────────────────────────────────────────
     # 1-mile synthetic Tapeta. No turf.
+
+    # ── Penn National ─────────────────────────────────────────────────
+    # 1-mile dirt oval (default rule covers dirt via STANDARD set) + a 7f
+    # inner turf course. Turf sprints one-turn; turf mile+ two-turn.
+    # Best-effort turf entries; extend as real PEN cards surface odd configs.
+    ("PEN", "T", _y["5f"]):   1,
+    ("PEN", "T", _y["5.5f"]): 1,
+    ("PEN", "T", _y["1mi"]):  2,
+    ("PEN", "T", _y["1_1/16"]): 2,
 
     # ── Sam Houston ───────────────────────────────────────────────────
     # 1-mile main + 7f turf.
