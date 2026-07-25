@@ -936,58 +936,120 @@ def _extract_nwx(classification: str) -> str:
     return ""
 
 
+# Multi-race wager parsing. BRISnet's wager strings vary by TRACK, not just by
+# a clean '/'-delimited list of clean tokens, which is why the old startswith()
+# parser silently dropped most pools (the 2026-07-25 "no wagers on the sheet"
+# bug). Two real formats seen:
+#   Saratoga:   'EXACTA ($1); TRIFECTA (.50); DOUBLE ($1) 1 & 2; PICK 3 ($1) (1-3)'
+#               'EARLY PICK 5 (.50) (1-5)'   'MANDATORY PAY PICK 5 (.50) (3-7)'
+#   Gulfstream: '$1 DAILY DOUBLE / $1 EXACTA / ...'
+#               '$1.00 BET 3 (RACES 1-2-3) / $.50 PICK 5 (RACES 1-2-3-4-5)'
+# So: split on ';', '/' and newlines; match the pick/double token ANYWHERE in a
+# fragment; treat 'BET N' as 'Pick N' (Gulfstream branding); tolerate EARLY /
+# LATE / MANDATORY PAY prefixes and inline prices; and derive the race range
+# from whichever parenthesised group holds >=2 plausible race numbers.
+_PICK_RE       = _re.compile(r"\b(?:PICK|BET|PK)\s*([3-6])\b", _re.IGNORECASE)
+_DOUBLE_RE     = _re.compile(r"\bDOUBLE\b", _re.IGNORECASE)
+_WAGER_QUAL_RE = _re.compile(
+    r"\b(EARLY|LATE|MANDATORY(?:\s+PAY)?)\b", _re.IGNORECASE)
+# Named specialty pools we deliberately omit — jackpot/multi-track/turf-only
+# gimmicks that clutter the row and don't map to a clean consecutive sequence.
+_WAGER_SKIP_RE = _re.compile(
+    r"\b(RAINBOW|COAST\s+TO\s+COAST|TROPICAL|GRAND\s+SLAM|SURVIVOR|JACKPOT|"
+    r"SUPER\s+HIGH|GOLDEN\s+HOUR)\b", _re.IGNORECASE)
+_PAREN_RE      = _re.compile(r"\(([^)]*)\)")
+_AMP_RANGE_RE  = _re.compile(r"(\d+)\s*&\s*(\d+)")
+
+
+def _split_wager_pools(s: str) -> list[str]:
+    """
+    Split a WagerType string into individual pools on ';', '/' and newlines —
+    but ONLY at paren depth 0. Saratoga separates pools with ';', while
+    Gulfstream separates with '/' AND uses ';' *inside* parens to list
+    non-consecutive races ('(RACES 4; 6; 9)'), so a naive split would shatter
+    that range.
+    """
+    out, buf, depth = [], [], 0
+    for ch in s:
+        if ch == "(":
+            depth += 1; buf.append(ch)
+        elif ch == ")":
+            depth = max(0, depth - 1); buf.append(ch)
+        elif ch in ";/\n" and depth == 0:
+            out.append("".join(buf)); buf = []
+        else:
+            buf.append(ch)
+    out.append("".join(buf))
+    return [p.strip() for p in out if p.strip()]
+
+
+def _race_range(frag: str) -> str:
+    """
+    ' (Races A-B)' spanning the first→last race number in a wager fragment, or
+    '' if none. Race numbers live inside parens as '(1-3)', '(RACES 1-2-3-4-5)',
+    or bare as 'N & M'. The minimum-bet price also sits in parens ('($1)',
+    '(.50)'), so a group only counts as a range when it holds >=2 numbers in
+    the plausible 1-14 race band.
+    """
+    for grp in _PAREN_RE.findall(frag):
+        nums = sorted({int(n) for n in _re.findall(r"\d+", grp) if 1 <= int(n) <= 14})
+        if len(nums) >= 2:
+            return f" (Races {nums[0]}-{nums[-1]})"
+    m = _AMP_RANGE_RE.search(frag)
+    if m:
+        return f" (Races {int(m.group(1))}-{int(m.group(2))})"
+    return ""
+
+
 def _format_multi_race_wagers(wagers) -> str:
     """
-    Filter to multi-race wagers only: Daily Double, Pick 3, Pick 4, Pick 5,
-    Pick 6.  Discard WPS, exactas, trifectas, superfectas, Super Hi-5,
-    Odd vs Even.
-
-    BRISnet packs wagers into slash-delimited compound strings like:
-        'DAILY DOUBLE / EXACTA / TRIFECTA / SUPERFECTA / PICK 3 (RACES 1-2-3)'
-    so we split on '/' first, then classify each fragment.
-
-    Returns a clean comma-separated string, or '—' if nothing matches.
+    Filter a race's WagerType strings to the standard multi-race pools — Daily
+    Double, Pick 3/4/5/6 (incl. Gulfstream 'Bet N') — and render them deduped as
+    'Multi-race wagers: Daily Double (Races 1-2) · Pick 3 (Races 1-3) ·
+    Early Pick 5 (Races 1-5)'. Returns '—' when the race offers none.
+    Discards WPS, exactas, trifectas, superfectas, and named specialty pools.
     """
     if not wagers:
         return "—"
 
-    # Flatten + split compound strings on '/'
-    pieces = []
+    frags = []
     for raw in wagers:
-        if not raw:
-            continue
-        for p in str(raw).split("/"):
-            p = p.strip()
-            if p:
-                pieces.append(p)
+        if raw:
+            frags.extend(_split_wager_pools(str(raw)))
 
-    keep = []
-    seen = set()
-    for w in pieces:
-        # Strip the leading minimum-bet price ("$.50 PICK 3" -> "PICK 3") so the
-        # startswith() classification works regardless of bet denomination.
-        wu = _WAGER_PRICE_RE.sub("", w.upper()).strip()
-        # Exact match on multi-race tokens.  Order matters: check the
-        # longer match first ("PICK 3" before "PICK").
-        if wu.startswith("DAILY DOUBLE") or wu == "DD":
-            label = self_label("Daily Double", w)
-        elif wu.startswith("PICK 3") or wu == "P3" or wu == "PK3":
-            label = self_label("Pick 3", w)
-        elif wu.startswith("PICK 4") or wu == "P4" or wu == "PK4":
-            label = self_label("Pick 4", w)
-        elif wu.startswith("PICK 5") or wu == "P5" or wu == "PK5":
-            label = self_label("Pick 5", w)
-        elif wu.startswith("PICK 6") or wu == "P6" or wu == "PK6":
-            label = self_label("Pick 6", w)
+    # Dedup by (qualifier, base) but prefer the entry that carries a race range,
+    # so a range-less specialty duplicate never shadows the real sequence.
+    order, best = [], {}
+    for frag in frags:
+        up = frag.upper()
+        if _WAGER_SKIP_RE.search(up):
+            continue
+        pm = _PICK_RE.search(up)
+        if pm:
+            base = f"Pick {pm.group(1)}"
+        elif _DOUBLE_RE.search(up) and "PICK" not in up and "BET" not in up:
+            base = "Daily Double"
         else:
             continue
-        if label not in seen:
-            seen.add(label)
-            keep.append(label)
 
-    if not keep:
+        # Optional Early / Late / Mandatory qualifier — a card can carry both
+        # an Early and a Late Pick 5, so keep them distinct.
+        qual = ""
+        qm = _WAGER_QUAL_RE.search(up)
+        if qm:
+            qual = qm.group(1).title().replace("Mandatory Pay", "Mandatory") + " "
+
+        label = f"{qual}{base}{_race_range(frag)}"
+        key = (qual.strip(), base)
+        if key not in best:
+            best[key] = label
+            order.append(key)
+        elif "(Races" in label and "(Races" not in best[key]:
+            best[key] = label
+
+    if not order:
         return "—"
-    return "Multi-race wagers: " + " · ".join(keep)
+    return "Multi-race wagers: " + " · ".join(best[k] for k in order)
 
 
 def self_label(base: str, raw: str) -> str:
