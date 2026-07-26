@@ -45,6 +45,7 @@ import re
 import json
 import time
 import shutil
+import subprocess
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -262,9 +263,62 @@ def ensure_profile_copy() -> Path:
 
 # ── Selenium driver setup ───────────────────────────────────────────────────
 
-def get_driver() -> webdriver.Chrome:
-    profile_dir = ensure_profile_copy()
+def _reap_driver(driver) -> None:
+    """
+    Tear down a Selenium driver AND kill the chrome.exe subtree it spawned.
 
+    Selenium's driver.quit() on Windows routinely orphans the chrome.exe child
+    processes chromedriver launched. This script restarts Chrome every
+    RESTART_AFTER_N downloads plus once per run, so across days of scheduled
+    runs the orphans pile up — ~180 stale chrome.exe were seen 2026-07-26 —
+    until the box is starved of memory/handles and the next Chrome can't even
+    write its prefs file ("session not created"). We taskkill the chromedriver's
+    whole process TREE, which is scoped to THIS driver only (chrome launched by
+    OUR chromedriver) — it never touches the user's own browser. The tree is
+    killed BEFORE quit(): once chromedriver exits, its chrome children are
+    re-parented and /T can no longer reach them.
+    """
+    if driver is None:
+        return
+    drv_pid = None
+    try:
+        drv_pid = driver.service.process.pid
+    except Exception:
+        pass
+    if drv_pid and os.name == "nt":
+        try:
+            subprocess.run(
+                ["taskkill", "/F", "/T", "/PID", str(drv_pid)],
+                capture_output=True, timeout=30,
+            )
+            log.info(f"[*] Reaped Chrome process tree for chromedriver pid {drv_pid}")
+        except Exception as e:
+            log.warning(f"    reap taskkill failed for pid {drv_pid}: {e}")
+    try:
+        driver.quit()
+    except Exception:
+        pass
+
+
+def _fresh_profile_dir() -> Path:
+    """
+    A clean, empty Chrome profile — no live-profile carryover. The downloader
+    re-logs in via .env each run, so it doesn't need the live cookies; this is
+    the fallback when the live-profile copy is unusable (e.g. the live profile
+    was mid-write and came over without a Preferences file, which makes Chrome
+    exit on launch).
+    """
+    if CHROME_PROFILE_COPY.exists():
+        shutil.rmtree(CHROME_PROFILE_COPY, ignore_errors=True)
+    (CHROME_PROFILE_COPY / "Default").mkdir(parents=True, exist_ok=True)
+    log.warning(
+        "[*] Using a CLEAN throwaway Chrome profile (live-profile copy "
+        "unusable); the downloader logs in via .env anyway"
+    )
+    return CHROME_PROFILE_COPY
+
+
+def _new_chrome(profile_dir: Path) -> webdriver.Chrome:
     # Make sure download dir exists before Chrome tries to use it
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -307,6 +361,22 @@ def get_driver() -> webdriver.Chrome:
     })
 
     return driver
+
+
+def get_driver() -> webdriver.Chrome:
+    """
+    Launch Chrome pointed at a copy of the live profile. If that launch fails
+    (a wedged/corrupt profile copy), retry ONCE with a clean throwaway profile
+    so a bad profile copy can't take the whole run down.
+    """
+    try:
+        return _new_chrome(ensure_profile_copy())
+    except Exception as e:
+        log.warning(
+            f"[!] Chrome launch with the live-profile copy failed "
+            f"({type(e).__name__}: {e}); retrying once with a clean profile"
+        )
+        return _new_chrome(_fresh_profile_dir())
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -1034,10 +1104,7 @@ def main():
                 # Periodic Chrome restart to release accumulated resources
                 if downloads_since_restart >= RESTART_AFTER_N:
                     log.info(f"[*] Restarting Chrome after {downloads_since_restart} downloads...")
-                    try:
-                        driver.quit()
-                    except Exception:
-                        pass
+                    _reap_driver(driver)
                     driver = get_driver()
                     if not _verify_session_can_drive_grid(
                         driver, user, password,
@@ -1055,10 +1122,7 @@ def main():
                 # Detect dead session before attempting (defensive)
                 if not is_session_alive(driver):
                     log.warning("[!] Chrome session died unexpectedly, rebuilding...")
-                    try:
-                        driver.quit()
-                    except Exception:
-                        pass
+                    _reap_driver(driver)
                     driver = get_driver()
                     if not _verify_session_can_drive_grid(
                         driver, user, password,
@@ -1210,10 +1274,7 @@ def main():
         counts["failed"] = failed
 
     finally:
-        try:
-            driver.quit()
-        except Exception:
-            pass
+        _reap_driver(driver)
         # Recover any packs Chrome saved under BRISnet's raw name before the
         # loop could rename them (a slow download landing late), so a late
         # arrival doesn't strand a card as an undiscoverable .zip.
