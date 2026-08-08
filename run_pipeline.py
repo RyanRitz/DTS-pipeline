@@ -1265,39 +1265,47 @@ def _clean_stakes_name(raw: str) -> str:
 
 def _stakes_name(rc1, racetype) -> str:
     """Extract a display stakes name from RaceConditions1, or '' if not a
-    named stakes. Gate on RaceType G/N so ordinary races never match."""
+    named stakes. Fires for RaceType N (nongraded) and any G-prefixed code
+    (graded stakes encode as G1/G2/G3, NOT a bare 'G')."""
     rt = ("" if racetype is None else str(racetype)).strip().upper()
-    if rt not in ("G", "N"):
+    if not (rt.startswith("G") or rt == "N"):
         return ""
     s = ("" if rc1 is None else str(rc1)).replace(";", ",").strip()
     if not s:
         return ""
     lead = _re.split(r"PURSE", s, maxsplit=1, flags=_re.IGNORECASE)[0]
+    # Trim clauses that sit between the NAME and "Purse": the grade tag
+    # ("Grade II.") and sponsor credits ("Presented by FanDuel TV.").
+    # e.g. "CHARLES WHITTINGHAM S. PRESENTED BY FANDUEL TV. Grade II." -> name.
+    up = lead.upper()
+    cuts = [up.find(c) for c in (" PRESENTED BY", " SPONSORED BY", "GRADE ")]
+    cuts = [c for c in cuts if c != -1]
+    if cuts:
+        lead = lead[:min(cuts)]
     lead = lead.strip().strip(".").strip()
     if not lead:
         return ""
-    up = lead.upper()
-    if any(up.startswith(g) for g in _STK_GENERIC):
+    if any(lead.upper().startswith(g) for g in _STK_GENERIC):
         return ""   # generic class text, not a real name
     return _clean_stakes_name(lead)
 
 
 def _stakes_grade(rc_full, classif, racetype) -> str:
-    """Return 'G1'/'G2'/'G3' for a GRADED stakes, else ''. Best-effort text
-    scan of RaceConditions + TodaysRaceClassification; only fires for
-    RaceType G. (No graded race in the current slate to verify against — safe
-    no-op until one appears.)"""
+    """Return 'G1'/'G2'/'G3' for a graded stakes, else ''. The grade is
+    normally in the RaceType code itself (G1/G2/G3); fall back to the
+    conditions text for a bare 'G'."""
     rt = ("" if racetype is None else str(racetype)).strip().upper()
-    if rt != "G":
+    if not rt.startswith("G"):
         return ""
+    if len(rt) >= 2 and rt[1:].isdigit():
+        return "G" + rt[1:]
+    # Bare 'G' fallback: read the grade from the prose (longest match first).
     blob = " ".join(str(x or "") for x in (rc_full, classif)).upper()
-    m = _re.search(r"\bGRADE\s*(I{1,3}|[123])\b", blob) or \
-        _re.search(r"\bG\s*([123])\b", blob)
-    if not m:
-        return ""
-    g = m.group(1)
-    g = {"I": "1", "II": "2", "III": "3"}.get(g, g)
-    return f"G{g}"
+    for token, g in (("GRADE III", "G3"), ("GRADE II", "G2"), ("GRADE I", "G1"),
+                     ("G3", "G3"), ("G2", "G2"), ("G1", "G1")):
+        if token in blob:
+            return g
+    return ""
 
 
 def generate_pdf(scoring_result: ScoringResult,

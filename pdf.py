@@ -784,7 +784,12 @@ def _format_race_title(row: pd.Series) -> dict:
       detail  — surface · distance · purse (right-aligned in the header)
     """
     racetype_raw = (row.get("racetype") or "").strip().upper()
-    racetype = RACETYPE_MAP.get(racetype_raw, racetype_raw)
+    # Graded stakes encode RaceType as G1/G2/G3 — collapse to the 'G' key so
+    # the title reads 'Stakes'; the grade token rides in the middle slot after
+    # the race name.
+    rt_key = ("G" if (len(racetype_raw) >= 2 and racetype_raw[0] == "G"
+                      and racetype_raw[1:].isdigit()) else racetype_raw)
+    racetype = RACETYPE_MAP.get(rt_key, rt_key)
 
     surface_code = (row.get("surface", "") or "").strip().upper()
     surface = {"D": "Dirt", "T": "Turf", "A": "All-Weather"}.get(
