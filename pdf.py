@@ -333,7 +333,18 @@ def _build_race_page(
         cond_parts = ["Dirt: <b>TBD</b>", "Turf: <b>TBD</b>"]
     cond_str = " &nbsp;·&nbsp; ".join(cond_parts)
 
-    fp = f"1st Post: <b>{_html_escape(first_post)}</b>" if first_post else ""
+    # Masthead post line. Race 1 keeps the authoritative "1st Post" (from the
+    # Equibase track-status fetch); every later race shows ITS OWN estimated
+    # post time, parsed per-race from the DRF (run_pipeline._post_times_by_race).
+    race_post = str(first.get("post_time") or "").strip()
+    if race_no == 1 and first_post:
+        fp = f"1st Post: <b>{_html_escape(first_post)}</b>"
+    elif race_post:
+        fp = f"Post: <b>{_html_escape(race_post)}</b>"
+    elif first_post:
+        fp = f"1st Post: <b>{_html_escape(first_post)}</b>"
+    else:
+        fp = ""
 
     # ── Change-feed freshness line ───────────────────────────────────────
     # Sits under 1st Post / conditions. Equibase's own "Last Updated" stamp is

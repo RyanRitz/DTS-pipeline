@@ -1263,6 +1263,56 @@ def _clean_stakes_name(raw: str) -> str:
     return (name[:1].upper() + name[1:]) if name else name
 
 
+def _local_post(region_str) -> str:
+    """The track-local post time from a PostTimesbyregion cell.
+
+    Brisnet gives all four US zones as 'ET/CT/MT/PT' and PARENTHESISES the
+    track's own zone: Gulfstream (ET) -> '(12:50)/11:50/10:50/9:50', Santa
+    Anita (PT) -> '3:00/2:00/1:00/(12:00)'. We want the parenthesised value.
+    """
+    m = _re.search(r"\(([^)]+)\)", str(region_str or ""))
+    return m.group(1).strip() if m else ""
+
+
+def _post_times_by_race(work) -> dict:
+    """Per-race local post time as 'H:MM AM/PM'.
+
+    PostTimesbyregion carries no AM/PM. We anchor race 1 (10-11 -> AM, else PM)
+    then walk forward: times are monotonic across a card, so the first time
+    that would go backwards is the noon crossing -> flip to PM (once)."""
+    out: dict = {}
+    if "Race" not in work.columns or "PostTimesbyregion" not in work.columns:
+        return out
+    prev = None
+    pm = None
+
+    def _mins(h, mm, pm):
+        return (h % 12 + (12 if pm else 0)) * 60 + mm
+
+    for rn in sorted(work["Race"].dropna().unique(), key=lambda x: int(x)):
+        grp = work[work["Race"] == rn]
+        raw = ""
+        for v in grp["PostTimesbyregion"]:
+            sv = str(v).strip()
+            if sv and sv.lower() != "nan":
+                raw = v
+                break
+        loc = _local_post(raw)
+        mt = _re.match(r"(\d{1,2}):(\d{2})", loc)
+        if not mt:
+            continue
+        h, mm = int(mt.group(1)), int(mt.group(2))
+        if prev is None:
+            pm = h not in (10, 11)          # 10/11 -> AM, noon & 1-9 -> PM
+        cand = _mins(h, mm, pm)
+        if prev is not None and cand < prev and not pm:
+            pm = True                       # crossed noon
+            cand = _mins(h, mm, pm)
+        prev = cand
+        out[int(rn)] = f"{h}:{mm:02d} {'PM' if pm else 'AM'}"
+    return out
+
+
 def _stakes_name(rc1, racetype) -> str:
     """Extract a display stakes name from RaceConditions1, or '' if not a
     named stakes. Fires for RaceType N (nongraded) and any G-prefixed code
@@ -1523,6 +1573,10 @@ def generate_pdf(scoring_result: ScoringResult,
         work["race_name"]  = work["Race"].astype("Int64").map(_name_by_race).fillna("")
         work["race_grade"] = work["Race"].astype("Int64").map(_grade_by_race).fillna("")
 
+        # Per-race local post time (Race 1 == the masthead's "1st Post").
+        _post_by_race = _post_times_by_race(work)
+        work["post_time"] = work["Race"].astype("Int64").map(_post_by_race).fillna("")
+
     # ── Per-race number of turns (track geometry) ───────────────────────
     # get_turns(track, surface, distance_yards) -> 1 | 2 | None. Computed once
     # per race and mapped back. This populates the "turns" column the header
@@ -1591,6 +1645,7 @@ def generate_pdf(scoring_result: ScoringResult,
         "turns":           _col("turns"),
         "race_name":       _col("race_name", default=""),
         "race_grade":      _col("race_grade", default=""),
+        "post_time":       _col("post_time", default=""),
         "race_conditions_summary": _col("race_conditions_summary", default=""),
 
         # Connections
