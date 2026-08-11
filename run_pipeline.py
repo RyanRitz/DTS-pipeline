@@ -1713,36 +1713,53 @@ def generate_pdf(scoring_result: ScoringResult,
             sc = f"why_{side}_{i}_score"
             pdf_df[sc] = _col(sc)
 
-    # ── First post and conditions ───────────────────────────────────────
+    # ── First post + per-race posts + conditions ────────────────────────
     ts = scoring_result.track_status
+
+    # Resolve this card's DRF once. Used for the first-post fallback (previews
+    # have no track_status) AND for per-race post times below. scored_df does
+    # NOT carry post-time columns, so both must come from the DRF itself.
+    drf_path_used = None
+    try:
+        drf_candidates = [
+            DRF_DIR / f"{race_date}_{track}_DRS.DRF",         # 20260515_LRL_DRS.DRF
+            DRF_DIR / f"{track.upper()}{race_date[4:]}.DRF",  # LRL0515.DRF
+        ]
+        drf_candidates += list(DRF_DIR.glob(f"{track.upper()}{race_date[4:]}*.DRF"))
+        for cand in drf_candidates:
+            if cand.exists():
+                drf_path_used = cand
+                break
+    except Exception as e:
+        log.debug(f"  generate_pdf: DRF resolve failed: {e}")
+
     first_post_dt = None
     if ts is not None and getattr(ts, "first_post", None) is not None:
         first_post_dt = ts.first_post
-    else:
-        # PREVIEW path: track_status is None, but we can still get a
-        # first-post estimate by reading the DRF. Try both naming
-        # conventions used by the pipeline.
-        try:
-            drf_candidates = [
-                DRF_DIR / f"{race_date}_{track}_DRS.DRF",       # 20260515_LRL_DRS.DRF
-                DRF_DIR / f"{track.upper()}{race_date[4:]}.DRF",  # LRL0515.DRF
-            ]
-            drf_candidates += list(DRF_DIR.glob(f"{track.upper()}{race_date[4:]}*.DRF"))
-            for cand in drf_candidates:
-                if cand.exists():
-                    first_post_dt = get_first_post(cand)
-                    if first_post_dt:
-                        log.info(f"  PDF first-post fallback: {cand.name} -> {first_post_dt}")
-                        break
-        except Exception as e:
-            log.debug(f"  generate_pdf: no DRF first-post fallback: {e}")
+    elif drf_path_used is not None:
+        first_post_dt = get_first_post(drf_path_used)
+        if first_post_dt:
+            log.info(f"  PDF first-post fallback: {drf_path_used.name} -> {first_post_dt}")
 
-    if first_post_dt is not None:
+    def _fmt_post(dt):
         # Portable 12-hour formatting (Windows + Linux)
-        hour_12 = first_post_dt.hour % 12 or 12
-        first_post_str = f"{hour_12}:{first_post_dt.strftime('%M %p')}"
-    else:
-        first_post_str = None
+        return f"{dt.hour % 12 or 12}:{dt.strftime('%M %p')}"
+
+    first_post_str = _fmt_post(first_post_dt) if first_post_dt is not None else None
+
+    # Per-race post times (ET — same clock as 1st Post; Race 1 matches it by
+    # construction). Read straight from the DRF via get_all_race_posts, since
+    # scored_df/work carry no post columns. Overrides the placeholder set by
+    # the pdf_df builder.
+    if drf_path_used is not None:
+        try:
+            _race_posts = get_all_race_posts(drf_path_used) or {}
+            _post_str = {int(r): _fmt_post(dt) for r, dt in _race_posts.items()}
+            if "race" in pdf_df.columns and _post_str:
+                pdf_df["post_time"] = pdf_df["race"].map(
+                    lambda r: _post_str.get(int(r), "") if _pd.notna(r) else "")
+        except Exception as e:
+            log.debug(f"  generate_pdf: per-race post times unavailable: {e}")
 
     conditions = {}
     if ts is not None:
