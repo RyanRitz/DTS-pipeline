@@ -79,6 +79,7 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
         "turffy_last5",                     # lowercase alias
         "workoutpctrnk1",                   # workout pct rank (Block 2 lowercase)
         "WorkoutPctRnk1",                   # PascalCase variant
+        "WorkoutPctRnk2", "WorkoutPctRnk3",  # DMR iworkout_dmrm needs indexed ranks 2/3
         "StretchBtnLngthsonly1",            # stretch position (Block prereq)
         # WorkoutDate vars (datetime → need special handling)
         "WorkoutDate1","WorkoutDate2","WorkoutDate3",

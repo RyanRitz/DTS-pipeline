@@ -47,6 +47,7 @@ def build_model_vars(df: pd.DataFrame) -> pd.DataFrame:
     # xStretchBtnLngthsonly1 should be race-centered residual
 
     df = _dirt_vars(df)
+    df = _dirt_vars_dmr(df)
     df = _turf_sart_vars(df)
     df = _sarm_vars(df)
     df = _kaaw13_vars(df)
@@ -856,4 +857,65 @@ def _shared_final_vars(df: pd.DataFrame) -> pd.DataFrame:
         iecyr = _g(df, "IEarningsCurYearRec", np.nan)
         df["iearningscyind"] = np.where(iecyr > 1.3, 1, 0)
 
+    return df
+
+
+# ---------------------------------------------------------------------------
+# DMR dirt config-F model vars (24 transforms; bit-exact port of
+# BTSM_DMR_DirtModel_2026.sas). Names verified NOT to collide with any KEE/SAR
+# coefficient var, so building them for every card is inert for other families.
+# xBRISPd2a is already built in features.py (identical) -> not rebuilt here.
+# ---------------------------------------------------------------------------
+
+def _dirt_vars_dmr(df):
+    g = lambda c, d=np.nan: _g(df, c, d)
+    xbr1 = g("xBRISSpeedRating1")
+    df["LRBris_dmr26"]  = _clip(xbr1, -9, 12, fill=0)
+    df["lastbris_dmrd"] = _clip(xbr1, -8,  5, fill=0)
+    df["xbrispy_kaaw13"] = _clip(g("xBestBRISSpeedMostRecentY"), -4, 4, fill=0)
+    spdft = _clip(g("IBestBRISSpdFastTrack"), .92, 1.08, fill=1)
+    spdlf = _clip(g("IBestBRISSpeedLife"),    .92, 1.08, fill=1)
+    df["spdoth_sard26"] = pd.concat([spdft, spdlf], axis=1).mean(axis=1)
+    df["BRISDist_dmr26alt"] = _clip(g("xBestBRISSpdDist"), -10, 10, fill=0)
+    bstt = _clip(g("xBestBRISSpeedTodaysTrack"), -8, 8)
+    bsds = _clip(g("xBestBRISSpdDist"), -8, 8)
+    df["trkdist_dmrn"] = pd.concat([bstt, bsds], axis=1).mean(axis=1, skipna=True).fillna(0)
+    df["IEPS_LTDist_dmrt"] = _clip(g("IEPS_LTDist"), .2, 2.5, fill=1)
+    df["IEPS_LTCyr_dmrt"]  = _clip(g("IEPS_LTCyr"),  .2, 2.5, fill=1)
+    lp1 = _clip(g("xBRISLatePaceFig1"), -10, 15)
+    lp2 = _clip(g("xBRISLatePaceFig2"), -10, 15)
+    df["latepace_avg2"] = pd.concat([lp1, lp2], axis=1).mean(axis=1, skipna=True).fillna(0)
+    lc1 = _clip(g("xBRISSpeedParforClsLvl1"), -6, 6)
+    lc2 = _clip(g("xBRISSpeedParforClsLvl2"), -6, 6)
+    lc3 = _clip(g("xBRISSpeedParforClsLvl3"), -6, 6)
+    df["lrclass_avg3_alt"] = pd.concat([lc1, lc2, lc3], axis=1).mean(axis=1, skipna=True).fillna(0)
+    df["qsp_dmrd26"]  = _clip(g("xQuirinstyleSpeedPoints"), -5, 5, fill=0)
+    df["finbtn_dmrn"] = _clip(g("xFinishBtnLngthsonly1"), -8, 8, fill=8)   # missing -> +8
+    is_sprint = g("Distanceinyards").abs() <= 1540
+    wd = pd.concat([g("xWorkoutDist1"), g("xWorkoutDist2")], axis=1).mean(axis=1)
+    distwo = pd.Series(np.where(is_sprint, 0.0, wd), index=df.index)
+    df["distwo_dmrm26"] = distwo.fillna(0).clip(-100, 100)
+    df["icuryrwp_dc"]   = _clip(g("ICurYearRecWPpct"), .2, 2, fill=1)
+    df["curyrwp_final"] = _clip(g("xCurYearRecWPpct"), -.7, .7, fill=0)
+    df["iJCK_EPS2025"]  = _clip(g("IJKYatDisJkyonTurfEPS"), .2, 2, fill=1)
+    jesp = _clip(g("IJKYatDisJkyonTurfEPS"), .2, 2.5, fill=1)
+    jpyw = _clip(g("IJockeyPrvYrWpct"), .5, 1.4, fill=1)
+    jcyw = _clip(g("IJockeyCurYrWpct"), .5, 1.4, fill=1)
+    df["jcky_keeapraw13"] = 1.5 * jesp + jpyw + jcyw
+    twcm = g("xTrainerWinsCurrentMeet"); tstd = g("xTrainerWinsCurrentMeet_std")
+    tstd_ok = tstd.notna() & (tstd != 0)
+    ratio = np.where(tstd_ok, twcm / tstd.where(tstd_ok, np.nan), 0.0)
+    dmrm = pd.Series(ratio, index=df.index).clip(-2, 4)
+    df["trnwcm_dmrm"] = np.where(g("RaceType") == "S", 0.0, dmrm)
+    df["jnt365gt10"] = _clip(g("xr101109gt10"), -.3, .3, fill=0)
+    iw1 = _clip(g("IWorkoutPctRnk1"), .15, 2, fill=.15)
+    iw2 = _clip(g("IWorkoutPctRnk2"), .15, 2, fill=.15)
+    iw3 = _clip(g("IWorkoutPctRnk3"), .15, 2, fill=.15)
+    df["iworkout_dmrm"] = iw1 + iw2 + iw3
+    df["xWorkoutDate3_keeod"] = _clip(g("xWorkoutDate3"), -75, 75, fill=0)
+    df["xLastWOatTT"]         = g("xLastWOatTT")
+    # CA-bred: features.py doesn't build it -> derive from StateCountryabrvw, race-center
+    _cab = (g("StateCountryabrvw").astype(str).str.strip().str.upper() == "CA").astype(float)
+    _cabavg = _cab.groupby([df["Track"], df["Date"], df["Race"]]).transform("mean")
+    df["xCABred"] = (_cab - _cabavg).fillna(0)
     return df

@@ -192,12 +192,27 @@ def setup_registry(config) -> None:
     # register_track("CD",  "CD")
     # register_track("CDX", "CD")   # BRIS code variant -> same family
 
-    # ── Del Mar ───────────────────────────────────────────────────────────
-    # register_family("DMR", dirt_models={...}, turf_models={...},
-    #                 maiden_models={...},
-    #                 score_weights={"score1": 0.50, "score2": 0.25, "score3": 0.25},
-    #                 coeff_dir=Path(config.COEFF_DIR) / "DMR")
-    # register_track("DMR", "DMR")
+    # ── Del Mar (dirt = own config-F family; turf/maiden fall back to KEE) ──
+    register_family(
+        "DMR",
+        dirt_models={
+            "core": "dmrdirt2026_core.sas7bdat",
+            "c":    "dmrdirt2026c.sas7bdat",
+            "n":    "dmrdirt2026n.sas7bdat",
+            "s":    "dmrdirt2026s.sas7bdat",
+            "r":    "dmrdirt2026r.sas7bdat",
+            "ss":   "dmrdirt2026_ss.sas7bdat",
+            "sn":   "dmrdirt2026_sn.sas7bdat",
+            "rc":   "dmrdirt2026_rc.sas7bdat",
+            "rn":   "dmrdirt2026_rn.sas7bdat",
+        },
+        dirt_var_overrides={},                      # DMR built on plain trnwcm_sart
+        turf_models=dict(config.TURF_MODELS),       # KEE fallback (no turf_ensemble)
+        maiden_models=dict(config.MAIDEN_MODELS),   # KEE fallback (no maiden_ensemble)
+        score_weights=dict(config.SCORE_WEIGHTS),
+        coeff_dir=Path(config.COEFF_DIR),
+    )
+    register_track("DMR", "DMR")
 
     # ── Gulfstream Park ───────────────────────────────────────────────────
     # register_family("GP", dirt_models={...}, turf_models={...},

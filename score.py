@@ -125,6 +125,11 @@ def _score_dirt(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
     ensemble components to non-NY races and scoring NY races only with the NY
     model makes NY horses collapse to the NY prediction automatically.
     """
+    # DMR config-F: if the family declares the 4 cells, use the hierarchical scorer
+    _dm = getattr(config, "DIRT_MODELS", {}) or {}
+    if all(k in _dm for k in ("ss", "sn", "rc", "rn")):
+        return _score_dirt_dmr(df, coeff_dir, config)
+
     spec = getattr(config, "DIRT_ENSEMBLE", None) or [
         ("c", "claim"), ("n", "nonclaim"), ("s", "sprint"), ("r", "route")]
     ny_key = getattr(config, "DIRT_NY_MODEL", None)
@@ -969,3 +974,61 @@ def build_excel_output(df: pd.DataFrame) -> pd.DataFrame:
     """Select and order columns matching the SAS myxls export."""
     cols = [c for c in OUTPUT_COLUMNS if c in df.columns]
     return df[cols].sort_values(["Race", "Num", "ProbToWin"]).reset_index(drop=True)
+
+
+def _score_dirt_dmr(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """DMR config-F dirt scorer: score 9 models, per-horse blend =
+    mean(cell, class-marginal, distance-marginal). No core in the blend (config F);
+    predictedcore is carried for reference. Isolation: only runs for the DMR family."""
+    dm = config.DIRT_MODELS
+    filt = {
+        "core": lambda d: _filter(d, surf="D", maiden=False),
+        "c":    lambda d: _filter(d, surf="D", maiden=False, clm=True),
+        "n":    lambda d: _filter(d, surf="D", maiden=False, clm=False),
+        "s":    lambda d: _filter(d, surf="D", maiden=False, sprint=True),
+        "r":    lambda d: _filter(d, surf="D", maiden=False, sprint=False),
+        "ss":   lambda d: _filter(d, surf="D", maiden=False, clm=True,  sprint=True),
+        "sn":   lambda d: _filter(d, surf="D", maiden=False, clm=False, sprint=True),
+        "rc":   lambda d: _filter(d, surf="D", maiden=False, clm=True,  sprint=False),
+        "rn":   lambda d: _filter(d, surf="D", maiden=False, clm=False, sprint=False),
+    }
+    key_cols = ["Track", "Date", "Race", "HorseName"]
+    result = df.copy()
+    for key in ("core", "c", "n", "s", "r", "ss", "sn", "rc", "rn"):
+        cname = dm.get(key, "")
+        cfile = coeff_dir / cname
+        if not cname or not cfile.exists():
+            logger.warning(f"  DMR dirt model '{key}' coeff not found: {cfile}")
+            result[f"rm_{key}"] = np.nan
+            continue
+        sub = filt[key](df).copy()
+        if not len(sub):
+            result[f"rm_{key}"] = np.nan
+            continue
+        scored = _proc_score(sub, cfile, f"rm_{key}")
+        merge = scored[key_cols + [f"rm_{key}"]].drop_duplicates(subset=key_cols)
+        result = result.merge(merge, on=key_cols, how="left")
+
+    def _sig(k):
+        col = f"rm_{k}"
+        return 1.0 / (1.0 + np.exp(-result[col])) if col in result.columns else pd.Series(np.nan, index=result.index)
+
+    result["predictedcore"] = _sig("core")
+    predc, predn = _sig("c"), _sig("n")
+    preds, predr = _sig("s"), _sig("r")
+    predss, predsn = _sig("ss"), _sig("sn")
+    predrc, predrn = _sig("rc"), _sig("rn")
+
+    is_claim  = result["RaceType"].fillna("") == "C"
+    is_sprint = result["Distanceinyards"].abs() <= 1540
+
+    class_marg = np.where(is_claim, predc, predn)
+    dist_marg  = np.where(is_sprint, preds, predr)
+    cell = np.where(is_claim & is_sprint, predss,
+           np.where(~is_claim & is_sprint, predsn,
+           np.where(is_claim & ~is_sprint, predrc, predrn)))
+
+    stack = np.vstack([cell, class_marg, dist_marg])
+    result["predicted"] = np.nanmean(stack, axis=0)
+    result["model"] = 1
+    return result

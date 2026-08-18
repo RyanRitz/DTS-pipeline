@@ -284,12 +284,15 @@ def _compute_prerequisites(df: pd.DataFrame) -> pd.DataFrame:
     # --- Stretch margin sign fix for winner ---
     for i in range(1, 11):
         fp  = _get_str_col(df, f"FinishPosition{i}")
-        wm  = df.get(f"WinnersMargin{i}", pd.Series(np.nan, index=df.index))
+        wm  = df.get(f"FinishBtnLngthsWnrsmargin{i}", df.get(f"WinnersMargin{i}", pd.Series(np.nan, index=df.index)))
         sb  = df.get(f"FinishBtnLngthsonly{i}", pd.Series(np.nan, index=df.index))
         mp  = _get_str_col(df, f"MoneyPosition{i}")
-        is_win  = fp.str.strip() == "1"
+        is_win  = pd.to_numeric(df.get(f"FinishPosition{i}"), errors="coerce") == 1
         is_dnf  = mp.isin(["99","89","28"])
-        df[f"FinishBtnLngthsonly{i}"] = np.where(is_win, -wm,
+        # winner beaten-lengths = -margin; if margin missing (nose/neck parsed NaN),
+        # fall back to the raw signed FinishBtnLngths field (DMR-only var; isolation-safe)
+        _win_val = np.where(wm.notna(), -wm, sb)
+        df[f"FinishBtnLngthsonly{i}"] = np.where(is_win, _win_val,
                                          np.where(is_dnf, 30,
                                          np.where(sb > 30, 30, sb)))
 
