@@ -62,7 +62,7 @@ KEEP_DAYS       = 7  # Prune state older than this
 #
 # Window-gating uses the DRF heuristic for first-post (free), not Equibase
 # (Selenium fetch). Equibase is only consulted once we're inside a window.
-FINAL_ANCHORS_MIN_BEFORE = (60, 30, 0)    # T-60, T-30, T-0
+FINAL_ANCHORS_MIN_BEFORE = (120, 90, 60, 30, 0)  # T-120, T-90, T-60, T-30, T-0
 FINAL_ANCHOR_TOLERANCE_MIN = 15           # +/-15 minutes around each anchor
 
 # In-card anchors: re-check each race ~20 minutes before its post time. With
