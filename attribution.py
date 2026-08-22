@@ -118,7 +118,7 @@ SYNONYMS = {
         ["Lacks the foot here", "Doesn't have the gears", "Speed edge goes the other way"],
     ),
     "XBPPR_tc12_3": (
-        ["Fastest at this oval — period", "Owns this track on numbers", "The speed figure leader here"],
+        ["Fastest at this oval, period", "Owns this track on numbers", "The speed figure leader here"],
         ["Can't match the speedsters", "Gets outfigured at this oval", "Speed profile doesn't fit"],
     ),
     "BBtrck_kaaw13": (
@@ -160,7 +160,7 @@ SYNONYMS = {
     # Pace / style
     "EarlySpeed": (
         ["Tactical speed", "Gets the jump out of the gate", "Rates off the pace nicely"],
-        ["No early position", "Gets away slowly — uphill battle", "Will need some luck from the back"],
+        ["No early position", "Gets away slowly, uphill battle", "Will need some luck from the back"],
     ),
     "xBRISRunstyle_EP": (
         ["Presser style fits the pace", "Running style made for this setup", "Will be in the right spot"],
@@ -222,7 +222,7 @@ SYNONYMS = {
     ),
     "HC_1stongrass": (
         ["Trainer excels on turf debut", "Barn knows how to debut on grass", "First-time turf? Trust this trainer"],
-        ["First-time turf — risky", "Turf debut is always a question", "Going to school on the grass today"],
+        ["First-time turf, risky", "Turf debut is always a question", "Going to school on the grass today"],
     ),
     "HC_ShipperToUS": (
         ["Respected shipper connections", "Barn makes travel work", "Shippers from this barn arrive ready"],
@@ -230,8 +230,8 @@ SYNONYMS = {
     ),
     # Jockey
     "jcky_d": (
-        ["Accomplished turf rider", "Knows the way around a turf course", "Pilot is at home on grass"],
-        ["Lighter turf booking", "Not known as a grass rider", "Jockey less effective on turf"],
+        ["Rider is a proven winner", "Pilot is in top form", "Right rider aboard today"],
+        ["Lighter booking here", "Rider has been cold lately", "Not this jockey's strongest spot"],
     ),
     "IJKYe_Ko25": (
         ["Jockey earns at this trip", "Pilot is money at this distance", "Right rider for this route"],
@@ -246,7 +246,7 @@ SYNONYMS = {
         ["Jockey off form last year", "Last season was a step back", "Recent year in the irons was quiet"],
     ),
     "JKY_CM_WINSAPR25": (
-        ["Jockey riding a hot streak", "Pilot is in the zone right now", "Call this rider — firing right now",
+        ["Jockey riding a hot streak", "Pilot is in the zone right now", "Call this rider, firing right now",
          "Hot hand in the irons", "Jock's been cashing tickets all meet"],
         ["Jockey quiet this meet", "Pilot has gone cold at the meet", "Meet hasn't been kind to this jockey",
          "Jockey searching for a winner", "Quiet meet for this rider"],
@@ -258,12 +258,12 @@ SYNONYMS = {
          "Hard to trust this pilot right now"],
     ),
     "iJCK_StrtCM": (
-        ["Busy meet book — active rider", "Jockey is getting the calls", "Riders want this pilot"],
+        ["Busy meet book, active rider", "Jockey is getting the calls", "Riders want this pilot"],
         ["Thin meet book", "Not getting many calls this meet", "Jockey on the outside looking in"],
     ),
     "jckcm2_sarm": (
         ["Meet's top pilot", "Best jockey at the meet is up", "A-team rider in the irons"],
-        ["Journeyman booking", "Journeyman up — connections going budget", "Not the first call",
+        ["Journeyman booking", "Journeyman up, connections going budget", "Not the first call",
          "Rider is available for a reason", "Better riders were busy"],
     ),
     # Connections
@@ -294,11 +294,11 @@ SYNONYMS = {
         ["Lackluster work tab", "Clockers aren't impressed", "Works leave something to be desired"],
     ),
     "BullLast3WO": (
-        ["Bullet work in the books", "Fastest of the morning recently", "Clocked the bullet — trainer is happy"],
+        ["Bullet work in the books", "Fastest of the morning recently", "Clocked the bullet, trainer is happy"],
         ["No bullets recently", "No bullets in the recent tab", "Works haven't featured a bullet"],
     ),
     "numbulls3": (
-        ["Multiple bullets — crisp", "Stacking bullets — ready to fire", "Bullets galore in the tab"],
+        ["Multiple bullets, crisp", "Stacking bullets, ready to fire", "Bullets galore in the tab"],
         ["Work tab lacks bullets", "No bullets to speak of", "Tab is light on standout works"],
     ),
     "LastWOatTT": (
@@ -310,7 +310,7 @@ SYNONYMS = {
         ["Work timing a question", "Spacing of works is a bit off", "Timing of last work raises an eyebrow"],
     ),
     "xwrkdateind": (
-        ["Recent work before today", "Fresh off a work — sharp", "Got a good blowout before today"],
+        ["Recent work before today", "Fresh off a work, sharp", "Got a good blowout before today"],
         ["Stale between works", "Been a while since {SUBJ} worked", "Could use another work"],
     ),
     "iworkoutpctrnk1_ckta13": (
@@ -318,8 +318,8 @@ SYNONYMS = {
         ["Work tab ranks low", "Works rank near the bottom", "Training tab doesn't grade out well"],
     ),
     "woalone_dmrm": (
-        ["Works with company — sharp", "Working with horses around {OBJ} — good sign", "Company works say {SUBJ}'s fit"],
-        ["Solo works only", "Has only worked alone — company unknown", "No company in {POSS} works"],
+        ["Works with company, sharp", "Working with horses around {OBJ}, good sign", "Company works say {SUBJ}'s fit"],
+        ["Solo works only", "Has only worked alone, company unknown", "No company in {POSS} works"],
     ),
     # Form / spacing
     "xdaysoff26": (
@@ -327,24 +327,24 @@ SYNONYMS = {
         ["Spacing looks a touch off", "Spacing is a bit unusual", "Days off raises a question"],
     ),
     "xNumDaysSinceLRcut": (
-        ["Well-placed off recent race", "Back quickly — fresh off a race", "Short rest has worked before"],
+        ["Well-placed off recent race", "Back quickly, fresh off a race", "Short rest has worked before"],
         ["Long layoff to overcome", "Rust is a factor after this absence", "Needs to be sharp off the bench"],
     ),
     "xNumDaysSinceLRcut2": (
         ["Good freshness profile", "Comes in with a clean slate", "Spacing sets {OBJ} up well"],
-        ["Extended absence", "Long time between starts — can {SUBJ} fire fresh?", "Layoff is a real question"],
+        ["Extended absence", "Long time between starts, can {SUBJ} fire fresh?", "Layoff is a real question"],
     ),
     "StretchBL_LR26": (
         ["Finished well last out", "Was running at the end last time", "Closed into the stretch well"],
         ["Fell back in the stretch", "Flattened out last time", "Didn't finish off last race"],
     ),
     "ShowedLateSP_LR": (
-        ["Showed late energy last out", "Had a kick at the end — promising", "Late energy last out is encouraging"],
+        ["Showed late energy last out", "Had a kick at the end, promising", "Late energy last out is encouraging"],
         ["No late kick last time", "Didn't have a gear change", "Empty in the stretch last time"],
     ),
     "ltstr_sart": (
-        ["Battle-tested veteran", "Has seen it all — experience counts", "Grizzled veteran knows the job"],
-        ["Lightly raced — unknown", "Thin record leaves questions", "We don't know much about {OBJ} yet"],
+        ["Battle-tested veteran", "Has seen it all, experience counts", "Grizzled veteran knows the job"],
+        ["Lightly raced, unknown", "Thin record leaves questions", "We don't know much about {OBJ} yet"],
     ),
     # Distance / surface
     "xBRIS_DsPRn_dc": (
@@ -362,7 +362,7 @@ SYNONYMS = {
     # Post / field
     "PPt12": (
         ["Favorable post position", "Drew well today", "Post position sets {OBJ} up perfectly"],
-        ["Tough draw to overcome", "Stuck on the outside — extra ground", "Wide draw will cost {OBJ} ground"],
+        ["Tough draw to overcome", "Stuck on the outside, extra ground", "Wide draw will cost {OBJ} ground"],
     ),
     "xPostPosition": (
         ["Good gate today", "Liked the draw", "Post gives {OBJ} every chance"],
@@ -378,17 +378,17 @@ SYNONYMS = {
     ),
     # Breeding / auction
     "IAucPri_keeA25": (
-        ["Blue-blood purchase price", "Cost a fortune — now here to earn it back", "Expensive yearling — class is in there"],
-        ["Modest yearling value", "Didn't cost much as a yearling — and it shows", "Budget purchase in a pricey field"],
+        ["Blue-blood purchase price", "Cost a fortune, now here to earn it back", "Expensive yearling, class is in there"],
+        ["Modest yearling value", "Didn't cost much as a yearling, and it shows", "Budget purchase in a pricey field"],
     ),
     "xAP_KEE25": (
-        ["Pricey pedigree — class", "The pedigree page is loaded", "Bred to be a runner"],
+        ["Pricey pedigree, class", "The pedigree page is loaded", "Bred to be a runner"],
         ["Modest pedigree", "Pedigree is unremarkable", "Pedigree page isn't going to impress anyone"],
     ),
     # Age / physical
     "xcMonths_old": (
         ["Peak racing age", "Right in {POSS} prime", "Age and experience working in {POSS} favor"],
-        ["Age may factor today", "Time takes its toll — {SUBJ} may be feeling it", "Father Time is undefeated"],
+        ["Age may factor today", "Time takes its toll, {SUBJ} may be feeling it", "Father Time is undefeated"],
     ),
     "xsexcolt0425": (
         ["Physical profile an edge", "Physical is right for this spot", "Type who should handle this"],

@@ -285,8 +285,8 @@ def _value_phrase(tier: int, btsm, ml) -> str:
     if tier == 4:
         # DTS thinks horse is more than 2x as likely to win as ML
         if is_short_fav:
-            return "Heavy favorite — DTS sees an even stronger chance than ML."
-        return "Strong value vs ML — bet with conviction."
+            return "Heavy favorite. DTS sees an even stronger chance than ML."
+        return "Strong value vs ML, bet with conviction."
     if tier == 3:
         if is_short_fav:
             return "Short price, but DTS confirms the chalk."
@@ -297,9 +297,9 @@ def _value_phrase(tier: int, btsm, ml) -> str:
         return "Priced about right."
     # tier 0: overbet or no data
     if b is not None and m is not None and m > 0 and b / m >= 1.5:
-        return "Heavily overbet — pass at this price."
+        return "Heavily overbet, pass at this price."
     if b is not None and m is not None:
-        return "Overbet vs ML — needs a longer price."
+        return "Overbet vs ML, needs a longer price."
     return ""
 
 
