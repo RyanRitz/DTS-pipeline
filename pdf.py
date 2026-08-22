@@ -1619,7 +1619,7 @@ body {
 .horse-line1 .hcomment {
   font-family: Constantia, "Hoefler Text", Georgia, serif;
   font-style: italic; color: #0D2B1E;
-  text-align: right; font-size: 8pt;
+  text-align: left; font-size: 8pt;
   line-height: 1.15;
   flex: 0 0 auto;
   width: 128pt; max-width: 128pt;
@@ -1644,7 +1644,7 @@ body {
 .horse-col-header .hprob   { min-width: 32pt; text-align: center; }
 .horse-col-header .hruns   { min-width: 32pt; text-align: center; }
 .horse-col-header .hcomment {
-  width: 128pt; max-width: 128pt; text-align: right;
+  width: 128pt; max-width: 128pt; text-align: left;
   padding-right: 3pt;
 }
 
@@ -1764,12 +1764,12 @@ body {
 .horse-col-header  { position: relative; padding-right: 170pt; }
 .horse-line1 .hcomment {
   position: absolute; top: 3pt; right: 8pt;
-  width: 160pt; max-width: 160pt; flex: 0 0 auto;
+  width: 146pt; max-width: 146pt; flex: 0 0 auto;
   line-height: 1.3;
 }
 .horse-col-header .hcomment {
   position: absolute; top: 2pt; right: 8pt;
-  width: 160pt; max-width: 160pt; flex: 0 0 auto;
+  width: 146pt; max-width: 146pt; flex: 0 0 auto;
 }
 
 /* Italic P inside the P(Win) header so it reads as a probability function */
