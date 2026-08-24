@@ -208,8 +208,9 @@ def get_track_status(
         status.fetch_error = status.fetch_error or "no html returned"
         return status
 
-    if "Pardon Our Interruption" in html:
-        status.fetch_error = "Imperva block page received"
+    if ("Pardon Our Interruption" in html or "Incapsula incident" in html
+            or "Request unsuccessful" in html):
+        status.fetch_error = "Imperva/Incapsula block page received"
         logger.warning(
             "Track status %s: Imperva blocked the request (no trust cookie yet)",
             track_upper,

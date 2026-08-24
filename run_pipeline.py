@@ -2176,6 +2176,30 @@ def publish_final(drf: dict, state: dict, budget_remaining: int = 1) -> str:
         # Scratch list changed (or first publish) — full pipeline
         first_post, ts = _get_final_first_post(drf)
 
+        # The Equibase HTML conditions page is Incapsula-protected and often
+        # blocked; when it is, ts.dirt/turf/last_updated come back empty. The
+        # RSS change feed (same source as scratches) is NOT blocked and carries
+        # the same conditions + timestamps, so backfill from it.
+        try:
+            from scratches import get_rss_status
+            _rss = get_rss_status(track)
+            if ts is not None:
+                if not ts.dirt_condition and (_rss.get("dirt") or _rss.get("aw")):
+                    ts.dirt_condition = _rss.get("dirt") or _rss.get("aw")
+                if not ts.turf_condition and _rss.get("turf"):
+                    ts.turf_condition = _rss.get("turf")
+                if not ts.last_updated_raw and _rss.get("last_updated_et"):
+                    _d = _rss["last_updated_et"]
+                    _h = _d.hour % 12 or 12
+                    ts.last_updated_raw = (
+                        f"{_d.strftime('%b %d')}, {_h}:{_d.strftime('%M %p')} ET"
+                    )
+                    log.info(f"  [FINAL] {track} conditions from RSS: "
+                             f"dirt={ts.dirt_condition} turf={ts.turf_condition} "
+                             f"updated={ts.last_updated_raw}")
+        except Exception as _e:
+            log.warning(f"  [FINAL] RSS conditions backfill failed for {track}: {_e}")
+
         result = run_scoring(
             track, race_date, scratches=scratches, track_status=ts,
         )

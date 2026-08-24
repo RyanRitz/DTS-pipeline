@@ -563,3 +563,64 @@ if __name__ == "__main__":
             for s in scr:
                 print(f"  Race {s.race:>2}  #{s.program_number:<3}  "
                       f"{s.horse_name:<25}  ({s.reason})")
+
+
+# ---------------------------------------------------------------------------
+# Track conditions + last-updated from the RSS change feed
+# ---------------------------------------------------------------------------
+# The Equibase HTML conditions page (track_status.py) sits behind Incapsula and
+# is frequently blocked. This same RSS feed — which reliably delivers scratches
+# — also carries track-condition bulletins ("Current Dirt Track Condition -
+# changed to Fast") and per-bulletin timestamps, so we source conditions +
+# "last updated" here instead of the blocked page.
+_COND_RE = re.compile(
+    r"Current\s+(Dirt|Turf|Inner\s*Turf|All\s*Weather|Synthetic|Tapeta)\s+"
+    r"Track\s+Condition\s*-\s*changed\s+to\s+([A-Za-z][A-Za-z \-]*)",
+    re.IGNORECASE,
+)
+
+
+def get_rss_status(track: str, timeout: int = 15) -> dict:
+    """Latest dirt/turf/all-weather conditions + last-updated time (ET) from
+    the Equibase RSS change feed.
+
+    Returns {"dirt": str|None, "turf": str|None, "aw": str|None,
+             "last_updated_et": datetime|None}. Conditions are the newest value
+    seen per surface across the day's bulletins; last_updated_et is the most
+    recent bulletin time, converted from feedparser's UTC to US/Eastern.
+    """
+    changes = fetch_all_changes(track, timeout=timeout)
+    dirt = turf = aw = None
+    dirt_t = turf_t = aw_t = None
+    latest = None
+    for c in changes:
+        pub = getattr(c, "bulletin_published", None)
+        if pub is not None and (latest is None or pub > latest):
+            latest = pub
+        if getattr(c, "change_type", "") != "track_cond":
+            continue
+        text = getattr(c, "raw_text", "") or getattr(c, "reason", "") or ""
+        m = _COND_RE.search(text)
+        if not m:
+            continue
+        surf = re.sub(r"\s+", " ", m.group(1)).strip().lower()
+        val = re.sub(r"\s+", " ", m.group(2)).strip().title()
+        key = pub or datetime.min
+        if "turf" in surf:
+            if turf_t is None or key >= turf_t:
+                turf, turf_t = val, key
+        elif "dirt" in surf:
+            if dirt_t is None or key >= dirt_t:
+                dirt, dirt_t = val, key
+        else:  # all weather / synthetic / tapeta
+            if aw_t is None or key >= aw_t:
+                aw, aw_t = val, key
+    last_et = None
+    if latest is not None:
+        try:
+            from zoneinfo import ZoneInfo
+            last_et = latest.replace(tzinfo=ZoneInfo("UTC")).astimezone(
+                ZoneInfo("America/New_York"))
+        except Exception:
+            last_et = latest
+    return {"dirt": dirt, "turf": turf, "aw": aw, "last_updated_et": last_et}
