@@ -228,6 +228,65 @@ def get_scratches(
     return scratches
 
 
+_JOCKEY_CHANGED_TO_RE = re.compile(r"changed to\s+(.+?)\s*$", re.IGNORECASE)
+
+
+def get_jockey_changes(
+    track: str,
+    race_date: str,
+    year: Optional[str] = None,
+    timeout: int = 15,
+) -> list[dict]:
+    """
+    Fetch today's JOCKEY changes from Equibase RSS for the given track.
+
+    Honors the cumulative bulletin format: the LAST "Jockey - <old> changed
+    to <new>" line for a given (race, program) wins. The NEW rider is parsed
+    from that line; entries whose new rider can't be parsed are skipped.
+
+    Returns one dict per horse whose rider changed:
+        [{"race": 4, "program": "8", "horse": "Victor Valley",
+          "jockey": "Alex Achard"}, ...]
+
+    Network failures are logged, never raised (returns []), so the FINAL
+    publish still runs.
+    """
+    target = _parse_race_date(race_date, year)
+    try:
+        changes = fetch_all_changes(track, timeout=timeout)
+    except Exception as e:
+        logger.warning("get_jockey_changes: fetch failed for %s (%s) -- returning []", track, e)
+        return []
+
+    changes_sorted = sorted(
+        changes, key=lambda c: c.bulletin_published or datetime.min
+    )
+    state: dict[tuple[int, str], dict] = {}
+    for c in changes_sorted:
+        if c.change_type != "jockey" or c.race is None or c.program_number is None:
+            continue
+        m = _JOCKEY_CHANGED_TO_RE.search(c.reason or "")
+        if not m:
+            continue
+        new_jockey = m.group(1).strip()
+        if not new_jockey:
+            continue
+        state[(c.race, c.program_number)] = {
+            "race": c.race,
+            "program": c.program_number,
+            "horse": c.horse_name or "",
+            "jockey": new_jockey,
+        }
+
+    out = sorted(state.values(),
+                 key=lambda d: (d["race"], _prog_sort_key(d["program"])))
+    logger.info(
+        "Equibase RSS: %d jockey change(s) for %s on %s",
+        len(out), track.upper(), target.isoformat()
+    )
+    return out
+
+
 def fetch_all_changes(track: str, timeout: int = 15) -> list[ChangeEntry]:
     """
     Fetch and parse the Equibase RSS feed for a track. Returns ALL change

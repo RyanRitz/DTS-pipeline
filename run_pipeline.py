@@ -39,7 +39,7 @@ if str(_HERE) not in sys.path:
 
 # ── DTS modules ─────────────────────────────────────────────────────────────
 # scratches.py + apply_scratches.py + track_status.py live alongside this file.
-from scratches import get_scratches, merge_with_manual, ScratchEntry
+from scratches import get_scratches, get_jockey_changes, merge_with_manual, ScratchEntry
 from track_status import get_track_status, TrackStatus
 
 # ── Paths ────────────────────────────────────────────────────────────────────
@@ -581,6 +581,31 @@ class ScoringResult(NamedTuple):
 # success (no PDF, no upload, no failure count). `None` still means a genuine
 # scoring failure (missing DRF, etc.).
 SKIP_CARD = object()
+
+
+def pull_jockey_changes(track: str, race_date: str) -> list[dict]:
+    """
+    Fetch today's jockey changes for (track, race_date) from Equibase RSS.
+
+    Mirrors pull_scratches(): YYYYMMDD -> MMDD+year, network errors are
+    logged (not raised) and return []. Each dict is
+    {"race", "program", "horse", "jockey"} where "jockey" is the NEW rider.
+    """
+    if len(race_date) != 8 or not race_date.isdigit():
+        log.warning(f"  pull_jockey_changes: bad race_date {race_date!r}; returning []")
+        return []
+    year, mmdd = race_date[:4], race_date[4:]
+    try:
+        jc = get_jockey_changes(track, mmdd, year)
+    except Exception as e:
+        log.warning(f"  pull_jockey_changes: fetch failed for {track} {race_date} ({e}); returning []")
+        return []
+    if jc:
+        log.info(
+            f"  pull_jockey_changes({track}, {race_date}) -> {len(jc)} change(s): "
+            + ", ".join(f"R{d['race']}#{d['program']}->{d['jockey']}" for d in jc)
+        )
+    return jc
 
 
 def run_scoring(
@@ -1359,7 +1384,8 @@ def _stakes_grade(rc_full, classif, racetype) -> str:
 
 
 def generate_pdf(scoring_result: ScoringResult,
-                 is_final: bool = False) -> Path | None:
+                 is_final: bool = False,
+                 jockey_changes: list[dict] | None = None) -> Path | None:
     """
     Render the daily handicapping PDF from a ScoringResult.
 
@@ -1629,6 +1655,34 @@ def generate_pdf(scoring_result: ScoringResult,
         except (TypeError, ValueError):
             return str(v).strip()
 
+    # -- Race-day jockey changes (FINAL only) -----------------------------
+    # Swap the DISPLAY rider to the new jockey and flag it with a trailing
+    # " *". Phase 1 is display-only: model bars + DTS odds still reflect the
+    # originally-carded rider (that re-derivation is a later phase).
+    _jk_by_key: dict[str, str] = {}
+    if is_final and jockey_changes:
+        for _j in jockey_changes:
+            try:
+                _jk_by_key[f"{int(_j['race'])}#{str(_j['program']).strip().upper()}"] = str(_j["jockey"]).strip()
+            except (KeyError, ValueError, TypeError):
+                continue
+
+    def _jockey_series():
+        base = _col("TodaysJockey", None, "")
+        if not _jk_by_key:
+            return base
+        races = _col("Race")
+        progs = _col("Num", "ProgramNumberifavailable", "").apply(_clean_program)
+        vals = []
+        for _jk, _rc, _pg in zip(base, races, progs):
+            try:
+                _key = f"{int(_rc)}#{str(_pg).strip().upper()}"
+            except (ValueError, TypeError):
+                _key = None
+            _nj = _jk_by_key.get(_key) if _key else None
+            vals.append(f"{_nj} *" if _nj else _jk)
+        return _pd.Series(vals, index=work.index)
+
     pdf_df = _pd.DataFrame({
         # Race identity
         "race":            _col("Race"),
@@ -1649,7 +1703,7 @@ def generate_pdf(scoring_result: ScoringResult,
         "race_conditions_summary": _col("race_conditions_summary", default=""),
 
         # Connections
-        "jockey":          _col("TodaysJockey", default=""),
+        "jockey":          _jockey_series(),
         "trainer":         _col("TodaysTrainer", default=""),
 
         # Odds — production uses canonical short names
@@ -2061,14 +2115,16 @@ def publish_preview(drf: dict, state: dict) -> bool:
         return False
 
 
-def _scratch_signature(scratches: list[dict]) -> str:
+def _scratch_signature(scratches: list[dict],
+                       jockey_changes: list[dict] | None = None) -> str:
     """
-    Build a stable, order-independent signature for a scratch list, suitable
-    for change detection across ticks.
+    Stable, order-independent signature for the race-day change set
+    (scratches + jockey changes), for change detection across ticks.
 
-    We hash only (race, program_number) pairs because horse names and reasons
-    can vary slightly across Equibase RSS updates while the actual scratch
-    set hasn't changed.
+    Scratches hash only (race, program) pairs; jockey changes also hash the
+    NEW rider, so a rider swap flips the signature and triggers a FINAL
+    re-publish even with no scratch. Horse names / reasons are excluded --
+    they wobble across RSS updates while the change set is unchanged.
     """
     import hashlib
     keys = sorted(
@@ -2076,7 +2132,12 @@ def _scratch_signature(scratches: list[dict]) -> str:
         for s in scratches
         if "race" in s and "program" in s
     )
-    return hashlib.sha1("|".join(keys).encode("utf-8")).hexdigest()
+    jkeys = sorted(
+        f"J{int(j['race'])}#{str(j['program']).strip()}={str(j.get('jockey','')).strip().upper()}"
+        for j in (jockey_changes or [])
+        if "race" in j and "program" in j
+    )
+    return hashlib.sha1("|".join(keys + jkeys).encode("utf-8")).hexdigest()
 
 
 def _active_anchor_for_drf(drf: dict, now: datetime) -> str | None:
@@ -2131,7 +2192,8 @@ def publish_final(drf: dict, state: dict, budget_remaining: int = 1) -> str:
     log.info(f"[FINAL]   {track} {race_date} -- starting")
     try:
         scratches = pull_scratches(track, race_date)
-        new_sig = _scratch_signature(scratches)
+        jockey_changes = pull_jockey_changes(track, race_date)
+        new_sig = _scratch_signature(scratches, jockey_changes)
 
         # Determine which anchor this tick is firing for (used in state update)
         anchor = _active_anchor_for_drf(drf, datetime.now())
@@ -2215,7 +2277,7 @@ def publish_final(drf: dict, state: dict, budget_remaining: int = 1) -> str:
             log.error(f"[FINAL]   {track} {race_date} -- scoring failed")
             return "failed"
 
-        pdf_path = generate_pdf(result, is_final=True)
+        pdf_path = generate_pdf(result, is_final=True, jockey_changes=jockey_changes)
         if not pdf_path:
             log.error(f"[FINAL]   {track} {race_date} -- PDF generation failed")
             return "failed"
