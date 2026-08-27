@@ -1251,11 +1251,12 @@ def _format_name(raw: Any) -> str:
     # swapped-in rider whose name arrives from the Equibase feed ALREADY in
     # display order ("First Last"), NOT BRISnet "LASTNAME FIRSTNAME" order. Do
     # NOT flip it (that rotates the first word to the end and scrambles the
-    # name) — just tidy per-token casing and keep the " *" pinned at the end.
+    # name) — just tidy per-token casing and render the "*" in FRONT (a leading
+    # marker reads better than a trailing one that hides next to the trainer).
     if s.endswith("*"):
         core = s[:-1].strip()
         if core:
-            return " ".join(_smart_title(t) for t in core.split()) + " *"
+            return "* " + " ".join(_smart_title(t) for t in core.split())
         return s
 
     parts = s.split()
