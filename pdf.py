@@ -51,6 +51,37 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
+# Legal footer
+# ---------------------------------------------------------------------------
+# Rendered at the bottom of EVERY page of EVERY sheet. Sheets get downloaded,
+# forwarded and screenshotted away from the site, so the disclaimer and the
+# licence notice have to travel with the artifact itself -- a footer on
+# downthestretch.ai does nothing once a PDF is detached from the site.
+#
+# TODO once the LLC is registered: set LEGAL_ENTITY = "Down The Stretch, LLC"
+# ---------------------------------------------------------------------------
+LEGAL_ENTITY = "Down The Stretch AI"
+
+LEGAL_DISCLAIMER = (
+    "Informational model output only \u2014 not wagering advice. No guarantee of "
+    "accuracy or results. Verify entries, scratches, odds and post times with the "
+    "official source before wagering. 18+ \u00b7 "
+    '<span class="nb">1&#8209;800&#8209;GAMBLER</span>.'
+)
+
+_LEGAL_RIGHTS_TMPL = (
+    "\u00a9 {year} {entity}. Licensed to the purchasing subscriber for personal "
+    "use only; redistribution or resale prohibited. "
+    "Terms: downthestretch.ai/terms"
+)
+
+
+def _legal_rights_line() -> str:
+    """Copyright + licence line for the page footer, stamped with the current year."""
+    return _LEGAL_RIGHTS_TMPL.format(year=datetime.now().year, entity=LEGAL_ENTITY)
+
+
+# ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
@@ -495,8 +526,12 @@ def _build_race_page(
   </div>
 
   <footer class="page-footer">
-    <span class="pf-heritage">From the creators of Be The Smart Money (est. 2009) comes</span>
-    <span class="pf-url">downthestretch.ai</span>
+    <div class="pf-brand">
+      <span class="pf-heritage">From the creators of Be The Smart Money (est. 2009) comes</span>
+      <span class="pf-url">downthestretch.ai</span>
+    </div>
+    <div class="pf-legal">{LEGAL_DISCLAIMER}</div>
+    <div class="pf-legal pf-rights">{_legal_rights_line()}</div>
   </footer>
 
 </section>
@@ -1212,6 +1247,17 @@ def _format_name(raw: Any) -> str:
     if not s:
         return ""
 
+    # Race-day jockey-change marker: run_pipeline appends a trailing " *" to a
+    # swapped-in rider whose name arrives from the Equibase feed ALREADY in
+    # display order ("First Last"), NOT BRISnet "LASTNAME FIRSTNAME" order. Do
+    # NOT flip it (that rotates the first word to the end and scrambles the
+    # name) — just tidy per-token casing and keep the " *" pinned at the end.
+    if s.endswith("*"):
+        core = s[:-1].strip()
+        if core:
+            return " ".join(_smart_title(t) for t in core.split()) + " *"
+        return s
+
     parts = s.split()
     if len(parts) == 1:
         return _smart_title(parts[0])
@@ -1297,7 +1343,7 @@ body {
   margin: 0; padding: 0;
 }
 
-.page { position: relative; padding-bottom: 18pt; }
+.page { position: relative; padding-bottom: 34pt; }
 .page-break { page-break-after: always; }
 
 /* ── Banner band (full-width DTS marketing banner) ───────────────────── */
@@ -1701,17 +1747,38 @@ body {
   position: absolute;
   left: 0; right: 0; bottom: 0;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8pt;
+  padding-top: 3pt;
+  border-top: 0.5pt solid #C9A84C;
+}
+.pf-brand {
+  display: flex;
   justify-content: center;
   align-items: baseline;
   gap: 6pt;
-  padding-top: 4pt;
-  border-top: 0.5pt solid #C9A84C;
   font-family: Constantia, "Hoefler Text", Georgia, serif;
   font-size: 7.5pt;
   font-style: italic;
   color: #8BAF8E;
   letter-spacing: 0.3pt;
 }
+/* Legal line -- must appear on every page; sheets travel off-site. */
+.pf-legal {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 5pt;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #6F6F6F;
+  text-align: center;
+  max-width: 7.5in;
+}
+.pf-rights { color: #8A8A8A; }
+/* keep the helpline number from ever breaking across lines */
+.nb { white-space: nowrap; }
 .pf-heritage { color: #3D2B1E; font-style: normal; }
 .pf-sep      { color: #C9A84C; font-style: normal; }
 .pf-est      { color: #8A6D1F; font-style: italic; font-weight: bold; }
