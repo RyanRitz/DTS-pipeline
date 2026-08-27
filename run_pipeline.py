@@ -40,6 +40,7 @@ if str(_HERE) not in sys.path:
 # ── DTS modules ─────────────────────────────────────────────────────────────
 # scratches.py + apply_scratches.py + track_status.py live alongside this file.
 from scratches import get_scratches, get_jockey_changes, merge_with_manual, ScratchEntry
+import jockey_bar_reindex as _jbr
 from track_status import get_track_status, TrackStatus
 
 # ── Paths ────────────────────────────────────────────────────────────────────
@@ -1683,6 +1684,69 @@ def generate_pdf(scoring_result: ScoringResult,
             vals.append(f"{_nj} *" if _nj else _jk)
         return _pd.Series(vals, index=work.index)
 
+    def _jockey_bar_series():
+        # Phase 2: rebuild the JKY bar for horses whose rider changed on race
+        # day. Borrow the new rider's current-meet win count from another of
+        # their mounts on the card, then re-index the whole race against the
+        # post-swap field average. Display-only; scoring / DTS odds untouched.
+        # Falls back to the originally-carded rider's bar on any problem so a
+        # bug here can never break publishing.
+        base = _col("jockey_bar", default=0)
+        if not (is_final and _jk_by_key):
+            return base
+        try:
+            need = ("JockeyWinsCurrentMeet", "xjwins_std", "TodaysJockey",
+                    "ProgramNumberifavailable", "Race")
+            fsrc = None
+            for _cand in (feature_df, work):
+                if _cand is not None and all(c in _cand.columns for c in need):
+                    fsrc = _cand
+                    break
+            if fsrc is None:
+                log.warning("  jockey-bar reindex: raw jockey columns unavailable; "
+                            "leaving bars on the originally-carded rider")
+                return base
+            fsrc = fsrc.copy()
+            fsrc["_jbprog"] = fsrc["ProgramNumberifavailable"].apply(_clean_program)
+            fsrc["_jbrace"] = _pd.to_numeric(fsrc["Race"], errors="coerce")
+
+            w_race = _pd.to_numeric(_col("Race"), errors="coerce")
+            w_prog = _col("Num", "ProgramNumberifavailable", "").apply(_clean_program)
+            result = base.copy()
+
+            by_race = {}
+            for _k, _nj in _jk_by_key.items():
+                try:
+                    _r, _p = _k.split("#", 1)
+                    by_race.setdefault(int(_r), {})[_p] = _nj
+                except (ValueError, TypeError):
+                    continue
+
+            for _r, _changes in by_race.items():
+                race_src = fsrc[fsrc["_jbrace"] == _r]
+                if race_src.empty:
+                    continue
+                subs, blanks = {}, []
+                for _p, _nj in _changes.items():
+                    _raw, _m = _jbr.resolve_new_rider_raw(_nj, fsrc)
+                    if _raw is None:
+                        blanks.append(_p)
+                    else:
+                        subs[_p] = _raw
+                newbars = _jbr.reindex_race_bars(race_src, subs, blanks=blanks,
+                                                 prog_col="_jbprog")
+                bar_by_prog = dict(zip(race_src["_jbprog"].astype(str), newbars))
+                _mask = (w_race == _r).fillna(False)
+                for _idx in work.index[_mask.values]:
+                    _pg = str(w_prog.loc[_idx])
+                    if _pg in bar_by_prog:
+                        result.loc[_idx] = bar_by_prog[_pg]
+            return result
+        except Exception as _e:
+            log.warning(f"  jockey-bar reindex failed ({_e}); leaving bars on "
+                        f"the originally-carded rider")
+            return base
+
     pdf_df = _pd.DataFrame({
         # Race identity
         "race":            _col("Race"),
@@ -1728,7 +1792,7 @@ def generate_pdf(scoring_result: ScoringResult,
         # Visual bars — computed above from xBRISPd2 / jckcm2_sarm / trncm2_sart
         # on fixed absolute scales (cross-race comparable).
         "speed_bar":       _col("speed_bar", default=0),
-        "jockey_bar":      _col("jockey_bar", default=0),
+        "jockey_bar":      _jockey_bar_series(),
         "trainer_bar":     _col("trainer_bar", default=0),
         "runs_label":      _col("runs_label", default="-"),
     })
