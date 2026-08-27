@@ -34,6 +34,17 @@ LOCAL_BTSM = HERE.parent
 OTHER_COMPUTERS = Path(r"G:\Other computers")
 KINDS = ("RACINGFORM", "RESULTS")
 
+# Source folder name -> canonical DB folder (must match archive_drfs.py /
+# archive_charts.py / brisnet_ccf.py). A machine running a pre-fix archive_drfs
+# files Santa Anita under SA\; the modelling DB and 5.sas expect SAX\. Without
+# this, syncing recreates the SA/SAX split. The X is Brisnet's suffix for
+# 2-letter track codes - 3-letter codes (DMR, SAR, KEE) are already canonical.
+CANON = {"CD": "CDX", "GP": "GPX", "FG": "FGX", "SA": "SAX"}
+
+
+def canon(t: str) -> str:
+    return CANON.get(t.upper(), t.upper())
+
 
 def _subdirs(path: Path):
     """Immediate subdirectories, via scandir (no per-entry stat)."""
@@ -105,7 +116,7 @@ def main():
     if a.list_sources:
         return
 
-    want = {t.strip().upper() for t in a.tracks.split(",") if t.strip()}
+    want = {canon(t) for t in a.tracks.split(",") if t.strip()}   # --tracks SA or SAX both work
     added = Counter(); per_machine = Counter()
     planned: set[Path] = set()          # in-memory only - dry-run writes NOTHING
     skipped = scanned = copied = 0
@@ -115,7 +126,8 @@ def main():
         mach = machine_of(src)
         trackdirs = _subdirs(src)
         for trackdir in trackdirs:
-            track = trackdir.name.upper()
+            track_raw = trackdir.name.upper()
+            track = canon(track_raw)
             if want and track not in want:
                 continue
             for kind in KINDS:
@@ -130,7 +142,19 @@ def main():
                     print(f"  scanning {mach:15} {track:5} {kind:10} {ydir.name} ({len(entries)})", flush=True)
                     for f in entries:
                         scanned += 1
-                        target = dest / track / "RAW_DATA" / kind / ydir.name / f.name
+                        # Canon-map the FILENAME prefix too, not just the folder:
+                        # SA0508.DRF -> SAX0508.DRF. Otherwise the same card ends
+                        # up twice in SAX\ once a fixed archive_drfs.py writes the
+                        # canonical name, and 5.sas would read it twice.
+                        name = f.name
+                        # ...but only if it is not ALREADY canonical: a GP\ folder
+                        # can legitimately hold GPX0326.DRF, and "GPX0326"
+                        # startswith("GP") -> a naive remap yields GPXX0326.DRF.
+                        if (track != track_raw
+                                and name.upper().startswith(track_raw)
+                                and not name.upper().startswith(track)):
+                            name = track + name[len(track_raw):]
+                        target = dest / track / "RAW_DATA" / kind / ydir.name / name
                         if target in planned or target.exists():
                             skipped += 1
                             continue

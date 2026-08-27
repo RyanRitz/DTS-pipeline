@@ -165,7 +165,49 @@ def races_on(track: str, d) -> bool:
 
 
 DRF_NAME = re.compile(r"^(\d{4})(\d{2})(\d{2})_([A-Za-z]{2,4})_DRS$", re.I)
-CANON_FOLDER = {"CD": "CDX", "GP": "GPX", "FG": "FGX"}
+CANON_FOLDER = {"CD": "CDX", "GP": "GPX", "FG": "FGX", "SA": "SAX"}
+
+
+# canonical DB folder -> BRISnet track code (for the download URL).
+# The DB stores GPX/SAX/CDX; Brisnet wants GP/SA/CD.
+REVERSE_CANON = {v: k for k, v in CANON_FOLDER.items()}
+
+
+def manifest_from_db(btsm_root, start=None, end=None):
+    """
+    (date, BRIS_code) for every card ALREADY IN THE DATABASE
+    (<TRACK>/RAW_DATA/RACINGFORM/<year>/<PREFIX><MMDD>.DRF).
+
+    Why this exists: manifest_from_drfs() only parses the downloader's
+    YYYYMMDD_TRACK_DRS.DRF shape in DRF_Downloads. Cards that reached the DB via
+    the daily poller or sync_modeling_db.py are stored as GPX0326.DRF and were
+    therefore invisible to --pair-from - we fetched 71 charts when 662 cards were
+    sitting there needing them.
+    """
+    out = set()
+    root = Path(btsm_root)
+    for tdir in sorted(p for p in root.iterdir() if p.is_dir()):
+        folder = tdir.name.upper()
+        code = REVERSE_CANON.get(folder, folder)
+        rf = tdir / "RAW_DATA" / "RACINGFORM"
+        if not rf.is_dir():
+            continue
+        for ydir in rf.iterdir():
+            if not ydir.is_dir() or not ydir.name.isdigit():
+                continue
+            yr = int(ydir.name)
+            for f in ydir.glob("*.DRF"):
+                m = re.search(r"(\d{2})(\d{2})\.DRF$", f.name, re.I)
+                if not m:
+                    continue
+                try:
+                    d = date(yr, int(m.group(1)), int(m.group(2)))
+                except ValueError:
+                    continue
+                if (start and d < start) or (end and d > end):
+                    continue
+                out.add((d, code))
+    return sorted(out)
 
 
 def manifest_from_drfs(roots, start=None, end=None):
@@ -206,7 +248,12 @@ def charts_already_local(dest_btsm: Path, dt, track: str) -> bool:
     ydir = Path(dest_btsm) / folder / "RAW_DATA" / "RESULTS" / f"{dt:%Y}"
     if not ydir.is_dir():
         return False
-    stem = f"{track.upper()}{dt:%m%d%Y}"
+    # Chart files are stored under the CANONICAL prefix (GPX03012026.1), not the
+    # BRIS code. Using track.upper() here builds "GP03012026", which never matches
+    # "GPX03012026" -> dedup silently dead for every canon-mapped track (GP/SA/CD/FG)
+    # and we re-buy charts we already own at $0.75 each. SAR/KEE/DMR masked it by
+    # having code == folder.
+    stem = f"{folder}{dt:%m%d%Y}"
     try:
         with os.scandir(ydir) as it:
             return any(e.name.upper().startswith(stem) for e in it)
@@ -471,6 +518,9 @@ def main():
     ap.add_argument("--dest", default=str(Path(bd.OUTPUT_DIR).parent / "CCF_Downloads"))
     ap.add_argument("--sleep", type=float, default=1.5)
     ap.add_argument("--pair-from", default="", help="comma list of dirs holding YYYYMMDD_TRACK_DRS.DRF - fetch charts ONLY for cards that raced")
+    ap.add_argument("--pair-from-db", action="store_true", help="pair against the whole modelling DB (<TRACK>/RAW_DATA/RACINGFORM), not just DRF_Downloads")
+    ap.add_argument("--limit", type=int, default=0, help="stop after N cards (probe cost before committing)")
+    ap.add_argument("--since-days", type=int, default=0, help="nightly convenience: set start=today-N, end=today (overrides --start/--end)")
     ap.add_argument("--btsm", default=str(Path(bd.OUTPUT_DIR).parent.parent), help="local BTSM root (to skip cards already filed)")
     ap.add_argument("--timeout", type=int, default=30, help="per-download wait. Do NOT shorten: a card you don't own returns an HTML page almost instantly, so a low timeout only truncates real downloads and silently loses cards")
     ap.add_argument("--no-skip", action="store_true", help="do not skip cards already on disk")
@@ -492,7 +542,11 @@ def main():
         log.info(f"[*] {len(live)} track(s) on the grid; {len(offering)} offer {a.product}: {', '.join(sorted(offering))}")
         # Fill in any requested track the grid doesn't list today (seasonal
         # tracks are absent most of the year) - the URL attrs are static.
-        for c in [x.strip().upper() for x in a.tracks.split(",") if x.strip()]:
+        # Reverse-canon first: the manifest yields BRIS codes (SA/GP/CD), so
+        # registering live["SAX"] just makes dead entries and logs a misleading
+        # "using static attrs (USA/TB/SAX/D)" for a URL never requested.
+        for c in [REVERSE_CANON.get(x.strip().upper(), x.strip().upper())
+                  for x in a.tracks.split(",") if x.strip()]:
             if c not in live:
                 live[c] = static_attrs(c)
                 log.info(f"[*] {c}: not carded today - using static attrs "
@@ -510,14 +564,37 @@ def main():
                     time.sleep(a.sleep)
             return
 
-        if a.pair_from:
-            start = datetime.fromisoformat(a.start).date() if a.start else None
-            end   = datetime.fromisoformat(a.end).date()   if a.end   else None
-            cards = manifest_from_drfs([x.strip() for x in a.pair_from.split(",") if x.strip()], start, end)
-            if codes:
-                cards = [(d, t) for (d, t) in cards if t in codes]
+        if a.pair_from or a.pair_from_db:
+            if a.since_days:
+                end   = date.today()
+                start = end - timedelta(days=a.since_days)
+                log.info(f"[*] --since-days {a.since_days}: window {start} .. {end}")
+            else:
+                start = datetime.fromisoformat(a.start).date() if a.start else None
+                end   = datetime.fromisoformat(a.end).date()   if a.end   else None
+            if a.pair_from_db:
+                cards = manifest_from_db(a.btsm, start, end)
+            else:
+                cards = manifest_from_drfs([x.strip() for x in a.pair_from.split(",") if x.strip()], start, end)
+            # Filter ONLY on an explicit --tracks. Do NOT intersect with `codes`,
+            # which falls back to sorted(live) = whatever is racing TODAY. A dark
+            # meet (SA and CD in July) would then be silently dropped even though
+            # we hold its DRFs and can fetch its charts by direct URL. The manifest
+            # is already authoritative - it is built from cards we own, so they
+            # demonstrably raced - and pull_one() below falls back to static_attrs().
+            # Accept EITHER form: the manifest yields BRIS codes (GP/SA/CD) but
+            # the user naturally types the DB folder names (GPX/SAX/CDX). Without
+            # this, --tracks SAX matches nothing and silently fetches zero.
+            explicit = [REVERSE_CANON.get(c.strip().upper(), c.strip().upper())
+                        for c in a.tracks.split(",") if c.strip()]
+            if explicit:
+                cards = [(d, t) for (d, t) in cards if t in explicit]
             todo = [(d, t) for (d, t) in cards if not charts_already_local(Path(a.btsm), d, t)]
-            print(f"[*] {len(cards)} card(s) raced in range; {len(cards)-len(todo)} already have charts; fetching {len(todo)}")
+            have = len(cards) - len(todo)          # count BEFORE --limit truncates
+            if a.limit:
+                todo = todo[:a.limit]
+            print(f"[*] {len(cards)} card(s) raced in range; {have} already have charts; "
+                  f"fetching {len(todo)}" + (f" (--limit {a.limit} of {len(cards)-have})" if a.limit else ""))
             got = defaultdict(int); miss = 0
             for i, (d, t) in enumerate(todo, 1):
                 at = live.get(t) or static_attrs(t)
