@@ -1334,7 +1334,8 @@ _CSS = r"""
 
 @page {
   size: Letter portrait;
-  margin: 0.3in 0.3in 0.35in 0.3in;
+  margin: 0.3in 0.3in 0.62in 0.3in;
+  @bottom-center { content: element(pagefooter); vertical-align: top; }
 }
 
 body {
@@ -1344,7 +1345,7 @@ body {
   margin: 0; padding: 0;
 }
 
-.page { position: relative; padding-bottom: 34pt; }
+.page { position: relative; }
 .page-break { page-break-after: always; }
 
 /* ── Banner band (full-width DTS marketing banner) ───────────────────── */
@@ -1745,8 +1746,7 @@ body {
 
 /* ── Page footer ─────────────────────────────────────────────────────── */
 .page-footer {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
+  position: running(pagefooter);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1756,6 +1756,7 @@ body {
 }
 .pf-brand {
   display: flex;
+  width: 100%;              /* span full footer width so the heritage line stays on ONE line */
   justify-content: center;
   align-items: baseline;
   gap: 6pt;
