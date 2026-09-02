@@ -58,9 +58,9 @@ logger = logging.getLogger(__name__)
 # licence notice have to travel with the artifact itself -- a footer on
 # downthestretch.ai does nothing once a PDF is detached from the site.
 #
-# TODO once the LLC is registered: set LEGAL_ENTITY = "Down The Stretch, LLC"
+# LLC registered 2026-08-27; entity name is the copyright/licence holder.
 # ---------------------------------------------------------------------------
-LEGAL_ENTITY = "Down The Stretch AI"
+LEGAL_ENTITY = "Down The Stretch LLC"
 
 LEGAL_DISCLAIMER = (
     "Informational model output only \u2014 not wagering advice. No guarantee of "
