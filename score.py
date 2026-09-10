@@ -210,6 +210,9 @@ def _score_turf(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
                                 qualifies for averaged (matches the SAS hcall
                                 mean), plus coreNY/NYr NY-bred routing.
     """
+    # DMR config-F turf: cell + 2 parents, no core (validated bit-exact vs SAS).
+    if getattr(config, "TURF_CONFIGF", False):
+        return _score_turf_dmr(df, coeff_dir, config)
     ensemble = getattr(config, "TURF_ENSEMBLE", None)
     if ensemble:
         return _score_turf_hierarchy(df, coeff_dir, config, ensemble)
@@ -1031,4 +1034,26 @@ def _score_dirt_dmr(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
     stack = np.vstack([cell, class_marg, dist_marg])
     result["predicted"] = np.nanmean(stack, axis=0)
     result["model"] = 1
+    return result
+
+
+def _score_turf_dmr(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """DMR config-F TURF scorer (twin of _score_dirt_dmr for turf). Per-horse blend =
+    mean(cell, class-parent, distance-parent) of 3 of the 8 dmr_turf_2026 models,
+    routed by sprint x claim. Coeffs = coef_dmr_turf_2026*.csv in coeff_dir. Returns
+    df.copy() with `predicted` set ONLY on turf non-maiden rows (NaN elsewhere) and
+    model=2 — same contract as every other segment scorer, so _combine/_normalize
+    collapse it correctly. RAW blend (no within-race normalize; _normalize_probabilities
+    does that once for all models, matching dirt config-F). Validated bit-exact vs the
+    SAS Scoring_DMR_2026.sas turf block on DMR 09/04-09/05 (max blend diff ~4e-8).
+    Isolation: only runs when the family declares TURF_CONFIGF (DMR); every other
+    family keeps its existing turf path untouched."""
+    from score_dmr_turf import score_dmr_turf
+    result = df.copy()
+    result["predicted"] = np.nan
+    sub = _filter(df, surf="T", maiden=False).copy()   # turf non-maiden = config-F domain
+    if len(sub):
+        preds = score_dmr_turf(sub, coeff_dir, normalize=False)
+        result.loc[sub.index, "predicted"] = preds.reindex(sub.index).values
+    result["model"] = 2
     return result

@@ -402,6 +402,29 @@ SYNONYMS = {
 
 EXCLUDE = {"baseprob2", "Intercept"}
 
+# ---------------------------------------------------------------------------
+# DMR.Turf.NonMaiden config-F twin (parity with score.py's TURF_CONFIGF branch)
+# ---------------------------------------------------------------------------
+# score_dmr_turf blends, per horse, mean(cell, distance-parent, class-parent) of
+# 3 of 8 logistic models. Its attribution twin recomputes that same routing and
+# blend below. The config-F feature groups + synonym phrases live in a separate
+# module and are used ONLY on the config-F path — they are deliberately NOT
+# merged into the global FEATURE_GROUPS / SYNONYMS, so KEE / SAR / DMR-dirt /
+# maiden comments are unchanged even where config-F reuses a shared var name.
+try:
+    from attribution_dmr_turf import (
+        CONFIGF_FEATURE_GROUPS, CONFIGF_SYNONYMS, load_configf_betas,
+    )
+    # Scoped lookups: global pools first, config-F additions layered on top.
+    _CONFIGF_SYN = {**SYNONYMS, **CONFIGF_SYNONYMS}
+    _CONFIGF_GRP = {**FEATURE_GROUPS, **CONFIGF_FEATURE_GROUPS}
+except Exception:                      # module absent (KEE/SAR-only deploy)
+    CONFIGF_FEATURE_GROUPS = {}
+    CONFIGF_SYNONYMS = {}
+    load_configf_betas = lambda _cd: {}
+    _CONFIGF_SYN = SYNONYMS
+    _CONFIGF_GRP = FEATURE_GROUPS
+
 
 # ---------------------------------------------------------------------------
 # Sub-model definitions — must mirror score.py exactly
@@ -548,7 +571,18 @@ def add_attributions(
     # ── Load every coefficient file once, keyed by sub-model ────────────────
     # Structure: coeff_sets[model_id][sub_key] = {feat_name: coef_value}
     coeff_sets = _load_coefficient_sets(config, coeff_dir, merged.columns)
-    if not any(coeff_sets.values()):
+
+    # DMR config-F turf twin: when the family runs the config-F turf branch
+    # (score.py's TURF_CONFIGF), turf non-maiden races (model_id 2) are scored
+    # by score_dmr_turf, NOT the sas7bdat s/r/hp/lp blend. Load its 8 CSV betas
+    # once and route those races to _compute_attributions_configf below. Every
+    # other family / model is untouched (configf_betas stays None).
+    configf_betas = (
+        load_configf_betas(coeff_dir)
+        if getattr(config, "TURF_CONFIGF", False) else None
+    )
+
+    if not any(coeff_sets.values()) and not configf_betas:
         logger.warning("attribution: no coefficient files loaded — skipping")
         return df
 
@@ -562,11 +596,19 @@ def add_attributions(
 
     for (_trk, _dt, race), rg in merged.groupby(["Track", "Date", "Race"]):
         model_id = rg["model"].iloc[0]
-        sub_coefs = coeff_sets.get(model_id, {})
-        if not sub_coefs:
-            continue
 
-        attributions = _compute_attributions(rg, model_id, sub_coefs, maiden_plan)
+        # config-F turf twin: parity with score.py's TURF_CONFIGF branch.
+        use_configf = (model_id == 2 and configf_betas)
+        if use_configf:
+            attributions = _compute_attributions_configf(rg, configf_betas)
+            pool_map = _CONFIGF_SYN
+        else:
+            sub_coefs = coeff_sets.get(model_id, {})
+            if not sub_coefs:
+                continue
+            attributions = _compute_attributions(rg, model_id, sub_coefs, maiden_plan)
+            pool_map = None
+
         if not attributions:
             continue
 
@@ -586,7 +628,8 @@ def add_attributions(
                 feat = item[0]
                 score = item[2] if len(item) >= 3 else float("nan")
                 label = _apply_pronouns(
-                    _pick_synonym(feat, side="like", usage=like_usage), sex)
+                    _pick_synonym(feat, side="like", usage=like_usage,
+                                  pool_map=pool_map), sex)
                 df.at[oidx, f"why_like_{rank}"] = label
                 df.at[oidx, f"why_like_{rank}_score"] = float(score)
 
@@ -594,7 +637,8 @@ def add_attributions(
                 feat = item[0]
                 score = item[2] if len(item) >= 3 else float("nan")
                 label = _apply_pronouns(
-                    _pick_synonym(feat, side="fade", usage=fade_usage), sex)
+                    _pick_synonym(feat, side="fade", usage=fade_usage,
+                                  pool_map=pool_map), sex)
                 df.at[oidx, f"why_fade_{rank}"] = label
                 df.at[oidx, f"why_fade_{rank}_score"] = float(score)
 
@@ -605,12 +649,15 @@ def add_attributions(
 # Synonym picker
 # ---------------------------------------------------------------------------
 
-def _pick_synonym(feat: str, side: str, usage: dict) -> str:
+def _pick_synonym(feat: str, side: str, usage: dict, pool_map: dict = None) -> str:
     """
     Return the next unused (or least-used) synonym for this feature+side.
     Rotates through the pool so the same phrase doesn't dominate the card.
+
+    pool_map lets the config-F path pass its scoped {global + config-F} pools
+    without mutating the global SYNONYMS (keeps other families unchanged).
     """
-    pool = SYNONYMS.get(feat)
+    pool = (pool_map if pool_map is not None else SYNONYMS).get(feat)
     if not pool:
         return ""
 
@@ -799,6 +846,31 @@ def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None):
             sorted(pred_cols)[:20],
         )
 
+    # Rank / dedupe / threshold is shared with the config-F twin.
+    return _rank_contributions(race_df, contrib_rows, all_feats)
+
+
+def _rank_contributions(
+    race_df,
+    contrib_rows: dict,
+    all_feats: list,
+    synonyms: dict = None,
+    feature_groups: dict = None,
+):
+    """
+    Turn per-horse feature contributions into ranked like/fade reason lists.
+
+    Shared by the legacy dirt/turf/maiden path (_compute_attributions) and the
+    DMR config-F twin (_compute_attributions_configf). The config-F caller
+    passes its SCOPED {global + config-F} synonym / group maps so config-F vars
+    resolve to phrases without those additions leaking into the other families.
+
+    Returns {row_index: (like_list, fade_list)} where each item is
+    (feature_name, |delta|_or_delta, score).
+    """
+    syn = synonyms if synonyms is not None else SYNONYMS
+    grp = feature_groups if feature_groups is not None else FEATURE_GROUPS
+
     # ── Subtract race average per feature ──────────────────────────────────
     # NOTE: build with an explicit index/column axis. pandas' from_dict with
     # dict values silently DROPS rows whose dict is empty (and returns an
@@ -819,7 +891,7 @@ def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None):
         best = {}
         for feat, delta in row.items():
             d = float(delta)
-            g = FEATURE_GROUPS.get(feat, feat)
+            g = grp.get(feat, feat)
             if g not in best or abs(d) > abs(best[g][1]):
                 best[g] = (feat, d)
 
@@ -827,7 +899,7 @@ def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None):
 
         likes, fades = [], []
         for feat, delta in items:
-            if feat not in SYNONYMS:
+            if feat not in syn:
                 continue
             # Score: |delta / r_avg[feat]|. Used by pdf.py to threshold
             # at 20% (i.e. show only reasons where the horse differs from
@@ -850,14 +922,14 @@ def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None):
         # one in each direction that has a synonym.
         if not likes and items:
             for feat, delta in items:
-                if feat in SYNONYMS and delta > 0:
+                if feat in syn and delta > 0:
                     ravg_feat = float(r_avg.get(feat, 0.0))
                     score = (abs(delta) / abs(ravg_feat)) if abs(ravg_feat) > 1e-9 else abs(delta) * 1000.0
                     likes.append((feat, delta, score))
                     break
         if not fades and items:
             for feat, delta in reversed(items):
-                if feat in SYNONYMS and delta < 0:
+                if feat in syn and delta < 0:
                     ravg_feat = float(r_avg.get(feat, 0.0))
                     score = (abs(delta) / abs(ravg_feat)) if abs(ravg_feat) > 1e-9 else abs(delta) * 1000.0
                     fades.append((feat, abs(delta), score))
@@ -866,6 +938,71 @@ def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None):
         results[idx] = (likes, fades)
 
     return results
+
+
+def _compute_attributions_configf(race_df, betas: dict):
+    """
+    DMR.Turf.NonMaiden config-F attribution — the twin of score_dmr_turf.
+
+    Mirrors the scoring blend exactly: for each horse route to (cell, distance
+    parent, class parent) via score_dmr_turf._route, then the per-feature
+    contribution is the equal-mean of coef*value across those three models —
+    matching cf = (p_cell + p_dist + p_cls)/3. Uses the SCOPED config-F synonym
+    / group maps so nothing leaks into the other families.
+
+    Returns {row_index: (like_list, fade_list)} (same shape as
+    _compute_attributions) or None if nothing to attribute.
+    """
+    if not betas:
+        return None
+
+    # Import here so attribution.py still imports when the config-F modules are
+    # absent (KEE/SAR-only deploys).
+    from score_dmr_turf import _route
+
+    # Stable feature axis = every non-meta beta any of the 8 models carries,
+    # intersected with what's actually on the frame. baseprob2 / Intercept are
+    # excluded (EXCLUDE) to match _load_coefficient_sets' convention.
+    all_feats = set()
+    for b in betas.values():
+        all_feats.update(k for k in b.keys() if k not in EXCLUDE)
+    all_feats = [f for f in all_feats if f in race_df.columns]
+    if not all_feats:
+        return None
+
+    cellkey, distkey, clskey = _route(race_df)
+
+    contrib_rows = {}
+    for pos, idx in enumerate(race_df.index):
+        row = race_df.loc[idx]
+        # Pre-extract feature values once (NaN -> 0, matching score's fillna(0)).
+        fvals = {}
+        for f in all_feats:
+            v = row.get(f)
+            try:
+                fvals[f] = 0.0 if pd.isna(v) else float(v)
+            except (TypeError, ValueError):
+                fvals[f] = 0.0
+        # The three models this horse blends (cell + distance + class parent).
+        keys = (str(cellkey[pos]), str(distkey[pos]), str(clskey[pos]))
+        contrib = {f: 0.0 for f in all_feats}
+        for k in keys:
+            b = betas.get(k, {})
+            for f in all_feats:
+                c = b.get(f)
+                if c is not None:
+                    contrib[f] += c * fvals[f]
+        for f in all_feats:
+            contrib[f] /= 3.0            # equal-mean of the 3, == cf blend
+        contrib_rows[idx] = contrib
+
+    if not contrib_rows:
+        return None
+
+    return _rank_contributions(
+        race_df, contrib_rows, all_feats,
+        synonyms=_CONFIGF_SYN, feature_groups=_CONFIGF_GRP,
+    )
 
 
 def _blend_contribution(

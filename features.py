@@ -119,6 +119,20 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     df = _block8_transforms(df)
     df = build_model_vars(df)
 
+    # ── DMR turf config-F variable layer (global, additive) ──────────────────
+    # Builds the 3 extra race-centered inputs (standardize_ratios) + the 44
+    # DMR-turf model vars (build_dmr_turf_vars). New, uniquely-named columns
+    # (mostly *_dmrt26/_dmrc26) — inert for every non-DMR family (never scored
+    # unless config.TURF_CONFIGF). Built here so BOTH scoring (score._score_turf_dmr)
+    # and attribution (the config-F twin) see identical values.
+    try:
+        from standardize import standardize_ratios
+        from dmr_turf_vars import build_dmr_turf_vars
+        df = standardize_ratios(df)
+        df = build_dmr_turf_vars(df)
+    except Exception as e:                       # never let this break the base pipeline
+        logger.warning(f"  DMR turf var layer skipped: {e}")
+
     logger.info(f"  Features engineered: {len(df.columns)} total columns")
     return df
 
@@ -384,7 +398,7 @@ def _block5_trainer_categories(df: pd.DataFrame) -> pd.DataFrame:
     # Pivot from the 6 key stat slots
     for i in range(1, 7):
         cat_col  = f"KeyTrnrStatCategory{i}"
-        st_col   = f"KeyStatofStarts{i}"
+        st_col   = f"KeyStatofstarts{i}"   # schema spells it lowercase-'s' (KeyStatofstarts); the uppercase 'S' name never matched -> ALL tran_st_NN were silently NaN
         wp_col   = f"KeyStatWinpct{i}"
         itm_col  = f"KeyStatITMpct{i}"
         roi_col  = f"KeyStatDol2ROI{i}"

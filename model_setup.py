@@ -192,7 +192,7 @@ def setup_registry(config) -> None:
     # register_track("CD",  "CD")
     # register_track("CDX", "CD")   # BRIS code variant -> same family
 
-    # ── Del Mar (dirt = own config-F family; turf/maiden fall back to KEE) ──
+    # ── Del Mar (dirt + TURF = own config-F families; maiden falls back to KEE) ──
     register_family(
         "DMR",
         dirt_models={
@@ -207,7 +207,12 @@ def setup_registry(config) -> None:
             "rn":   "dmrdirt2026_rn.sas7bdat",
         },
         dirt_var_overrides={},                      # DMR built on plain trnwcm_sart
-        turf_models=dict(config.TURF_MODELS),       # KEE fallback (no turf_ensemble)
+        # ── Turf: DMR config-F (cell + 2 parents, no core). score._score_turf_dmr
+        # reads the 8 coef_dmr_turf_2026*.csv from coeff_dir; validated bit-exact
+        # vs Scoring_DMR_2026.sas on 09/04-09/05. turf_models stays as the KEE dict
+        # for the loader's file-count log only — it is NOT used when TURF_CONFIGF.
+        turf_models=dict(config.TURF_MODELS),
+        turf_configf=True,
         maiden_models=dict(config.MAIDEN_MODELS),   # KEE fallback (no maiden_ensemble)
         score_weights=dict(config.SCORE_WEIGHTS),
         coeff_dir=Path(config.COEFF_DIR),
