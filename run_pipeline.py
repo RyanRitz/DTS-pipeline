@@ -674,7 +674,7 @@ def run_scoring(
     # setup_registry() bootstraps from config and applies any per-track
     # overrides defined in model_setup.py. Idempotent.
     setup_registry(config)
-    scoring_config = get_scoring_models(track, underlying_config=config)
+    scoring_config = get_scoring_models(track, underlying_config=config, race_date=race_date)
     log.info(
         f"  Using model family {scoring_config.family_name!r} for track {track!r} "
         f"({len(scoring_config.DIRT_MODELS)} dirt, "

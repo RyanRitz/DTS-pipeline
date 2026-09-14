@@ -139,6 +139,11 @@ class ScoringConfig:
 # ---------------------------------------------------------------------------
 _FAMILIES: dict[str, _Family] = {}
 _TRACK_TO_FAMILY: dict[str, str] = {}
+# track -> {season: family}, where season is 'apr'/'oct' (see _season_for_date).
+# Lets one track (KEE) route to different families by the CARD's date, so the
+# Spring and Fall meets score as completely separate models. Takes precedence
+# over _TRACK_TO_FAMILY when a race_date is supplied.
+_TRACK_SEASONAL: dict[str, dict[str, str]] = {}
 _DEFAULT_FAMILY: Optional[str] = None
 
 
@@ -213,9 +218,53 @@ def register_track(track: str, family_name: str) -> None:
     _TRACK_TO_FAMILY[track.upper()] = family_name
 
 
-def get_family_for_track(track: str) -> str:
-    """Return the family name that should score this track."""
-    fam = _TRACK_TO_FAMILY.get(track.upper())
+def register_track_seasonal(track: str, season_map: dict) -> None:
+    """Map a track to different families by SEASON, e.g.
+        register_track_seasonal("KEE", {"apr": "KEE_APR", "oct": "KEE_OCT"})
+    Each family in season_map must already be registered. When a race_date is
+    passed to get_family_for_track / get_scoring_models, the season is resolved
+    from the card's month (see _season_for_date) and the matching family is used;
+    without a race_date it falls back to _TRACK_TO_FAMILY / the default."""
+    track = track.upper()
+    for fam in season_map.values():
+        if fam.upper() not in _FAMILIES:
+            raise ValueError(
+                f"Cannot map track {track!r} season to unknown family {fam!r}. "
+                f"Known families: {sorted(_FAMILIES)}"
+            )
+    _TRACK_SEASONAL[track] = {k.lower(): v.upper() for k, v in season_map.items()}
+
+
+def _season_for_date(race_date) -> Optional[str]:
+    """Resolve a card date to a meet season: 'apr' (Spring, Jan-Jun) or
+    'oct' (Fall, Jul-Dec). Accepts 'YYYYMMDD' or 'MMDD'. Returns None if the
+    date can't be parsed (caller then uses the non-seasonal mapping)."""
+    if not race_date:
+        return None
+    s = str(race_date).strip()
+    try:
+        mm = int(s[4:6]) if len(s) >= 6 else int(s[:2])  # YYYYMMDD else MMDD
+    except (ValueError, IndexError):
+        return None
+    if not 1 <= mm <= 12:
+        return None
+    return "oct" if mm >= 7 else "apr"
+
+
+def get_family_for_track(track: str, race_date=None) -> str:
+    """Return the family name that should score this track.
+
+    If the track has a seasonal mapping AND a race_date is supplied, the season
+    (from the card's month) selects the family. Otherwise the plain track->family
+    map (then the default) is used — identical to the pre-seasonal behavior."""
+    track = track.upper()
+    seasonal = _TRACK_SEASONAL.get(track)
+    if seasonal:
+        season = _season_for_date(race_date)
+        if season and season in seasonal:
+            return seasonal[season]
+        # seasonal track but no/again-unmatched date: fall through to defaults
+    fam = _TRACK_TO_FAMILY.get(track)
     if fam:
         return fam
     if _DEFAULT_FAMILY is None:
@@ -230,13 +279,17 @@ def get_family_for_track(track: str) -> str:
     return _DEFAULT_FAMILY
 
 
-def get_scoring_models(track: str, underlying_config: Any) -> ScoringConfig:
+def get_scoring_models(track: str, underlying_config: Any, race_date=None) -> ScoringConfig:
     """
     Get a ScoringConfig wrapper for the given track, with model attributes
     pointed at the right family. Pass-through access falls back to
     `underlying_config` (your real config.py module).
+
+    race_date (optional, 'YYYYMMDD' or 'MMDD') selects the seasonal family for
+    tracks registered via register_track_seasonal (KEE Spring vs Fall). Omitting
+    it preserves the original non-seasonal behavior.
     """
-    family_name = get_family_for_track(track)
+    family_name = get_family_for_track(track, race_date)
     fam = _FAMILIES[family_name]
     return ScoringConfig(
         family_name=family_name,

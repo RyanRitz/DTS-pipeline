@@ -36,10 +36,33 @@ from model_registry import (
     bootstrap_from_config,
     register_family,
     register_track,
+    register_track_seasonal,
     list_registered,
 )
 
 logger = logging.getLogger(__name__)
+
+# KEE maiden cell -> filename suffix (mirrors config.MAIDEN_MODELS' April names,
+# which are hardcoded to kee_maid_0426_*; parameterized here so the Fall meet can
+# resolve kee_maid_10yy_* instead of being pinned to April).
+_KEE_MAID_CELLS = {
+    1: "spst", 2: "spsd", 3: "sprt", 4: "sprd", 6: "msd", 8: "mrd",
+    9: "spt", 10: "spd", 12: "md", 13: "sps", 14: "spr", 15: "ms",
+    16: "mr", "M": "m", "S": "s",
+}
+
+
+def _kee_family_models(config, mm: str):
+    """Build (dirt, turf, maiden) coef-filename dicts for a KEE meet month.
+    mm = '04' (Spring) or '10' (Fall). Mirrors config.py's KEE naming exactly,
+    but with the month/season swapped in — so KEE_OCT is the same structure as
+    April with '10' filenames. Year comes from config.YEAR."""
+    yyyy = str(config.YEAR)[-4:]
+    yy = yyyy[-2:]
+    dirt = {k: f"keedirt{mm}{yyyy}{k}.sas7bdat" for k in ("c", "n", "s", "r")}
+    turf = {k: f"keeturf{mm}{yyyy}{k}.sas7bdat" for k in ("s", "r", "hp", "lp")}
+    maiden = {k: f"kee_maid_{mm}{yy}_{sfx}.sas7bdat" for k, sfx in _KEE_MAID_CELLS.items()}
+    return dirt, turf, maiden
 
 
 def setup_registry(config) -> None:
@@ -48,7 +71,32 @@ def setup_registry(config) -> None:
     Idempotent — safe to call multiple times in the same process.
     """
     # ── 1. Bootstrap KEE family from config.py (the active meet's models) ──
+    # This "KEE" family is the SPRING/April meet (config.RACE_DATE is an April
+    # date) and stays the universal fallback for unregistered tracks.
     bootstrap_from_config(config, default_family="KEE")
+
+    # ── 1b. Keeneland FALL/October as a SEPARATE model family ──────────────
+    # KEE runs two meets a year (Spring/April, Fall/October) that Ryan treats as
+    # completely different models: different variables select in (current-year
+    # trainer/jockey/horse stats are mature by October, thin in April) and the
+    # coefficients differ. Same ENSEMBLE STRUCTURE as April, so KEE_OCT is a
+    # clone of the April shapes with October ('10') coefficient filenames.
+    # A KEE card routes to KEE (April) or KEE_OCT (October) by its own date-month
+    # via register_track_seasonal — the poller passes race_date per card.
+    #
+    # The Oct-2026 coef files (keedirt10YYYY*, keeturf10YYYY*, kee_maid_10yy_*)
+    # must be dropped into COEFF_DIR before a KEE October card is scored; until
+    # then KEE_OCT is registered but dormant (KEE is not currently running).
+    _kd, _kt, _km = _kee_family_models(config, "10")
+    register_family(
+        "KEE_OCT",
+        dirt_models=_kd,
+        turf_models=_kt,
+        maiden_models=_km,
+        score_weights=config.SCORE_WEIGHTS,
+        coeff_dir=Path(config.COEFF_DIR),
+    )
+    register_track_seasonal("KEE", {"apr": "KEE", "oct": "KEE_OCT"})
 
     # ── 2. Future per-track families (currently all stubbed) ──────────────
     # When you have models for a new track, replace the empty dicts below
