@@ -192,7 +192,7 @@ def setup_registry(config) -> None:
     # register_track("CD",  "CD")
     # register_track("CDX", "CD")   # BRIS code variant -> same family
 
-    # ── Del Mar (dirt + TURF = own config-F families; maiden falls back to KEE) ──
+    # ── Del Mar (dirt + TURF + MAIDEN = own config-F families) ──
     register_family(
         "DMR",
         dirt_models={
@@ -213,7 +213,11 @@ def setup_registry(config) -> None:
         # for the loader's file-count log only — it is NOT used when TURF_CONFIGF.
         turf_models=dict(config.TURF_MODELS),
         turf_configf=True,
-        maiden_models=dict(config.MAIDEN_MODELS),   # KEE fallback (no maiden_ensemble)
+        # ── Maiden: DMR config-F (cell + 3 parents, no core). score._score_maiden_dmr
+        # reads the 14 coef_maid_*.csv from coeff_dir. maiden_models stays as the
+        # KEE dict for the loader's file-count log only — NOT used when MAIDEN_CONFIGF.
+        maiden_models=dict(config.MAIDEN_MODELS),
+        maiden_configf=True,
         score_weights=dict(config.SCORE_WEIGHTS),
         coeff_dir=Path(config.COEFF_DIR),
     )

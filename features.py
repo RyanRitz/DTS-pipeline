@@ -81,6 +81,9 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
         "WorkoutPctRnk1",                   # PascalCase variant
         "WorkoutPctRnk2", "WorkoutPctRnk3",  # DMR iworkout_dmrm needs indexed ranks 2/3
         "StretchBtnLngthsonly1",            # stretch position (Block prereq)
+        # last-race date (datetime; race_normalize skips datetimes) -> xRaceDate1
+        # feeds xRaceDate1_25 (SAR + DMR maiden). 5scoring.sas 19289.
+        "RaceDate1",
         # WorkoutDate vars (datetime → need special handling)
         "WorkoutDate1","WorkoutDate2","WorkoutDate3",
         "WorkoutDate4","WorkoutDate5","WorkoutDate6",
@@ -125,11 +128,13 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     # (mostly *_dmrt26/_dmrc26) — inert for every non-DMR family (never scored
     # unless config.TURF_CONFIGF). Built here so BOTH scoring (score._score_turf_dmr)
     # and attribution (the config-F twin) see identical values.
+    # build_dmr_maiden_vars = build_dmr_turf_vars + the 9 DMR-maiden-only vars
+    # (superset; inert unless config.MAIDEN_CONFIGF).
     try:
         from standardize import standardize_ratios
-        from dmr_turf_vars import build_dmr_turf_vars
+        from dmr_maiden_vars import build_dmr_maiden_vars
         df = standardize_ratios(df)
-        df = build_dmr_turf_vars(df)
+        df = build_dmr_maiden_vars(df)
     except Exception as e:                       # never let this break the base pipeline
         logger.warning(f"  DMR turf var layer skipped: {e}")
 
@@ -311,20 +316,30 @@ def _block4_pedigree_weight(df: pd.DataFrame) -> pd.DataFrame:
 
     def parse_ped_rating(series: pd.Series) -> pd.Series:
         """
-        Strip trailing *, ?, X characters from pedigree rating strings,
-        return numeric. Replicates SAS substr logic.
+        Pedigree rating string -> numeric, bit-exact to the SAS parse used by
+        every family's scoring program (e.g. Scoring_DMR_2026.sas 370-385):
+          flag (*,?,X) in position 3 -> first 2 chars;  in position 4 -> first 3;
+          '*' alone -> missing;  otherwise the whole string * 1.
+        Anything that isn't then a valid number is MISSING (SAS invalid-numeric),
+        so a 1-digit flagged rating like '0*' is missing, not 0.
         """
-        import re
-        def _parse(val):
-            if pd.isna(val) or val == '*':
-                return np.nan
-            val = str(val).strip()
-            # Remove trailing non-numeric flags
-            val = re.sub(r'[\*\?X]+$', '', val).strip()
+        flags = ("*", "?", "X")
+        def _num(s):
             try:
-                return float(val)
+                return float(s)
             except (ValueError, TypeError):
                 return np.nan
+        def _parse(val):
+            if pd.isna(val):
+                return np.nan
+            s = str(val).strip()
+            if s[2:3] in flags:
+                return _num(s[:2])
+            if s[3:4] in flags:
+                return _num(s[:3])
+            if s == "*":
+                return np.nan
+            return _num(s)
         return series.apply(_parse)
 
     for col_raw, col_out in [

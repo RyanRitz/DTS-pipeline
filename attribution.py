@@ -425,6 +425,25 @@ except Exception:                      # module absent (KEE/SAR-only deploy)
     _CONFIGF_SYN = SYNONYMS
     _CONFIGF_GRP = FEATURE_GROUPS
 
+# ---------------------------------------------------------------------------
+# DMR.Maiden config-F twin (parity with score.py's MAIDEN_CONFIGF branch)
+# ---------------------------------------------------------------------------
+# score_dmr_maiden blends, per horse, mean(cell, surface-parent, racetype-parent,
+# distance-parent) of 4 of 14 logistic models. Same isolation as the turf twin:
+# maiden config-F groups/synonyms are scoped to that path only.
+try:
+    from attribution_dmr_maiden import (
+        CONFIGF_MAIDEN_FEATURE_GROUPS, CONFIGF_MAIDEN_SYNONYMS, load_maiden_configf_betas,
+    )
+    _MAIDEN_SYN = {**SYNONYMS, **CONFIGF_MAIDEN_SYNONYMS}
+    _MAIDEN_GRP = {**FEATURE_GROUPS, **CONFIGF_MAIDEN_FEATURE_GROUPS}
+except Exception:                      # module absent (KEE/SAR-only deploy)
+    CONFIGF_MAIDEN_FEATURE_GROUPS = {}
+    CONFIGF_MAIDEN_SYNONYMS = {}
+    load_maiden_configf_betas = lambda _cd: {}
+    _MAIDEN_SYN = SYNONYMS
+    _MAIDEN_GRP = FEATURE_GROUPS
+
 
 # ---------------------------------------------------------------------------
 # Sub-model definitions — must mirror score.py exactly
@@ -581,8 +600,15 @@ def add_attributions(
         load_configf_betas(coeff_dir)
         if getattr(config, "TURF_CONFIGF", False) else None
     )
+    # DMR config-F maiden twin: same idea for maiden races (model_id 3) when the
+    # family runs score.py's MAIDEN_CONFIGF branch (14 coef_maid_*.csv betas).
+    maiden_configf_betas = (
+        load_maiden_configf_betas(coeff_dir)
+        if getattr(config, "MAIDEN_CONFIGF", False) else None
+    )
 
-    if not any(coeff_sets.values()) and not configf_betas:
+    if (not any(coeff_sets.values()) and not configf_betas
+            and not maiden_configf_betas):
         logger.warning("attribution: no coefficient files loaded — skipping")
         return df
 
@@ -602,6 +628,10 @@ def add_attributions(
         if use_configf:
             attributions = _compute_attributions_configf(rg, configf_betas)
             pool_map = _CONFIGF_SYN
+        elif model_id == 3 and maiden_configf_betas:
+            # config-F maiden twin: parity with score.py's MAIDEN_CONFIGF branch.
+            attributions = _compute_attributions_configf_maiden(rg, maiden_configf_betas)
+            pool_map = _MAIDEN_SYN
         else:
             sub_coefs = coeff_sets.get(model_id, {})
             if not sub_coefs:
@@ -1002,6 +1032,72 @@ def _compute_attributions_configf(race_df, betas: dict):
     return _rank_contributions(
         race_df, contrib_rows, all_feats,
         synonyms=_CONFIGF_SYN, feature_groups=_CONFIGF_GRP,
+    )
+
+
+def _compute_attributions_configf_maiden(race_df, betas: dict):
+    """
+    DMR.Maiden config-F attribution — the twin of score_dmr_maiden.
+
+    Mirrors the scoring blend exactly: for each horse route to (cell, surface
+    parent, racetype parent, distance parent) via score_dmr_maiden._route, then
+    the per-feature contribution is the equal-mean of coef*value across those
+    four models — matching cf = (p_cell + p_surf + p_rt + p_dist)/4. Uses the
+    SCOPED maiden config-F synonym / group maps so nothing leaks into the other
+    families.
+
+    Returns {row_index: (like_list, fade_list)} (same shape as
+    _compute_attributions) or None if nothing to attribute.
+    """
+    if not betas:
+        return None
+
+    # Import here so attribution.py still imports when the config-F modules are
+    # absent (KEE/SAR-only deploys).
+    from score_dmr_maiden import _route
+
+    # Stable feature axis = every non-meta beta any of the 14 models carries,
+    # intersected with what's actually on the frame. baseprob2 / Intercept are
+    # excluded (EXCLUDE) to match _load_coefficient_sets' convention.
+    all_feats = set()
+    for b in betas.values():
+        all_feats.update(k for k in b.keys() if k not in EXCLUDE)
+    all_feats = [f for f in all_feats if f in race_df.columns]
+    if not all_feats:
+        return None
+
+    cellkey, surfkey, rtkey, distkey = _route(race_df)
+
+    contrib_rows = {}
+    for pos, idx in enumerate(race_df.index):
+        row = race_df.loc[idx]
+        # Pre-extract feature values once (NaN -> 0, matching score's fillna(0)).
+        fvals = {}
+        for f in all_feats:
+            v = row.get(f)
+            try:
+                fvals[f] = 0.0 if pd.isna(v) else float(v)
+            except (TypeError, ValueError):
+                fvals[f] = 0.0
+        # The four models this horse blends (cell + surface + racetype + distance parent).
+        keys = (str(cellkey[pos]), str(surfkey[pos]), str(rtkey[pos]), str(distkey[pos]))
+        contrib = {f: 0.0 for f in all_feats}
+        for k in keys:
+            b = betas.get(k, {})
+            for f in all_feats:
+                c = b.get(f)
+                if c is not None:
+                    contrib[f] += c * fvals[f]
+        for f in all_feats:
+            contrib[f] /= 4.0            # equal-mean of the 4, == cf blend
+        contrib_rows[idx] = contrib
+
+    if not contrib_rows:
+        return None
+
+    return _rank_contributions(
+        race_df, contrib_rows, all_feats,
+        synonyms=_MAIDEN_SYN, feature_groups=_MAIDEN_GRP,
     )
 
 

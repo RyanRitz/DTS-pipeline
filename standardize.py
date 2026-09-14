@@ -51,6 +51,17 @@ _CENTER_SPECS = [
     ("xtran_wpct_58",       "tran_wpct_58"),
     ("xworkouttime1Bullet", "WorkoutTime1Bullet"),
 ]
+# Race-INDEXED (I = raw / race_avg) bases the DMR-maiden config-F needs (wobulls_keeot).
+# race_normalize never builds these: race_norm_vars.txt lists 'workouttime1Bullet'
+# but features Block 2 names it 'WorkoutTime1Bullet' (exact-case match misses).
+# Bit-exact to 5scoring.sas 8090-8097: I = raw/avg when avg not in (.,0) and raw
+# present; 1 when avg in (.,0); missing when raw missing. Lowercase-i output name
+# so the older exact-name 'iWorkoutTime{i}Bullet' readers in features.py stay inert.
+_INDEX_SPECS = [
+    ("iworkouttime1Bullet", "WorkoutTime1Bullet"),
+    ("iworkouttime2Bullet", "WorkoutTime2Bullet"),
+    ("iworkouttime3Bullet", "WorkoutTime3Bullet"),
+]
 RACE_GROUP_S = ["Track", "Date", "Race"]
 
 def _col(df, c):
@@ -65,6 +76,17 @@ def _race_center(df, out, raw, groups):
     grpmean = r.groupby([df[g] for g in groups]).transform("mean")
     df[out] = r - grpmean
 
+def _race_index(df, out, raw, groups):
+    """I = raw / race_mean(raw); 1 where the mean is 0/missing; NaN where raw is
+    NaN (matches SAS avg/divide in 5scoring.sas)."""
+    if raw not in df.columns or not all(g in df.columns for g in groups):
+        df[out] = np.nan
+        return
+    r = pd.to_numeric(df[raw], errors="coerce")
+    ave = r.groupby([df[g] for g in groups]).transform("mean")
+    df[out] = np.where(ave.isna() | (ave == 0), 1.0,
+                       np.where(r.isna(), np.nan, r / ave.where(ave != 0)))
+
 def standardize_ratios(df: pd.DataFrame) -> pd.DataFrame:
     """Derive all component-ratio bases + the config-F-only race-centered vars.
     Bit-exact to 5.sas: rate only when starts not in (0, missing), else NaN."""
@@ -76,6 +98,8 @@ def standardize_ratios(df: pd.DataFrame) -> pd.DataFrame:
         df[out] = np.where(valid, num / STS, np.nan)
     for out, raw in _CENTER_SPECS:
         _race_center(df, out, raw, RACE_GROUP_S)
+    for out, raw in _INDEX_SPECS:
+        _race_index(df, out, raw, RACE_GROUP_S)
     return df
 
 # back-compat alias (increment-1 wiring)

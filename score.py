@@ -339,6 +339,9 @@ def _score_maiden(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
     Two paths: config.MAIDEN_ENSEMBLE set (SAR 3-suite 32-cell blend) ->
     _score_maiden_sar; otherwise the legacy KEE 15-model blend below.
     """
+    # DMR config-F maiden: cell + 3 parents, no core.
+    if getattr(config, "MAIDEN_CONFIGF", False):
+        return _score_maiden_dmr(df, coeff_dir, config)
     if getattr(config, "MAIDEN_ENSEMBLE", None):
         return _score_maiden_sar(df, coeff_dir, config)
     surf = df["Surface"].str.upper().fillna("")
@@ -1056,4 +1059,22 @@ def _score_turf_dmr(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
         preds = score_dmr_turf(sub, coeff_dir, normalize=False)
         result.loc[sub.index, "predicted"] = preds.reindex(sub.index).values
     result["model"] = 2
+    return result
+
+
+def _score_maiden_dmr(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """DMR config-F MAIDEN scorer (twin of _score_turf_dmr). Per-horse blend =
+    mean(cell, surface-parent, racetype-parent, distance-parent) of 4 of the 14
+    coef_maid_*.csv models, routed by surface x racetype(S/M) x sprint. Returns
+    df.copy() with `predicted` set ONLY on maiden rows (NaN elsewhere) and model=3.
+    RAW blend (_normalize_probabilities does the within-race normalize).
+    Isolation: only runs when the family declares MAIDEN_CONFIGF (DMR)."""
+    from score_dmr_maiden import score_dmr_maiden
+    result = df.copy()
+    result["predicted"] = np.nan
+    sub = _filter(df, maiden=True).copy()   # both surfaces: maiden = config-F domain
+    if len(sub):
+        preds = score_dmr_maiden(sub, coeff_dir, normalize=False)
+        result.loc[sub.index, "predicted"] = preds.reindex(sub.index).values
+    result["model"] = 3
     return result
