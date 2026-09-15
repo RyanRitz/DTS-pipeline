@@ -1587,7 +1587,10 @@ body {
 .wagers { color: #3D2B1E; font-style: italic; }
 
 /* ── Horse row ──────────────────────────────────────────────────────── */
-.horses { display: flex; flex-direction: column; gap: 0pt; }
+.horses { display: block; }  /* block (not flex): WeasyPrint can't fragment a flex column across
+     pages, so a race whose header+table is marginally taller than one
+     page dropped the WHOLE table to the next page, leaving a blank
+     header page (e.g. a dense 10-horse maiden field). block fragments. */
 
 /* Column header row (appears once above each race's horses) */
 .horse-col-header {
