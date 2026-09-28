@@ -202,7 +202,7 @@ def _build_html(
 # Pagination — cap horses per page, spill rest to continuation pages
 # ---------------------------------------------------------------------------
 
-PAGE_HORSE_CAP = 10   # max horses per page
+PAGE_HORSE_CAP = 14   # max horses per page
 
 
 def _paginate_races(df: pd.DataFrame, races: list) -> list[dict]:
@@ -325,6 +325,26 @@ def _build_top_picks_strip(df: pd.DataFrame, races: list) -> str:
 # ---------------------------------------------------------------------------
 # Per-race page
 # ---------------------------------------------------------------------------
+
+HOWTO_MAX_FIELD = 10  # measured: legend fits with up to 11 worst-case horses; 10 keeps a 1-horse margin
+
+HOWTO_HTML = """
+<section class="howto">
+  <div class="howto-title">How to read this sheet</div>
+  <div class="howto-grid">
+    <div class="ht"><b>ODDS</b> DTS fair odds: the price our models say the horse should be. <i>(ML)</i> is the track's morning line.</div>
+    <div class="ht"><b>P(WIN)</b> Our models' chance the horse wins. Each race adds to 100%.</div>
+    <div class="ht"><b>RUNS</b> Running style: <i>Early</i> (on or near the lead), <i>Mid</i>, <i>Late</i> (closer). <i>Unk</i> = not enough history yet.</div>
+    <div class="ht"><b>SPD · JKY · TRN</b> Speed, jockey's performance, trainer's performance. A longer bar is stronger, and bars compare across races and cards.</div>
+    <div class="ht"><b>INT</b> Intangibles: everything else our models weigh, compared with this field. Half full = field average.</div>
+    <div class="ht"><b>TOP PICKS</b> The fewest horses, in order, that cover about half the win probability (up to 4).</div>
+    <div class="ht"><span class="sw sw-gold"></span><b>Gold row</b> DTS Best Bet: a leading contender our models rate well above what the morning line suggests. These make up TOP DTS BETS.</div>
+    <div class="ht"><span class="sw sw-green"></span><b>Green row</b> Longshot to use underneath: a lower win chance, but priced well above what our models think is fair. An exotics play, not a win bet.</div>
+  </div>
+  <div class="howto-foot">Post times are Eastern. &ldquo;Changes updated through&rdquo; is the latest scratch and track-condition update applied to this sheet.</div>
+</section>
+"""
+
 
 def _build_race_page(
     race_df: pd.DataFrame,
@@ -465,6 +485,12 @@ def _build_race_page(
         )
 
     # ── Continuation marker for big-field overflow pages ────────────────
+    # "How to read this sheet" — Race 1 only (usually a small field), and only
+    # when the field leaves room, so the legend never pushes the race to 2 pages.
+    howto_html = ""
+    if race_no == 1 and cont == 0 and len(race_df) <= HOWTO_MAX_FIELD:
+        howto_html = HOWTO_HTML
+
     cont_marker = (
         f' <span class="cont-marker">(continued · pg {cont + 1})</span>'
         if cont > 0 else ""
@@ -479,9 +505,8 @@ def _build_race_page(
 
   <header class="meta-strip">
     <div class="ms-left">
-      <span class="ms-track">{_html_escape(track_full_name)}</span>
-      <span class="ms-sep">·</span>
-      <span class="ms-date">{pretty_date}</span>
+      <div class="ms-track">{_html_escape(track_full_name)}</div>
+      <div class="ms-date">{pretty_date}</div>
     </div>
     <div class="ms-mid">
       <div class="ms-mid-inner">
@@ -519,11 +544,14 @@ def _build_race_page(
         <span class="bar-hdr">Spd</span>
         <span class="bar-hdr">Jky</span>
         <span class="bar-hdr">Trn</span>
+        <span class="bar-hdr">Int</span>
       </span>
-      <span class="hcomment">Comments</span>
+      <span class="hjt">Jockey / Trainer</span>
     </div>
     {horse_rows}
   </div>
+
+  {howto_html}
 
   <footer class="page-footer">
     <div class="pf-brand">
@@ -574,6 +602,7 @@ def _build_horse_row(row: pd.Series) -> str:
         val_class += " best-bet"
 
     speed_bar = int(float(row.get("speed_bar") or 0))
+    int_bar   = int(float(row.get("int_bar") if row.get("int_bar") is not None else 50))
     jock_bar  = int(float(row.get("jockey_bar") or 0))
     train_bar = int(float(row.get("trainer_bar") or 0))
 
@@ -641,16 +670,11 @@ def _build_horse_row(row: pd.Series) -> str:
       <span class="bar bar-speed"><span style="width:{speed_bar}%"></span></span>
       <span class="bar bar-jock"><span style="width:{jock_bar}%"></span></span>
       <span class="bar bar-trn"><span style="width:{train_bar}%"></span></span>
+      <span class="bar bar-int"><span style="width:{int_bar}%"></span></span>
     </span>
-    <span class="hcomment">{_html_escape(smart)}</span>
+    <span class="hjt">{jockey}</span>
   </div>
-  <div class="horse-line2">
-    <span class="jt">{jockey} / {trainer}</span>
-  </div>
-  <div class="why-grid">
-    <ul class="why-like">{like_html}</ul>
-    <ul class="why-fade">{fade_html}</ul>
-  </div>
+  <div class="horse-comment"><span class="hc-text">{_html_escape(smart)}</span><span class="hc-trn">{trainer}</span></div>
 </div>
 """
 
@@ -684,6 +708,8 @@ RACETYPE_MAP = {
     "N":  "Stakes",       # nongraded stakes (Brisnet code N); named race leads the middle slot
     "A":  "Allowance",
     "AO": "Alw Opt. Claim",
+    "CO": "Str Opt. Claim",   # Brisnet CO = STARTER OPTIONAL CLAIMING (verified 15/15)
+    "MO": "Mdn Opt. Claim",   # Brisnet MO = MAIDEN OPTIONAL CLAIMING (verified 9/9)
     "G":  "Stakes",
     "R":  "Strtr Allw",
     "T":  "Trial",
@@ -813,7 +839,7 @@ def _fmt_bet_odds(decimal_odds) -> str:
         return s
     s = s.strip()
     if s == "1":
-        return "Even Money"
+        return "Even"
     if "/" in s:
         return s.replace("/", ":")
     return f"{s}:1"
@@ -1208,6 +1234,9 @@ def _smart_title(word: str) -> str:
     # O' D' apostrophe prefix
     if "'" in w and len(lower) > 2 and lower[1] == "'":
         return w[0].upper() + "'" + w[2:].capitalize()
+    # Hyphenated surnames: capitalize each part ("FRANKO-ANGELES" -> "Franko-Angeles")
+    if "-" in w:
+        return "-".join(_smart_title(p) for p in w.split("-"))
     return w.capitalize()
 
 
@@ -1417,7 +1446,7 @@ body {
   margin-bottom: 4pt;
 }
 .ms-left {
-  flex: 0 0 auto;
+  flex: 1 1 0; min-width: 0;
   font-family: Constantia, "Hoefler Text", Georgia, serif;
   font-size: 14pt;
   color: #0D2B1E;
@@ -1429,7 +1458,7 @@ body {
 .ms-date  { font-style: italic; color: #3D2B1E; }
 
 .ms-mid {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1457,7 +1486,8 @@ body {
 }
 
 .ms-right {
-  flex: 0 0 32%;
+  flex: 1 1 0; min-width: 0;
+  display: flex; justify-content: flex-end;
   text-align: right;
 }
 
@@ -1556,7 +1586,7 @@ body {
 }
 .rh-num {
   font-family: Constantia, "Hoefler Text", Georgia, serif;
-  font-size: 12pt; font-weight: bold;
+  font-size: 18pt; font-weight: bold;
   color: #C9A84C;
   letter-spacing: 0.3pt;
 }
@@ -1656,7 +1686,7 @@ body {
   color: #1A1A1A;
 }
 .horse-line1 .hname .ml-inline {
-  font-weight: normal; color: #888; font-size: 7.5pt; margin-left: 3pt;
+  font-weight: normal; color: #4A4A4A; font-size: 7.5pt; margin-left: 3pt;
 }
 .horse-line1 .hdts,
 .horse-line1 .hprob,
@@ -1832,8 +1862,8 @@ body {
 /* Comments column: floats absolute on the right of each horse-block so
    long comments wrap downward without pushing the row taller.
    Header row mirrors the same layout so column headers stay aligned. */
-.horse-block       { position: relative; padding-right: 170pt; }
-.horse-col-header  { position: relative; padding-right: 170pt; }
+.horse-block       { position: relative; }
+.horse-col-header  { position: relative; }
 .horse-line1 .hcomment {
   position: absolute; top: 3pt; right: 8pt;
   width: 146pt; max-width: 146pt; flex: 0 0 auto;
@@ -1861,6 +1891,83 @@ body {
    across the full row width. */
 .why-grid { max-width: 300pt; }
 .why-like li, .why-fade li { line-height: 1.15; margin: 0; padding: 0; }
+
+/* ---- Sheet redesign, 2026-09 (vetted on IND 9/28 in BTSM/redesign_sandbox) ---- */
+.ms-track { display: block; font-weight: bold; white-space: nowrap; }
+.ms-date  { display: block; font-size: 11pt; font-style: italic; color: #3D2B1E; margin-top: 1pt; }
+.horse-comment {
+  padding-left: 28pt; margin-top: 2pt;
+  font-family: Constantia, "Hoefler Text", Georgia, serif;
+  font-style: italic; font-size: 8.5pt; line-height: 1.3; color: #0D2B1E;
+}
+.best-bet .horse-comment { font-weight: bold; color: #8A6D1F; }
+.horse-comment { font-size: 9pt !important; }
+/* 4th bar: Intangibles — model weight from everything except speed/jockey/trainer,
+   relative to the field. 50% = field average. */
+.bar-int > span { background: #9C6B3F; }
+.horse-line1 .hbars, .horse-col-header .hbars {
+  width: 178pt !important; min-width: 178pt !important; flex: 0 0 178pt !important;
+  justify-content: space-between !important; margin-left: 4pt; }
+.bar { width: 40pt !important; flex: 0 0 40pt !important; }
+.horse-col-header .bar-hdr { width: 40pt !important; text-align: center; }
+/* jockey on the name row; trainer right-aligned under it on the comment row */
+.horse-comment { display: flex; align-items: baseline; gap: 10pt; }
+.horse-comment .hc-text { flex: 1 1 auto; min-width: 0; }
+.horse-comment .hc-trn {
+  flex: 0 0 auto; margin-left: auto; white-space: nowrap;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif; font-style: italic;
+  font-weight: normal; font-size: 8.5pt; color: #6A5A44;
+}
+.best-bet .horse-comment .hc-trn { font-weight: normal; color: #6A5A44; }
+.ms-right .top3-card { width: 172pt; box-sizing: border-box; }
+.ms-right .top3-card .bet-odds { margin-left: auto; padding-left: 6pt; text-align: right; }
+.ms-right .top3-card .bet-name { min-width: 0; }
+/* How to read this sheet (Race 1) */
+.howto { margin-top: 12pt; border: 0.75pt solid #C9A84C; border-left: 2.5pt solid #C9A84C;
+  border-radius: 2pt; background: #FBF8F2; padding: 6pt 9pt 5pt 9pt; break-inside: avoid; }
+.howto-title { font-family: Constantia, "Hoefler Text", Georgia, serif; font-size: 9.5pt;
+  font-weight: bold; letter-spacing: 1.2pt; text-transform: uppercase; color: #0D2B1E; margin-bottom: 4pt; }
+.howto-grid { display: flex; flex-wrap: wrap; column-gap: 14pt; row-gap: 3.5pt; }
+.howto .ht { flex: 0 0 calc(50% - 7pt); font-family: Calibri, "Segoe UI", Arial, sans-serif;
+  font-size: 7.6pt; line-height: 1.3; color: #3D2B1E; }
+.howto .ht b { color: #0D2B1E; letter-spacing: 0.3pt; margin-right: 3pt; }
+.howto .ht i { font-style: italic; }
+.howto .sw { display: inline-block; width: 12pt; height: 7pt; margin-right: 4pt; vertical-align: -0.5pt; border: 0.5pt solid #D8CFB8; }
+.howto .sw-gold  { background: #F5F0E8; border-left: 2.5pt solid #C9A84C; }
+.howto .sw-green { background: #EEF2EA; }
+.howto-foot { margin-top: 4pt; padding-top: 3pt; border-top: 0.5pt solid #E8E2D4;
+  font-family: Calibri, "Segoe UI", Arial, sans-serif; font-size: 7pt; font-style: italic; color: #6A5A44; }
+/* tighter rows so a full 14-horse field fits one page */
+.horse-block { padding-top: 1.5pt !important; padding-bottom: 2pt !important; }
+.horse-comment { margin-top: 0.5pt; line-height: 1.2; }
+.horse-line1 .hname .jt-inline {
+  font-weight: normal; font-style: italic; font-size: 8.5pt;
+  color: #3D2B1E; margin-left: 9pt;
+}
+.horse-col-header .ml-inline { color: #6A6A6A; }
+/* name column fixed width so the stats pack in right after it */
+.horse-line1 .hname, .horse-col-header .hname { flex: 0 0 134pt; min-width: 134pt; }
+.horse-line1 .hjt, .horse-col-header .hjt {
+  flex: 1 1 auto; min-width: 0; margin-left: 6pt; text-align: right;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.horse-line1 .hjt { min-width: 90pt; font-style: italic; font-size: 8.5pt; color: #3D2B1E; }
+/* breathing room */
+.horse-block { padding-top: 3pt !important; padding-bottom: 3.5pt !important; }
+.horse-comment { margin-top: 1.5pt; }
+/* more room per row */
+.horse-block { padding-top: 4.5pt !important; padding-bottom: 5pt !important; }
+.horse-comment { margin-top: 2.5pt; }
+/* race-band subheader: one font for class, conditions and surface/dist/purse */
+.rh-title, .rh-middle, .rh-detail {
+  font-family: Constantia, "Hoefler Text", Georgia, serif !important;
+  font-size: 10pt !important; font-style: normal !important;
+  font-weight: normal !important; color: #F5F0E8 !important;
+}
+/* if a long conditions string ever wraps, grow the band instead of spilling */
+.race-header { align-items: baseline !important; }
+.rh-middle { line-height: 1.2; }
+
 """
 
 # (end of pdf.py)

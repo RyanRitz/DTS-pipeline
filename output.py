@@ -362,12 +362,22 @@ def _stars(val, lo, hi, n=5) -> str:
     return "●" * count + "○" * (n - count)
 
 
-def _runs(early_speed) -> str:
-    if pd.isna(early_speed): return "  —  "
+def _runs(early_speed, n_pace=None) -> str:
+    """Running-style label: Early / Late / Mid / Unk.
+
+    EarlySpeed is the horse's average early-pace figure (>1 Early, <-1 Late).
+    It is filled with 0 when there are NO pace figures, so pass n_pace (count
+    of xBRISTwofPaceFig1..5 present) to tell 'no history' (Unk) from a genuine
+    mid-pack runner (Mid). n_pace=None (e.g. Excel callers) skips that check.
+    """
+    if n_pace is not None and not pd.isna(n_pace) and int(n_pace) == 0:
+        return "Unk"
+    if pd.isna(early_speed):
+        return "Unk"
     v = float(early_speed)
     if v >  1.0: return "Early"
-    if v < -1.0: return " Late"
-    return "  —  "
+    if v < -1.0: return "Late"
+    return "Mid"
 
 
 def _fmt_odds(o) -> str:

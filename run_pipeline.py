@@ -1203,61 +1203,118 @@ def _rc_case(word: str) -> str:
     return word.capitalize()
 
 
-def _summarize_rc(rc1, rc2=None, max_len: int = 64) -> str:
-    """
-    Build a clean one-line eligibility summary for the race-header middle slot.
+# ── Conditions summary v2 (2026-09 redesign; regression: 604 races) ──────────
+# RaceConditions1 is a FIXED 250-char BRISnet field; long conditions continue
+# mid-word in RaceConditions2 ("...MAIDEN; CLAIMI" | "NG; STARTER..."). The old
+# summarizer ignored RC2, which put "Claimi" / "Restr" / "$18, 000" on live
+# sheets. join_conditions() stitches them back; _summarize_rc keeps claiming-
+# price ELIGIBILITY (starter races), compresses "other than" lists, and formats
+# money as $16K / $12.5K. Broken words/amounts over 604 races: 62 -> 0.
+_RC_NUM = {"ONE": "1", "TWO": "2", "THREE": "3", "FOUR": "4", "FIVE": "5"}
+_RC_VOCAB = set("""MAIDEN MAIDENS CLAIMING CLAIM STARTER STARTERS RESTRICTED STATE-BRED STATEBRED
+WHICH WHO HAVE HAS NEVER WON RACES RACE OTHER THAN OPTIONAL ALLOWANCE FILLIES MARES
+COLTS GELDINGS YEARS YEAR OLDS OLD UPWARD OLDER PRICE PURSE REGISTERED ACCREDITED
+BREDS BRED SIRED STALLIONS STALLION STARTED LESS SINCE TWICE ONCE THREE TWO FOUR
+FOREIGN INDIANA KENTUCKY FLORIDA CALIFORNIA LOUISIANA ILLINOIS VIRGINIA MARYLAND
+PENNSYLVANIA JERSEY YORK OHIO TEXAS ARKANSAS OKLAHOMA IOWA DEVELOPMENT FUND
+""".split())
+_RC_OT_ABBR = [("OPTIONAL CLAIMING", "OC"), ("STATE-BRED", "SB"), ("STATE BRED", "SB"),
+               ("MAIDEN", "Mdn"), ("CLAIMING", "Clm"), ("STARTER", "Str"), ("RESTRICTED", "Rstr")]
+_RC_OT_ITEM = r"(?:OPTIONAL CLAIMING|STATE[- ]BRED|MAIDEN|CLAIMING|STARTER|RESTRICTED)"
+_RC_OT_RE = _re.compile(r"\bOTHER THAN (" + _RC_OT_ITEM +
+                        r"(?:\s*,?\s*(?:OR\s+)?" + _RC_OT_ITEM + r")*)")
+_RC_PRE = [
+    (r"WHICH HAVE STARTED FOR A CLAIMING PRICE OF (\$[\d,]+) OR LESS", r"STARTED FOR CLM \1 OR LESS"),
+    (r"\bOR CLAIMING PRICE (\$[\d,]+)", r"OR CLM \1"),
+    (r"\bIN (\d{4}) ?- ?\d{2}(\d{2})\b", r"IN \1-\2"),
+]
 
-    The eligibility lives entirely in RaceConditions1, formatted as
-        "{RACETYPE}. Purse $X (...) FOR <eligibility>. <weight/price tail>"
-    We extract the "FOR <eligibility>" clause (dropping the race-type + purse
-    preamble, which is shown elsewhere on the header), keep just that first
-    sentence (dropping the weight/claiming-price tail), abbreviate, and
-    title-case. RaceConditions2 is intentionally ignored — it's the
-    weight/price continuation, and concatenating it risks merging words
-    mid-token (BRISnet splits the field without regard to word boundaries).
-    """
-    s = ("" if rc1 is None else str(rc1)).replace(";", ",").strip()
-    if not s and rc2 is not None:                 # rare: eligibility only in RC2
-        s = str(rc2).replace(";", ",").strip()
+
+def join_conditions(rc1, rc2) -> str:
+    """Rejoin BRISnet RaceConditions1 + RaceConditions2 (see block comment)."""
+    a = ("" if rc1 is None else str(rc1)).strip()
+    b = ("" if rc2 is None else str(rc2)).strip()
+    if a.lower() == "nan":
+        a = ""
+    if b.lower() == "nan":
+        b = ""
+    if not b:
+        return a
+    if not a:
+        return b
+    if _re.match(r"[;,.:)]", b):              # "$100" | ";000"
+        return a + b
+    if _re.search(r"\d$", a) and _re.match(r"\d", b):   # year split "20" | "25"
+        return a + b
+    head = _re.search(r"([A-Za-z-]+)$", a)
+    tail = _re.match(r"([A-Za-z-]+)", b)
+    if head and tail:
+        h, t = head.group(1).upper(), tail.group(1).upper()
+        if h not in _RC_VOCAB and (h + t) in _RC_VOCAB:   # "CLAIMIN" | "G"
+            return a + b
+    return a + " " + b
+
+
+def _rc_money(m) -> str:
+    v = int(m.group(1).replace(",", ""))
+    return f"${v / 1000:g}K" if v >= 1000 else f"${v}"
+
+
+def _rc_other_than(m) -> str:
+    out = []
+    for it in _re.findall(_RC_OT_ITEM, m.group(1)):
+        for k, v in _RC_OT_ABBR:
+            if _re.sub(r"\s+", " ", it) == k or it.replace(" ", "-") == k:
+                out.append(v)
+                break
+    return "OTHER THAN " + "/".join(dict.fromkeys(out))
+
+
+def _summarize_rc(rc1, rc2=None, max_len: int = 80) -> str:
+    """One-line eligibility summary for the race-header band (see block comment)."""
+    s = join_conditions(rc1, rc2).replace(";", ",").strip()
     if not s:
         return ""
     up = s.upper()
     m = _re.search(r"\bFOR\b", up)
     core = up[m.end():] if m else up
-    # First sentence only (eligibility); drop weight / price / closing tail.
-    core = _re.split(r"\.\s|\. ", core)[0]
-    core = _re.split(r"\bWEIGHT\b|\d+\s*LBS|CLAIMING PRICE|CLOSED\b", core)[0]
-    # State-bred restrictions first (before REGISTERED/FOALED IN get stripped).
+    core = _re.split(r"\.\s", core)[0]
+    core = _re.split(r"\bWEIGHT\b|\d+\s*LBS|CLOSED\b", core)[0]
+    core = _re.sub(r"\$\s+(?=\d)", "$", core)                 # "$ 125" -> "$125"
+    core = _re.sub(r"(\d),\s+(\d{3})\b", r"\1,\2", core)      # "100, 000" -> "100,000"
+    for pat, rep in _RC_PRE:
+        core = _re.sub(pat, rep, core)
+    core = _RC_OT_RE.sub(_rc_other_than, core)
+    core = _re.sub(r"\b(ONE|TWO|THREE|FOUR|FIVE) RACES? (OTHER THAN)",
+                   lambda mm: f"{_RC_NUM[mm.group(1)]} RACES OTHR_THN", core)
+    core = _re.sub(r"\$(\d{1,3}(?:,\d{3})+)", _rc_money, core)
     core = _rc_states(core)
     for pat, repl in _RC_ABBREVS:
         core = _re.sub(pat, repl, core)
+    core = core.replace("OTHR_THN", "OTHER THAN")
     core = _re.sub(r"\s+", " ", core)
     core = _re.sub(r"\s*,\s*", ", ", core).strip(" ,.")
     if not core:
         return ""
-    core = " ".join(_rc_case(w) for w in core.split(" "))
-    core = _re.sub(r"\s*,\s*", ", ", core).strip(" ,.")
+    lower = set(_RC_LOWER) | {"LESS", "FOR"}
+    keep = {"Mdn", "Clm", "Str", "Rstr", "SB", "OC"}
+
+    def _case(w):
+        if "/" in w and all(p in keep for p in w.split("/")):
+            return w
+        if w.upper() in lower:
+            return w.lower()
+        return _rc_case(w)
+
+    core = " ".join(_case(w) for w in core.split(" "))
     if len(core) > max_len:
         cut = core[:max_len]
         sp = cut.rfind(" ")
-        if sp > max_len * 0.6:
-            cut = cut[:sp]
+        cut = cut[:sp] if sp > max_len * 0.6 else cut
+        cut = _re.sub(r"(,|\s)+(or|and|other|than|which|since|the|a|of|for|nw)$", "",
+                      cut, flags=_re.I)
         core = cut.rstrip(" ,.") + "…"
     return core
-
-
-# ── Stakes NAME + grade (from RaceConditions1) ──────────────────────────────
-# Named stakes ("Irish War Cry Stakes", "Whitney") sit at the LEAD of
-# RaceConditions1, before the word "Purse". Ordinary races lead with a generic
-# class keyword ("CLAIMING.", "MAIDEN SPECIAL WEIGHT.") which we deliberately
-# skip. Only RaceType G (graded) / N (nongraded stakes) carry a real name.
-_STK_KEEP_UPPER = {
-    "CTBA", "TVG", "OBS", "TTA", "EL", "II", "III", "IV", "NY", "PA", "USA",
-}
-_STK_CONNECTIVES = {"AND", "OR", "OF", "THE", "FOR", "IN", "A", "DE", "LA"}
-_STK_SUFFIX = {"S": "Stakes", "H": "Handicap", "INV": "Invitational"}
-_STK_GENERIC = ("CLAIMING", "MAIDEN", "ALLOWANCE", "STARTER", "OPTIONAL",
-                "WAIVER", "TRIAL")
 
 
 def _clean_stakes_name(raw: str) -> str:
@@ -1486,6 +1543,7 @@ def generate_pdf(scoring_result: ScoringResult,
                   "xBRISPd2",            # SPD bar  ((xBRISPd+14)^2,  fixed 1-729)
                   "jckcm2_sarm",         # JKY bar  ((2.5+xJkyWCMstd)^2, fixed 1-20.25)
                   "trncm2_sart"]         # TRN bar  ((2.5+trnwcm_sart)^2, fixed 0.25-20.25)
+        wanted += [f"xBRISTwofPaceFig{i}" for i in range(1, 6)]   # RUNS: Mid vs Unk
         missing = [c for c in wanted if c in feature_df.columns and c not in work.columns]
         if key and missing:
             try:
@@ -1495,12 +1553,18 @@ def generate_pdf(scoring_result: ScoringResult,
             except Exception as e:
                 log.warning(f"  generate_pdf: feature_df merge failed: {e}")
 
-    # Format EarlySpeed → "Early" / "Late" / "—" using output._runs helper
+    # RUNS: Early / Late / Mid / Unk. EarlySpeed is filled with 0 when a horse
+    # has no pace figures, which used to land it in the middle band ("—") next
+    # to genuine mid-pack runners. Count the pace figures so no-history = Unk.
     if "EarlySpeed" in work.columns:
         try:
             from output import _runs as _runs_label
-            work["runs_label"] = work["EarlySpeed"].apply(_runs_label)
-        except Exception:
+            _pcols = [f"xBRISTwofPaceFig{i}" for i in range(1, 6) if f"xBRISTwofPaceFig{i}" in work.columns]
+            _npace = (work[_pcols].notna().sum(axis=1) if _pcols
+                      else _pd.Series([None] * len(work), index=work.index))
+            work["runs_label"] = [_runs_label(es, n) for es, n in zip(work["EarlySpeed"], _npace)]
+        except Exception as e:
+            log.warning(f"  generate_pdf: runs label failed: {e}")
             work["runs_label"] = "-"
     else:
         work["runs_label"] = "-"
@@ -1792,6 +1856,7 @@ def generate_pdf(scoring_result: ScoringResult,
         # Visual bars — computed above from xBRISPd2 / jckcm2_sarm / trncm2_sart
         # on fixed absolute scales (cross-race comparable).
         "speed_bar":       _col("speed_bar", default=0),
+        "int_bar":         _col("int_bar", default=50),   # Intangibles (attribution.py); 50 = field avg
         "jockey_bar":      _jockey_bar_series(),
         "trainer_bar":     _col("trainer_bar", default=0),
         "runs_label":      _col("runs_label", default="-"),

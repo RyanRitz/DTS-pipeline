@@ -96,6 +96,22 @@ FEATURE_GROUPS = {
 }
 
 # ---------------------------------------------------------------------------
+# Intangibles bar (sheet redesign 2026-09)
+# ---------------------------------------------------------------------------
+# The sheet draws Speed / Jockey / Trainer as bars. Intangibles is everything
+# ELSE the model weighs (class, works, form, breeding, distance, pace, post,
+# age, field, ...), summed from the per-horse contributions, relative to the
+# field, mapped to 0-100 with 50 = field average. Vetted on IND 2026-09-28:
+# ~52% of model weight, corr 0.33 with the Spd/Jky/Trn part (new information).
+INTANGIBLE_EXCLUDE = {"speed", "jockey", "trainer", "connections"}
+
+
+class _RaceAttributions(dict):
+    """{row_idx: (likes, fades)} plus .intangibles = {row_idx: raw contribution}."""
+    intangibles = None
+
+
+# ---------------------------------------------------------------------------
 # Synonym pools — (likes_variants, fades_variants)
 # First item in each list is the primary; rest rotate in when repeating
 # ---------------------------------------------------------------------------
@@ -577,6 +593,8 @@ def add_attributions(
         # the feature that produced this reason. NaN where empty.
         df[f"why_like_{i}_score"] = float("nan")
         df[f"why_fade_{i}_score"] = float("nan")
+    df["int_bar"] = 50          # Intangibles; 50 = field average (see INTANGIBLE_EXCLUDE)
+    _int_raw = []               # (race, df_index, raw contribution)
 
     if feature_df is None:
         logger.warning("attribution: no feature_df — skipping")
@@ -648,6 +666,9 @@ def add_attributions(
             if orig.empty:
                 continue
             oidx = orig.index[0]
+            _ints = getattr(attributions, "intangibles", None)
+            if _ints is not None and midx in _ints:
+                _int_raw.append((race, oidx, _ints[midx]))
 
             # Horse sex drives pronoun substitution in the phrase templates
             # (colt/horse/gelding/ridgling -> he/his/him; filly/mare -> she/her).
@@ -672,6 +693,28 @@ def add_attributions(
                 df.at[oidx, f"why_fade_{rank}"] = label
                 df.at[oidx, f"why_fade_{rank}_score"] = float(score)
 
+
+    # Intangibles -> 0-100 bar: relative to each race's field, scaled by the
+    # card-wide spread (tanh keeps extremes on the bar; 50 = field average).
+    if _int_raw:
+        import math
+        from collections import defaultdict
+        by_race = defaultdict(list)
+        for rk, oi, v in _int_raw:
+            by_race[rk].append((oi, v))
+        rel = []
+        for items in by_race.values():
+            mean = sum(v for _, v in items) / len(items)
+            rel += [(oi, v - mean) for oi, v in items]
+        vals = [r for _, r in rel]
+        if len(vals) > 1:
+            mu = sum(vals) / len(vals)
+            sd = (sum((x - mu) ** 2 for x in vals) / (len(vals) - 1)) ** 0.5
+        else:
+            sd = 0.0
+        scale = max(sd, 1e-6) * 1.5
+        for oi, r in rel:
+            df.at[oi, "int_bar"] = int(round(50 + 50 * math.tanh(r / scale)))
     return df
 
 
@@ -967,7 +1010,13 @@ def _rank_contributions(
 
         results[idx] = (likes, fades)
 
-    return results
+    out = _RaceAttributions(results)
+    out.intangibles = {
+        idx: float(sum(v for f, v in (c or {}).items()
+                       if grp.get(f, "other") not in INTANGIBLE_EXCLUDE))
+        for idx, c in contrib_rows.items()
+    }
+    return out
 
 
 def _compute_attributions_configf(race_df, betas: dict):
