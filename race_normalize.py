@@ -246,6 +246,25 @@ def _compute_prerequisites(df: pd.DataFrame) -> pd.DataFrame:
             slm = pd.to_numeric(df[slm_col], errors="coerce")
             df[sbo_col] = np.where(is_lead & slm.notna(), -slm, df[sbo_col])
 
+    # --- First-call margin sign fix (for leaders) ---
+    # SAS 5.sas: if horse was 1st at first call (fbn=nFrstCallPosition==1),
+    # FrstCallBtnLngthsonly = -FrstCallBtnLngthsLdrmargin. Mirrors the stretch
+    # fix above; needed for efrbtn_krt26 (KEE Oct26 turf route) and any other
+    # first-call beaten-lengths var.
+    for i in range(1, 11):
+        flm_col = f"FrstCallBtnLngthsLdrmargin{i}"
+        fbo_col = f"FrstCallBtnLngthsonly{i}"
+        fp_num = pd.to_numeric(
+            df.get(f"nFrstCallPosition{i}",
+                   df.get(f"FrstCallPosition{i}", pd.Series("", index=df.index))),
+            errors="coerce")
+        is_lead = fp_num == 1
+        if fbo_col not in df.columns:
+            continue
+        if flm_col in df.columns:
+            flm = pd.to_numeric(df[flm_col], errors="coerce")
+            df[fbo_col] = np.where(is_lead & flm.notna(), -flm, df[fbo_col])
+
     # --- finish position numeric conversion ---
     df = _convert_positions(df)
 

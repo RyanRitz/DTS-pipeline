@@ -75,24 +75,57 @@ def setup_registry(config) -> None:
     # date) and stays the universal fallback for unregistered tracks.
     bootstrap_from_config(config, default_family="KEE")
 
-    # ── 1b. Keeneland FALL/October as a SEPARATE model family ──────────────
+    # ── 1b. Keeneland FALL/October 2026 as a SEPARATE model family ─────────
     # KEE runs two meets a year (Spring/April, Fall/October) that Ryan treats as
-    # completely different models: different variables select in (current-year
-    # trainer/jockey/horse stats are mature by October, thin in April) and the
-    # coefficients differ. Same ENSEMBLE STRUCTURE as April, so KEE_OCT is a
-    # clone of the April shapes with October ('10') coefficient filenames.
-    # A KEE card routes to KEE (April) or KEE_OCT (October) by its own date-month
-    # via register_track_seasonal — the poller passes race_date per card.
+    # completely different models. The Fall-2026 build is NOT a filename clone of
+    # April — it is a DIFFERENT ensemble ARCHITECTURE (locked 2026-09):
+    #   * DIRT  : 5-cell equal blend  mean(core, clm, nc, s, r)   [April had no core]
+    #   * TURF  : core/s/r + graded override  0.7*g + 0.3*mean(core,s,r)
+    #   * MAIDEN: 7-cell 4-way blend  (core + racetype-pooled + dist/surf cell)
+    # Coefficients are the PROC LOGISTIC outest= tables copied into COEFF_DIR:
+    #   keedirt102026_{core,c,n,s,r}, keeturf102026_{core,s,r,g},
+    #   kee_maid_{core1026, 1026_m/s/st/sd/msp/mrt}.
     #
-    # The Oct-2026 coef files (keedirt10YYYY*, keeturf10YYYY*, kee_maid_10yy_*)
-    # must be dropped into COEFF_DIR before a KEE October card is scored; until
-    # then KEE_OCT is registered but dormant (KEE is not currently running).
-    _kd, _kt, _km = _kee_family_models(config, "10")
+    # DIRT reuses the existing SAR-style ensemble scorer (_score_dirt reads
+    # DIRT_ENSEMBLE) — mean of the 5 cells, no NY-restricted core at KEE.
+    # TURF and MAIDEN Oct26 blends are NEW shapes; their score.py branches +
+    # the ~86 model-var ports are staged (tasks 63c/63d) — until those land the
+    # family is registered but DORMANT (KEE is not in the live poller).
+    # A KEE card routes to KEE (April) or KEE_OCT (October>=Jul) by its own
+    # date-month via register_track_seasonal — the poller passes race_date/card.
     register_family(
         "KEE_OCT",
-        dirt_models=_kd,
-        turf_models=_kt,
-        maiden_models=_km,
+        dirt_models={
+            "core": "keedirt102026_core.sas7bdat",
+            "c":    "keedirt102026c.sas7bdat",
+            "n":    "keedirt102026n.sas7bdat",
+            "s":    "keedirt102026s.sas7bdat",
+            "r":    "keedirt102026r.sas7bdat",
+        },
+        dirt_ensemble=[
+            ("core", "all"),
+            ("c",    "claim"),
+            ("n",    "nonclaim"),
+            ("s",    "sprint"),
+            ("r",    "route"),
+        ],
+        dirt_ny_model=None,          # KEE has no NY-restricted dirt core
+        dirt_var_overrides={},       # Oct26 cells built on their own vars (no swap)
+        turf_models={
+            "core": "keeturf102026_core.sas7bdat",
+            "s":    "keeturf102026s.sas7bdat",
+            "r":    "keeturf102026r.sas7bdat",
+            "g":    "keeturf102026g.sas7bdat",
+        },
+        maiden_models={
+            "core": "kee_maid_core1026.sas7bdat",
+            "M":    "kee_maid_1026_m.sas7bdat",
+            "S":    "kee_maid_1026_s.sas7bdat",
+            "ST":   "kee_maid_1026_st.sas7bdat",
+            "SD":   "kee_maid_1026_sd.sas7bdat",
+            "MSp":  "kee_maid_1026_msp.sas7bdat",
+            "MRt":  "kee_maid_1026_mrt.sas7bdat",
+        },
         score_weights=config.SCORE_WEIGHTS,
         coeff_dir=Path(config.COEFF_DIR),
     )

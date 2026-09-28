@@ -125,8 +125,11 @@ def _score_dirt(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
     ensemble components to non-NY races and scoring NY races only with the NY
     model makes NY horses collapse to the NY prediction automatically.
     """
-    # DMR config-F: if the family declares the 4 cells, use the hierarchical scorer
+    # KEE Oct26 dirt (locked): dispatch by the 102026 coefficient filenames
     _dm = getattr(config, "DIRT_MODELS", {}) or {}
+    if any("102026" in str(f) for f in _dm.values()):
+        return _score_dirt_oct26(df, coeff_dir, config)
+    # DMR config-F: if the family declares the 4 cells, use the hierarchical scorer
     if all(k in _dm for k in ("ss", "sn", "rc", "rn")):
         return _score_dirt_dmr(df, coeff_dir, config)
 
@@ -210,6 +213,10 @@ def _score_turf(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
                                 qualifies for averaged (matches the SAS hcall
                                 mean), plus coreNY/NYr NY-bred routing.
     """
+    # KEE Oct26 turf (locked): dispatch by the 102026 coefficient filenames
+    _tm = getattr(config, "TURF_MODELS", {}) or {}
+    if any("102026" in str(f) for f in _tm.values()):
+        return _score_turf_oct26(df, coeff_dir, config)
     # DMR config-F turf: cell + 2 parents, no core (validated bit-exact vs SAS).
     if getattr(config, "TURF_CONFIGF", False):
         return _score_turf_dmr(df, coeff_dir, config)
@@ -339,6 +346,10 @@ def _score_maiden(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
     Two paths: config.MAIDEN_ENSEMBLE set (SAR 3-suite 32-cell blend) ->
     _score_maiden_sar; otherwise the legacy KEE 15-model blend below.
     """
+    # KEE Oct26 maiden (locked): dispatch by the 1026 coefficient filenames
+    _mm = getattr(config, "MAIDEN_MODELS", {}) or {}
+    if any("1026" in str(f) for f in _mm.values()):
+        return _score_maiden_oct26(df, coeff_dir, config)
     # DMR config-F maiden: cell + 3 parents, no core.
     if getattr(config, "MAIDEN_CONFIGF", False):
         return _score_maiden_dmr(df, coeff_dir, config)
@@ -980,6 +991,101 @@ def build_excel_output(df: pd.DataFrame) -> pd.DataFrame:
     """Select and order columns matching the SAS myxls export."""
     cols = [c for c in OUTPUT_COLUMNS if c in df.columns]
     return df[cols].sort_values(["Race", "Num", "ProbToWin"]).reset_index(drop=True)
+
+
+# =============================================================================
+# KEE October 2026 scorers (locked 2026-09) — exact filters + blends from
+# scoring_KEE_OCT26.sas.  Dispatched by the '102026'/'1026' coefficient
+# filenames so every other family's path is untouched.
+# =============================================================================
+
+def _score_cells(df, coeff_dir, models, cells):
+    """Score a set of (key -> boolean mask) cells with proc-score; return
+    scored_parts + marker_map for _merge_scored_parts."""
+    scored_parts, marker_map = {}, []
+    for key, mask in cells.items():
+        fn = models.get(key, "")
+        cf = coeff_dir / fn if fn else None
+        if not fn or not cf.exists():
+            logger.warning(f"  KEE-Oct26 cell '{key}' coeff not found: {cf}")
+            continue
+        subset = df[mask].copy()
+        if len(subset) == 0:
+            continue
+        scored_parts[key] = _proc_score(subset, cf, f"res_marker{key}")
+        marker_map.append((key, f"res_marker{key}", f"predicted{key}"))
+    return scored_parts, marker_map
+
+
+def _score_dirt_oct26(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """KEE Oct26 dirt: mean(pred_core, pred_c, pred_n, pred_s, pred_r).
+    Each horse = core + (c|n by C/CO/R) + (s|r by sprint); equal-mean-skipna."""
+    surf = df["Surface"].str.upper().fillna(""); rt = df["RaceType"].fillna("")
+    dist = df["Distanceinyards"].abs()
+    base = (~rt.isin(["M", "S"])) & surf.isin(["D"])
+    clm = rt.isin(["C", "CO", "R"])
+    cells = {"core": base, "c": base & clm, "n": base & ~clm,
+             "s": base & (dist <= 1540), "r": base & (dist > 1540)}
+    sp, mm = _score_cells(df, coeff_dir, config.DIRT_MODELS, cells)
+    return _merge_scored_parts(sp, df, mm, ensemble_col="predicted", model_id=1)
+
+
+def _score_turf_oct26(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """KEE Oct26 turf: non-graded = mean(core,r,s); graded (G1/G2/G3) =
+    0.7*g + 0.3*mean(core,r,s)."""
+    surf = df["Surface"].str.upper().fillna(""); rt = df["RaceType"].fillna("")
+    dist = df["Distanceinyards"].abs()
+    base = (~rt.isin(["M", "S"])) & surf.isin(["T"])
+    graded = rt.isin(["G1", "G2", "G3"])
+    cells = {"core": base, "s": base & (dist <= 1540), "r": base & (dist > 1540),
+             "g": base & graded}
+    sp, mm = _score_cells(df, coeff_dir, config.TURF_MODELS, cells)
+    result = _merge_scored_parts(sp, df, mm, ensemble_col=None, model_id=2)
+    for k in ("core", "s", "r", "g"):
+        mc = f"res_marker{k}"
+        result[f"pred_{k}"] = sigmoid(result[mc]) if mc in result.columns else np.nan
+    nongr = result[["pred_core", "pred_r", "pred_s"]].mean(axis=1, skipna=True)
+    is_graded = result["RaceType"].fillna("").isin(["G1", "G2", "G3"])
+    pg = result["pred_g"]
+    result["predicted"] = np.where(
+        is_graded & pg.notna(), 0.7 * pg + 0.3 * nongr, nongr)
+    allnan = result[["pred_core", "pred_r", "pred_s"]].isna().all(axis=1) & pg.isna()
+    result.loc[allnan, "predicted"] = np.nan
+    return result
+
+
+def _score_maiden_oct26(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """KEE Oct26 maiden 7-cell 4-way blend:
+       M&sprint->mean(core,M,MSp); M&route->mean(core,M,MRt); M->mean(core,M);
+       S&turf->mean(core,S,ST);   S&dirt->mean(core,S,SD)."""
+    surf = df["Surface"].str.upper().fillna(""); rt = df["RaceType"].fillna("")
+    dist = df["Distanceinyards"].abs(); sp_ = dist <= 1540
+    cells = {
+        "core": rt.isin(["M", "S"]),
+        "M": rt == "M", "S": rt == "S",
+        "ST": (rt == "S") & surf.isin(["T"]), "SD": (rt == "S") & surf.isin(["D"]),
+        "MSp": (rt == "M") & sp_, "MRt": (rt == "M") & ~sp_,
+    }
+    sp, mm = _score_cells(df, coeff_dir, config.MAIDEN_MODELS, cells)
+    result = _merge_scored_parts(sp, df, mm, ensemble_col=None, model_id=3)
+    for k in cells:
+        mc = f"res_marker{k}"
+        result[f"pred_{k}"] = sigmoid(result[mc]) if mc in result.columns else np.nan
+
+    def mean_of(*keys):
+        cols = [f"pred_{k}" for k in keys if f"pred_{k}" in result.columns]
+        return result[cols].mean(axis=1, skipna=True) if cols else pd.Series(np.nan, index=result.index)
+
+    r_rt = result["RaceType"].fillna(""); r_surf = result["Surface"].str.upper().fillna("")
+    r_sp = result["Distanceinyards"].abs() <= 1540
+    pred = pd.Series(np.nan, index=result.index)
+    pred = pred.mask((r_rt == "M") & r_sp, mean_of("core", "M", "MSp"))
+    pred = pred.mask((r_rt == "M") & ~r_sp, mean_of("core", "M", "MRt"))
+    pred = pred.mask((r_rt == "M") & pred.isna(), mean_of("core", "M"))
+    pred = pred.mask((r_rt == "S") & r_surf.isin(["T"]), mean_of("core", "S", "ST"))
+    pred = pred.mask((r_rt == "S") & r_surf.isin(["D"]), mean_of("core", "S", "SD"))
+    result["predicted"] = pred
+    return result
 
 
 def _score_dirt_dmr(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:

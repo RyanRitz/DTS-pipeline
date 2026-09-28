@@ -58,6 +58,9 @@ def build_model_vars(df: pd.DataFrame) -> pd.DataFrame:
     df = _sar_maiden_vars(df)
     df = _ko25_vars(df)
     df = _apr26_vars(df)
+    df = _kee_oct26_dirt_vars(df)
+    df = _kee_oct26_turf_vars(df)
+    df = _kee_oct26_maiden_vars(df)
     df = _shared_final_vars(df)
 
     logger.info(f"  Model vars built: {len(df.columns)} total columns")
@@ -918,4 +921,298 @@ def _dirt_vars_dmr(df):
     _cab = (g("StateCountryabrvw").astype(str).str.strip().str.upper() == "CA").astype(float)
     _cabavg = _cab.groupby([df["Track"], df["Date"], df["Race"]]).transform("mean")
     df["xCABred"] = (_cab - _cabavg).fillna(0)
+    return df
+
+
+# ---------------------------------------------------------------------------
+# KEE October 2026 DIRT model vars  (locked 2026-09; from KEE_AllModelVars_master.sas)
+# 5-cell ensemble core/c/n/s/r.  These 29 model vars + 7 upstream deps post-dated
+# the general model_vars build; all are transforms of 5scoring-standardized inputs
+# already produced by engineer_features (resolved case-insensitively — SAS is
+# case-insensitive, the Python pipeline is not).
+# ---------------------------------------------------------------------------
+
+def _kee_oct26_dirt_vars(df: pd.DataFrame) -> pd.DataFrame:
+    # case-insensitive column resolver (SAS is case-insensitive). Resolve LIVE
+    # (rebuild the lookup each call) so vars built earlier in THIS function are
+    # visible to later ones — a snapshot taken at entry misses them and silently
+    # returns the fill value (single-pass production bug).
+    def gi(name, default=np.nan):
+        lc = {c.lower(): c for c in df.columns}
+        col = lc.get(name.lower())
+        return df[col] if col is not None else pd.Series(default, index=df.index)
+
+    def race_mean(s):
+        return s.groupby([df["Track"], df["Date"], df["Race"]]).transform("mean")
+
+    # ── upstream deps not built elsewhere ────────────────────────────────
+    # infortag26 (raw claim tag) + xinfortag26 (race-centered, proc-sql in SAS)
+    infortag26 = (gi("ClaimingPriceofhorse", 0).fillna(0) > 0).astype(float)
+    df["infortag26"] = infortag26
+    df["xinfortag26"] = infortag26 - race_mean(infortag26)
+
+    # _k1.._k4 — KeyStat ITM% components, gated by >=10 starts
+    for i in (1, 2, 3, 4):
+        starts = gi(f"KeyStatofstarts{i}")
+        itm = gi(f"xKeyStatITMpct{i}")
+        df[f"_k{i}"] = np.where((starts >= 10) & itm.notna(), itm, 0.0)
+
+    # lp1_avg — late-pace fig L1, clipped (MISSING STAYS MISSING, no fill)
+    lp1 = gi("xBRISLatePaceFig1")
+    df["lp1_avg"] = np.where(lp1.isna(), np.nan,
+                             np.where(lp1 >= 15, 15, np.where(lp1 < -10, -10, lp1)))
+
+    # xtran_wpct_30 — trainer claiming win% (KeyStat cat 30), race-centered
+    tw30 = gi("tran_wpct_30")
+    df["xtran_wpct_30"] = tw30 - race_mean(tw30)
+
+    # claimedinlast6 chain — pipeline leaves these 0; rebuild from Claimedcode1-6
+    # (5.sas: claimedinraceN = 1 if Claimedcode{N}=='c'; claimedinlast6=sum(1..6);
+    #  xclaimedinlast6 = claimedinlast6 - race_mean, else missing.)
+    cl6 = sum(((gi(f"Claimedcode{i}").astype(str).str.lower() == "c").astype(float))
+              for i in (1, 2, 3, 4, 5, 6))
+    df["claimedinlast6"] = cl6
+    cl6_ave = race_mean(cl6)
+    df["claimedinlast6_ave"] = cl6_ave
+    df["xclaimedinlast6"] = np.where(cl6_ave.notna() & cl6.notna(), cl6 - cl6_ave, np.nan)
+
+    # xwotimeperfrlg{1..4}c — centered workout-time comps, clip +/-0.6, fill 0
+    for i in (1, 2, 3, 4):
+        w = gi(f"xwotimeperfrlg{i}")
+        df[f"xwotimeperfrlg{i}c"] = _clip(w.fillna(0), -0.6, 0.6)
+
+    # effpost — scratch-adjusted post = sequential counter within race (cap 13).
+    # SAS: by track date race; first.race -> _pr=0; _pr+1; min(_pr,13).
+    # Row order = DRF order (post order); replicate with within-race cumcount.
+    _pr = df.groupby([df["Track"], df["Date"], df["Race"]]).cumcount() + 1
+    df["effpost"] = _pr.clip(upper=13).astype(float)
+
+    # helper: clip-with-fill in SAS "if missing then FILL; clip [lo,hi]" order
+    def cf(src, lo, hi, fill):
+        s = gi(src)
+        return np.where(s.isna(), fill, np.where(s > hi, hi, np.where(s < lo, lo, s)))
+
+    # ── 29 model vars ────────────────────────────────────────────────────
+    # simple clip/fill of a standardized input
+    df["IEPS_LTCyrKOct26"] = cf("IEPS_LTCyr", 0, 3.5, 0.77)
+    df["IEPS_LTCyr_nc"]    = cf("IEPS_LTCyr", 0, 5, 1.0)
+    df["iepscy_rt"]        = cf("IEPS_LTCyr", 0, 3, 1.3)
+    df["iepscy_sp"]        = cf("IEPS_LTCyr", 0, 3, 0.5)
+    df["imonthscap"]       = cf("IMonths_old", 0.6, 1.5, 1)
+    df["jkyErnDT_rt"]      = cf("IJKYatDisJkyonTurfEarnings", 0, 4, 1)
+    df["ltwpstr_dmrm"]     = cf("xLTrecTodaytrackWPSpct", -0.3, 0.3, 0)
+    df["spdft_sard26"]     = cf("IBestBRISSpdFastTrack", 0.92, 1.08, 1)
+    # spdlf_sard: clip/fill THEN sprint gate (route races -> forced to 1)
+    _spdlf = cf("IBestBRISSpeedLife", 0.92, 1.08, 1)
+    df["spdlf_sard"]       = np.where(gi("sprint") == 0, 1.0, _spdlf)
+    df["strbtn_clm"]       = cf("xStretchBtnLngthsonly1", -5, 8, 0)
+    df["tranclm30"]        = cf("xtran_wpct_30", -20, 40, 0.5)
+    df["trncurmtKo25"]     = cf("xTrainerCurMtWPpct", -0.25, 0.25, -0.18)
+    df["TopTrnStatWpct"]   = cf("xKeyStatWinpct1", -20, 20, 0)
+    df["xBRISftKOct26"]    = cf("xBestBRISSpdFastTrack", -12, 12, -1.2)
+    df["xBRISlfKOct26"]    = cf("xBestBRISSpeedLife", -12, 12, 0)
+    df["xKSwins1KOct26"]   = cf("xKS_wins1", -30, 55, 0)
+    df["xclaimed6KOct26"]  = cf("xclaimedinlast6", -1.75, 2.5, 0)
+
+    # IJKYatDisJkyonTurfEPS_keeom — fill 1 if missing, else raw; then clip [0.25, 2]
+    ijk = gi("IJKYatDisJkyonTurfEPS")
+    df["IJKYatDisJkyonTurfEPS_keeom"] = np.clip(np.where(ijk.isna(), 1.0, ijk), 0.25, 2.0)
+
+    # Months_oldKOct26 — clip +/-36, NO missing fill (missing stays missing)
+    xmo = gi("xMonths_old")
+    df["Months_oldKOct26"] = np.where(xmo >= 36, 36, np.where(xmo <= -36, -36, xmo))
+
+    # xStartsLTReccut — clip +/-30, missing stays missing
+    xslt = gi("xStartsLTRec")
+    df["xStartsLTReccut"] = np.where(xslt.isna(), np.nan,
+                                     np.where(xslt > 30, 30, np.where(xslt < -30, -30, xslt)))
+
+    # DRF1_SARD15 — 0 if missing OR brisPPR_indr<4; else clip +/-10
+    xdrf = gi("xDRFSpeedRating1"); ppr = gi("brisPPR_indr")
+    df["DRF1_SARD15"] = np.where(xdrf.isna() | (ppr < 4), 0,
+                                 np.where(xdrf > 10, 10, np.where(xdrf < -10, -10, xdrf)))
+
+    # lp1_nc — 5 if lp1_avg missing else lp1_avg
+    lp1a = df["lp1_avg"]
+    df["lp1_nc"] = np.where(pd.isna(lp1a), 5, lp1a)
+
+    # xBRIStrkKOct26 — gated by BRISSpeedTT_indr>=3 & track-speed present
+    tt = gi("BRISSpeedTT_indr"); xtrk = gi("xBestBRISSpeedTodaysTrack")
+    gate = (tt >= 3) & xtrk.notna()
+    df["xBRIStrkKOct26"] = np.where(gate,
+                                    np.where(xtrk > 10, 10, np.where(xtrk < -10, -10, xtrk)), 0.0)
+    df["notrk_KOct26"] = np.where(gate, 0.0, 1.0)
+
+    # sums
+    df["xKeyStatITM14sum_KOct26"] = (df["_k1"] + df["_k2"] + df["_k3"] + df["_k4"]).clip(-60, 60)
+    # SAS sum(of ...) = sum of non-missing; missing only if ALL missing
+    df["xJTcmITMKOct26"] = pd.concat([gi("xR309"), gi("xR310"), gi("xR311")],
+                                     axis=1).sum(axis=1, min_count=1)
+    df["wotimefrlg_dmrd"] = (df["xwotimeperfrlg1c"] + df["xwotimeperfrlg2c"]
+                             + df["xwotimeperfrlg3c"] + df["xwotimeperfrlg4c"])
+    return df
+
+
+# ---------------------------------------------------------------------------
+# KEE October 2026 TURF model vars  (locked 2026-09; from KEE_AllModelVars_master.sas)
+# core/s/r/graded ensemble.  23 model vars + lasix deps.  Runs AFTER the dirt
+# function (reuses xwotimeperfrlg{1..4}c it builds).
+# ---------------------------------------------------------------------------
+
+def _kee_oct26_turf_vars(df: pd.DataFrame) -> pd.DataFrame:
+    def gi(name, default=np.nan):
+        lc = {c.lower(): c for c in df.columns}
+        col = lc.get(name.lower())
+        return df[col] if col is not None else pd.Series(default, index=df.index)
+
+    def race_mean(s):
+        return s.groupby([df["Track"], df["Date"], df["Race"]]).transform("mean")
+
+    def cf(src, lo, hi, fill):
+        s = gi(src)
+        return np.where(s.isna(), fill, np.where(s > hi, hi, np.where(s < lo, lo, s)))
+
+    # ── lasix deps + xlasixchg26 (race-centered, proc-sql in SAS) ─────────
+    tmed = gi("TodaysMedN"); med1 = gi("Medication1")
+    lasix_today = tmed.isin([1, 3, 4, 5])
+    lasix_last = med1.isin([1, 3])
+    lasixchg26 = np.where(tmed == 9, 0.0,
+                          np.where(lasix_today & ~lasix_last, 1.0,
+                                   np.where(~lasix_today & lasix_last, -1.0, 0.0)))
+    lasixchg26 = pd.Series(lasixchg26, index=df.index)
+    df["lasixchg26"] = lasixchg26
+    df["xlasixchg26"] = lasixchg26 - race_mean(lasixchg26)
+
+    # ── 23 model vars ────────────────────────────────────────────────────
+    # symmetric fill-then-clip
+    df["IEPS_LTTrack_dmrt"]     = cf("IEPS_LTTrack", 0.2, 2.5, 1)
+    df["iStrBtnLR26"]           = cf("IStretchBtnLngthsonly1", -3, 5, 1)
+    df["lrclass1_kot26"]        = cf("xBRISSpeedParforClsLvl1", -6, 5, 3)
+    df["lrclass1_alt"]          = cf("xBRISSpeedParforClsLvl1", -5, 5, 0)   # turf final (+/-5, miss->0)
+    df["xBRISSpeedAWc_kot26"]   = cf("xBRISSpeedAllWeather", -8, 8, 7)
+    df["xBRISSpeedAWc_krt26"]   = cf("xBRISSpeedAllWeather", -12, 8, 7)
+    df["xHBL4_kot26"]           = cf("xHBL4", -20, 20, 3)
+    df["xKeyStatITMpct1_kot26"] = cf("xKeyStatITMpct1", -30, 30, 0)
+    df["distspd_kst26"]         = cf("xBestBRISSpdDist", -4, 6, -0.5)
+    df["lp1_kot26"]             = cf("xBRISLatePaceFig1", -10, 15, 14)
+    df["IAucPriKOct26"]         = cf("IAuctionPrice", 0.03, 4, 1)
+
+    # asymmetric / high-only / special-map
+    ieps_ltt = gi("IEPS_LTTurf")
+    df["IEPS_LTTurf_kgt26"] = np.where(ieps_ltt.isna(), 0.7, np.where(ieps_ltt > 4, 4, ieps_ltt))
+    df["IEPS_LTTurf_krt26"] = np.where(ieps_ltt.isna(), 0.4, np.where(ieps_ltt > 3, 3, ieps_ltt))
+    ieps_lt = gi("IEPS_LT")
+    df["IEPS_LT_keeot"] = np.where(ieps_lt > 3.5, 3.5, np.where(ieps_lt.isna(), 1, ieps_lt))
+    df["IEPS_LT_kst26"] = np.where(ieps_lt.isna(), 1, np.where(ieps_lt > 4, 4, ieps_lt))
+    iltrec = gi("ILTrecWpct")
+    df["ILTrecWpct_krt26"] = np.where(iltrec.isna(), 1, np.where(iltrec > 1.7, 2, iltrec))
+
+    # xLTrecWPSpct_d12 — clip +/-0.25, NO missing fill (missing stays missing)
+    xltw = gi("xLTrecWPSpct")
+    df["xLTrecWPSpct_d12"] = np.where(xltw > 0.25, 0.25, np.where(xltw < -0.25, -0.25, xltw))
+
+    # foreignbred26 — flag
+    scab = gi("StateCountryabrvw").astype(str).str.upper().str.strip()
+    df["foreignbred26"] = scab.isin(["GB", "IRE", "FR", "GER"]).astype(float)
+
+    # means-of-fields with fill+clip
+    efr = pd.concat([gi("xFrstCallBtnLngthsonly1"), gi("xFrstCallBtnLngthsonly2")], axis=1).mean(axis=1)
+    df["efrbtn_krt26"] = np.where(efr.isna(), -2, np.where(efr < -4, -4, np.where(efr > 7, 7, efr)))
+    lp3 = pd.concat([gi("xBRISLatePaceFig1"), gi("xBRISLatePaceFig2"), gi("xBRISLatePaceFig3")], axis=1).mean(axis=1)
+    df["lp3_kot26"] = np.where(lp3.isna(), 6, np.where(lp3 > 20, 20, np.where(lp3 < -20, -20, lp3)))
+
+    # tjhot26 — T/J hot combo composite (components fill 0)
+    _w = gi("xR309c").fillna(0); _p = gi("xR310c").fillna(0); _st = gi("xR308c").fillna(0)
+    df["tjhot26"] = (_w + _p) + 0.5 * _st
+
+    # wotimefrlg_kot26 — sum of centered workout comps (built in dirt fn)
+    df["wotimefrlg_kot26"] = (gi("xwotimeperfrlg1c").fillna(0) + gi("xwotimeperfrlg2c").fillna(0)
+                              + gi("xwotimeperfrlg3c").fillna(0) + gi("xwotimeperfrlg4c").fillna(0))
+    return df
+
+
+# ---------------------------------------------------------------------------
+# KEE October 2026 MAIDEN model vars  (locked 2026-09; from KEE_AllModelVars_master.sas)
+# 7-cell family (Core/M/S/ST/SD/MSp/MRt).  23 model vars + 4 upstream deps.
+# ---------------------------------------------------------------------------
+
+def _kee_oct26_maiden_vars(df: pd.DataFrame) -> pd.DataFrame:
+    def gi(name, default=np.nan):
+        lc = {c.lower(): c for c in df.columns}
+        col = lc.get(name.lower())
+        return df[col] if col is not None else pd.Series(default, index=df.index)
+
+    def race_mean(s):
+        return s.groupby([df["Track"], df["Date"], df["Race"]]).transform("mean")
+
+    def cf(src, lo, hi, fill):
+        s = gi(src)
+        return np.where(s.isna(), fill, np.where(s > hi, hi, np.where(s < lo, lo, s)))
+
+    # ── deps ─────────────────────────────────────────────────────────────
+    # temp4f = mean(xBRISFourfPaceFig1-3)  (for pace4f_kmd26)
+    temp4f = pd.concat([gi("xBRISFourfPaceFig1"), gi("xBRISFourfPaceFig2"),
+                        gi("xBRISFourfPaceFig3")], axis=1).mean(axis=1)
+    df["temp4f"] = temp4f
+
+    # xworkoutpctrnk_gt4_1 = race-centered (for wo_kmr26)
+    wpg = gi("workoutpctrnk_gt4_1"); wpg_ave = race_mean(wpg)
+    df["xworkoutpctrnk_gt4_1"] = np.where(wpg_ave.notna() & wpg.notna(), wpg - wpg_ave, np.nan)
+
+    # Itran_wpct_55 = indexed tran_wpct_55 (raw/race-ave; ave in (.,0)->1) (for iTrnSpr_kmd26)
+    tw55 = gi("tran_wpct_55"); tw55_ave = race_mean(tw55)
+    df["Itran_wpct_55"] = np.where(tw55_ave.notna() & (tw55_ave != 0) & tw55.notna(),
+                                   tw55 / tw55_ave.where(tw55_ave != 0, np.nan),
+                                   np.where(tw55_ave.isna() | (tw55_ave == 0), 1.0, np.nan))
+
+    # KS_w_ITM1 = KS_ITM1 * slot-1 weight (weight by # populated KeyStat slots),
+    # then xKS_w_ITM1 = race-centered (for xKSitm1_kmd26).
+    nslots = sum(gi(f"KeyStatofstarts{i}").notna().astype(int) for i in (1, 2, 3, 4, 5, 6))
+    wmap = {6: 0.33, 5: 0.35, 4: 0.38, 3: 0.43, 2: 0.57}
+    w1 = nslots.map(wmap)                    # NaN for nslots in {0,1} -> KS_w_ITM1 missing
+    ks_w_itm1 = gi("KS_ITM1") * w1
+    df["KS_w_ITM1"] = ks_w_itm1
+    kwi_ave = race_mean(ks_w_itm1)
+    df["xKS_w_ITM1"] = np.where(kwi_ave.notna() & ks_w_itm1.notna(), ks_w_itm1 - kwi_ave, np.nan)
+
+    # ── 23 model vars ────────────────────────────────────────────────────
+    df["IEPS_LTDist_kmd26"] = cf("IEPS_LTDist", 0.2, 2.5, 0.7)
+    df["TrnStCM_msp26"]     = cf("xTrainerStsCurrentMeet", -20, 20, 0)
+    df["TwoF_sarm"]         = cf("xBRISTwofPaceFig1", -4, 4, 0)
+    df["bris2f12"]          = cf("xBRISTwofPaceFig1", -9, 9, 0)
+    df["iJkyPrvWin_sd26"]   = cf("IJockeyPrvYrWins", 0.1, 2.5, 1)
+    df["iTrnSpr_kmd26"]     = cf("Itran_wpct_55", 0.1, 2.5, 1)
+    df["iwork1_kmd26"]      = cf("iworkoutpctrnk1", 0.1, 1.0, 0.7)
+    df["lrclass1_kmr26"]    = cf("xBRISSpeedParforClsLvl1", -8, 2, 0)
+    df["trnpyw_kaaw13"]     = cf("xTrainerPrvYrWpct", -0.14, 0.14, 0)
+    df["wo_kmr26"]          = cf("xworkoutpctrnk_gt4_1", -0.30, 0.30, 0)
+    df["xJkyWCM_kmd26"]     = cf("xJockeyWinsCurrentMeet", -6, 8, 0)
+    df["xKSitm1_kmd26"]     = cf("xKS_w_ITM1", -50, 75, -50)
+    df["xKSwins1KMd26"]     = cf("xKS_wins1", -30, 70, -20)
+    df["xKSwpct1_kmd26"]    = cf("xKeyStatWinpct1", -15, 20, 0)
+    df["xKSwpct1_msp26"]    = cf("xKeyStatWinpct1", -15, 20, -10)
+    df["xTrnWCM_kmd26"]     = cf("xTrainerWinsCurrentMeet", -3, 6, 0)
+
+    # high-only clips
+    iap = gi("IAuctionPrice")
+    df["IAucPrice_s26"] = np.where(iap.isna(), 0.8, np.where(iap > 5, 5, iap))
+    icy = gi("ICurYearRecWPSpct")
+    df["icuryrwps_st26"] = np.where(icy.isna(), 0.4, np.where(icy > 3.5, 3.5, icy))
+    ilt = gi("ILTrecWPSpct")
+    df["iltrwps_s26"] = np.where(ilt.isna(), 0.2, np.where(ilt > 2.5, 2.5, ilt))
+
+    # xBRIS_DtPRc — clip [-7, 8], no missing fill
+    dtpr = gi("xBRIS_DtPRn")
+    df["xBRIS_DtPRc"] = np.where(dtpr > 8, 8, np.where(dtpr < -7, -7, dtpr))
+
+    # firstlasix26 — flag
+    df["firstlasix26"] = gi("TodaysMedN").isin([4, 5]).astype(float)
+
+    # pace4f_kmd26 — -6.5 if temp4f missing else clip [-15, 15]
+    df["pace4f_kmd26"] = np.where(temp4f.isna(), -6.5, np.clip(temp4f, -15, 15))
+
+    # xjckyeps_s26 — /1000 scale, plateau 7.5 / floor -5, missing -> -5
+    je = gi("xJKYatDisJkyonTurfEPS")
+    _xj = np.where(je > 7500, 7.5, np.where(je < -5000, -5, je / 1000.0))
+    df["xjckyeps_s26"] = np.where(pd.isna(_xj), -5, _xj)
     return df
