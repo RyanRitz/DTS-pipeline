@@ -304,6 +304,26 @@ def setup_registry(config) -> None:
     )
     register_track("DMR", "DMR")
 
+    # ── Interim circuit-based fallback routing (PROVISIONAL) ──────────────
+    # Tracks without a dedicated model are scored by their NEAREST anchor by
+    # circuit + surface profile, instead of the single KEE default. This does
+    # NOT create a betting edge (per Ryan's analysis, model edge does not
+    # transfer across tracks — KEE does not "work" at SAR); it only picks the
+    # closest-matching structure so the ranking is saner and the anchor's
+    # track-specific logic applies (SAR carries NY-bred restricted handling and
+    # inner/outer-turf; DMR carries CA-bred handling and west-coast form).
+    # Treat these tracks' value/gold gates as provisional until each earns its
+    # own model. Everything NOT listed here falls back to the KEE default.
+    #
+    # NYRA + northeast turf circuits -> SAR:
+    for _t in ("AQU", "BAQ", "BEL", "WO", "MTH"):
+        register_track(_t, "SAR")
+    # California + Southwest/west -> DMR:
+    for _t in ("SA", "SUN", "ZIA"):
+        register_track(_t, "DMR")
+    # (All other whitelisted tracks -> KEE default; Quarter-Horse/Arabian races
+    #  on any of them are dropped upstream by the breed filter in run_pipeline.)
+
     # ── Gulfstream Park ───────────────────────────────────────────────────
     # register_family("GP", dirt_models={...}, turf_models={...},
     #                 maiden_models={...},
