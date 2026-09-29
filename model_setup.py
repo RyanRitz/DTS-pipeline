@@ -37,6 +37,7 @@ from model_registry import (
     register_family,
     register_track,
     register_track_seasonal,
+    register_default_seasonal,
     list_registered,
 )
 
@@ -130,6 +131,11 @@ def setup_registry(config) -> None:
         coeff_dir=Path(config.COEFF_DIR),
     )
     register_track_seasonal("KEE", {"apr": "KEE", "oct": "KEE_OCT"})
+
+    # Make the DEFAULT fallback seasonal too, so every unmodeled track (Churchill
+    # et al.) follows the meet: Spring cards score on KEE, Fall on KEE_OCT (the
+    # newer, KY-fall-appropriate build) instead of April year-round.
+    register_default_seasonal({"apr": "KEE", "oct": "KEE_OCT"})
 
     # ── 2. Future per-track families (currently all stubbed) ──────────────
     # When you have models for a new track, replace the empty dicts below

@@ -145,6 +145,11 @@ _TRACK_TO_FAMILY: dict[str, str] = {}
 # over _TRACK_TO_FAMILY when a race_date is supplied.
 _TRACK_SEASONAL: dict[str, dict[str, str]] = {}
 _DEFAULT_FAMILY: Optional[str] = None
+# Season -> family for the DEFAULT fallback, so unmodeled tracks (Churchill,
+# etc.) also follow the meet: Spring uses KEE, Fall uses KEE_OCT. Consulted
+# only when a track has no explicit family/seasonal mapping AND a race_date is
+# supplied; without a date it falls back to _DEFAULT_FAMILY.
+_DEFAULT_SEASONAL: dict[str, str] = {}
 
 
 def register_family(
@@ -235,6 +240,22 @@ def register_track_seasonal(track: str, season_map: dict) -> None:
     _TRACK_SEASONAL[track] = {k.lower(): v.upper() for k, v in season_map.items()}
 
 
+def register_default_seasonal(season_map: dict) -> None:
+    """Make the DEFAULT fallback seasonal, e.g.
+        register_default_seasonal({"apr": "KEE", "oct": "KEE_OCT"})
+    Then any track with no explicit family/seasonal mapping follows the meet:
+    Spring cards score on KEE, Fall cards on KEE_OCT. Each family must already
+    be registered."""
+    global _DEFAULT_SEASONAL
+    for fam in season_map.values():
+        if fam.upper() not in _FAMILIES:
+            raise ValueError(
+                f"Cannot set default season to unknown family {fam!r}. "
+                f"Known families: {sorted(_FAMILIES)}"
+            )
+    _DEFAULT_SEASONAL = {k.lower(): v.upper() for k, v in season_map.items()}
+
+
 def _season_for_date(race_date) -> Optional[str]:
     """Resolve a card date to a meet season: 'apr' (Spring, Jan-Jun) or
     'oct' (Fall, Jul-Dec). Accepts 'YYYYMMDD' or 'MMDD'. Returns None if the
@@ -272,6 +293,16 @@ def get_family_for_track(track: str, race_date=None) -> str:
             "No default model family registered. "
             "Call register_family(..., set_as_default=True) first."
         )
+    # The default fallback may itself be seasonal (Spring=KEE, Fall=KEE_OCT), so
+    # unmodeled tracks (Churchill, etc.) also follow the meet when a date is given.
+    if _DEFAULT_SEASONAL:
+        season = _season_for_date(race_date)
+        if season and season in _DEFAULT_SEASONAL:
+            logger.info(
+                "Track %r not in registry; using seasonal default %r",
+                track.upper(), _DEFAULT_SEASONAL[season],
+            )
+            return _DEFAULT_SEASONAL[season]
     logger.info(
         "Track %r not in registry; using default family %r",
         track.upper(), _DEFAULT_FAMILY,
