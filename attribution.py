@@ -416,6 +416,303 @@ SYNONYMS = {
     ),
 }
 
+
+# ---------------------------------------------------------------------------
+# KEE Fall-2026 (KEE_OCT) model variables
+# ---------------------------------------------------------------------------
+# The Oct26 build introduced ~100 new variables. Without a theme group and a
+# phrase pool they were invisible to the comment writer: only ~18% of the
+# model's weight could be described, so the handful of legacy vars that DID
+# have phrases (field size, above all) won nearly every comment. Groups traced
+# to model_vars.py / scoring_KEE_OCT26.sas. Merged with setdefault below, so no
+# existing entry changes.
+OCT26_GROUPS = {
+    # ---------------- speed ----------------
+    "DRF1_SARD15":        "speed",     # DRF speed rating last race (x, clip +/-10; 0 if <4 PPs); HIGHER = better
+    "lastbris_dmrd":      "speed",     # BRIS speed rating last race (x, clip -8..5); HIGHER = better
+    "xbrispy_kaaw13":     "speed",     # best BRIS speed, most recent year (x, clip +/-4); HIGHER = better
+    "xBRISlfKOct26":      "speed",     # best BRIS speed lifetime (x, clip +/-12); HIGHER = better
+    "xBRISftKOct26":      "speed",     # best BRIS speed on fast track (x, clip +/-12); HIGHER = better
+    "spdft_sard26":       "speed",     # best BRIS speed fast track, indexed (0.92-1.08); HIGHER = better
+    "spdlf_sard":         "speed",     # best BRIS speed lifetime, indexed (0.92-1.08; 1 in routes); HIGHER = better
+    "xBRIStrkKOct26":     "speed",     # best BRIS speed at today's track (x, clip +/-10; 0 if <3 starts there); HIGHER = better
+    "xBRISPd2a":          "speed",     # BRIS Prime Power (x, clip +/-10) -> (x+12)^2; HIGHER = better
+    "xBRISPd3":           "speed",     # BRIS Prime Power (x, clip +/-13) -> (x+14)^3; HIGHER = better
+
+    # ---------------- distance ----------------
+    "BRISDist_dmr26alt":  "distance",  # best BRIS speed at today's distance (x, clip +/-10); HIGHER = better
+    "distspd_kst26":      "distance",  # best BRIS speed at today's distance (x, clip -4..6); HIGHER = better
+    "IEPS_LTDist_dmrt":   "distance",  # lifetime earnings/start at today's distance, indexed; HIGHER = better
+    "IEPS_LTDist_kmd26":  "distance",  # lifetime earnings/start at today's distance, indexed; HIGHER = better
+
+    # ---------------- surface ----------------
+    "IEPS_LTTurf_kgt26":  "surface",   # lifetime turf earnings/start, indexed (cap 4); HIGHER = better
+    "IEPS_LTTurf_krt26":  "surface",   # lifetime turf earnings/start, indexed (cap 3); HIGHER = better
+    "xLTTurfWPpctSAR22":  "surface",   # lifetime turf win+place % (x, clip +/-.35); HIGHER = better
+    "turfrecwps_dmrt26":  "surface",   # turf record WPS % (x, clip -.35..+.50); HIGHER = better
+    "turfspd_dmrt26":     "surface",   # best BRIS turf speed (x, clip +/-10); HIGHER = better
+    "xBRISSpeedAWc_kot26": "surface",  # BRIS all-weather speed (x, clip +/-8); HIGHER = better
+    "xBRISSpeedAWc_krt26": "surface",  # BRIS all-weather speed (x, clip -12..8); HIGHER = better
+
+    # ---------------- class ----------------
+    "IEPS_LTCyrKOct26":   "class",     # current-year earnings/start, indexed; HIGHER = better
+    "IEPS_LTCyr_nc":      "class",     # current-year earnings/start, indexed (cap 5); HIGHER = better
+    "iepscy_rt":          "class",     # current-year earnings/start, indexed (cap 3, miss->1.3); HIGHER = better
+    "iepscy_sp":          "class",     # current-year earnings/start, indexed (cap 3, miss->0.5); HIGHER = better
+    "IEPS_LT_keeot":      "class",     # lifetime earnings/start, indexed (cap 3.5); HIGHER = better
+    "IEPS_LT_kst26":      "class",     # lifetime earnings/start, indexed (cap 4); HIGHER = better
+    "IEPS_LTTrack_dmrt":  "class",     # lifetime earnings/start at today's track, indexed; HIGHER = better
+    "ILTrecWpct_krt26":   "class",     # lifetime win %, indexed; HIGHER = better
+    "iltrwps_s26":        "class",     # lifetime WPS %, indexed; HIGHER = better
+    "xLTrecWPSpct_d12":   "class",     # lifetime WPS % (x, clip +/-.25); HIGHER = better
+    "ltwpstr_dmrm":       "class",     # lifetime WPS % at today's track (x, clip +/-.3); HIGHER = better
+    "lrclass1_alt":       "class",     # BRIS speed par for class level, last race (x, +/-5); HIGHER = ran at higher class (better)
+    "lrclass1_kmr26":     "class",     # BRIS speed par for class level, last race (x, -8..2); HIGHER = higher class (better)
+    "lrclass1_kot26":     "class",     # BRIS speed par for class level, last race (x, -6..5); HIGHER = higher class (better)
+    "lrclass_avg3_alt":   "class",     # avg BRIS class-level par, last 3 races (x); HIGHER = higher class (better)
+    "xinfortag26":        "class",     # running for a claiming price today (flag, race-centered); HIGHER = in for a tag vs field (direction unclear, typically lower class)
+
+    # ---------------- form ----------------
+    "curyrwp_final":      "form",      # current-year win+place % (x, clip +/-.7); HIGHER = better
+    "icuryrwps_st26":     "form",      # current-year WPS %, indexed; HIGHER = better
+    "finbtn_dmrn":        "form",      # lengths beaten at finish last race (x; miss->+8); HIGHER = worse
+    "strbtn_clm":         "form",      # lengths beaten at stretch call last race (x, -5..8); HIGHER = worse
+    "iStrBtnLR26":        "form",      # lengths beaten at stretch last race, indexed; HIGHER = worse
+    "efrbtn_krt26":       "form",      # avg lengths beaten at first call, last 2 (x); HIGHER = worse (further back early)
+    "xHBL4_kot26":        "form",      # horses beaten, last 4 races (x); HIGHER = better
+    "xStartsLTReccut":    "form",      # lifetime starts (x, clip +/-30); HIGHER = more experienced than field (direction unclear)
+    "xclaimed6KOct26":    "form",      # times claimed in last 6 races (x); HIGHER = claimed more recently (direction unclear)
+    "xlasixchg26":        "form",      # Lasix change vs last race (+1 on, -1 off; race-centered); HIGHER = adding Lasix (direction unclear)
+    "firstlasix26":       "form",      # first-time Lasix flag (TodaysMedN 4/5); HIGHER = first-time Lasix (direction unclear)
+
+    # ---------------- pace ----------------
+    "TwoF_sarm":          "pace",      # BRIS 2f pace fig last race (x, clip +/-4); HIGHER = faster early (better early speed)
+    "bris2f12":           "pace",      # BRIS 2f pace fig last race (x, clip +/-9); HIGHER = faster early
+    "pace4f_dmrt26":      "pace",      # avg BRIS 4f pace fig last 3 (x, clip +/-15); HIGHER = faster early
+    "pace4f_kmd26":       "pace",      # avg BRIS 4f pace fig last 3 (x, clip +/-15, miss->-6.5); HIGHER = faster early
+    "qsp_dmrd26":         "pace",      # Quirin-style speed points (x, clip +/-5); HIGHER = more early speed
+    "lp1_kot26":          "pace",      # BRIS late-pace fig last race (x, -10..15); HIGHER = stronger finish (better)
+    "lp1_nc":             "pace",      # BRIS late-pace fig last race (x, miss->5); HIGHER = stronger finish (better)
+    "lp3_kot26":          "pace",      # avg BRIS late-pace fig last 3 (x, clip +/-20); HIGHER = stronger finish (better)
+    "latepace_avg2":      "pace",      # avg BRIS late-pace fig last 2 (x); HIGHER = stronger finish (better)
+    "latepacec_dmrt26":   "pace",      # latepace_avg2 clipped -6..7; HIGHER = stronger finish (better)
+
+    # ---------------- works ----------------
+    "wotimefrlg_dmrd":    "works",     # sum of workout time-per-furlong (x) last 4 works; HIGHER = slower works (worse)
+    "wotimefrlg_kot26":   "works",     # sum of workout time-per-furlong (x) last 4 works; HIGHER = slower works (worse)
+    "xwotimeperfrlg1c":   "works",     # last workout time per furlong (x, clip +/-.6); HIGHER = slower (worse)
+    "iwork1_kmd26":       "works",     # last workout pct rank (rank/# same-day works), indexed; HIGHER = ranked lower (worse)
+    "wo_kmr26":           "works",     # last workout pct rank, >4 works that day (x); HIGHER = ranked lower (worse)
+    "xLastWOatTT":        "works",     # last workout at today's track (flag, race-centered); HIGHER = worked here (likely better)
+    "xWorkoutDate3_kma13": "works",    # date of 3rd-back workout (x, clip +/-35 days); HIGHER = more recent work schedule (direction unclear)
+
+    # ---------------- jockey ----------------
+    "IJKYatDisJkyonTurfEPS_keeom": "jockey",  # jockey earnings/start at dist/surface, indexed; HIGHER = better
+    "jkyErnDT_rt":        "jockey",    # jockey earnings at dist/surface, indexed; HIGHER = better
+    "xjckyeps_s26":       "jockey",    # jockey earnings/start at dist/surface (x, /1000); HIGHER = better
+    "iJkyPrvWin_sd26":    "jockey",    # jockey previous-year wins, indexed; HIGHER = better
+    "xJkyWCM_kmd26":      "jockey",    # jockey wins current meet (x, -6..8); HIGHER = better
+    "xJkyWCMstd_sarm":    "jockey",    # jockey wins current meet, standardized; HIGHER = better
+
+    # ---------------- trainer ----------------
+    "TopTrnStatWpct":     "trainer",   # trainer win % in top key-stat category (x, +/-20); HIGHER = better
+    "xKSwpct1_kmd26":     "trainer",   # trainer key-stat #1 win % (x); HIGHER = better
+    "xKSwpct1_msp26":     "trainer",   # trainer key-stat #1 win % (x, miss->-10); HIGHER = better
+    "xKSwins1KMd26":      "trainer",   # trainer key-stat #1 wins (starts*win%) (x); HIGHER = better
+    "xKSwins1KOct26":     "trainer",   # trainer key-stat #1 wins (x, -30..55); HIGHER = better
+    "xKSitm1_kmd26":      "trainer",   # trainer key-stat #1 ITM count, slot-weighted (x); HIGHER = better
+    "xKeyStatITMpct1_kot26": "trainer",  # trainer key-stat #1 ITM % (x, +/-30); HIGHER = better
+    "xKeyStatITM14sum_KOct26": "trainer",  # sum of trainer key-stat 1-4 ITM % (x; slots with >=10 starts); HIGHER = better
+    "tranclm30":          "trainer",   # trainer win % in 'Claiming' key-stat category (x); HIGHER = better
+    "iTrnSpr_kmd26":      "trainer",   # trainer win % in 'Sprints' key-stat category, indexed; HIGHER = better
+    "SMW_trn_strs":       "trainer",   # trainer starts in 'Debut MdnSpWt' category (x, +/-100); HIGHER = more debut starters (direction unclear)
+    "trncurmtKo25":       "trainer",   # trainer current-meet win+place % (x, +/-.25); HIGHER = better
+    "trnpyw_kaaw13":      "trainer",   # trainer previous-year win % (x, +/-.14); HIGHER = better
+    "xTrnWCM_kmd26":      "trainer",   # trainer wins current meet (x, -3..6); HIGHER = better
+    "TrnStCM_msp26":      "trainer",   # trainer starts current meet (x, +/-20); HIGHER = busier barn (direction unclear)
+    "trnmtstrts26":       "trainer",   # trainer starts current meet, indexed (cap 3); HIGHER = busier barn (direction unclear)
+    "HC_Blinkersoff":     "trainer",   # horse fits trainer's 'Blinkers off' key-stat angle (flag); HIGHER = angle applies (direction unclear)
+    "xHC_1sttimestr":     "trainer",   # horse fits trainer's '1st time str' angle (flag, race-centered); HIGHER = angle applies (direction unclear)
+    "xHC_Shipper":        "trainer",   # horse fits trainer's 'Shipper' angle (flag, race-centered); HIGHER = angle applies (direction unclear)
+
+    # ---------------- connections ----------------
+    "xJTcmITMKOct26":     "connections",  # sum of jockey/trainer combo R309+R310+R311 (x); HIGHER = better
+    "tjhot26":            "connections",  # T/J hot combo: xR309c + xR310c + 0.5*xR308c; HIGHER = better
+
+    # ---------------- breeding ----------------
+    "IAucPriKOct26":      "breeding",  # auction price, indexed (0.03-4); HIGHER = pricier (better)
+    "IAucPrice_s26":      "breeding",  # auction price, indexed (cap 5); HIGHER = pricier (better)
+    "xBRIS_DtPRc":        "breeding",  # BRIS dirt pedigree rating (x, -7..8); HIGHER = better
+    "foreignbred26":      "breeding",  # bred in GB/IRE/FR/GER (flag); HIGHER = foreign-bred (direction unclear)
+    "SoldatTrack":        "breeding",  # sold at auction held at today's track (flag); HIGHER = sold here (direction unclear)
+
+    # ---------------- age ----------------
+    "Months_oldKOct26":   "age",       # age in months (x, clip +/-36); HIGHER = older than field (direction unclear)
+    "imonthscap":         "age",       # age in months, indexed (0.6-1.5); HIGHER = older than field (direction unclear)
+
+    # ---------------- post ----------------
+    "effpost":            "post",      # effective (scratch-adjusted) post position, cap 13; HIGHER = further outside (direction unclear)
+}
+
+
+# Oct26 vars that mean the same thing as an existing var share its pool.
+_OCT26_SYN_ALIAS = {
+    # speed
+    "DRF1_SARD15": "drf1_sart",        "lastbris_dmrd": "LRbris_25",
+    "xbrispy_kaaw13": "BrisRelated_dmrd", "xBRISlfKOct26": "BestBris0422",
+    "xBRISftKOct26": "BrisRelated_sarm",  "spdft_sard26": "BrisRelated_dmrd",
+    "spdlf_sard": "BestBris0422",      "xBRIStrkKOct26": "BBtrck_kaaw13",
+    "xBRISPd2a": "xBRISPd2",           "xBRISPd3": "xBRISPd6",
+    # distance / surface
+    "IEPS_LTDist_dmrt": "xEarnLTDist", "IEPS_LTDist_kmd26": "xEarnLTDist",
+    "turfspd_dmrt26": "xdrfsp1m_sard",
+    "xBRISSpeedAWc_kot26": "xBRISSpeedAWc_keeod",
+    "xBRISSpeedAWc_krt26": "xBRISSpeedAWc_keeod",
+    # class
+    "IEPS_LTCyrKOct26": "ieps_LTCYR26", "IEPS_LTCyr_nc": "ieps_LTCYR26",
+    "iepscy_rt": "ieps_LTCYR26",       "iepscy_sp": "ieps_LTCYR26",
+    "IEPS_LT_keeot": "EPS3_SARD15",    "IEPS_LT_kst26": "EPS3_SARD15",
+    "ILTrecWpct_krt26": "xks_w_winpcta",
+    "iltrwps_s26": "KS_itmm_26",       "xLTrecWPSpct_d12": "KS_itmm_26",
+    "lrclass1_alt": "lrclass_kma13",   "lrclass1_kmr26": "lrclass_kma13",
+    "lrclass1_kot26": "lrclass_kma13", "lrclass_avg3_alt": "lrclass_kma13",
+    # form
+    "finbtn_dmrn": "StretchBL_LR26",   "strbtn_clm": "StretchBL_LR26",
+    "iStrBtnLR26": "StretchBL_LR26",   "xStartsLTReccut": "ltstr_sart",
+    # works
+    "wotimefrlg_dmrd": "wotimefrlg_keeom", "wotimefrlg_kot26": "wotimefrlg_keeom",
+    "xwotimeperfrlg1c": "wotimefrlg_sart",
+    "iwork1_kmd26": "iworkoutpctrnk1_ckta13", "wo_kmr26": "iworkoutpctrnk1_ckta13",
+    "xLastWOatTT": "LastWOatTT",       "xWorkoutDate3_kma13": "xwrkdate_kaaw13",
+    # jockey
+    "IJKYatDisJkyonTurfEPS_keeom": "IJKYe_Ko25", "jkyErnDT_rt": "IJKYe_Ko25",
+    "xjckyeps_s26": "IJKYe_Ko25",      "iJkyPrvWin_sd26": "JCK_PY_WPS",
+    "xJkyWCM_kmd26": "JKY_CM_WINSAPR25", "xJkyWCMstd_sarm": "JKY_CM_WINSAPR25",
+    # trainer / connections
+    "trncurmtKo25": "trnwcm_sart",     "xTrnWCM_kmd26": "trnwcm_sart",
+    "xJTcmITMKOct26": "jntWP365Ko25",  "tjhot26": "xR309c",
+    # breeding / age / post
+    "IAucPriKOct26": "IAucPri_keeA25", "IAucPrice_s26": "IAucPri_keeA25",
+    "Months_oldKOct26": "xcMonths_old", "imonthscap": "xcMonths_old",
+    "effpost": "xPostPosition",
+}
+
+# Oct26 vars with no existing equivalent. Handicapping language only.
+_OCT26_EARLY = (
+    ["Brings real early speed", "Quick early fractions on the tab", "Can get position early"],
+    ["Lacks early zip", "Early pace numbers are slow", "Will be playing catch-up early"],
+)
+_OCT26_LATE = (
+    ["Strong late-pace numbers", "Finishes with real energy", "Closing kick stands out"],
+    ["Late pace numbers lag", "Doesn't finish with much", "Tends to flatten late"],
+)
+_OCT26_TRN_ANGLE = (
+    ["Trainer excels with this angle", "Fits a winning pattern for the barn", "Barn's numbers in this spot are strong"],
+    ["Trainer's numbers in this spot are thin", "Not the barn's strongest angle", "Barn's stats here don't inspire"],
+)
+_OCT26_SYN_NEW = {
+    "TwoF_sarm": _OCT26_EARLY, "bris2f12": _OCT26_EARLY, "pace4f_dmrt26": _OCT26_EARLY,
+    "pace4f_kmd26": _OCT26_EARLY, "qsp_dmrd26": _OCT26_EARLY,
+    "lp1_kot26": _OCT26_LATE, "lp1_nc": _OCT26_LATE, "lp3_kot26": _OCT26_LATE,
+    "latepace_avg2": _OCT26_LATE, "latepacec_dmrt26": _OCT26_LATE,
+    "TopTrnStatWpct": _OCT26_TRN_ANGLE, "xKSwpct1_kmd26": _OCT26_TRN_ANGLE,
+    "xKSwpct1_msp26": _OCT26_TRN_ANGLE, "xKSwins1KMd26": _OCT26_TRN_ANGLE,
+    "xKSwins1KOct26": _OCT26_TRN_ANGLE, "xKSitm1_kmd26": _OCT26_TRN_ANGLE,
+    "xKeyStatITMpct1_kot26": _OCT26_TRN_ANGLE, "xKeyStatITM14sum_KOct26": _OCT26_TRN_ANGLE,
+    "tranclm30": _OCT26_TRN_ANGLE, "iTrnSpr_kmd26": _OCT26_TRN_ANGLE,
+    "BRISDist_dmr26alt": (
+        ["Fast at today's distance", "Best numbers come at this trip", "Distance figures stand out"],
+        ["Slow at today's distance", "Numbers drop at this trip", "Distance figures lag the field"]),
+    "distspd_kst26": (
+        ["Fast at today's distance", "Best numbers come at this trip", "Distance figures stand out"],
+        ["Slow at today's distance", "Numbers drop at this trip", "Distance figures lag the field"]),
+    "IEPS_LTTurf_kgt26": (
+        ["Earns well on grass", "Turf record pays the bills", "Proven turf earner"],
+        ["Light turf earnings", "Turf record is thin", "Hasn't earned much on grass"]),
+    "IEPS_LTTurf_krt26": (
+        ["Earns well on grass", "Turf record pays the bills", "Proven turf earner"],
+        ["Light turf earnings", "Turf record is thin", "Hasn't earned much on grass"]),
+    "xLTTurfWPpctSAR22": (
+        ["Strong turf record", "Hits the board on grass", "Grass brings out {POSS} best"],
+        ["Weak turf record", "Rarely hits the board on grass", "Grass hasn't been kind to {OBJ}"]),
+    "turfrecwps_dmrt26": (
+        ["Strong turf record", "Hits the board on grass", "Grass brings out {POSS} best"],
+        ["Weak turf record", "Rarely hits the board on grass", "Grass hasn't been kind to {OBJ}"]),
+    "IEPS_LTTrack_dmrt": (
+        ["Earns well at this track", "Likes this oval", "Track record is a plus"],
+        ["Hasn't earned at this track", "This oval hasn't been kind", "Track record is light"]),
+    "ltwpstr_dmrm": (
+        ["Earns well at this track", "Likes this oval", "Track record is a plus"],
+        ["Hasn't earned at this track", "This oval hasn't been kind", "Track record is light"]),
+    "xinfortag26": (
+        ["Placed right for the tag", "Spot looks right on the class ladder", "Well-spotted by the barn"],
+        ["Class spot is a question", "Placement raises an eyebrow", "Level looks like a tough ask"]),
+    "curyrwp_final": (
+        ["Sharp form this year", "Has been in the money all year", "Good year so far"],
+        ["Form has been dull this year", "Quiet year on the board", "Hasn't been hitting the board lately"]),
+    "icuryrwps_st26": (
+        ["Sharp form this year", "Has been in the money all year", "Good year so far"],
+        ["Form has been dull this year", "Quiet year on the board", "Hasn't been hitting the board lately"]),
+    "efrbtn_krt26": (
+        ["Stays in touch early", "Keeps close to the pace", "Good early position lately"],
+        ["Tends to drop well back early", "Gives up a lot of ground early", "Often too far back early"]),
+    "xHBL4_kot26": (
+        ["Has been beating horses", "Passing rivals in recent starts", "Beats plenty of them lately"],
+        ["Not beating many lately", "Recent starts beat few rivals", "Has been near the back of the pack"]),
+    "xclaimed6KOct26": (
+        ["Recent claim looks like a plus", "New barn angle to like", "Claim suggests someone liked {OBJ}"],
+        ["Recent claim raises questions", "Barn change is an unknown", "New barn still finding {POSS} feet"]),
+    "xlasixchg26": (
+        ["Lasix change looks like a plus", "Medication change to like", "Lasix move could help"],
+        ["Lasix change is a question", "Medication change adds doubt", "Lasix move is a wild card"]),
+    "firstlasix26": (
+        ["First-time Lasix could wake {OBJ} up", "Lasix for the first time, a live angle", "First-time Lasix to note"],
+        ["First-time Lasix is a question", "Lasix debut is an unknown", "First-time Lasix adds doubt"]),
+    "trnpyw_kaaw13": (
+        ["Barn had a strong year", "Trainer won at a good clip last year", "Proven winning barn"],
+        ["Barn's last year was lean", "Trainer's win rate was light last year", "Barn has been winning less"]),
+    "SMW_trn_strs": (
+        ["Barn knows the debut game", "Trainer sends out plenty of debut winners", "Experienced debut barn"],
+        ["Debut isn't this barn's game", "Barn rarely debuts runners here", "Trainer's debut record is light"]),
+    "TrnStCM_msp26": (
+        ["Active barn at the meet", "Barn is busy and doing well", "Trainer has a strong meet presence"],
+        ["Barn is quiet at the meet", "Small presence at this meet", "Barn hasn't been active here"]),
+    "trnmtstrts26": (
+        ["Active barn at the meet", "Barn is busy and doing well", "Trainer has a strong meet presence"],
+        ["Barn is quiet at the meet", "Small presence at this meet", "Barn hasn't been active here"]),
+    "HC_Blinkersoff": (
+        ["Blinkers off, a move this barn wins with", "Equipment change fits the barn", "Blinkers-off angle to like"],
+        ["Blinkers-off move is a question", "Equipment change adds doubt", "Blinkers off is a wild card"]),
+    "xHC_1sttimestr": (
+        ["Barn knows how to win first time out", "Debut-ready barn", "Trainer's debut runners fire"],
+        ["First-time starter, barn's debut stats are thin", "Debut is a big question", "Barn's first-timers rarely fire"]),
+    "xHC_Shipper": (
+        ["Barn ships well", "Shipper from a barn that travels well", "Trainer wins with shippers"],
+        ["Shipping in is a question", "Travel adds doubt", "Barn's shippers don't fire often"]),
+    "xBRIS_DtPRc": (
+        ["Bred for the dirt", "Dirt pedigree is strong", "Pedigree says dirt suits"],
+        ["Dirt pedigree is a question", "Not bred for the dirt", "Pedigree leans away from dirt"]),
+    "foreignbred26": (
+        ["European breeding is an edge", "Imported pedigree fits here", "Overseas breeding suits the spot"],
+        ["Imported pedigree is a question", "Overseas breeding adds doubt", "Pedigree is untested here"]),
+    "SoldatTrack": (
+        ["Sale grad from right here", "Local sale pedigree", "Sold at this track, pedigree fits"],
+        ["Sale history is light", "Pedigree profile is modest", "Sale profile doesn't stand out"]),
+}
+
+for _f, _g in OCT26_GROUPS.items():
+    FEATURE_GROUPS.setdefault(_f, _g)
+for _f, _src in _OCT26_SYN_ALIAS.items():
+    if _src in SYNONYMS:
+        SYNONYMS.setdefault(_f, SYNONYMS[_src])
+for _f, _pool in _OCT26_SYN_NEW.items():
+    SYNONYMS.setdefault(_f, _pool)
+
+# How much each theme counts when choosing what the comment leads with.
+# Field size is a real model input but a weak story on its own: it may still
+# appear, but only when nothing more telling stands out.
+GROUP_EMPHASIS = {"field": 0.4}
+
 EXCLUDE = {"baseprob2", "Intercept"}
 
 # ---------------------------------------------------------------------------
@@ -488,6 +785,17 @@ MAIDEN_BUCKETS = {
 MAIDEN_BUCKET_WEIGHTS = {"score1": 0.50, "score2": 0.25, "score3": 0.25}
 
 
+def _is_oct26_maiden(config) -> bool:
+    """KEE Fall-2026 maiden family (dispatched in score.py by '1026' filenames)."""
+    return any("1026" in str(f) for f in getattr(config, "MAIDEN_MODELS", {}).values())
+
+
+def _is_oct26_turf(config) -> bool:
+    """KEE Fall-2026 turf family (score._score_turf_oct26): cells write pred_{key};
+    graded races blend 0.7*g + 0.3*mean(core, s, r)."""
+    return any("102026" in str(f) for f in getattr(config, "TURF_MODELS", {}).values())
+
+
 def _maiden_plan(config):
     """
     Resolve the family's maiden blend into (buckets, weights, pred_col_fn).
@@ -504,6 +812,12 @@ def _maiden_plan(config):
 
     Both blend as 0.50*score1 + 0.25*score2 + 0.25*score3.
     """
+    if _is_oct26_maiden(config):
+        # KEE Oct26 (score._score_maiden_oct26): every horse = equal mean of the
+        # cells that fired for it (core + M|S + one dist/surface cell), marked
+        # with pred_{key}. One bucket at weight 1.0 == equal mean over firing.
+        keys = list(getattr(config, "MAIDEN_MODELS", {}).keys())
+        return {"score1": keys}, {"score1": 1.0}, (lambda k: f"pred_{k}")
     ens = getattr(config, "MAIDEN_ENSEMBLE", None)
     if ens:
         buckets = {"score1": [], "score2": [], "score3": []}
@@ -593,6 +907,8 @@ def add_attributions(
         # the feature that produced this reason. NaN where empty.
         df[f"why_like_{i}_score"] = float("nan")
         df[f"why_fade_{i}_score"] = float("nan")
+        df[f"why_like_{i}_impact"] = float("nan")
+        df[f"why_fade_{i}_impact"] = float("nan")
     df["int_bar"] = 50          # Intangibles; 50 = field average (see INTANGIBLE_EXCLUDE)
     _int_raw = []               # (race, df_index, raw contribution)
 
@@ -633,6 +949,7 @@ def add_attributions(
     # How this family blends its maiden sub-models, and what column marks a
     # fired cell. SAR = 3-suite MAIDEN_ENSEMBLE (pred_m_*); KEE = legacy.
     maiden_plan = _maiden_plan(config)
+    turf_oct26 = _is_oct26_turf(config)
 
     # Track synonym usage across the whole card (like and fade separately)
     like_usage: dict[str, int] = {}
@@ -654,7 +971,8 @@ def add_attributions(
             sub_coefs = coeff_sets.get(model_id, {})
             if not sub_coefs:
                 continue
-            attributions = _compute_attributions(rg, model_id, sub_coefs, maiden_plan)
+            attributions = _compute_attributions(rg, model_id, sub_coefs, maiden_plan,
+                                                 turf_oct26=turf_oct26)
             pool_map = None
 
         if not attributions:
@@ -683,6 +1001,8 @@ def add_attributions(
                                   pool_map=pool_map), sex)
                 df.at[oidx, f"why_like_{rank}"] = label
                 df.at[oidx, f"why_like_{rank}_score"] = float(score)
+                if len(item) >= 4:
+                    df.at[oidx, f"why_like_{rank}_impact"] = float(item[3])
 
             for rank, item in enumerate(fade_feats[:3], 1):
                 feat = item[0]
@@ -692,6 +1012,8 @@ def add_attributions(
                                   pool_map=pool_map), sex)
                 df.at[oidx, f"why_fade_{rank}"] = label
                 df.at[oidx, f"why_fade_{rank}_score"] = float(score)
+                if len(item) >= 4:
+                    df.at[oidx, f"why_fade_{rank}_impact"] = float(item[3])
 
 
     # Intangibles -> 0-100 bar: relative to each race's field, scaled by the
@@ -839,6 +1161,8 @@ def _load_coefficient_sets(config, coeff_dir: Path, available_columns) -> dict:
     else:
         _maiden_legacy = getattr(config, "MAIDEN_MODELS", {})
     maiden_keys_in_use = {k for ks in MAIDEN_BUCKETS.values() for k in ks}
+    if _is_oct26_maiden(config):
+        maiden_keys_in_use = set(_maiden_legacy)
     for sub_key, fname in _maiden_legacy.items():
         if sub_key not in maiden_keys_in_use:
             continue
@@ -861,7 +1185,8 @@ def _load_coefficient_sets(config, coeff_dir: Path, available_columns) -> dict:
 # Attribution computation
 # ---------------------------------------------------------------------------
 
-def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None):
+def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None,
+                          turf_oct26=False):
     """
     Compute per-horse relative feature contributions for one race.
 
@@ -899,7 +1224,7 @@ def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None):
     for idx in race_df.index:
         row = race_df.loc[idx]
         contrib_rows[idx] = _blend_contribution(
-            row, model_id, sub_coefs, all_feats, maiden_plan
+            row, model_id, sub_coefs, all_feats, maiden_plan, turf_oct26
         )
 
     if not contrib_rows:
@@ -986,10 +1311,13 @@ def _rank_contributions(
                 # Race-average contribution ≈ 0. Fall back to a large
                 # score so the reason isn't dropped; pdf.py will keep it.
                 score = abs(delta) * 1000.0
+            # impact = model effect vs the field (log-odds), scaled by theme
+            # emphasis. This, not the ratio score, decides the comment's lead.
+            impact = abs(delta) * GROUP_EMPHASIS.get(grp.get(feat, feat), 1.0)
             if delta > 0.005:
-                likes.append((feat, delta, score))
+                likes.append((feat, delta, score, impact))
             elif delta < -0.005:
-                fades.append((feat, abs(delta), score))
+                fades.append((feat, abs(delta), score, impact))
 
         # Fallback when no signal clears threshold — pick the strongest
         # one in each direction that has a synonym.
@@ -998,16 +1326,21 @@ def _rank_contributions(
                 if feat in syn and delta > 0:
                     ravg_feat = float(r_avg.get(feat, 0.0))
                     score = (abs(delta) / abs(ravg_feat)) if abs(ravg_feat) > 1e-9 else abs(delta) * 1000.0
-                    likes.append((feat, delta, score))
+                    likes.append((feat, delta, score,
+                                  abs(delta) * GROUP_EMPHASIS.get(grp.get(feat, feat), 1.0)))
                     break
         if not fades and items:
             for feat, delta in reversed(items):
                 if feat in syn and delta < 0:
                     ravg_feat = float(r_avg.get(feat, 0.0))
                     score = (abs(delta) / abs(ravg_feat)) if abs(ravg_feat) > 1e-9 else abs(delta) * 1000.0
-                    fades.append((feat, abs(delta), score))
+                    fades.append((feat, abs(delta), score,
+                                  abs(delta) * GROUP_EMPHASIS.get(grp.get(feat, feat), 1.0)))
                     break
 
+        # Strongest first on both sides (fades used to come out weakest-first).
+        likes.sort(key=lambda t: -t[3])
+        fades.sort(key=lambda t: -t[3])
         results[idx] = (likes, fades)
 
     out = _RaceAttributions(results)
@@ -1156,6 +1489,7 @@ def _blend_contribution(
     sub_coefs: dict,
     feats: list[str],
     maiden_plan=None,
+    turf_oct26=False,
 ) -> dict:
     """
     Compute per-feature contribution for a single horse, replicating
@@ -1197,7 +1531,9 @@ def _blend_contribution(
         pred_col = f"predicted{sub_key}"
         if model_id == 2:
             t_col = f"predicted_t_{sub_key}"
-            if t_col in horse_row.index:
+            if turf_oct26:
+                pred_col = f"pred_{sub_key}"      # KEE Oct26 turf cells
+            elif t_col in horse_row.index:
                 pred_col = t_col
         elif model_id == 3:
             # SAR's 3-suite maiden marks a fired cell with pred_m_{key};
@@ -1208,6 +1544,18 @@ def _blend_contribution(
             firing.append(sub_key)
     if not firing:
         return {}
+
+    # ── KEE Oct26 graded turf: 0.7*g + 0.3*mean(core, s, r) ────────────────
+    if model_id == 2 and turf_oct26 and "g" in firing:
+        rest = [k for k in firing if k != "g"]
+        contrib = {f: 0.7 * sub_coefs["g"].get(f, 0.0) * fvals[f] for f in feats}
+        if rest:
+            for k in rest:
+                for f in feats:
+                    c = sub_coefs[k].get(f)
+                    if c is not None:
+                        contrib[f] += 0.3 * c * fvals[f] / len(rest)
+        return contrib
 
     # ── Dirt or turf: equal mean over firing sub-models ────────────────────
     if model_id in (1, 2):

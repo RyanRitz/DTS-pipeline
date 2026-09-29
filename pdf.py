@@ -85,6 +85,14 @@ def _legal_rights_line() -> str:
 # Public API
 # ---------------------------------------------------------------------------
 
+def _track_pt(name) -> float:
+    """Masthead track-name size: 20pt, stepped down for long names so they
+    never run into the centered post/conditions block (~200pt available;
+    Constantia Bold ~11pt/char at 20pt). 'Horseshoe Indianapolis' -> 16.4pt."""
+    n = len(str(name or ""))
+    return 20.0 if n <= 18 else max(14.0, round(20.0 * 18 / n, 1))
+
+
 def generate_pdf(
     scored_df: pd.DataFrame,
     out_path: Path | str,
@@ -505,7 +513,7 @@ def _build_race_page(
 
   <header class="meta-strip">
     <div class="ms-left">
-      <div class="ms-track">{_html_escape(track_full_name)}</div>
+      <div class="ms-track" style="font-size:{_track_pt(track_full_name)}pt">{_html_escape(track_full_name)}</div>
       <div class="ms-date">{pretty_date}</div>
     </div>
     <div class="ms-mid">
@@ -1967,8 +1975,11 @@ body {
 /* if a long conditions string ever wraps, grow the band instead of spilling */
 .race-header { align-items: baseline !important; }
 .rh-middle { line-height: 1.2; }
+/* KEE 10/2 feedback: bigger masthead track/date; gold rows keep columns aligned */
+.ms-track { line-height: 1.05; }
+.ms-date  { font-size: 13.5pt !important; margin-top: 2pt; }
+.horse-block.best-bet { padding-left: 3pt; }   /* 3pt gold border + 3pt = the normal 6pt inset */
 
 """
 
 # (end of pdf.py)
-

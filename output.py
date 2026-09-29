@@ -75,7 +75,11 @@ _box  = Border(left=_thin, right=_thin, top=_thin, bottom=_thin)
 #   1 = Fairly priced     (0.90 - 1.15)
 #   0 = Overbet or worse  (>= 1.15)
 
-REASON_THRESHOLD = 0.20  # |score| above this counts as a "strong" signal
+REASON_THRESHOLD = 0.20  # legacy: |ratio score| above this counts as "strong"
+# Rows from attribution carry why_*_impact = the reason's model effect vs the
+# field (log-odds, theme-weighted). When present it both ORDERS the reasons and
+# decides "strong"; the ratio score is only the fallback for older data.
+IMPACT_THRESHOLD = 0.05
 
 
 def _gather_signals(row) -> tuple[list, list]:
@@ -93,6 +97,14 @@ def _gather_signals(row) -> tuple[list, list]:
                 pass
             text = str(text).strip()
             if not text or text.lower() == "nan":
+                continue
+            imp = row.get(f"why_{kind}_{i}_impact")
+            try:
+                imp = float(imp) if imp is not None else float("nan")
+            except (TypeError, ValueError):
+                imp = float("nan")
+            if imp == imp:                      # impact present
+                bucket.append((abs(imp) / IMPACT_THRESHOLD * REASON_THRESHOLD, text))
                 continue
             score = row.get(f"why_{kind}_{i}_score")
             try:
