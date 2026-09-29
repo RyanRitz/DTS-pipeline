@@ -1557,6 +1557,9 @@ def generate_pdf(scoring_result: ScoringResult,
                   "jckcm2_sarm",         # JKY bar  ((2.5+xJkyWCMstd)^2, fixed 1-20.25)
                   "trncm2_sart"]         # TRN bar  ((2.5+trnwcm_sart)^2, fixed 0.25-20.25)
         wanted += [f"xBRISTwofPaceFig{i}" for i in range(1, 6)]   # RUNS: Mid vs Unk
+        # JKY/TRN bar fallback when the meet is too young to rank anyone
+        wanted += ["JockeyStsCurrentMeet", "TrainerStsCurrentMeet",
+                   "JockeyCurYrWins", "TrainerCurYrWins"]
         missing = [c for c in wanted if c in feature_df.columns and c not in work.columns]
         if key and missing:
             try:
@@ -1616,6 +1619,50 @@ def generate_pdf(scoring_result: ScoringResult,
             work["jockey_bar"]  = _fixed_scale(work["jckcm2_sarm"], JCKCM2_MIN,   JCKCM2_MAX)
         if "trncm2_sart" in work.columns:
             work["trainer_bar"] = _fixed_scale(work["trncm2_sart"], TRNCM2_MIN,   TRNCM2_MAX)
+
+    # ── JKY / TRN fallback: current-YEAR wins early in a meet ───────────
+    # The bars rank riders/barns on CURRENT-MEET wins. On opening day every
+    # count is 0 (and for the first few days it's noise), so every horse
+    # lands on the same "no signal" bar. When the typical rider/barn on the
+    # card has too few meet starts, rebuild the bar the same way from
+    # current-year wins instead: race-centered, divided by the card-wide
+    # spread, clipped, squared, same fixed scale. Display-only.
+    JKY_MEET_MIN_STS, TRN_MEET_MIN_STS = 10, 5
+    jky_year_fallback = False
+
+    def _meet_is_thin(sts_col: str, min_med: float) -> bool:
+        if sts_col not in work.columns:
+            return False
+        med = _pd.to_numeric(work[sts_col], errors="coerce").median()
+        return not (med >= min_med)          # NaN median counts as thin
+
+    def _year_bar(raw_col: str, z_lo: float, z_hi: float, lo: float, hi: float):
+        if raw_col not in work.columns or "Race" not in work.columns:
+            return None
+        raw = _pd.to_numeric(work[raw_col], errors="coerce")
+        if raw.notna().sum() < 2:
+            return None
+        x = raw - raw.groupby(work["Race"]).transform("mean")
+        sd = x.std()
+        if not sd or _pd.isna(sd):
+            return None
+        z = (x / sd).clip(z_lo, z_hi).fillna(0)
+        return _fixed_scale((2.5 + z) ** 2, lo, hi)
+
+    try:
+        if _meet_is_thin("JockeyStsCurrentMeet", JKY_MEET_MIN_STS):
+            _jb = _year_bar("JockeyCurYrWins", -1.5, 2.0, JCKCM2_MIN, JCKCM2_MAX)
+            if _jb is not None:
+                work["jockey_bar"] = _jb
+                jky_year_fallback = True
+                log.info("  JKY bar: meet too young -> using current-year wins")
+        if _meet_is_thin("TrainerStsCurrentMeet", TRN_MEET_MIN_STS):
+            _tb = _year_bar("TrainerCurYrWins", -2.0, 2.0, TRNCM2_MIN, TRNCM2_MAX)
+            if _tb is not None:
+                work["trainer_bar"] = _tb
+                log.info("  TRN bar: meet too young -> using current-year wins")
+    except Exception as e:
+        log.warning(f"  JKY/TRN year fallback skipped: {e}")
 
     # ── Per-race RaceConditions1/2 summary ──────────────────────────────
     # Compute the abbreviated conditions string ONCE per race (not per
@@ -1772,8 +1819,9 @@ def generate_pdf(scoring_result: ScoringResult,
         if not (is_final and _jk_by_key):
             return base
         try:
-            need = ("JockeyWinsCurrentMeet", "xjwins_std", "TodaysJockey",
-                    "ProgramNumberifavailable", "Race")
+            raw_c = "JockeyCurYrWins" if jky_year_fallback else "JockeyWinsCurrentMeet"
+            need = (raw_c, "TodaysJockey", "ProgramNumberifavailable", "Race") + (
+                () if jky_year_fallback else ("xjwins_std",))
             fsrc = None
             for _cand in (feature_df, work):
                 if _cand is not None and all(c in _cand.columns for c in need):
@@ -1786,6 +1834,12 @@ def generate_pdf(scoring_result: ScoringResult,
             fsrc = fsrc.copy()
             fsrc["_jbprog"] = fsrc["ProgramNumberifavailable"].apply(_clean_program)
             fsrc["_jbrace"] = _pd.to_numeric(fsrc["Race"], errors="coerce")
+            if jky_year_fallback:
+                # same standardizer as the year-fallback bar: card-wide spread
+                # of race-centered current-year wins
+                _yr = _pd.to_numeric(fsrc[raw_c], errors="coerce")
+                fsrc["_jb_std"] = (_yr - _yr.groupby(fsrc["_jbrace"]).transform("mean")).std()
+            std_c = "_jb_std" if jky_year_fallback else "xjwins_std"
 
             w_race = _pd.to_numeric(_col("Race"), errors="coerce")
             w_prog = _col("Num", "ProgramNumberifavailable", "").apply(_clean_program)
@@ -1805,12 +1859,13 @@ def generate_pdf(scoring_result: ScoringResult,
                     continue
                 subs, blanks = {}, []
                 for _p, _nj in _changes.items():
-                    _raw, _m = _jbr.resolve_new_rider_raw(_nj, fsrc)
+                    _raw, _m = _jbr.resolve_new_rider_raw(_nj, fsrc, raw_col=raw_c)
                     if _raw is None:
                         blanks.append(_p)
                     else:
                         subs[_p] = _raw
                 newbars = _jbr.reindex_race_bars(race_src, subs, blanks=blanks,
+                                                 raw_col=raw_c, std_col=std_c,
                                                  prog_col="_jbprog")
                 bar_by_prog = dict(zip(race_src["_jbprog"].astype(str), newbars))
                 _mask = (w_race == _r).fillna(False)
