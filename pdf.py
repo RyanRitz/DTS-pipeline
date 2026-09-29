@@ -168,6 +168,10 @@ def _build_html(
     logo_uri = _encode_logo(logo_path)
 
     races = sorted(df["race"].unique())
+    try:
+        df = df.assign(_last_race=int(max(races)))
+    except (TypeError, ValueError):
+        pass
     top_picks_strip = _build_top_picks_strip(df, races)
     top3_selections = _select_top3_best_bets(df)
 
@@ -373,7 +377,8 @@ def _build_race_page(
     # Pull race-level fields from the first row (same for all horses in race)
     first = race_df.iloc[0]
     race_meta = _format_race_title(first)
-    wager_types_str = _format_multi_race_wagers(first.get("wagers", []))
+    wager_types_str = _format_multi_race_wagers(
+        first.get("wagers", []), race_no=race_no, last_race=first.get("_last_race"))
 
     # Per-horse rows
     horse_rows = "\n".join(
@@ -928,12 +933,13 @@ def _format_race_title(row: pd.Series) -> dict:
     # race_name / race_grade are computed per race in run_pipeline
     # (_stakes_name / _stakes_grade) from RaceConditions1.
     race_name = (row.get("race_name") or "").strip()
+    race_grade = (row.get("race_grade") or "").strip()
+    if race_grade:
+        # Graded stakes: the band title reads the grade ('Race 7  G2') and the
+        # stakes name leads the middle slot.
+        racetype = race_grade
     if race_name:
-        lead = [_html_escape(race_name)]
-        race_grade = (row.get("race_grade") or "").strip()
-        if race_grade:
-            lead.append(_html_escape(race_grade))
-        middle_parts[0:0] = lead  # prepend so name (+grade) leads
+        middle_parts[0:0] = [_html_escape(race_name)]  # prepend so the name leads
 
     # Turns last — shown for every race we can resolve the geometry for.
     if turns_str:
@@ -1033,7 +1039,9 @@ def _extract_nwx(classification: str) -> str:
 # fragment; treat 'BET N' as 'Pick N' (Gulfstream branding); tolerate EARLY /
 # LATE / MANDATORY PAY prefixes and inline prices; and derive the race range
 # from whichever parenthesised group holds >=2 plausible race numbers.
-_PICK_RE       = _re.compile(r"\b(?:PICK|BET|PK)\s*([3-6])\b", _re.IGNORECASE)
+_PICK_RE       = _re.compile(
+    r"\b(?:PICK|BET|PK)\s*([3-6]|THREE|FOUR|FIVE|SIX)\b", _re.IGNORECASE)
+_PICK_WORDS    = {"THREE": "3", "FOUR": "4", "FIVE": "5", "SIX": "6"}
 _DOUBLE_RE     = _re.compile(r"\bDOUBLE\b", _re.IGNORECASE)
 _WAGER_QUAL_RE = _re.compile(
     r"\b(EARLY|LATE|MANDATORY(?:\s+PAY)?)\b", _re.IGNORECASE)
@@ -1041,18 +1049,40 @@ _WAGER_QUAL_RE = _re.compile(
 # gimmicks that clutter the row and don't map to a clean consecutive sequence.
 _WAGER_SKIP_RE = _re.compile(
     r"\b(RAINBOW|COAST\s+TO\s+COAST|TROPICAL|GRAND\s+SLAM|SURVIVOR|JACKPOT|"
-    r"SUPER\s+HIGH|GOLDEN\s+HOUR)\b", _re.IGNORECASE)
+    r"SUPER\s+HIGH|GOLDEN\s+HOUR|TURF\s+PICK)\b", _re.IGNORECASE)
 _PAREN_RE      = _re.compile(r"\(([^)]*)\)")
 _AMP_RANGE_RE  = _re.compile(r"(\d+)\s*&\s*(\d+)")
 
 
+def _join_wager_parts(parts) -> str:
+    """BRIS packs a race's wager text into fixed-width WagerType columns, so a
+    pool can continue into the next column mid-token (Keeneland:
+    'SUPERFECTA ($.10' + 'MIN)-$3 ...', '$3 LATE PICK 3' + '(RACES 8; 9; 10)').
+    Glue a part onto the previous one when the previous has an unclosed paren
+    or the next opens with '('; otherwise the parts are separate pools."""
+    out = ""
+    for p in parts:
+        p = str(p or "").strip()
+        if not p:
+            continue
+        if not out:
+            out = p
+        elif out.count("(") > out.count(")") or p.startswith("("):
+            out += " " + p
+        else:
+            out += " / " + p
+    return out
+
+
 def _split_wager_pools(s: str) -> list[str]:
     """
-    Split a WagerType string into individual pools on ';', '/' and newlines —
+    Split a WagerType string into individual pools on ';', '/', '-' and newlines —
     but ONLY at paren depth 0. Saratoga separates pools with ';', while
     Gulfstream separates with '/' AND uses ';' *inside* parens to list
     non-consecutive races ('(RACES 4; 6; 9)'), so a naive split would shatter
-    that range.
+    that range. Keeneland separates pools with '-'
+    ('DOUBLE-EXACTA-PICK 3 ($1 MIN)-TRIFECTA-PICK 5 ($.50 MIN)'); dashes
+    inside parens ('(1-3)') are race ranges and stay intact.
     """
     out, buf, depth = [], [], 0
     for ch in s:
@@ -1060,7 +1090,7 @@ def _split_wager_pools(s: str) -> list[str]:
             depth += 1; buf.append(ch)
         elif ch == ")":
             depth = max(0, depth - 1); buf.append(ch)
-        elif ch in ";/\n" and depth == 0:
+        elif ch in ";/\n-" and depth == 0:
             out.append("".join(buf)); buf = []
         else:
             buf.append(ch)
@@ -1086,7 +1116,7 @@ def _race_range(frag: str) -> str:
     return ""
 
 
-def _format_multi_race_wagers(wagers) -> str:
+def _format_multi_race_wagers(wagers, race_no=None, last_race=None) -> str:
     """
     Filter a race's WagerType strings to the standard multi-race pools — Daily
     Double, Pick 3/4/5/6 (incl. Gulfstream 'Bet N') — and render them deduped as
@@ -1097,10 +1127,9 @@ def _format_multi_race_wagers(wagers) -> str:
     if not wagers:
         return "—"
 
-    frags = []
-    for raw in wagers:
-        if raw:
-            frags.extend(_split_wager_pools(str(raw)))
+    if isinstance(wagers, str):
+        wagers = [wagers]
+    frags = _split_wager_pools(_join_wager_parts(wagers))
 
     # Dedup by (qualifier, base) but prefer the entry that carries a race range,
     # so a range-less specialty duplicate never shadows the real sequence.
@@ -1111,7 +1140,8 @@ def _format_multi_race_wagers(wagers) -> str:
             continue
         pm = _PICK_RE.search(up)
         if pm:
-            base = f"Pick {pm.group(1)}"
+            n = _PICK_WORDS.get(pm.group(1).upper(), pm.group(1))
+            base = f"Pick {n}"
         elif _DOUBLE_RE.search(up) and "PICK" not in up and "BET" not in up:
             base = "Daily Double"
         else:
@@ -1124,7 +1154,17 @@ def _format_multi_race_wagers(wagers) -> str:
         if qm:
             qual = qm.group(1).title().replace("Mandatory Pay", "Mandatory") + " "
 
-        label = f"{qual}{base}{_race_range(frag)}"
+        rng = _race_range(frag)
+        if not rng and race_no is not None:
+            # No range printed: a pool listed on race N starts at race N.
+            try:
+                legs = 2 if base == "Daily Double" else int(base[-1])
+                start = int(race_no); end = start + legs - 1
+                if last_race is None or end <= int(last_race):
+                    rng = f" (Races {start}-{end})"
+            except (TypeError, ValueError):
+                pass
+        label = f"{qual}{base}{rng}"
         key = (qual.strip(), base)
         if key not in best:
             best[key] = label

@@ -1317,6 +1317,19 @@ def _summarize_rc(rc1, rc2=None, max_len: int = 80) -> str:
     return core
 
 
+# Named stakes ("Irish War Cry Stakes", "Whitney") sit at the LEAD of
+# RaceConditions1, before the word "Purse". Ordinary races lead with a generic
+# class keyword ("CLAIMING.", "MAIDEN SPECIAL WEIGHT.") which we deliberately
+# skip. Only RaceType G (graded) / N (nongraded stakes) carry a real name.
+_STK_KEEP_UPPER = {
+    "CTBA", "TVG", "OBS", "TTA", "EL", "II", "III", "IV", "NY", "PA", "USA",
+}
+_STK_CONNECTIVES = {"AND", "OR", "OF", "THE", "FOR", "IN", "A", "DE", "LA"}
+_STK_SUFFIX = {"S": "Stakes", "H": "Handicap", "INV": "Invitational"}
+_STK_GENERIC = ("CLAIMING", "MAIDEN", "ALLOWANCE", "STARTER", "OPTIONAL",
+                "WAIVER", "TRIAL")
+
+
 def _clean_stakes_name(raw: str) -> str:
     """Tier-A cleanup: title-case + expand the trailing suffix abbreviation.
 
