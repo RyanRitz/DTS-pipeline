@@ -67,3 +67,6 @@ CCF_Downloads/
 diag_*.html
 # Staging area for files awaiting manual deletion on Windows
 _to_delete/
+
+# Raw Equibase RSS snapshots (runtime data, not source)
+feed_archive/

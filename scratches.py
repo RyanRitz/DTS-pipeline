@@ -46,10 +46,19 @@ from datetime import date, datetime
 from html import unescape
 from typing import Iterable, Optional
 
+import hashlib
 import socket
+import urllib.request
+from pathlib import Path
+
 import feedparser
 
 logger = logging.getLogger(__name__)
+
+# Directory where raw Equibase RSS snapshots are archived (one file per distinct
+# feed state per track per day). Sits next to this module so it travels with the
+# pipeline and syncs with the rest of FullAutomation.
+FEED_ARCHIVE_DIR = Path(__file__).resolve().parent / "feed_archive"
 
 
 # ---------------------------------------------------------------------------
@@ -287,6 +296,47 @@ def get_jockey_changes(
     return out
 
 
+def _fetch_raw_feed(url: str, timeout: int) -> bytes:
+    """Fetch the raw RSS bytes directly, so we archive exactly what we parse.
+
+    Requests an uncompressed response so the archived file is plain XML.
+    """
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "Mozilla/5.0 (BTSM Automation)",
+            "Accept-Encoding": "identity",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return resp.read()
+
+
+def _archive_raw_feed(track: str, raw: bytes) -> None:
+    """Save a raw RSS snapshot for later inspection. Best-effort; never raises.
+
+    Writes feed_archive/<YYYYMMDD>/<TRACK>_<HHMMSS>_<sha1-10>.rss, but skips the
+    write when the snapshot is identical to the most recent one already saved
+    for this track today. The archive therefore records only the moments the
+    feed actually changed — enough to reconstruct, after the fact, exactly what
+    Equibase served us for any race (e.g. whether an also-eligible was ever
+    posted as scratched).
+    """
+    try:
+        now = datetime.now()
+        day_dir = FEED_ARCHIVE_DIR / now.strftime("%Y%m%d")
+        day_dir.mkdir(parents=True, exist_ok=True)
+        digest = hashlib.sha1(raw).hexdigest()[:10]
+        prior = sorted(day_dir.glob(f"{track.upper()}_*.rss"))
+        if prior and prior[-1].stem.endswith(digest):
+            return  # unchanged since the last snapshot for this track today
+        out = day_dir / f"{track.upper()}_{now.strftime('%H%M%S')}_{digest}.rss"
+        out.write_bytes(raw)
+        logger.info("Archived raw Equibase feed: %s (%d bytes)", out.name, len(raw))
+    except Exception as e:
+        logger.warning("Raw feed archive failed for %s: %s", track, e)
+
+
 def fetch_all_changes(track: str, timeout: int = 15) -> list[ChangeEntry]:
     """
     Fetch and parse the Equibase RSS feed for a track. Returns ALL change
@@ -308,10 +358,25 @@ def fetch_all_changes(track: str, timeout: int = 15) -> list[ChangeEntry]:
     _prev_timeout = socket.getdefaulttimeout()
     socket.setdefaulttimeout(timeout)
     try:
-        parsed = feedparser.parse(
-            url,
-            request_headers={"User-Agent": "Mozilla/5.0 (BTSM Automation)"},
-        )
+        # Fetch the raw bytes ourselves so we can archive exactly what we parse.
+        # On any trouble with the raw fetch, fall back to letting feedparser
+        # fetch the URL directly (the prior behavior) so parsing is unaffected.
+        raw = None
+        try:
+            raw = _fetch_raw_feed(url, timeout)
+        except Exception as exc:
+            logger.warning(
+                "Raw RSS fetch failed for %s (%s); falling back to feedparser.",
+                track, exc,
+            )
+        if raw is not None:
+            _archive_raw_feed(track, raw)
+            parsed = feedparser.parse(raw)
+        else:
+            parsed = feedparser.parse(
+                url,
+                request_headers={"User-Agent": "Mozilla/5.0 (BTSM Automation)"},
+            )
     except Exception as exc:
         # Slow/unreachable feed: the socket timeout surfaces here as a
         # TimeoutError/URLError. Log and return no changes so the FINAL still
