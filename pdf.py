@@ -1052,14 +1052,19 @@ _WAGER_SKIP_RE = _re.compile(
     r"SUPER\s+HIGH|GOLDEN\s+HOUR|TURF\s+PICK)\b", _re.IGNORECASE)
 _PAREN_RE      = _re.compile(r"\(([^)]*)\)")
 _AMP_RANGE_RE  = _re.compile(r"(\d+)\s*&\s*(\d+)")
+# A column that ends on a bare multi-race keyword ('...$3 LATE PICK') whose
+# number got pushed into the next column ('3 (RACES 6; 7; 8)'). Used to glue
+# the two back together so the pool isn't shattered into 'PICK' + '3 (...)'.
+_WAGER_CONT_RE = _re.compile(r"\b(?:PICK|BET|PK)\s*$", _re.IGNORECASE)
 
 
 def _join_wager_parts(parts) -> str:
     """BRIS packs a race's wager text into fixed-width WagerType columns, so a
     pool can continue into the next column mid-token (Keeneland:
-    'SUPERFECTA ($.10' + 'MIN)-$3 ...', '$3 LATE PICK 3' + '(RACES 8; 9; 10)').
-    Glue a part onto the previous one when the previous has an unclosed paren
-    or the next opens with '('; otherwise the parts are separate pools."""
+    'SUPERFECTA ($.10' + 'MIN)-$3 ...', '$3 LATE PICK' + '3 (RACES 6; 7; 8)').
+    Glue a part onto the previous one when the previous has an unclosed paren,
+    the next opens with '(', or the previous ends on a bare PICK/BET/PK whose
+    number starts the next part; otherwise the parts are separate pools."""
     out = ""
     for p in parts:
         p = str(p or "").strip()
@@ -1067,7 +1072,9 @@ def _join_wager_parts(parts) -> str:
             continue
         if not out:
             out = p
-        elif out.count("(") > out.count(")") or p.startswith("("):
+        elif (out.count("(") > out.count(")")
+              or p.startswith("(")
+              or (_WAGER_CONT_RE.search(out) and p[:1].isdigit())):
             out += " " + p
         else:
             out += " / " + p
