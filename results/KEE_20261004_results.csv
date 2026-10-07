@@ -1,0 +1,88 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,3,1,4.03,10.06,4.64,3.8,Just Asap,3,0,,,0.0,"2p,4p btw upr,surged",D,R,8,FT
+1,2,2,3.76,,4.68,3.9,Good Mojo,2,0,,,1.5,"2p,cleard1/4,cght late",D,R,8,FT
+1,5,3,13.35,,,5.7,Il Cavallino,5,0,,,4.0,"2p,ran on 5-6p,edg shw",D,R,8,FT
+1,7,4,2.69,,,,Capital Connection,7,1,,,5.0,"track 4p,gave way btwn",D,R,8,FT
+1,6,5,10.18,,,,Keep On Moving,6,0,,,5.5,"3p,2w-ins 1/8,flattend",D,R,8,FT
+1,4,6,4.2,,,,Captain Mercury,4,0,,,7.25,"press 2w-3p,faded btwn",D,R,8,FT
+1,8,7,23.56,,,,Trouble Ahead,8,0,,,13.0,"chased 5-4p,tire 6p1/4",D,R,8,FT
+1,1,8,7.41,,,,Lil Trick,1,0,,,16.5,"close up ins,chsd,fade",D,R,8,FT
+2,8,1,1.1,4.2,2.94,2.48,Maginnesontap,7,1,,,0.0,"2w-3p,clear 2p2nd,drvg",D,M,7,FT
+2,7,2,5.48,,4.76,2.88,Money Man,6,0,,,5.5,"2w,6-4p2nd,duel place",D,M,7,FT
+2,1,3,3.55,,,2.94,Get Them Roses,1,0,,,7.0,"2p,chsd 3p2nd,duel plc",D,M,7,FT
+2,6,4,29.99,,,,El Ramundo,5,0,,,11.25,"awk st,ins,4-5p1/4,mld",D,M,7,FT
+2,5,5,16.73,,,,Meanstepper,4,0,,,11.75,"coaxed 4p,faded btw3/8",D,M,7,FT
+2,3,6,5.06,,,,Bedeviled,2,0,,,13.5,"vied ins winner,faded",D,M,7,FT
+2,4,7,10.28,,,,Private Show,3,0,,,24.0,"track 3p btw,wknd 5/16",D,M,7,FT
+3,2,1,7.91,17.82,7.76,6.1,State Conceal,2,0,,,0.0,"btw,stalk 3p,drove pst",D,C,8,FT
+3,4,2,6.59,,8.12,5.88,Join,4,0,,,1.75,"3-2p,left lead,gave in",D,C,8,FT
+3,5,3,9.48,,,6.26,Stone County,5,0,,,4.75,"bmpd btw,5p1/4,adv btw",D,C,8,FT
+3,8,4,3.06,,,,Terrapin Station,8,1,,,5.0,"2p,btw,vie shw,outfnsh",D,C,8,FT
+3,3,5,4.61,,,,Way Beyond,3,0,,,5.5,"2p,btw,drift out,yield",D,C,8,FT
+3,1,6,5.43,,,,Mom's Spaghetti,1,0,,,10.25,"vied ins,chased,faded",D,C,8,FT
+3,7,7,5.96,,,,Kokomo Joe,7,0,,,11.0,"3p, no factor",D,C,8,FT
+3,6,8,6.79,,,,City of Life,6,0,,,11.25,"4w,chsd,tired,left ld",D,C,8,FT
+4,4,1,2.74,7.48,3.78,3.0,Damavand,3,0,,,0.0,"bmp,3w3/4,bid 2nd,duel",D,S,11,FT
+4,7,2,2.08,,3.7,2.82,Belzoni,6,1,,,0.25,"vie 2w,btw,dug in,game",D,S,11,FT
+4,6,3,8.74,,,4.58,Barrel Roll,5,0,,,6.25,"2-3pbtw,4p3/16,wllngly",D,S,11,FT
+4,1,4,8.28,,,,Grantchester,1,0,,,11.0,"brk out/bmp,jump shadw",D,S,11,FT
+4,2,5,4.72,,,,Just a Holiday,2,0,,,12.0,"jostled btw st,ins,wkn",D,S,11,FT
+4,13,6,51.75,,,,Very Happy,11,0,,,19.5,"2p, moved up",D,S,11,FT
+4,5,7,14.5,,,,Code of Arms,4,0,,,20.5,"stdy early,2p,stdy 3/8",D,S,11,FT
+4,10,8,44.54,,,,Stadion,9,0,,,23.0,"off slow,3p,no factor",D,S,11,FT
+4,8,9,24.14,,,,Biathlon,7,0,,,25.25,"tracked 4p, faded 2nd",D,S,11,FT
+4,9,10,22.78,,,,Magical Mikel,8,0,,,28.75,"3p, no impact",D,S,11,FT
+4,12,11,36.19,,,,Jokes Reserve,10,0,,,48.75,"4p, wknd 2nd",D,S,11,FT
+5,11,1,3.15,8.3,5.1,3.42,Guy Smiley,9,0,,,0.0,"bmpd st,2p,rally,clear",T,A,11,FM
+5,13,2,22.69,,19.4,9.94,Our Starry Night,11,0,,,2.25,"bmp,3p,6p upr,edge plc",T,A,11,FM
+5,9,3,2.5,,,3.12,Ortley Avenue (IRE),7,1,,,3.0,"ins,caught 1/8,svd shw",T,A,11,FM
+5,12,4,6.91,,,,Twilight Delight,10,0,,,3.05,"bmpd btw,2p,willng btw",T,A,11,FM
+5,7,5,24.03,,,,Kalahari Dreams,6,0,,,3.1,"4p,7p3/16,rlly,mss shw",T,A,11,FM
+5,10,6,56.76,,,,Jet Sweep Joe,8,0,,,4.6,"tracked inside, no bid",T,A,11,FM
+5,4,7,5.17,,,,Mountain Bear (IRE),3,0,,,5.6,"3p btwn,stymied 1/8",T,A,11,FM
+5,2,8,38.34,,,,Zambezi,2,0,,,6.35,"step slow start, 2wd",T,A,11,FM
+5,5,9,9.29,,,,Moon Sniper,4,0,,,9.1,"stalked 4p,wknd btw1/8",T,A,11,FM
+5,6,10,13.82,,,,Max Vegas,5,0,,,9.6,"inside, outrun",T,A,11,FM
+5,1,11,10.49,,,,Golden Ale,1,0,,,12.6,"hustled,stdy,prss,wknd",T,A,11,FM
+6,6,1,5.48,12.96,6.18,3.9,Tarantino,5,0,,,0.0,"prs 2w,up3/16,game btw",D,C,7,FT
+6,2,2,4.06,,5.26,3.6,Billal,1,0,,,0.05,"4-5p,rallied,bid,duel",D,C,7,FT
+6,5,3,2.71,,,3.38,Flying Liam,4,1,,,0.3,"ins,rail bid,duel,miss",D,C,7,FT
+6,5,3,2.71,,,3.38,Flying Liam,4,1,,,0.3,"ins,rail bid,duel,miss",D,C,7,FT
+6,3,4,4.8,,,,Timing Difference,2,0,,,2.3,"3p,btw 1/8,stay mildly",D,C,7,FT
+6,7,5,8.42,,,,Barksdale,6,0,,,4.3,"rush,ins,faded btw 1/8",D,C,7,FT
+6,8,6,17.17,,,,Tom Cat Tuesday,7,0,,,9.8,"4p,chased,fade btw upr",D,C,7,FT
+6,4,7,3.24,,,,High Ceiling,3,0,,,17.8,"3p,6p upr,no impact",D,C,7,FT
+7,4,1,21.4,44.8,22.54,12.54,Overtime Rules,4,0,,,0.0,"ins,shk clear3/16,held",D,A,12,FT
+7,10,2,24.76,,24.14,12.9,Speedstorm,10,0,,,1.5,"4w,kept at bay,2nd bst",D,A,12,FT
+7,8,3,7.16,,,7.22,Embry Show,8,0,,,6.75,"step slow,4-5p,wllngly",D,A,12,FT
+7,2,4,8.47,,,,Bob's Carrot,2,0,,,11.0,"press winner,fade 3/16",D,A,12,FT
+7,9,5,14.83,,,,Discotheque,9,0,,,14.5,"chased 3w btw,gave way",D,A,12,FT
+7,3,6,9.25,,,,Ezum,3,0,,,15.75,"saved ground, no avail",D,A,12,FT
+7,1,7,15.53,,,,Amor Patriae,1,0,,,15.8,"tracked inside, faded",D,A,12,FT
+7,7,8,3.2,,,,Lincoln's Law,7,1,,,18.55,"3-2wbtw,improved 5p1/4",D,A,12,FT
+7,11,9,6.46,,,,Tre Italiani,11,0,,,21.05,"step slw,chsd 6w,tired",D,A,12,FT
+7,6,10,25.04,,,,Mount Vernon,6,0,,,28.05,"bmpd/steady btw st,lag",D,A,12,FT
+7,5,11,3.74,,,,Pimlott,5,0,,,35.55,"bump st,2wd btw,wknd",D,A,12,FT
+7,12,12,26.11,,,,Reclamation,12,0,,,77.8,"bobbled,5wbtw,wkn,easd",D,A,12,FT
+8,1,1,3.59,9.18,5.88,3.96,Adonius (IRE),1,0,,,0.0,"step slw,4-5p,rally,up",T,G3,9,FM
+8,5,2,24.16,,18.1,8.56,Love a Warrior,5,0,,,0.1,"ins,4p upr,bid btw,mss",T,G3,9,FM
+8,7,3,2.57,,,4.42,Wood Island,7,0,,,0.15,"stalk3p,ran on,mss btw",T,G3,9,FM
+8,8,4,2.26,,,,Ruiva,8,1,,,0.25,"clr 2p,widen,wkn,naild",T,G3,9,FM
+8,2,5,5.35,,,,Fanshell Beach,2,0,,,1.0,"2p,5-7p1/8,willingly",T,G3,9,FM
+8,3,6,22.7,,,,Cactus Closer,3,0,,,1.25,"ins,4p1/8,traffic late",T,G3,9,FM
+8,4,7,9.76,,,,Crack On,4,0,,,2.0,"3p,7-9p upr,belatedly",T,G3,9,FM
+8,9,8,46.97,,,,Bee Crazy,9,0,,,4.5,"brk out,3-2p,gave way",T,G3,9,FM
+8,6,9,28.97,,,,Ciarlatano,6,0,,,10.25,"stalked 4p,wknd btwn",T,G3,9,FM
+9,4,1,0.54,3.08,,,Fully Subscribed,3,1,,,0.0,"stalk 3p,shft,rddn out",D,G1,3,FT
+9,2,2,1.65,,,,Counting Stars,1,0,,,3.25,"ins,4-5p2nd,no match",D,G1,3,FT
+9,3,3,4.96,,,,Immersive,2,0,,,9.25,"ins,headed 5/16,faded",D,G1,3,FT
+10,2,1,3.64,9.28,4.04,3.22,Agate,2,0,,,0.0,"ins,traffic 3/16,split",T,G2,10,FM
+10,3,2,2.57,,3.4,2.98,Bold Leadership,3,1,,,1.75,"2p,7p1/4,drift,rally",T,G2,10,FM
+10,5,3,6.79,,,5.28,Real Goodbar,5,0,,,2.5,"2w,4w1/4,bid1/8,outkck",T,G2,10,FM
+10,6,4,5.61,,,,Popcorn,6,0,,,3.75,"ins,traffc 6p1/8,wllng",T,G2,10,FM
+10,11,5,9.07,,,,Mid American,10,0,,,5.0,"3p,5w1/4,flattened btw",T,G2,10,FM
+10,7,6,65.9,,,,Mad Mo,7,0,,,6.0,"brush st,3-4p,moved up",T,G2,10,FM
+10,8,7,4.99,,,,Hemingway,8,0,,,6.5,"ins,btw,outkck,no bid",T,G2,10,FM
+10,9,8,11.07,,,,Blaring Ambition,9,0,,,7.0,"tracked 3p, faded",T,G2,10,FM
+10,4,9,37.36,,,,Heracles,4,0,,,9.0,"2p,bid 2w1/4,led,wknd",T,G2,10,FM
+10,1,10,37.42,,,,Trim Castle,1,0,,,10.25,"clear,caught upr,wknd",T,G2,10,FM

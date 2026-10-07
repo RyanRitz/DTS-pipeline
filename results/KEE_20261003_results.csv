@@ -1,0 +1,91 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,2,1,2.01,6.02,4.52,3.42,Commentate,2,1,,,0.0,"hesitated,lag,5w1/4,up",D,S,8,FT
+1,5,2,17.8,,15.78,7.96,Alworth,5,0,,,0.25,"ins,cleard,tired,naild",D,S,8,FT
+1,3,3,14.58,,,5.8,Summit Ridge,3,0,,,1.25,"bmpd start,ins,ran on",D,S,8,FT
+1,7,4,2.79,,,,Mayfield,7,0,,,9.25,"stalk 3w,chased,faded",D,S,8,FT
+1,4,5,2.04,,,,Dream Machine,4,0,,,12.0,"bobbled/bump st,3p btw",D,S,8,FT
+1,1,6,37.18,,,,Ur a Collection,1,0,,,13.5,"chsd 2p,falter btw 3/8",D,S,8,FT
+1,8,7,17.08,,,,Unlimited,8,0,,,15.75,"chsd 4p,awk upr,tired",D,S,8,FT
+1,6,8,13.71,,,,Noble Anthem,6,0,,,16.25,"press 2w,wknd btw 5/16",D,S,8,FT
+2,1,1,0.51,3.02,2.32,2.2,Chancery,1,1,,,0.0,"stalked ins,drew clear",D,A,6,FT
+2,5,2,9.15,,4.62,3.42,Dormie,5,0,,,3.25,"coaxed 4p, ran on",D,A,6,FT
+2,2,3,17.4,,,5.44,Game Sayayin,2,0,,,5.0,"2p,headed 2w1/8,faded",D,A,6,FT
+2,3,4,10.25,,,,Never a Doubt,3,0,,,6.25,"chased 2p, moved up",D,A,6,FT
+2,4,5,5.47,,,,Never Sleep,4,0,,,8.0,"pressed 3p, wknd",D,A,6,FT
+2,6,6,6.37,,,,Maker of Mischief,6,0,,,21.0,"4-5p, outrun",D,A,6,FT
+3,10,1,6.29,14.58,6.08,4.8,Siouxse,10,0,,,0.0,"3-2p,5w upr,rallied,up",T,A,11,GD
+3,11,2,3.81,,5.54,3.82,Tulip,11,1,,,0.05,"cleared,nailed/mss bob",T,A,11,GD
+3,4,3,7.84,,,5.48,Paseo,4,0,,,0.55,"ins,2wd btw 1/4,ran on",T,A,11,GD
+3,9,4,5.33,,,,Charm of Venice (GB),9,0,,,1.8,"bmpd st,7p upr,willing",T,A,11,GD
+3,1,5,10.23,,,,Marcinkowski,1,0,,,1.85,"stalk 2w,chs btw,yield",T,A,11,GD
+3,6,6,9.41,,,,Miss Pharaoh,6,0,,,2.35,"2-3w,4p upr,yield btw",T,A,11,GD
+3,2,7,74.69,,,,Temple Goddess,2,0,,,3.35,"saved ground, no avail",T,A,11,GD
+3,7,8,20.84,,,,Winning Streep,7,0,,,3.4,"2-3w,6p btw upr,no bid",T,A,11,GD
+3,3,9,7.45,,,,Market Chill,3,0,,,3.9,"stalk ins,chased,faded",T,A,11,GD
+3,5,10,4.48,,,,Episist,5,0,,,4.4,"bmpd btw,ins,3p btw1/4",T,A,11,GD
+3,8,11,31.76,,,,Classic Glide,8,0,,,7.15,"brk out/bmp,ins,outrun",T,A,11,GD
+4,3,1,2.26,6.52,3.62,2.62,C K Wonder,3,0,,,0.0,"4p,bid 1/4,dueled,game",D,AO,5,FT
+4,1,2,4.6,,4.24,3.12,Autodrive,1,0,,,0.25,"ins,bid 2wbtw,duel,gam",D,AO,5,FT
+4,4,3,3.94,,,3.2,Durante,4,0,,,10.75,"clear,caught 1/4,yield",D,AO,5,FT
+4,2,4,1.24,,,,Floodlites,2,1,,,14.0,"last away,ins,4p upr",D,AO,5,FT
+4,5,5,16.1,,,,Touch of Destiny (URU),5,0,,,22.5,"brk out,3p,fade btw3/8",D,AO,5,FT
+5,10,1,1.73,5.46,2.94,2.3,Who Dey,8,1,,,0.0,"stalk 4-3w,drove clear",D,AO,8,FT
+5,9,2,3.08,,4.12,2.94,Bullard,7,0,,,2.25,"prss 2w,vied btw,outkk",D,AO,8,FT
+5,4,3,4.9,,,2.84,Stowaway,3,0,,,4.75,"ins,3p2nd,up show btw",D,AO,8,FT
+5,5,4,14.23,,,,Groveland,4,0,,,5.0,"brk out,2wd btw,no bid",D,AO,8,FT
+5,3,5,3.52,,,,First Resort,2,0,,,5.25,"ins pair 2nd, gave way",D,AO,8,FT
+5,7,6,33.38,,,,Archie the Giza,6,0,,,12.75,"3w btw1st,3-4p2nd,tire",D,AO,8,FT
+5,6,7,39.33,,,,Copper Missile,5,0,,,12.85,"pinched start,2p,4p2nd",D,AO,8,FT
+5,1,8,13.1,,,,Urban Planner,1,0,,,24.1,"tracked ins,wknd 2nd",D,AO,8,FT
+6,6,1,2.85,7.7,4.58,3.22,Joe Shiesty,5,0,,,0.0,"ins foe,dug in 2p,game",T,G2,9,FM
+6,3,2,7.9,,7.2,4.28,No Nay Hudson (IRE),3,0,,,0.5,"ins,2-4p1/8,rally,bid",T,G2,9,FM
+6,10,3,2.3,,,3.1,Doncho,9,1,,,1.0,"2w,duel 3p1/4,yld late",T,G2,9,FM
+6,1,4,18.15,,,,Script,1,0,,,2.75,"ins,stayed on,edge 4th",T,G2,9,FM
+6,8,5,5.94,,,,My Boy Prince,7,0,,,3.25,"stalked 3p, gave way",T,G2,9,FM
+6,7,6,7.01,,,,Motorious (GB),6,0,,,4.25,"urge 2wbtw,6p upr,mild",T,G2,9,FM
+6,2,7,8.52,,,,Mondogetsbuckets,2,0,,,5.25,"3-4p, no factor",T,G2,9,FM
+6,5,8,13.97,,,,Okiro,4,0,,,5.35,"step slow st,trail ins",T,G2,9,FM
+6,9,9,41.84,,,,Its Bourbon Thirty,8,0,,,9.6,"4p,6-7p upper,tired",T,G2,9,FM
+7,4,1,2.99,7.98,3.92,2.66,Evanescence,4,0,,,0.0,"2wbtw,4w upr,drove pst",D,G2,7,FT
+7,1,2,14.27,,9.36,5.86,Praying,1,0,,,0.25,"shk clr,left ld,caught",D,G2,7,FT
+7,6,3,2.08,,,2.76,Eclatant,6,0,,,5.0,"4p,mild bid,flattn out",D,G2,7,FT
+7,7,4,1.48,,,,Echo Sound,7,1,,,5.5,"3pbtw,bid,wknd,left ld",D,G2,7,FT
+7,3,5,26.87,,,,Queen's Martini,3,0,,,5.75,"ins,5p1/4,mild kick",D,G2,7,FT
+7,2,6,30.06,,,,Jersey Pearl,2,0,,,5.8,"chsd ins,no threat btw",D,G2,7,FT
+7,5,7,11.41,,,,Zeitlos,5,0,,,12.55,"lean out st,3-4p,6p1/4",D,G2,7,FT
+8,9,1,9.04,20.08,8.52,5.12,Classic Q,8,0,,,0.0,"3w,outkck 6p1/8,bid,up",T,G1,10,FM
+8,2,2,2.35,,4.72,3.62,Lush Lips (GB),1,1,,,0.05,"ins,surge clr1/8,naild",T,G1,10,FM
+8,10,3,9.97,,,5.78,Bless the Broken,9,0,,,0.8,"4w trns,7p upr,gaining",T,G1,10,FM
+8,11,4,55.13,,,,Vina Arana (IRE),10,0,,,1.3,"2-3p,8-10p1/8,willngly",T,G1,10,FM
+8,3,5,5.93,,,,Mandanaba (FR),2,0,,,1.8,"steady/rank early, ins",T,G1,10,FM
+8,4,6,5.16,,,,Expensive Queen (IRE),3,0,,,1.85,"2w btw,traffic 7-9p1/8",T,G1,10,FM
+8,6,7,9.43,,,,Deep Satin,5,0,,,2.1,"3p,6p upr,no rally btw",T,G1,10,FM
+8,5,8,12.04,,,,And One More Time,4,0,,,2.35,"ins,lug out,faded btwn",T,G1,10,FM
+8,8,9,4.42,,,,Segesta,7,0,,,3.35,"prss 2w,herdd,wknd btw",T,G1,10,FM
+8,7,10,46.1,,,,Love You Anyway,6,0,,,6.6,"tracked inside, wknd",T,G1,10,FM
+9,6,1,5.0,12.0,3.94,2.66,American History,6,0,,,0.0,"off slow,4p,left ld,up",D,G1,6,FT
+9,1,2,0.72,,2.36,2.1,Coach Pope,1,1,,,1.0,"2w,long duel,brsh,cght",D,G1,6,FT
+9,2,3,2.83,,,2.46,Q B Rocket,2,0,,,1.25,"ins foe,long duel,brsh",D,G1,6,FT
+9,4,4,28.34,,,,Title Worthy,4,0,,,13.0,"chased 4-3p, tired",D,G1,6,FT
+9,5,5,11.76,,,,Jaded,5,0,,,18.75,"ins,3p2nd,no factor",D,G1,6,FT
+9,3,6,12.91,,,,Phone Booth,3,0,,,57.75,"chased 3-2p,wknd,eased",D,G1,6,FT
+10,3,1,1.86,5.72,3.28,2.68,Rhetorical,3,1,,,0.0,"soft pace,spurtd clear",T,G1,8,FM
+10,7,2,3.13,,4.58,3.62,Lake Forest (GB),7,0,,,2.25,"ins,btw1/8,tght,up plc",T,G1,8,FM
+10,1,3,8.05,,,4.78,Title Role (GB),1,0,,,2.5,"trk ins,ran on,mss plc",T,G1,8,FM
+10,2,4,7.67,,,,Brilliant Berti,2,0,,,2.6,"trk 3p,left ld,bmp1/16",T,G1,8,FM
+10,9,5,2.79,,,,Zulu Kingdom (IRE),8,0,,,2.85,"stalk 2p,repelld,faded",T,G1,8,FM
+10,5,6,15.15,,,,Pass the Hat,5,0,,,5.85,"3p,4-5p upr,no menace",T,G1,8,FM
+10,6,7,51.67,,,,Plensa,6,0,,,6.35,"rear 2w,4p2nd,6p upr",T,G1,8,FM
+10,4,8,32.79,,,,Mercante,4,0,,,7.85,"head turnd/off slw,ins",T,G1,8,FM
+11,2,1,6.69,15.38,8.2,4.94,Right in Time,2,0,,,0.0,"ins,inch free,held frm",D,S,12,FT
+11,1,2,4.82,,7.06,4.44,Niosa,1,0,,,1.5,"ins,3p1/4,held place",D,S,12,FT
+11,12,3,20.77,,,8.7,Nu Why Me,11,0,,,1.75,"3-4p,duel place,denied",D,S,12,FT
+11,11,4,16.01,,,,Life On Marz,10,0,,,7.5,"4-5p, best of rest",D,S,12,FT
+11,5,5,9.0,,,,Stars in My Eyes,4,0,,,10.5,"step slw,7p upr,mvd up",D,S,12,FT
+11,9,6,4.09,,,,Clock,8,1,,,11.0,"chased 2p btw,gave way",D,S,12,FT
+11,6,7,41.89,,,,Neuromap,5,0,,,13.5,"ins,2p1/4,improved btw",D,S,12,FT
+11,8,8,20.24,,,,Liam's Lucky Lass,7,0,,,17.5,"step slow,3w,no factor",D,S,12,FT
+11,4,9,15.44,,,,Ronna's Sizzler,3,0,,,20.0,"chsd ins,tired,left ld",D,S,12,FT
+11,10,10,4.9,,,,Rapagna,9,0,,,25.0,"press winner 2w,wknd",D,S,12,FT
+11,7,11,4.96,,,,Pastya,6,0,,,26.75,"antsy,3-6p upr,left ld",D,S,12,FT
+11,13,12,50.36,,,,Speightful Moon,12,0,,,27.5,"close up 4p,wkn btw1/4",D,S,12,FT
