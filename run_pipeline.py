@@ -609,6 +609,70 @@ def pull_jockey_changes(track: str, race_date: str) -> list[dict]:
     return jc
 
 
+def _drop_reentered_also_eligibles(df, track: str, scratches: list[dict]) -> list[dict]:
+    """Re-scratch any also-eligible the Equibase feed marked 'Scratched -
+    Re-entered'.
+
+    An also-eligible (DRF column ``MainTrackOnlyAEIndicator`` == 'A') shown as
+    'Scratched - Re-entered' re-entered ANOTHER race — it did not draw in and is
+    not running. The scratch parser classifies 'Scratched - Re-entered' as a
+    reinstatement, which is correct for a MAIN-BODY horse whose trainer
+    scratched it and then re-ran it in this race, but wrongly keeps a
+    non-drawing also-eligible in the field (KEE 2026-10-04 R11 'Joy of Life';
+    reproduced live on KEE 2026-10-08 R5). Main-body reinstatements are left
+    untouched. Best-effort: on any trouble the original list is returned.
+
+    Returns the (possibly extended) scratch-dict list.
+    """
+    cols = df.columns
+    if ("MainTrackOnlyAEIndicator" not in cols
+            or "Race" not in cols
+            or "ProgramNumberifavailable" not in cols):
+        return scratches
+
+    ind = df["MainTrackOnlyAEIndicator"].astype(str).str.strip().str.upper()
+    ae_keys = set()
+    for race, prog in zip(df.loc[ind == "A", "Race"],
+                          df.loc[ind == "A", "ProgramNumberifavailable"]):
+        try:
+            ae_keys.add((int(race), str(prog).strip()))
+        except (TypeError, ValueError):
+            continue
+    if not ae_keys:
+        return scratches
+
+    have = set()
+    for s in scratches:
+        try:
+            have.add((int(s["race"]), str(s["program"]).strip()))
+        except (TypeError, ValueError, KeyError):
+            continue
+
+    from scratches import fetch_all_changes
+    extra: list[dict] = []
+    for c in fetch_all_changes(track):
+        if c.change_type != "reinstate" or c.race is None or c.program_number is None:
+            continue
+        key = (int(c.race), str(c.program_number).strip())
+        if key in ae_keys and key not in have:
+            extra.append({
+                "race":    c.race,
+                "program": c.program_number,
+                "horse":   c.horse_name or "",
+                "reason":  "Also-Eligible Re-entered",
+                "source":  "equibase_rss",
+            })
+            have.add(key)
+
+    if extra:
+        log.info(
+            "  AE re-entered: re-scratching %d also-eligible(s) marked "
+            "'Scratched - Re-entered': %s",
+            len(extra), ", ".join(f"R{e['race']}#{e['program']}" for e in extra),
+        )
+    return list(scratches) + extra
+
+
 def run_scoring(
     track: str,
     race_date: str,
@@ -725,6 +789,16 @@ def run_scoring(
         return None
     initial_n = len(df)
     log.info(f"  Loaded {initial_n} horses across {df['Race'].nunique()} races")
+
+    # ── 3a. Re-scratch also-eligibles marked 'Scratched - Re-entered' ────
+    # These AEs re-entered another race (did not draw in) and are not running;
+    # the scratch parser would otherwise reinstate them. FINAL runs only
+    # (preview passes scratches=None and scores the full field by design).
+    if scratches is not None:
+        try:
+            scratches = _drop_reentered_also_eligibles(df, track, list(scratches))
+        except Exception as _e:
+            log.warning(f"  AE re-entered check skipped ({_e})")
 
     # ── 4. Apply scratches BEFORE features ───────────────────────────────
     if scratches:
