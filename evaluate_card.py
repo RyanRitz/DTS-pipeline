@@ -134,9 +134,23 @@ def score_and_grade(track: str, race_date: str, drf_path: Path,
     # few hundredths), else the no-vig ratio
     out["edge"] = out["value_prod"] if "value_prod" in out.columns else out["value_ml"]
 
-    # merge actual results
-    r = res[["race", "pn", "finish"] + [c for c in ("final_odds", "win_payout") if c in res.columns]]
+    # merge actual results (+ the surface the race was RUN on and the track condition,
+    # which ccf_results.py carries from the chart)
+    extra = [c for c in ("final_odds", "win_payout", "surface", "track_cond") if c in res.columns]
+    r = res[["race", "pn", "finish"] + extra].rename(columns={"surface": "surface_ran"})
     g = out.merge(r, on=["race", "pn"], how="left")
+    # in_scope = race would have been in the KEE Oct26 model BUILD (not holdout):
+    #   dirt/turf (non-maiden): DRF surface D -> cond in FT/GD/WF ; T -> FM/GD/YL
+    #   maiden (M/S): FT/FM/GD/YL/WF ; and the race ran on its scheduled surface
+    if "track_cond" in g.columns:
+        tc = g["track_cond"].astype(str).str.strip().str.upper()
+        sched = g["Surface"].astype(str).str.strip().str.upper()
+        ran = g["surface_ran"].astype(str).str.strip().str.upper() if "surface_ran" in g else sched
+        maiden = g["RaceType"].astype(str).str.strip().str.upper().isin(["M", "S"])
+        ok_dirt = tc.isin(["FT", "GD", "WF"]); ok_turf = tc.isin(["FM", "GD", "YL"]); ok_maid = tc.isin(["FT", "FM", "GD", "YL", "WF"])
+        g["in_scope"] = (sched == ran) & np.where(maiden, ok_maid, np.where(sched == "T", ok_turf, ok_dirt))
+    else:
+        g["surface_ran"] = g["Surface"]; g["track_cond"] = ""; g["in_scope"] = True
     g["finish"] = pd.to_numeric(g.get("finish"), errors="coerce")
     g["won"] = (g["finish"] == 1)
     fo = pd.to_numeric(g.get("final_odds"), errors="coerce") if "final_odds" in g else pd.Series(np.nan, index=g.index)
@@ -169,7 +183,8 @@ def grade_table(g: pd.DataFrame) -> pd.DataFrame:
 
 LOG_COLS = ["date", "track", "race", "pn", "HorseName", "Surface", "RaceType", "field",
             "ProbToWin", "ml_novig", "value_ml", "value_prod", "edge", "pct", "prob_above", "rank", "final_odds", "clv",
-            "finish", "won", "win_payout", "gold", "rank1_value", "rank1", "top50_value", "top50_pos"]
+            "finish", "won", "win_payout", "gold", "rank1_value", "rank1", "top50_value", "top50_pos",
+            "surface_ran", "track_cond", "in_scope"]
 
 
 def append_log(g: pd.DataFrame, log_path: Path) -> int:
