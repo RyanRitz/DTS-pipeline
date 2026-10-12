@@ -60,11 +60,18 @@ def _norm(s: str) -> str:
 
 
 # gate -> boolean mask builder over the scored+graded frame
+# "top-50%" is measured on CUMULATIVE WIN-PROBABILITY MASS (prob_above < 0.50 =
+# the horses ranked above it hold under half the race's win prob), exactly as
+# output.best_bet_flag does in production — NOT field position. value_ml is the
+# de-vigged edge vs the scratch-adjusted morning line (same ratio as
+# output._value_tier). gold = edge >= 1.50 & top-50% mass. (No field-size floor:
+# the >=7 floor belongs to one KEE model family only, not the gate in general.)
 GATES = {
-    "gold":        lambda x: (x["value_ml"] >= 1.50) & (x["pct"] <= 0.5) & (x["field"] >= 7),
+    "gold":        lambda x: (x["edge"] >= 1.50) & (x["prob_above"] < 0.50),
     "rank1_value": lambda x: (x["rank"] == 1) & (x["value_ml"] >= 1.25),
     "rank1":       lambda x: x["rank"] == 1,
-    "top50_value": lambda x: (x["pct"] <= 0.5) & (x["value_ml"] >= 1.25),
+    "top50_value": lambda x: (x["prob_above"] < 0.50) & (x["value_ml"] >= 1.25),
+    "top50_pos":   lambda x: x["pct"] <= 0.5,                       # positional top half (containment stat)
     "bet_all":     lambda x: pd.Series(True, index=x.index),
 }
 
@@ -114,6 +121,18 @@ def score_and_grade(track: str, race_date: str, drf_path: Path,
     out["value_ml"] = out["ProbToWin"] / out["ml_novig"]
     out["pct"] = out.groupby("race")["ProbToWin"].rank(ascending=False, pct=True)
     out["field"] = out.groupby("race")["pn"].transform("size")
+    # cumulative win-prob mass ABOVE each horse (production gold gate input)
+    out = out.sort_values(["race", "ProbToWin"], ascending=[True, False])
+    out["prob_above"] = out.groupby("race")["ProbToWin"].cumsum() - out["ProbToWin"]
+    out = out.sort_index()
+    # cross-check: production edge uses MornOddsAdj/DTSOdds at a common vig; same ratio
+    if "MornOddsAdj" in out.columns and "DTSOdds" in out.columns:
+        mla = pd.to_numeric(out["MornOddsAdj"], errors="coerce"); do = pd.to_numeric(out["DTSOdds"], errors="coerce")
+        out["value_prod"] = (mla + 1.0) / (do + 1.0)
+    # the gate edge: production's ratio when the columns exist (DTSOdds is the
+    # displayed/rounded model odds, so it differs from ProbToWin/ml_novig by a
+    # few hundredths), else the no-vig ratio
+    out["edge"] = out["value_prod"] if "value_prod" in out.columns else out["value_ml"]
 
     # merge actual results
     r = res[["race", "pn", "finish"] + [c for c in ("final_odds", "win_payout") if c in res.columns]]
@@ -149,8 +168,8 @@ def grade_table(g: pd.DataFrame) -> pd.DataFrame:
 
 
 LOG_COLS = ["date", "track", "race", "pn", "HorseName", "Surface", "RaceType", "field",
-            "ProbToWin", "ml_novig", "value_ml", "pct", "rank", "final_odds", "clv",
-            "finish", "won", "win_payout", "gold", "rank1_value", "rank1", "top50_value"]
+            "ProbToWin", "ml_novig", "value_ml", "value_prod", "edge", "pct", "prob_above", "rank", "final_odds", "clv",
+            "finish", "won", "win_payout", "gold", "rank1_value", "rank1", "top50_value", "top50_pos"]
 
 
 def append_log(g: pd.DataFrame, log_path: Path) -> int:
@@ -177,6 +196,7 @@ def rolling_summary(log_path: Path) -> pd.DataFrame:
     rows = []
     masks = {"gold": df.get("gold", False), "rank1_value": df.get("rank1_value", False),
              "rank1": df.get("rank1", False), "top50_value": df.get("top50_value", False),
+             "top50_pos": df.get("top50_pos", False),
              "bet_all": pd.Series(True, index=df.index)}
     for name, m in masks.items():
         b = df[m.astype(bool)] if not isinstance(m, bool) else df
@@ -213,7 +233,8 @@ def main() -> int:
 
     # winner containment in top-50%
     w = g[g["won"]]
-    print(f"\nWinners in model top-50% by prob: {int((w['pct'] <= 0.5).sum())}/{len(w)}")
+    print(f"\nWinners in top-50% by prob MASS (prob_above<0.5): {int((w['prob_above'] < 0.5).sum())}/{len(w)}  "
+          f"| positional top half: {int((w['pct'] <= 0.5).sum())}/{len(w)}")
 
     # CLV on winners (where final odds known)
     wc = w.dropna(subset=["clv"])
