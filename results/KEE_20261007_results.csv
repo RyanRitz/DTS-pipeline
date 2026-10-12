@@ -1,0 +1,68 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,1,1,2.02,6.04,3.3,2.38,Military Road,1,1,,,0.0,"frcts gt,ins,surge btw",D,R,8,FT
+1,2,2,3.13,,3.96,2.82,Global Sensation,2,0,,,1.0,"2w,dueled,outkckd late",D,R,8,FT
+1,3,3,2.16,,,2.42,Fountain Run,3,0,,,1.25,"ins,dug in,yieldd late",D,R,8,FT
+1,8,4,6.09,,,,Unload,8,0,,,2.0,"2w,aim 4p,needed more",D,R,8,FT
+1,7,5,32.71,,,,Up to No Good,7,0,,,5.25,"ins,4p3/16,no menace",D,R,8,FT
+1,4,6,17.0,,,,Calycanthus,4,0,,,5.5,"2p,gave way,4-5p3/16",D,R,8,FT
+1,6,7,23.51,,,,Enlighten,6,0,,,11.25,"4-5p1st, tired",D,R,8,FT
+1,5,8,27.29,,,,Fast Solution,5,0,,,99.99,"went wrong 5/8,eq amb",D,R,8,FT
+2,12,1,3.47,8.94,4.28,3.06,Red Rainbow,10,0,,,0.0,"trk 4p,lug in/clrd upr",D,M,10,FT
+2,1,2,4.42,,5.28,3.82,My My My Delilah,1,0,,,10.5,"ins,3p upr,edged place",D,M,10,FT
+2,6,3,4.58,,,4.54,Wado Wave,4,0,,,11.25,"forced pace 2w,yielded",D,M,10,FT
+2,10,4,7.18,,,,Queen McKinzie,8,0,,,16.25,"2p,moved up 5w1/16",D,M,10,FT
+2,11,5,38.16,,,,Army Medic,9,0,,,16.75,"chs 2wbtw,imprv mildly",D,M,10,FT
+2,8,6,26.69,,,,Strawberry Float,6,0,,,19.0,"brush st,3p,5-6p upr",D,M,10,FT
+2,7,7,22.76,,,,Valiant War Girl,5,0,,,19.5,"stalk 3p,outkckd,faded",D,M,10,FT
+2,3,8,2.0,,,,Snow Bunny,2,1,,,21.5,"ins,brshd/shy rail upr",D,M,10,FT
+2,9,9,47.66,,,,Asian Sun,7,0,,,25.25,"brush start, 4-5p",D,M,10,FT
+2,4,10,40.44,,,,Broadway Betty,3,0,,,62.0,"showed little, eased",D,M,10,FT
+3,7,1,2.96,7.92,3.9,2.64,Velvet Devil,6,0,,,0.0,"vied 3wd, held well",D,AO,6,FT
+3,1,2,1.48,,3.02,2.46,Justinqueso,1,1,,,0.75,"2p,4w1/4,bid,fendd off",D,AO,6,FT
+3,4,3,6.56,,,3.34,Silent Law,3,0,,,5.75,"vied 2wbtw,yielded upr",D,AO,6,FT
+3,6,4,4.57,,,,Strong State,5,0,,,7.25,"brshd st,4-7p,moved up",D,AO,6,FT
+3,5,5,7.98,,,,Madonna of Loreto,4,0,,,7.75,"pressed 4w,faded 5w1/4",D,AO,6,FT
+3,2,6,7.85,,,,Spring Dancer,2,0,,,14.25,"bobbled,ins pair,wknd",D,AO,6,FT
+4,6,1,1.53,5.06,2.82,2.5,Jump Seat,6,1,,,0.0,"4-2w,vied,btw 1/4,clrd",D,S,9,FT
+4,1,2,2.38,,3.26,2.5,Spectacular Sam,1,0,,,2.25,"ins,bid 3w1/4,repelled",D,S,9,FT
+4,2,3,8.02,,,3.8,Energy Flows,2,0,,,4.5,"ins winner,best of rst",D,S,9,FT
+4,8,4,6.24,,,,Help a Girl Out,8,0,,,11.5,"6-2p1st,up 4th 5/16",D,S,9,FT
+4,9,5,20.63,,,,Love Line,9,0,,,17.0,"bobble bit,3-2p,imprvd",D,S,9,FT
+4,5,6,46.51,,,,Elowyn's Honor,5,0,,,20.75,"bt slw,4-2p,pass tired",D,S,9,FT
+4,7,7,6.85,,,,The Final Secret,7,0,,,22.0,"shied 1M,5-4p,faded2nd",D,S,9,FT
+4,3,8,28.68,,,,Veles,3,0,,,27.0,"2w,steady btw1st,faded",D,S,9,FT
+4,4,9,41.01,,,,Prompt Response,4,0,,,99.99,"3p,eased 5p2nd,walked",D,S,9,FT
+5,4,1,2.18,6.36,4.0,2.58,Lexi's Charm,3,1,,,0.0,"clear 2p, drew off",D,R,7,FT
+5,6,2,2.6,,3.72,2.66,Cardio Cat,5,0,,,12.0,"bump start,4p,no match",D,R,7,FT
+5,2,3,6.05,,,3.78,For the Win,2,0,,,14.75,"stuttr stp,ins,no mtch",D,R,7,FT
+5,1,4,2.87,,,,Anna Bo Banna,1,0,,,18.25,"urged inside, 3-4p upr",D,R,7,FT
+5,7,5,27.28,,,,Sweet Mary,6,0,,,18.75,"stalked 3-2p, tired",D,R,7,FT
+5,8,6,8.27,,,,Valkyrie,7,0,,,23.5,"4p, no impact",D,R,7,FT
+5,5,7,16.93,,,,Life's Pageant,4,0,,,24.25,"bump start, trailed 3p",D,R,7,FT
+6,4,1,3.99,9.98,4.12,3.84,So There She Was,3,0,,,0.0,"prss 2w,vied,drove clr",D,AO,5,FT
+6,2,2,1.25,,2.68,3.08,Clairita,1,1,,,4.0,"ins,4p3/16,edg plc lat",D,AO,5,FT
+6,3,3,6.85,,,3.88,Amarth,2,0,,,4.75,"ins winner, yielded",D,AO,5,FT
+6,6,4,2.57,,,,Union Mist,5,0,,,8.75,"tracked 2wd, no menace",D,AO,5,FT
+6,5,5,6.13,,,,Strong Destiny,4,0,,,34.75,"stutter stp,outrn 3-4p",D,AO,5,FT
+7,4,1,8.83,19.66,8.7,5.74,Insightful Miss,4,0,,,0.0,"bmp,ins,surge btw,bled",T,A,12,FM
+7,13,2,88.24,,55.66,25.72,Storm Cloud Rising,12,0,,,2.0,"4-2w,btw,ins bid,outkk",T,A,12,FM
+7,10,3,27.33,,,10.5,Come to Mama,10,0,,,2.5,"ins,steady 2w1/8,alter",T,A,12,FM
+7,6,4,9.58,,,,Fancy Caber Neigh,6,0,,,3.5,"ins,bid 3p,led,yld btw",T,A,12,FM
+7,11,5,2.67,,,,Flat Out Time,11,1,,,3.75,"2w,6-7p upr,mild kick",T,A,12,FM
+7,1,6,39.34,,,,Run Camila Run,1,0,,,5.5,"stalk 2p,4p upr,faded",T,A,12,FM
+7,2,7,14.51,,,,Something Stronger,2,0,,,5.75,"3p,6p upr,no factor",T,A,12,FM
+7,5,8,7.02,,,,Social Belle,5,0,,,7.25,"bmp btw st,steady erly",T,A,12,FM
+7,7,9,8.48,,,,Lucy McGee,7,0,,,9.75,"stalk 3p,5p upr,wknd",T,A,12,FM
+7,3,10,3.16,,,,Should've,3,0,,,11.25,"sent clear,wknd 1/8",T,A,12,FM
+7,9,11,8.66,,,,Snow Face Princess,9,0,,,11.75,"trailed 2p, outruen",T,A,12,FM
+7,8,12,75.46,,,,Shezthefactor,8,0,,,13.0,"chsd 3-4p,7p upr,wknd",T,A,12,FM
+8,11,1,1.49,4.98,3.26,3.0,Ez Pal,10,1,,,0.0,"clear,held sway,drivng",D,M,10,FT
+8,3,2,13.05,,9.72,6.22,Cougar Magnet,3,0,,,4.0,"saved ground, ran on",D,M,10,FT
+8,2,3,8.62,,,5.84,Clonmacnoise,2,0,,,4.1,"chs wnnr 3p,duel place",D,M,10,FT
+8,7,4,7.29,,,,Jack Attack,7,0,,,6.85,"5-4p,place bid,flatten",D,M,10,FT
+8,5,5,4.92,,,,Goal to Go,5,0,,,9.6,"bmps,2p,6p upr,mvd up",D,M,10,FT
+8,9,6,21.91,,,,Lookism,8,0,,,13.1,"brush st,3-4pbtw,faded",D,M,10,FT
+8,10,7,17.87,,,,Joe Joe Dude,9,0,,,13.85,"4-3p,5p upr,faded",D,M,10,FT
+8,6,8,6.74,,,,Enoughisenough,6,0,,,14.35,"bmps st,3-4p,ins upr",D,M,10,FT
+8,1,9,11.14,,,,Royces Law,1,0,,,23.1,"chased ins, wknd turn",D,M,10,FT
+8,4,10,57.46,,,,My Awesome Gold,4,0,,,28.85,"2wbtw,steady 7/16,wknd",D,M,10,FT

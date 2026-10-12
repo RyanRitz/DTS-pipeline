@@ -1,0 +1,89 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,7,1,5.1,12.2,5.62,4.26,Sargent Bilko,6,0,,,0.0,"2w,dueld,led,held firm",D,R,6,FT
+1,5,2,8.47,,8.7,5.94,Braums Run,4,0,,,1.25,"urged 3p,bid,left lead",D,R,6,FT
+1,4,3,6.71,,,4.08,Slickback,3,0,,,1.5,"chsd ins,3p1/8,ran on",D,R,6,FT
+1,2,4,1.61,,,,Vissino,2,1,,,3.75,"ins,3-4p,5p upr,leveld",D,R,6,FT
+1,1,5,1.74,,,,Detention,1,0,,,14.5,"dueled ins winner,wknd",D,R,6,FT
+1,6,6,21.46,,,,Mr. Fete,5,0,,,20.0,"off slow,3-4p,outrun",D,R,6,FT
+2,2,1,4.12,10.24,5.6,3.76,Divine Truth,2,0,,,0.0,"prompt 2w-3p,drew off",D,S,10,FT
+2,8,2,2.63,,3.42,3.02,Touch Money,8,1,,,4.75,"stalk 4p,bid,no match",D,S,10,FT
+2,6,3,10.26,,,6.14,Double Arrow,6,0,,,6.25,"2w,5-6p1/8,stayed on",D,S,10,FT
+2,3,4,8.54,,,,Mitole Joe,3,0,,,7.0,"ins,blckd upr,stay btw",D,S,10,FT
+2,1,5,6.29,,,,Soap Note,1,0,,,8.0,"ins winner-2p, faded",D,S,10,FT
+2,7,6,25.07,,,,Prince of Tides,7,0,,,11.25,"3w,4-6p1/8,no menace",D,S,10,FT
+2,4,7,30.68,,,,Silversary,4,0,,,11.75,shy btw/duck in aft st,D,S,10,FT
+2,10,8,26.99,,,,El Gran Ruchacha,10,0,,,19.25,"4p, no impact",D,S,10,FT
+2,9,9,9.11,,,,Glen Road,9,0,,,21.25,"tracked 5p,chased,wknd",D,S,10,FT
+2,5,10,4.39,,,,Cavalry Call,5,0,,,24.75,"inside, caved",D,S,10,FT
+3,7,1,3.71,9.42,5.02,3.5,Bird the Legend,7,0,,,0.0,"2w,led,headd,fght back",D,C,9,FT
+3,6,2,10.12,,10.24,5.68,Sotto Mo,6,0,,,0.75,"2-3w,bid 1/4,outfinshd",D,C,9,FT
+3,2,3,3.16,,,3.92,Surfin' M,2,0,,,6.0,"ins winner,best of rst",D,C,9,FT
+3,1,4,2.87,,,,Final Thoughts,1,0,,,10.0,"ins,3p3/16,stay mildly",D,C,9,FT
+3,9,5,70.72,,,,Fight the Power,9,0,,,11.5,"5-3p1st,5p3/16,no thrt",D,C,9,FT
+3,4,6,25.07,,,,Kenwood Street,4,0,,,17.5,"bumped st,3-4p,6p3/16",D,C,9,FT
+3,3,7,25.64,,,,Roadswitcher,3,0,,,18.5,"bmp st,ins,4p2nd,outrn",D,C,9,FT
+3,5,8,45.57,,,,Romantic Lead,5,0,,,27.75,"step slow,ins,faltered",D,C,9,FT
+3,8,9,2.58,,,,Da Prince Is Right,8,1,,,34.75,"track 4p,caved 5-7p2nd",D,C,9,FT
+4,1,1,6.86,15.72,7.38,5.6,Magic Seeker,1,0,,,0.0,"2p,shift,bid btw,dueld",D,C,10,FT
+4,8,2,3.16,,4.48,3.48,Dancewhenyoucan,7,1,,,0.05,"3-5p,rlly,bid,duel,bmp",D,C,10,FT
+4,5,3,28.04,,,11.82,Zafyre,4,0,,,2.8,"ins,rally 3-5p,up show",D,C,10,FT
+4,10,4,36.68,,,,Nueva Luna,9,0,,,2.85,"3w,bid,cleared,wknd",D,C,10,FT
+4,3,5,5.82,,,,Ides of Demarch,3,0,,,4.6,"2p,ran on belatedly",D,C,10,FT
+4,11,6,8.27,,,,Ashkenazi,10,0,,,4.7,"4w,left lead,yield btw",D,C,10,FT
+4,6,7,3.87,,,,Shanett,5,0,,,9.7,"duel 2w,outkk,wknd btw",D,C,10,FT
+4,7,8,19.75,,,,Super Costly,6,0,,,9.95,"3-2p,6p upr,left lead",D,C,10,FT
+4,9,9,3.48,,,,Danzig's Dora,8,0,,,13.7,"3p,6p upper,no impact",D,C,10,FT
+4,2,10,31.06,,,,Dip Fantasia,2,0,,,17.7,"sent,dueld ins,stopped",D,C,10,FT
+5,9,1,2.14,6.28,3.44,2.9,Juana Margarita,7,1,,,0.0,"3w,bid btw,kicked away",D,M,9,FT
+5,3,2,5.3,,4.48,3.54,Oro Estrella,2,0,,,5.25,"2-3p,5w1/4,2nd best",D,M,9,FT
+5,11,3,10.12,,,5.72,Fan's Choice,9,0,,,10.25,"track 4w,bid,no match",D,M,9,FT
+5,8,4,19.0,,,,Livelaughloy,6,0,,,14.0,"vied 2w,btwn,gave way",D,M,9,FT
+5,2,5,16.18,,,,Hips of a Lady,1,0,,,14.1,"ins,ins trio5/16,faded",D,M,9,FT
+5,5,6,2.53,,,,Princess Chanty,4,0,,,17.1,"5p,7p1/4,shifted in",D,M,9,FT
+5,10,7,13.85,,,,Riding Coattails,8,0,,,17.2,"3-4p,7p1/4,faded,bled",D,M,9,FT
+5,4,8,9.57,,,,Curlin's Court,3,0,,,26.7,"3p, never involved",D,M,9,FT
+5,7,9,13.01,,,,Aloha Magic,5,0,,,32.2,"steadied start, 6-4p",D,M,9,FT
+6,8,1,2.73,7.46,5.4,4.16,Ships Inn,8,1,,,0.0,"clear 2-3p, drew off",D,R,8,FT
+6,6,2,4.73,,5.38,4.46,Freaks Go,6,0,,,4.0,"stalked 3-4p,left lead",D,R,8,FT
+6,3,3,10.84,,,5.08,Lady Valor,3,0,,,4.75,"6-7p1/4,rally willngly",D,R,8,FT
+6,7,4,3.92,,,,Bet the Gray,7,0,,,5.25,"chs 3w,btw,stay mildly",D,R,8,FT
+6,5,5,6.35,,,,Miss Elle,5,0,,,9.0,"adv 4w,5-6p1/4,flattnd",D,R,8,FT
+6,2,6,4.24,,,,Quick to Charm,2,0,,,11.0,"ins,2-3p1/8,no factor",D,R,8,FT
+6,1,7,8.88,,,,Bourbon Notes,1,0,,,16.0,"tracked 2p-ins, faded",D,R,8,FT
+6,4,8,28.95,,,,Scythia,4,0,,,31.75,"2wd btw,wknd 3/8,eased",D,R,8,FT
+7,4,1,1.71,5.42,3.7,2.74,Outfielder,4,1,,,0.0,"ins,5p upr,up in time",T,A,7,FM
+7,5,2,7.35,,7.24,4.24,Throckmorton,5,0,,,0.5,"widend,tired,cght late",T,A,7,FM
+7,7,3,3.33,,,2.74,Oscar's Hope,6,0,,,1.75,"2w,outkck 1/8,held shw",T,A,7,FM
+7,1,4,6.48,,,,Two Seven O,1,0,,,1.85,"6p upr,wllngly,mss shw",T,A,7,FM
+7,2,5,8.24,,,,Rebel With a Cause,2,0,,,7.85,"saved ground,no menace",T,A,7,FM
+7,3,6,4.42,,,,Schwarzenegger,3,0,,,10.6,"stalk 2p-ins,chsd,wknd",T,A,7,FM
+7,8,7,20.74,,,,Bobrovsky,7,0,,,16.6,"stalk 3p,wknd btw 3/16",T,A,7,FM
+8,4,1,10.76,23.52,16.5,8.14,Hot Fries,4,0,,,0.0,"2w,bid 3p1/4,duel,edge",D,S,11,FT
+8,10,2,26.36,,26.36,15.2,Won'tcatchmecryan,9,0,,,0.5,"clear 2p,collard,dueld",D,S,11,FT
+8,5,3,1.91,,,3.7,Candy Illusion,5,1,,,5.75,"off slw,2wbtw,edge shw",D,S,11,FT
+8,1,4,5.24,,,,Pearl Lake,1,0,,,6.0,"stalk ins,chsd,left ld",D,S,11,FT
+8,8,5,3.49,,,,Joy of Life,8,0,,,6.05,"5-6p,aim 4p1/4,flattnd",D,S,11,FT
+8,2,6,11.2,,,,Palestra,2,0,,,6.1,"off slw,ins,mildly btw",D,S,11,FT
+8,3,7,11.87,,,,La Noche Negra,3,0,,,7.1,"off slow,4p btw,mildly",D,S,11,FT
+8,13,8,10.1,,,,Epic Dawn,11,0,,,13.6,"chsd 4-5p,fade btw5/16",D,S,11,FT
+8,11,9,14.13,,,,Mayflower Girl,10,0,,,15.1,"chsd 3wbtw,falter 5/16",D,S,11,FT
+8,7,10,63.82,,,,Where's the Law,7,0,,,22.85,"5-6p,left lead to 1/8",D,S,11,FT
+8,6,11,85.96,,,,Dustinthewin,6,0,,,28.1,"step slow/brush,lag 2p",D,S,11,FT
+9,9,1,3.59,9.18,4.58,3.52,Facteur Cheval (IRE),6,0,,,0.0,"ins,3w btw1/4,bid,held",T,A,9,FM
+9,2,2,3.74,,4.54,3.54,Highway Robber,2,0,,,0.5,"ins,shift 5w3/16,rally",T,A,9,FM
+9,1,3,5.32,,,4.84,Funtastic Again,1,0,,,2.0,"adv 3-4w2nd,bid,flattn",T,A,9,FM
+9,5,4,5.42,,,,Salamis,4,0,,,2.5,"ins,wait,tip out,rally",T,A,9,FM
+9,6,5,32.56,,,,Smokey Mandate,5,0,,,4.25,"ins,headd 3/16,gave wy",T,A,9,FM
+9,11,6,7.34,,,,Poster,8,0,,,5.5,"press 2w,faded btw upr",T,A,9,FM
+9,3,7,32.64,,,,Anegada,3,0,,,5.75,"trailed 2wd, improved",T,A,9,FM
+9,12,8,2.93,,,,Taking Candy,9,1,,,6.0,"2-3w,4p1/4,no factor",T,A,9,FM
+9,10,9,68.19,,,,Ancient Rome,7,0,,,11.75,"bmp btw st,2w,fade btw",T,A,9,FM
+10,15,1,3.3,8.6,4.7,2.9,Phantom Slayer,9,0,,,0.0,"pressed 2wd,ridden out",D,M,9,FT
+10,11,2,5.71,,6.7,3.2,Can't Stop Willis,8,0,,,5.0,"4p,ran on,2nd best",D,M,9,FT
+10,2,3,2.59,,,2.88,D Bigalow,1,1,,,8.5,"ins,chsd 3-4p1/8,mild",D,M,9,FT
+10,7,4,22.14,,,,Fast Jimmy,4,0,,,12.25,"trailed,ran on wllngly",D,M,9,FT
+10,8,5,5.44,,,,Life Boat,5,0,,,13.5,"ins wnnr,no mtch,faded",D,M,9,FT
+10,5,6,6.25,,,,Tapit's Gunner,3,0,,,17.25,"bump st,ins,5p btw 1/4",D,M,9,FT
+10,10,7,26.31,,,,Tuxedo Park,7,0,,,18.0,"5-6p, no factor",D,M,9,FT
+10,9,8,7.65,,,,Stoic Sage,6,0,,,18.1,"ins,5p upr,left ld,wkn",D,M,9,FT
+10,4,9,22.3,,,,Greystar,2,0,,,31.6,"bmpd btw,2w,wknd 5/16",D,M,9,FT
