@@ -1,0 +1,124 @@
+KEE 20261015: 9 races, 95 entries (pre-scratch) -> prescore_KEE_20261015.csv
+golds: champion 5, tree 9, both 3
+
+R1 D/R (8 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    3 SUITED AND BOOTED     12.0 |  20.4%  1 *  |  23.2%  1 *
+    5 GO FOR ROCKET          6.0 |  20.1%  2 +  |  14.3%  4  
+    7 UNCLE EVCO             4.5 |  15.2%  3 +  |  19.0%  2 +
+    8 INORDINARY             3.5 |  15.0%  4    |  18.5%  3 +
+    4 ROGUISHNESS            2.5 |  13.8%  5    |  13.1%  5  
+    1 SPURGEON               4.0 |   6.5%  6    |   5.1%  6  
+    2 TRULY LEGIT           15.0 |   6.5%  7    |   5.0%  7  
+    6 RAMBLIN                8.0 |   2.5%  8    |   1.7%  8  
+
+R2 D/M (15 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    2 NOT MY NICHE           5.0 |  15.4%  1 +  |   8.3%  6  
+    7 GLOBAL EQUITY          8.0 |  11.0%  2 +  |  18.9%  1 *
+   11 HORMESIS               3.5 |  10.1%  3 +  |  16.2%  2 +
+   13 EPIC SPENDER           8.0 |  10.0%  4 +  |  10.5%  3 +
+   10 NAUTI TALK             4.5 |   9.3%  5 +  |   9.9%  4 +
+    5 MADE UP STORIES        6.0 |   8.6%  6    |   8.5%  5  
+   12 MOTIVATED BY GRACE     8.0 |   8.5%  7    |   2.3% 11  
+    4 CUTTIN' UP            10.0 |   5.7%  8    |   8.3%  7  
+   15 DAGNY TAGGART         10.0 |   5.6%  9    |   3.8% 10  
+    3 SWIFT SPEED           12.0 |   4.8% 10    |   6.2%  8  
+    1 FLASH LADY            20.0 |   3.7% 11    |   3.8%  9  
+    8 ACERBIC               20.0 |   2.9% 12    |   1.0% 13  
+    9 LEXI'S EPIC RIDE      30.0 |   2.5% 13    |   1.4% 12  
+    6 MAKER RUN             30.0 |   1.1% 14    |   0.5% 14  
+   14 SAFFRON ROUGE         30.0 |   1.0% 15    |   0.5% 15  
+
+R3 D/C (9 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    2 BANNED FOR LIFE        2.0 |  24.7%  1 +  |  33.9%  1 +
+    1 PRINCE OF LIGHT        8.0 |  15.5%  2 +  |   9.2%  4  
+    6 MURDOCK                8.0 |  10.6%  3 +  |   8.5%  6  
+    8 GOOGOL JOKE           15.0 |   9.0%  4    |  12.0%  2 *
+    3 POPPA ECHO             4.5 |   9.0%  5    |   6.2%  7  
+    9 DAMASCUS STEEL        20.0 |   8.2%  6    |   5.7%  8  
+    4 KIRIN                  3.5 |   8.2%  7    |   8.7%  5  
+    7 LIL MUGGS             12.0 |   7.8%  8    |   4.0%  9  
+    5 MAP TO THE STARS       6.0 |   6.9%  9    |  11.8%  3 +
+
+R4 T/S (10 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    4 EAT HAY RUN            5.0 |  23.6%  1 +  |  15.1%  4  
+    1 AGEEBA BEACH           3.5 |  17.5%  2 +  |  17.4%  2 +
+    8 ELLESMERE ISLAND       6.0 |  14.6%  3 +  |  16.9%  3 +
+    7 INDOMIKNOW             4.5 |  11.8%  4    |  25.4%  1 +
+    2 SHE'S OUR TEN         15.0 |   7.9%  5    |   3.8%  7  
+    6 SILBURY HILL           8.0 |   6.8%  6    |  11.2%  5  
+    3 GREAT KERRY LEE       15.0 |   5.7%  7    |   1.8%  9  
+    9 GIMME SOME LOVIN       6.0 |   5.1%  8    |   4.3%  6  
+    5 EENYMEANYMIGHTYMO      8.0 |   4.8%  9    |   3.0%  8  
+   10 ABITA SPRINGS         15.0 |   2.3% 10    |   1.0% 10  
+
+R5 D/S (16 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+   10 FARROKH                4.5 |  22.9%  1 *  |  11.6%  2 +
+   16 MONEY MAN MIKE         6.0 |  14.2%  2 +  |  20.6%  1 *
+    8 BREADCRUMB TRAIL       4.0 |  10.9%  3 +  |  11.0%  3 +
+    3 SALTY VIKING          10.0 |   8.5%  4 +  |   7.7%  5  
+    6 COLTRANE              15.0 |   6.8%  5    |   8.4%  4 *
+    4 WHEN I GO              4.5 |   6.2%  6    |   5.7%  9  
+   11 JUNCTION               3.5 |   6.2%  7    |   7.1%  6  
+   13 BONZO                  5.0 |   5.9%  8    |   6.5%  7  
+   14 PSALM ONE EIGHTEEN     8.0 |   4.0%  9    |   6.1%  8  
+    1 NORTHLINE             20.0 |   3.3% 10    |   4.7% 10  
+    5 WILD STREAK           12.0 |   2.8% 11    |   2.9% 11  
+   15 PATRICIO              15.0 |   2.6% 12    |   2.2% 12  
+    9 LUX AETERNA           15.0 |   1.9% 13    |   1.8% 14  
+    2 NIGHT KNIGHT          20.0 |   1.9% 14    |   2.0% 13  
+    7 MOYCULLEN             12.0 |   1.3% 15    |   0.9% 15  
+   12 BEACH VIBE            30.0 |   0.7% 16    |   0.9% 16  
+
+R6 D/AO (7 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    3 QUEEN AZTECA           4.5 |  26.9%  1 *  |  23.0%  2 +
+    4 TAKE CHARGE OMAHA      1.6 |  19.8%  2 +  |  27.3%  1 +
+    1 ROSWELL                3.0 |  19.7%  3 +  |  21.2%  3  
+    2 IN JUST MY HEELS       4.0 |  13.8%  4    |  15.0%  4  
+    7 AUTUMN EVENING         8.0 |  12.6%  5    |   9.6%  5  
+    5 FLOATING BEAUTY       20.0 |   3.9%  6    |   1.4%  7  
+    6 DEVASSA               12.0 |   3.2%  7    |   2.5%  6  
+
+R7 T/A (10 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    9 JUST ALOOF             1.2 |  24.6%  1 +  |  25.0%  2 +
+    3 COMPETITIVE MARKET     6.0 |  18.6%  2 +  |  15.7%  3  
+    1 PERRYLU               10.0 |  16.0%  3 *  |  27.6%  1 *
+    5 TRIUMPHANT SPIRIT      8.0 |  15.5%  4    |  10.7%  4  
+    4 GOATS ON A TREE        4.5 |   8.0%  5    |   9.8%  5  
+   10 NEXT UP                6.0 |   5.4%  6    |   4.4%  6  
+    6 DOZEN DIAMONDS        15.0 |   4.3%  7    |   3.0%  7  
+    7 ALTAMIRA SUR          20.0 |   4.1%  8    |   2.3%  8  
+    2 TAKE MY PICTURE       50.0 |   2.1%  9    |   0.7% 10  
+    8 ASTERIA               30.0 |   1.4% 10    |   0.9%  9  
+
+R8 D/AO (9 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    6 CARIBBEAN LIFE         0.8 |  39.0%  1 +  |  30.3%  1 +
+    7 SHOWA                 10.0 |  12.8%  2 +  |  12.5%  5  
+    3 EXCELLENT             20.0 |  11.7%  3    |  14.1%  3 *
+    8 MY BOY GARY            4.5 |  11.1%  4    |  19.2%  2 +
+    1 HES STEELIN MYLADY     6.0 |   9.9%  5    |   7.2%  6  
+    9 TAKE A PICTURE         6.0 |   9.9%  6    |  12.9%  4  
+    2 NO AUTOGRAPHS         15.0 |   3.9%  7    |   2.4%  7  
+    4 VERY CLASSY           30.0 |   1.0%  8    |   0.9%  8  
+    5 MORMONEYTOSTART       50.0 |   0.8%  9    |   0.4%  9  
+
+R9 T/S (11 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    4 SHE'S ON A ROLL        1.8 |  28.6%  1 +  |  12.8%  3  
+    1 DETERMINED ACE         8.0 |  22.5%  2 *  |  30.5%  2 *
+    3 JUST ENTITLED          5.0 |  20.4%  3    |  33.8%  1 *
+   11 ALTADENA               4.0 |   8.1%  4    |   2.1%  7  
+    7 HALFWAY TO OMAHA      20.0 |   5.3%  5    |   4.3%  5  
+    8 LAST CURTAIN CALL     10.0 |   4.0%  6    |   1.8%  8  
+    6 TAKE THE HELM         12.0 |   4.0%  7    |   4.0%  6  
+    9 WHITE STAR LINE        8.0 |   2.6%  8    |   1.7%  9  
+   10 COWGIRL PARADISE      15.0 |   2.3%  9    |   7.7%  4  
+    5 LOLLY POPPIN          50.0 |   1.6% 10    |   0.9% 10  
+    2 CROWN OF VIOLENCE     50.0 |   0.4% 11    |   0.4% 11  

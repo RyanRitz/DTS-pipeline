@@ -1,0 +1,106 @@
+KEE 20261014: 8 races, 80 entries (pre-scratch) -> prescore_KEE_20261014.csv
+golds: champion 7, tree 4, both 3
+
+R1 D/R (6 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    2 WEST COAST DREAM       1.2 |  38.0%  1 +  |  34.7%  1 +
+    5 CARA FELCE             1.8 |  27.0%  2 +  |  32.0%  2 +
+    6 HEARTBEAT              6.0 |  22.6%  3    |  23.7%  3  
+    4 SPEED SKATER          10.0 |   6.6%  4    |   4.2%  5  
+    3 HOLD MY HALO           4.5 |   5.0%  5    |   4.4%  4  
+    1 FREAK CITY            30.0 |   0.8%  6    |   1.0%  6  
+
+R2 D/M (10 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    2 SHOT AT PERFECTION     6.0 |  28.1%  1 *  |  35.1%  1 *
+    6 PINCH OF BOURBON       2.5 |  16.2%  2 +  |   9.1%  3  
+    9 SISTER WIFE            4.5 |  13.7%  3 +  |   6.1%  6  
+    5 CHRISTY                3.0 |  13.2%  4    |   8.4%  4  
+    7 FOR MY SAKE           20.0 |   9.5%  5    |   2.6%  9  
+    8 RHAPSODY IN BLUE       8.0 |   5.8%  6    |   5.6%  7  
+    1 COCOA BEAN            10.0 |   4.4%  7    |   8.3%  5  
+   10 DEMURE                15.0 |   4.3%  8    |  19.5%  2 *
+    4 IRISH PUB             20.0 |   3.3%  9    |   3.2%  8  
+    3 SERAFINA VIETTI       30.0 |   1.7% 10    |   2.2% 10  
+
+R3 D/C (9 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    8 SHOW TIME              1.5 |  36.8%  1 +  |  38.6%  1 +
+    2 PINFIRE                5.0 |  26.7%  2 *  |  15.2%  2 +
+    7 ELI'S PROMISE          6.0 |   8.2%  3    |  13.3%  3  
+    3 HEAVENLYCONVEYANCE     4.5 |   6.0%  4    |   8.9%  4  
+    5 MACHINE GUN MAN       30.0 |   5.8%  5    |   5.9%  6  
+    6 WEST COAST BULL       10.0 |   5.3%  6    |   4.8%  7  
+    9 LUCKY SHOT             6.0 |   4.3%  7    |   3.9%  8  
+    4 DECATUR STREET        15.0 |   4.2%  8    |   3.4%  9  
+    1 COMING IN HOT         20.0 |   2.7%  9    |   6.0%  5  
+
+R4 T/A (11 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    7 COCO G                 8.0 |  29.5%  1 *  |  17.8%  2 *
+    4 SMELL THE LILIES       2.5 |  19.0%  2 +  |  15.8%  4  
+    3 MOONLIGHT DASH         3.5 |  11.1%  3 +  |  23.2%  1 +
+    5 HAVANA RUM            20.0 |   7.9%  4    |   5.3%  7  
+    1 RISEN POWER           30.0 |   7.5%  5    |   4.2%  8  
+    6 PRINCESS EM TOO       10.0 |   7.2%  6    |   6.0%  6  
+    8 COTILLARD              4.0 |   7.1%  7    |  17.5%  3 +
+    9 GALATINA               6.0 |   4.9%  8    |   6.7%  5  
+   11 FROSTY MOJITO         20.0 |   2.8%  9    |   1.3% 10  
+    2 MISS MOXEE            30.0 |   2.7% 10    |   1.9%  9  
+   10 TIDAL TACTICS         50.0 |   0.2% 11    |   0.3% 11  
+
+R5 D/S (11 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    8 PSALM BEAUTY           3.5 |  25.0%  1 +  |  26.3%  1 +
+    9 FORTUNE COOKIE         6.0 |  21.7%  2 *  |  14.4%  3 +
+    3 RUN KIKI RUN           6.0 |  13.5%  3 +  |  16.1%  2 +
+   10 NEVER TWO              8.0 |   9.6%  4    |  11.4%  4  
+    7 BRILLIANTEERING       10.0 |   7.4%  5    |   2.6% 11  
+   11 MARANELLO              6.0 |   7.1%  6    |   4.4%  7  
+    4 ICE EMPRESS            4.5 |   6.1%  7    |   5.6%  6  
+    5 CLEAR THINKING        15.0 |   2.8%  8    |   3.7% 10  
+    2 LAKESIDE RYE          20.0 |   2.6%  9    |   4.3%  8  
+    6 VIOLENT GAL           20.0 |   2.5% 10    |   4.1%  9  
+    1 SHEPHERD'S GRACE      12.0 |   1.6% 11    |   7.3%  5  
+
+R6 T/A (11 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    5 TALBINGO               3.5 |  27.3%  1 +  |  26.7%  1 +
+    2 BLAST FURNACE          3.0 |  20.0%  2 +  |  20.4%  2 +
+    1 OSCAR SEASON          10.0 |  12.5%  3 +  |   7.9%  5  
+    6 SUSHI MAN              6.0 |  12.1%  4    |  14.4%  4  
+    8 MAUI STRONG            4.5 |   9.2%  5    |  14.8%  3 +
+    7 TOUGH LITTLE NUT       8.0 |   7.8%  6    |   6.3%  6  
+   10 BALTIMORE HEART       20.0 |   3.5%  7    |   1.9%  9  
+    9 IRONSIDES              8.0 |   3.3%  8    |   2.3%  8  
+   11 JOEJOE GO             20.0 |   1.8%  9    |   2.8%  7  
+    4 SENDERO               30.0 |   1.4% 10    |   0.8% 11  
+    3 CANYON STREAK         20.0 |   1.1% 11    |   1.8% 10  
+
+R7 D/C (10 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    8 HOP SING               3.5 |  33.2%  1 *  |  30.9%  1 +
+    6 LEGITIMATE            10.0 |  14.8%  2 *  |  10.5%  5  
+    5 SAV'N MONEY            4.5 |  11.6%  3 +  |  10.9%  4  
+    4 CHILLAX                2.5 |   8.9%  4    |  12.9%  3 +
+    7 CULPRIT                6.0 |   8.2%  5    |   5.5%  7  
+   10 MAGICSTRIKESAGAIN     30.0 |   8.0%  6    |   4.2%  8  
+    1 KING OF ASHES          6.0 |   5.5%  7    |  17.1%  2 +
+    9 ADMIRAL HALL           8.0 |   4.8%  8    |   5.8%  6  
+    2 SUSAN'S BOY           20.0 |   4.0%  9    |   1.5%  9  
+    3 REB                   30.0 |   1.0% 10    |   0.7% 10  
+
+R8 T/A (12 entries)  [* = gold, + = top-50% mass]
+   pn horse                   ML |  champ rk    |   tree rk
+    9 LIT SHIP               3.5 |  27.5%  1 +  |  27.5%  1 +
+    1 FIERY LUCY             2.5 |  21.5%  2 +  |  16.7%  2 +
+    2 RAIN GOLD             15.0 |  11.7%  3 *  |  16.5%  3 *
+   10 MY STUBBORN LASSIE     8.0 |   8.5%  4    |   7.2%  5  
+    8 NO OTHER LIKE YOU      6.0 |   5.7%  5    |   5.7%  6  
+   11 TRAMUNTANA             4.5 |   5.3%  6    |   9.0%  4  
+    3 NEENAH                20.0 |   5.1%  7    |   4.5%  8  
+    4 MAVERICK QUEEN        20.0 |   4.6%  8    |   4.5%  7  
+    7 RACONTEUSE            12.0 |   3.6%  9    |   3.3%  9  
+   12 STUNNING SAPPHIRE     30.0 |   2.5% 10    |   1.8% 11  
+    5 TEMPLE GODDESS        30.0 |   2.1% 11    |   2.0% 10  
+    6 HONOR AZTECA          30.0 |   1.9% 12    |   1.3% 12  
