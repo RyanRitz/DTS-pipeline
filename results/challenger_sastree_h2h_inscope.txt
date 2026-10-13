@@ -1,0 +1,71 @@
+challenger files: ../Challenger/predictions_sastree/KEE_*_sastree.csv
+IN-SCOPE: 70 races, 614 runners
+
+== Headline ==
+                                    Champion  Challenger    Market   ML-only
+log-loss per runner                   0.3278      0.3211    0.3004    0.3150
+-log p(winner) per race               1.9559      1.9098    1.7537    1.8587
+corr(model odds, final odds)           0.686       0.674
+corr(model odds, ML adj)               0.621       0.599
+winners in top-50% prob mass           36/70       39/70
+winners in positional top half         51/70       49/70
+top pick (rank 1) wins                 17/70       22/70
+rank-1 agreement                                   41/70
+sum p vs actual winners                 70.2        70.0      70.0   actual 70
+
+== Gold set (edge>=1.5 vs MornOddsAdj & prob_above<0.5) ==
+             plays  wins mod-exp mkt-exp  $2 ROI   CLV avg ML avg fin
+Champion        70    12    16.0    11.3  -11.1%  1.70    9.9     6.4
+  turf          20     5     4.5     3.3   29.5%  1.50    9.3     5.3
+  dirt          21     2     4.7     3.3  -56.6%  1.68    9.9     6.1
+  maiden        29     5     6.8     4.7   -6.2%  1.86   10.3     7.4
+  rank-2 gold: 1-for-22 (mod-exp 4.4, mkt-exp 2.6)
+Challenger      74    14    19.5    12.7  -13.9%  1.97    9.1     6.2
+  turf          23     4     6.0     3.4   -9.2%  2.03   10.7     6.9
+  dirt          25     6     7.2     5.2  -11.0%  1.56    7.8     4.1
+  maiden        26     4     6.4     4.0  -20.7%  2.31    8.9     7.7
+  rank-2 gold: 4-for-29 (mod-exp 6.1, mkt-exp 3.8)
+Gold by BOTH: 34 plays, 5 wins; champion-only gold: 36, challenger-only: 40
+
+== Calibration by band ==
+Champion:  band        n   model   actual  market
+     0- 10%    344    5.3%    6.1%    6.2%
+    10- 20%    170   14.1%   14.1%   13.8%
+    20- 30%     70   24.1%   24.3%   21.8%
+    30- 40%     23   34.8%   21.7%   31.1%
+    40-100%      7   44.1%   42.9%   39.6%
+Challenger:  band        n   model   actual  market
+     0- 10%    355    4.5%    6.5%    6.5%
+    10- 20%    149   14.3%   10.7%   14.4%
+    20- 30%     70   23.7%   28.6%   19.2%
+    30- 40%     22   34.6%   22.7%   26.5%
+    40-100%     18   47.6%   33.3%   34.4%
+
+== By rank ==
+Champion:  rank    n  wins  mod-exp  mkt-exp
+   1      70    17     20.6     18.1
+   2      70    12     13.7     12.6
+   3      70    13     10.1     10.0
+   4+    404    28     25.8     29.2
+Challenger:  rank    n  wins  mod-exp  mkt-exp
+   1      70    22     23.3     17.7
+   2      70    12     14.3     11.5
+   3      70     9     10.1     11.2
+   4+    404    27     22.2     29.7
+
+== Validation bet: top-50% mass + >=25% overlay vs FINAL (no-vig) ==
+Champion        83    11    18.5    11.4  -22.8%  1.79    8.5     6.8
+Challenger      82    17    21.6    11.8   15.9%  2.10    7.9     6.6
+
+== Short-priced winners (<4-1) outside top-50% mass ==
+Champion: 13 of 39 winners <4-1 missed
+Challenger: 12 of 39 winners <4-1 missed
+
+== Ryan's Daily Double ticket (cum-50% per leg, consecutive races, in-scope legs only) ==
+Champion: 62 tickets, 17 hits, model-exp 21.3, market-exp 17.5, avg combos 7.0, cost $437, return $558, ROI +28%
+Challenger: 62 tickets, 20 hits, model-exp 22.0, market-exp 14.9, avg combos 5.6, cost $350, return $423, ROI +21%
+
+== §4 decision-rule checks (challenger vs champion, this sample) ==
+(a) log-loss: challenger 0.3211 vs champion 0.3278 -> PASS
+(b) gold-set model-exp vs actual: challenger 19.5 vs 14 (+40%); champion 16.0 vs 12 (+34%) -> FAIL (±15%)
+(c) containment (top-50% mass): challenger 39 vs champion 36 of 70 -> PASS
