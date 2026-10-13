@@ -1,6 +1,6 @@
 """Head-to-head: champion (performance_log.csv) vs challenger (../Challenger/predictions/*.csv) vs market.
 Challenger probs are renormalized per race over horses that ran (scratches dropped), then prob_above/edge/gold
-are recomputed with the champion's MornOddsAdj. Usage: python challenger_h2h.py [--all-scope] [--glob "../Challenger/predictions_noml/KEE_*_challenger_noML.csv"]"""
+are recomputed with the champion's MornOddsAdj. Usage: python challenger_h2h.py [--all-scope] [--exclude-dates 20261011] [--glob "../Challenger/predictions_noml/KEE_*_challenger_noML.csv"]"""
 import sys, glob, re
 import numpy as np, pandas as pd
 from multirace_eval import payoffs
@@ -35,6 +35,9 @@ def add_gates(df, p):
 df = add_gates(add_gates(df, "p_cp"), "p_ch")
 
 scope = df if "--all-scope" in sys.argv else df[df["in_scope"] == 1]
+if "--exclude-dates" in sys.argv:
+    _ex = [int(x) for x in sys.argv[sys.argv.index("--exclude-dates")+1].split(",")]
+    scope = scope[~scope["date"].isin(_ex)]; print("excluded dates:", _ex)
 R = scope.groupby(["date", "race"]).ngroups
 print(f"{'ALL' if '--all-scope' in sys.argv else 'IN-SCOPE'}: {R} races, {len(scope)} runners\n")
 
