@@ -1,6 +1,6 @@
 """Head-to-head: champion (performance_log.csv) vs challenger (../Challenger/predictions/*.csv) vs market.
 Challenger probs are renormalized per race over horses that ran (scratches dropped), then prob_above/edge/gold
-are recomputed with the champion's MornOddsAdj. Usage: python challenger_h2h.py [--all-scope]"""
+are recomputed with the champion's MornOddsAdj. Usage: python challenger_h2h.py [--all-scope] [--glob "../Challenger/predictions_noml/KEE_*_challenger_noML.csv"]"""
 import sys, glob, re
 import numpy as np, pandas as pd
 from multirace_eval import payoffs
@@ -12,7 +12,9 @@ log["MornOddsAdj"] = log["value_prod"] / log["ProbToWin"] - 1          # value_p
 log["p_fin"] = 1 / (log["final_odds"] + 1); log["p_fin"] = log["p_fin"] / log.groupby(["date", "race"])["p_fin"].transform("sum")   # no-vig
 
 rows = []
-for f in sorted(glob.glob(str(HERE / "../Challenger/predictions/KEE_*_challenger.csv"))):
+PAT = sys.argv[sys.argv.index("--glob")+1] if "--glob" in sys.argv else "../Challenger/predictions/KEE_*_challenger.csv"
+print("challenger files:", PAT)
+for f in sorted(glob.glob(str(HERE / PAT))):
     d = int(re.search(r"KEE_(\d{8})", f).group(1))
     c = pd.read_csv(f); c["pn"] = c["program"].astype(str)
     l = log[log["date"] == d].merge(c[["race", "pn", "ProbToWin"]].rename(columns={"ProbToWin": "p_ch"}),
