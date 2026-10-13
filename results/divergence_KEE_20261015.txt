@@ -1,0 +1,133 @@
+KEE 20261015 — variable drivers of champion/tree divergence (relative-to-field logit contributions)
+
+R9 #4 SHE'S ON A ROLL  ML 1.8  champion 28.6% (rk 1)  tree 12.8% (rk 3)  Δ -15.9 pts
+   feature                          value  champ rel  tree rel     gap
+   IJKYe_kta13                          3     +0.361    +0.004  -0.358
+   latepacec_dmrt26                  6.25     +0.312    +0.056  -0.256
+   xBRISPd2a                          484     +0.000    +0.229  +0.229
+   icuryrwps_st26                     3.5     +0.210    +0.026  -0.184
+   iJkyPrvWin_sd26                    2.5     +0.000    +0.149  +0.149
+   trncurWPSKo25                   -0.243     +0.000    -0.144  -0.144
+   xKSwpct1_kmd26                   -8.85     -0.078    +0.065  +0.143
+   xBRISPd3                      1.97e+04     +0.164    +0.023  -0.141
+
+R4 #7 INDOMIKNOW  ML 4.5  champion 11.8% (rk 4)  tree 25.4% (rk 1)  Δ +13.6 pts
+   feature                          value  champ rel  tree rel     gap
+   latepacec_dmrt26                     7     +0.454    +0.087  -0.367
+   xBRISPd2a                          455     +0.000    +0.249  +0.249
+   lp3_kot26                         11.4     +0.000    +0.244  +0.244
+   xBRISPd2                           545     +0.000    +0.204  +0.204
+   xNumEntLast5cut                    6.2     +0.000    +0.202  +0.202
+   XBPPR_tc12_3                       920     +0.000    +0.166  +0.166
+   latepace_avg2                     11.4     +0.000    +0.150  +0.150
+   lrclass_avg3_alt                  2.33     +0.147    +0.009  -0.138
+
+R9 #3 JUST ENTITLED  ML 5.0  champion 20.4% (rk 3)  tree 33.8% (rk 1)  Δ +13.4 pts
+   feature                          value  champ rel  tree rel     gap
+   IJKYe_kta13                       2.46     +0.265    +0.010  -0.256
+   latepacec_dmrt26                   4.5     +0.180    +0.013  -0.167
+   wotimefrlg_dmrd                 -0.383     +0.000    +0.129  +0.129
+   trnmtstrts26                         3     +0.000    -0.106  -0.106
+   Weight_LR                         -2.2     +0.000    +0.098  +0.098
+   xBRIS_DtPRc                       5.73     +0.000    +0.097  +0.097
+   qsp_dmrd26                           3     +0.000    +0.094  +0.094
+   TrnStCM_msp26                       20     +0.000    +0.092  +0.092
+
+R7 #1 PERRYLU  ML 10.0  champion 16.0% (rk 3)  tree 27.6% (rk 1)  Δ +11.6 pts
+   feature                          value  champ rel  tree rel     gap
+   wotimefrlg_keeom                 -1.07     +0.000    +0.182  +0.182
+   wotimefrlg_kot26                 -1.06     +0.153    +0.007  -0.146
+   xKeyStatITMpct1_kot26            -8.93     -0.036    +0.084  +0.119
+   trnpyw_kaaw13                  -0.0807     +0.000    -0.119  -0.119
+   xR308_KEE25                        1.8     +0.000    +0.104  +0.104
+   xHBL4_kot26                        6.3     +0.051    +0.147  +0.096
+   xKSwpct1_msp26                   -8.71     +0.000    -0.085  -0.085
+   lrclass1_kot26                    -4.3     -0.084    +0.000  +0.084
+
+R5 #10 FARROKH  ML 4.5  champion 22.9% (rk 1)  tree 11.6% (rk 2)  Δ -11.3 pts
+   feature                          value  champ rel  tree rel     gap
+   latepacec_dmrt26                     6     +0.512    +0.049  -0.463
+   iTrnSpr_kmd26                      1.3     +0.219    -0.067  -0.285
+   lrclass_avg3_alt                   3.5     +0.240    +0.043  -0.198
+   xjckyeps_s26                       7.5     +0.142    -0.023  -0.165
+   iwork1_kmd26                     0.305     +0.185    +0.032  -0.153
+   effpost                             10     +0.000    -0.147  -0.147
+   wotimefrlg_keeom                -0.609     +0.211    +0.085  -0.126
+   xJTcmITMKOct26                    2.44     +0.000    +0.123  +0.123
+
+R3 #2 BANNED FOR LIFE  ML 2.0  champion 24.7% (rk 1)  tree 33.9% (rk 1)  Δ +9.2 pts
+   feature                          value  champ rel  tree rel     gap
+   spdft_sard26                      1.06     +0.275    -0.009  -0.284
+   xBRISPd6                      1.81e+03     +0.262    +0.014  -0.248
+   trnwcm_sart                        1.7     +0.000    +0.214  +0.214
+   xBRISlfKOct26                     5.44     +0.000    +0.186  +0.186
+   xBRISPd2a                          328     +0.000    +0.120  +0.120
+   xBRISftKOct26                     5.89     +0.068    +0.175  +0.108
+   xKSitm1_kmd26                       75     +0.000    -0.107  -0.107
+   xBRISPd2                           404     +0.120    +0.223  +0.103
+
+R8 #6 CARIBBEAN LIFE  ML 0.8  champion 39.0% (rk 1)  tree 30.3% (rk 1)  Δ -8.7 pts
+   feature                          value  champ rel  tree rel     gap
+   xBRISPd6                      3.79e+03     +0.806    +0.012  -0.794
+   xBRISPd2                           729     +0.000    +0.453  +0.453
+   iJkyPrvWin_sd26                   2.48     +0.000    +0.177  +0.177
+   lrclass_avg3_alt                  4.31     +0.204    +0.052  -0.151
+   xBRISPd2a                          484     +0.000    +0.147  +0.147
+   xKeyStatITMpct1_kot26            -10.1     +0.000    -0.143  -0.143
+   jkyErnDT_rt                       2.53     +0.098    -0.033  -0.131
+   XBPPR_tc12_3                  1.31e+03     +0.000    +0.129  +0.129
+
+R4 #4 EAT HAY RUN  ML 5.0  champion 23.6% (rk 1)  tree 15.1% (rk 4)  Δ -8.5 pts
+   feature                          value  champ rel  tree rel     gap
+   IJKYe_kta13                       2.67     +0.297    -0.001  -0.298
+   latepacec_dmrt26                  4.66     +0.276    +0.036  -0.241
+   iJkyPrvWin_sd26                   1.99     +0.000    +0.208  +0.208
+   xNumEntLast5cut                    6.2     +0.000    +0.196  +0.196
+   lrclass_avg3_alt                  2.37     +0.150    +0.038  -0.112
+   IJKYe_Ko25                        2.67     +0.140    +0.035  -0.105
+   wotimefrlg_keeom                 0.486     -0.182    -0.083  +0.100
+   TrnStCM_msp26                     18.3     +0.000    +0.096  +0.096
+
+R8 #8 MY BOY GARY  ML 4.5  champion 11.1% (rk 4)  tree 19.2% (rk 2)  Δ +8.1 pts
+   feature                          value  champ rel  tree rel     gap
+   lp1_nc                            12.1     +0.219    +0.040  -0.178
+   xwotimeperfrlg1c                -0.343     +0.000    +0.112  +0.112
+   trnwcm_sart                       1.13     +0.000    +0.108  +0.108
+   xBRISPd6                           825     -0.095    +0.013  +0.108
+   xTrnWCM_kmd26                     1.56     +0.000    +0.090  +0.090
+   xKeyStatITM14sum_KOct26          -28.9     -0.106    -0.019  +0.087
+   xinfortag26                     -0.333     +0.082    +0.004  -0.078
+   iwork1_kmd26                      0.26     +0.000    +0.078  +0.078
+
+R9 #1 DETERMINED ACE  ML 8.0  champion 22.5% (rk 2)  tree 30.5% (rk 2)  Δ +8.0 pts
+   feature                          value  champ rel  tree rel     gap
+   xBRISPd2a                          484     +0.000    +0.424  +0.424
+   latepacec_dmrt26                     7     +0.369    +0.053  -0.316
+   iJkyPrvWin_sd26                    2.5     +0.000    +0.222  +0.222
+   wotimefrlg_keeom                -0.678     +0.248    +0.034  -0.214
+   xBRISPd2                           582     +0.000    +0.189  +0.189
+   IJKYe_kta13                       2.21     +0.221    +0.040  -0.180
+   lrclass_avg3_alt                  3.85     +0.253    +0.083  -0.169
+   xNumEntLast5cut                   3.19     +0.000    +0.157  +0.157
+
+R2 #7 GLOBAL EQUITY  ML 8.0  champion 11.0% (rk 2)  tree 18.9% (rk 1)  Δ +7.9 pts
+   feature                          value  champ rel  tree rel     gap
+   xBRISlfKOct26                     11.4     +0.000    +0.192  +0.192
+   XBPPR_tc12_3                       854     +0.000    +0.190  +0.190
+   xBRISPd2                           494     +0.000    +0.168  +0.168
+   lrclass1_alt                       4.5     +0.000    +0.137  +0.137
+   iTrnSpr_kmd26                    0.779     -0.032    +0.091  +0.123
+   xBRISftKOct26                       12     +0.095    +0.216  +0.121
+   lp3_kot26                          9.6     +0.000    +0.115  +0.115
+   xR308_KEE25                       -3.6     +0.000    -0.115  -0.115
+
+R6 #4 TAKE CHARGE OMAHA  ML 1.6  champion 19.8% (rk 2)  tree 27.3% (rk 1)  Δ +7.5 pts
+   feature                          value  champ rel  tree rel     gap
+   xBRIS_DtPRc                          5     +0.000    +0.201  +0.201
+   qsp_dmrd26                       -4.57     -0.106    +0.046  +0.152
+   lp1_nc                            11.3     +0.163    +0.015  -0.148
+   lrclass_avg3_alt                   4.1     +0.193    +0.069  -0.124
+   xBRISPd6                      1.11e+03     +0.100    +0.005  -0.095
+   iJkyPrvWin_sd26                  0.217     +0.000    -0.091  -0.091
+   DRF1_SARD15                       4.86     +0.045    +0.131  +0.086
+   baseprob2                        0.143     +0.000    +0.085  +0.085

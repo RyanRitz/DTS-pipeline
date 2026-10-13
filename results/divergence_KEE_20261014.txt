@@ -1,0 +1,122 @@
+KEE 20261014 — variable drivers of champion/tree divergence (relative-to-field logit contributions)
+
+R2 #10 DEMURE  ML 15.0  champion 4.3% (rk 8)  tree 19.5% (rk 2)  Δ +15.2 pts
+   feature                          value  champ rel  tree rel     gap
+   xKSwpct1_kmd26                     -11     -0.228    +0.018  +0.245
+   wotimefrlg_keeom                 -1.41     +0.256    +0.497  +0.241
+   imonthscap                        1.22     +0.000    +0.142  +0.142
+   xStartsLTReccut                   -3.6     +0.000    +0.132  +0.132
+   xKeyStatITMpct1_kot26            -20.9     +0.000    -0.108  -0.108
+   xWorkoutDate3_kma13               13.2     +0.000    +0.102  +0.102
+   iJkyPrvWin_sd26                  0.301     +0.000    -0.101  -0.101
+   xKeyStatITM14sum_KOct26          -35.1     +0.000    +0.093  +0.093
+
+R4 #3 MOONLIGHT DASH  ML 3.5  champion 11.1% (rk 3)  tree 23.2% (rk 1)  Δ +12.1 pts
+   feature                          value  champ rel  tree rel     gap
+   xWorkoutDate3_kma13              -33.3     -0.367    -0.127  +0.240
+   xR308_KEE25                       1.64     +0.000    +0.212  +0.212
+   xBRISPd2                           587     +0.000    +0.194  +0.194
+   xHBL4_kot26                       8.78     +0.066    +0.258  +0.192
+   trncurWPSKo25                    0.216     +0.000    +0.130  +0.130
+   wotimefrlg_kot26                -0.886     +0.131    +0.004  -0.127
+   xStartsLTReccut                  -3.55     +0.028    -0.099  -0.126
+   xBRISPd2a                          484     +0.191    +0.068  -0.123
+
+R4 #7 COCO G  ML 8.0  champion 29.5% (rk 1)  tree 17.8% (rk 2)  Δ -11.7 pts
+   feature                          value  champ rel  tree rel     gap
+   IEPS_LT_keeot                      3.5     +0.398    +0.127  -0.271
+   trnwcm_sart                          2     +0.183    -0.004  -0.187
+   bris2f12                             9     +0.000    -0.163  -0.163
+   ILTrecWpct_krt26                     2     +0.196    +0.071  -0.125
+   iStrBtnLR26                     -0.217     +0.179    +0.055  -0.124
+   xBRISPd2                           470     +0.000    +0.111  +0.111
+   wotimefrlg_keeom               -0.0982     +0.000    -0.106  -0.106
+   xWorkoutDate3_kma13               34.7     +0.243    +0.144  -0.099
+
+R7 #1 KING OF ASHES  ML 6.0  champion 5.5% (rk 7)  tree 17.1% (rk 2)  Δ +11.7 pts
+   feature                          value  champ rel  tree rel     gap
+   trnwcm_sart                          2     +0.000    +0.241  +0.241
+   xBRISPd2                           292     +0.051    +0.244  +0.193
+   spdft_sard26                      0.92     -0.169    -0.009  +0.160
+   xBRISPd2a                          227     +0.000    +0.138  +0.138
+   xjckyeps_s26                       7.5     +0.000    +0.121  +0.121
+   xBRIStrkKOct26                   -4.25     -0.145    -0.025  +0.119
+   xNumEntLast5cut                    6.7     +0.183    +0.089  -0.094
+   xWorkoutDate3_kma13                 35     +0.000    +0.092  +0.092
+
+R3 #2 PINFIRE  ML 5.0  champion 26.7% (rk 2)  tree 15.2% (rk 2)  Δ -11.5 pts
+   feature                          value  champ rel  tree rel     gap
+   spdft_sard26                      1.08     +0.324    +0.022  -0.302
+   xBRISPd2                           315     +0.069    +0.312  +0.243
+   lastbris_dmrd                    -5.67     +0.000    -0.164  -0.164
+   xJkyWCMstd_sarm                  0.882     +0.160    -0.001  -0.160
+   xBRIStrkKOct26                      10     +0.188    +0.048  -0.140
+   xBRISlfKOct26                     6.33     +0.000    +0.134  +0.134
+   xBRISPd2a                          248     +0.000    +0.129  +0.129
+   xBRISPd6                      1.33e+03     +0.128    +0.009  -0.119
+
+R4 #8 COTILLARD  ML 4.0  champion 7.1% (rk 7)  tree 17.5% (rk 3)  Δ +10.3 pts
+   feature                          value  champ rel  tree rel     gap
+   lp3_kot26                         12.9     +0.126    +0.332  +0.206
+   ILTrecWpct_krt26                 0.211     -0.139    +0.029  +0.168
+   turfspd_dmrt26                     9.8     +0.000    +0.163  +0.163
+   xBRISPd2                           710     +0.000    +0.151  +0.151
+   XBPPR_tc12_3                  1.13e+03     +0.227    +0.101  -0.126
+   xBRIS_DtPRc                         -7     +0.000    +0.120  +0.120
+   xBRISPd2a                          484     +0.191    +0.072  -0.119
+   xWorkoutDate3_kma13               33.7     +0.234    +0.125  -0.109
+
+R2 #9 SISTER WIFE  ML 4.5  champion 13.7% (rk 3)  tree 6.1% (rk 6)  Δ -7.6 pts
+   feature                          value  champ rel  tree rel     gap
+   lp3_kot26                        -6.42     +0.000    -0.185  -0.185
+   iTrnSpr_kmd26                    0.929     -0.010    +0.170  +0.180
+   finbtn_dmrn                         -8     +0.000    -0.154  -0.154
+   curyrwp_final                    0.393     +0.000    +0.143  +0.143
+   IAucPriKOct26                   0.0816     +0.000    -0.141  -0.141
+   xBRIS_DtPRc                       -6.4     -0.099    -0.214  -0.115
+   iStrBtnLR26                     -0.282     +0.000    +0.078  +0.078
+   imonthscap                       0.913     +0.000    +0.073  +0.073
+
+R5 #9 FORTUNE COOKIE  ML 6.0  champion 21.7% (rk 2)  tree 14.4% (rk 3)  Δ -7.4 pts
+   feature                          value  champ rel  tree rel     gap
+   iTrnSpr_kmd26                     1.49     +0.355    -0.044  -0.399
+   xKSwins1KMd26                     66.8     +0.373    +0.124  -0.249
+   iJkyPrvWin_sd26                   1.98     +0.126    +0.273  +0.147
+   trncurmtKo25                    -0.111     +0.000    +0.146  +0.146
+   xjckyeps_s26                      6.44     +0.110    -0.019  -0.129
+   xJkyWCM_kmd26                     4.18     +0.077    -0.051  -0.128
+   xR308_KEE25                       5.18     +0.174    +0.051  -0.123
+   xJTcmITMKOct26                    1.36     +0.000    +0.114  +0.114
+
+R2 #6 PINCH OF BOURBON  ML 2.5  champion 16.2% (rk 2)  tree 9.1% (rk 3)  Δ -7.0 pts
+   feature                          value  champ rel  tree rel     gap
+   xKSwpct1_kmd26                    17.3     +0.371    +0.079  -0.293
+   lp3_kot26                        -4.42     +0.000    -0.257  -0.257
+   IJKYe_Ko25                        2.65     +0.244    +0.035  -0.208
+   xBRISPd2a                          269     +0.220    +0.017  -0.203
+   TopTrnStatWpct                    17.3     +0.000    +0.190  +0.190
+   iJkyPrvWin_sd26                    2.5     +0.000    +0.169  +0.169
+   jkyErnDT_rt                       2.65     +0.161    +0.006  -0.156
+   xKSwpct1_msp26                    17.3     +0.220    +0.072  -0.148
+
+R2 #2 SHOT AT PERFECTION  ML 6.0  champion 28.1% (rk 1)  tree 35.1% (rk 1)  Δ +7.0 pts
+   feature                          value  champ rel  tree rel     gap
+   HC_Blinkersoff                       1     +0.642    +0.006  -0.635
+   xBRISftKOct26                     10.3     +0.083    +0.298  +0.215
+   xBRISlfKOct26                     9.57     +0.000    +0.203  +0.203
+   IEPS_LTDist_kmd26                  2.5     +0.319    +0.124  -0.195
+   TwoF_sarm                           -4     -0.074    +0.061  +0.136
+   IAucPrice_s26                     2.04     +0.000    +0.123  +0.123
+   IAucPriKOct26                     2.04     +0.000    +0.098  +0.098
+   BRISDist_dmr26alt                    8     +0.000    +0.089  +0.089
+
+R2 #7 FOR MY SAKE  ML 20.0  champion 9.5% (rk 5)  tree 2.6% (rk 9)  Δ -6.9 pts
+   feature                          value  champ rel  tree rel     gap
+   xKSwpct1_kmd26                      20     +0.428    +0.036  -0.392
+   TopTrnStatWpct                      20     +0.000    +0.262  +0.262
+   IAucPriKOct26                   0.0583     +0.000    -0.256  -0.256
+   xKSwpct1_msp26                      20     +0.254    +0.084  -0.169
+   iTrnSpr_kmd26                    0.614     -0.056    -0.220  -0.165
+   iJkyPrvWin_sd26                  0.273     +0.000    -0.155  -0.155
+   iwork1_kmd26                     0.263     +0.134    -0.013  -0.147
+   xwotimeperfrlg1c                -0.483     +0.000    +0.130  +0.130
