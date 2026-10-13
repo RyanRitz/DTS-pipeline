@@ -4,14 +4,14 @@ IN-SCOPE: 69 races, 607 runners
 
 == Headline ==
                                     Champion  Challenger    Market   ML-only
-log-loss per runner                   0.3276      0.5295    0.3004    0.3131
--log p(winner) per race               1.9622      3.2658    1.7604    1.8524
-corr(model odds, final odds)           0.683       0.151
-corr(model odds, ML adj)               0.618       0.195
-winners in top-50% prob mass           36/69       24/69
-winners in positional top half         50/69       47/69
-top pick (rank 1) wins                 17/69       20/69
-rank-1 agreement                                   32/69
+log-loss per runner                   0.3276      0.3391    0.3004    0.3131
+-log p(winner) per race               1.9622      2.0521    1.7604    1.8524
+corr(model odds, final odds)           0.683       0.652
+corr(model odds, ML adj)               0.618       0.630
+winners in top-50% prob mass           36/69       31/69
+winners in positional top half         50/69       43/69
+top pick (rank 1) wins                 17/69       14/69
+rank-1 agreement                                   45/69
 sum p vs actual winners                 69.2        69.0      69.0   actual 69
 
 == Gold set (edge>=1.5 vs MornOddsAdj & prob_above<0.5) ==
@@ -21,12 +21,12 @@ Champion        70    12    16.0    11.3  -11.1%  1.70    9.9     6.4
   dirt          21     2     4.7     3.3  -56.6%  1.68    9.9     6.1
   maiden        29     5     6.8     4.7   -6.2%  1.86   10.3     7.4
   rank-2 gold: 1-for-22 (mod-exp 4.4, mkt-exp 2.6)
-Challenger      79    20    48.8    16.6   -3.8%  3.44    5.9     4.3
-  turf          18     2    12.1     3.4  -43.6%  4.04    5.5     4.1
-  dirt          34    10    20.8     8.2    2.8%  2.89    5.4     3.5
-  maiden        27     8    15.9     5.0   14.5%  3.73    6.7     5.4
-  rank-2 gold: 1-for-13 (mod-exp 3.7, mkt-exp 1.4)
-Gold by BOTH: 21 plays, 3 wins; champion-only gold: 49, challenger-only: 58
+Challenger      68     8    16.8    11.2  -57.3%  1.80    9.2     6.4
+  turf          20     2     4.9     2.7  -36.8%  1.87    9.0     6.5
+  dirt          24     4     6.1     4.9  -52.6%  1.38    8.1     4.3
+  maiden        24     2     5.8     3.6  -79.0%  2.16   10.5     8.3
+  rank-2 gold: 2-for-21 (mod-exp 4.0, mkt-exp 2.7)
+Gold by BOTH: 31 plays, 3 wins; champion-only gold: 39, challenger-only: 37
 
 == Calibration by band ==
 Champion:  band        n   model   actual  market
@@ -36,11 +36,11 @@ Champion:  band        n   model   actual  market
     30- 40%     23   34.8%   21.7%   31.1%
     40-100%      7   44.1%   42.9%   39.6%
 Challenger:  band        n   model   actual  market
-     0- 10%    457    1.4%    7.9%    8.7%
-    10- 20%     40   13.1%   12.5%   15.9%
-    20- 30%     35   24.9%   22.9%   17.5%
-    30- 40%     16   34.6%   25.0%   17.0%
-    40-100%     59   73.2%   27.1%   23.9%
+     0- 10%    359    5.3%    7.0%    6.7%
+    10- 20%    155   14.1%   14.8%   14.5%
+    20- 30%     57   23.9%   21.1%   19.9%
+    30- 40%     21   34.6%   19.0%   27.0%
+    40-100%     15   47.7%   33.3%   36.1%
 
 == By rank ==
 Champion:  rank    n  wins  mod-exp  mkt-exp
@@ -49,24 +49,24 @@ Champion:  rank    n  wins  mod-exp  mkt-exp
    3      69    12      9.9      9.8
    4+    400    28     25.5     28.8
 Challenger:  rank    n  wins  mod-exp  mkt-exp
-   1      69    20     46.2     16.2
-   2      69    12     12.3     11.4
-   3      69     9      5.5     10.0
-   4+    400    28      5.0     31.4
+   1      69    14     22.3     17.8
+   2      69    13     12.8     11.2
+   3      69     9      9.6      9.8
+   4+    400    33     24.3     30.2
 
 == Validation bet: top-50% mass + >=25% overlay vs FINAL (no-vig) ==
 Champion        81    11    18.0    11.0  -20.9%  1.80    8.6     6.9
-Challenger      82    23    50.0    16.9   12.0%  3.41    5.7     4.3
+Challenger      85     7    19.9    11.7  -52.3%  1.85    7.8     6.7
 
 == Short-priced winners (<4-1) outside top-50% mass ==
 Champion: 12 of 38 winners <4-1 missed
-Challenger: 20 of 38 winners <4-1 missed
+Challenger: 13 of 38 winners <4-1 missed
 
 == Ryan's Daily Double ticket (cum-50% per leg, consecutive races, in-scope legs only) ==
 Champion: 62 tickets, 17 hits, model-exp 21.3, market-exp 17.5, avg combos 7.0, cost $437, return $558, ROI +28%
-Challenger: 62 tickets, 7 hits, model-exp 35.9, market-exp 4.7, avg combos 1.6, cost $101, return $126, ROI +24%
+Challenger: 62 tickets, 11 hits, model-exp 20.8, market-exp 14.6, avg combos 6.2, cost $383, return $203, ROI -47%
 
 == §4 decision-rule checks (challenger vs champion, this sample) ==
-(a) log-loss: challenger 0.5295 vs champion 0.3276 -> FAIL
-(b) gold-set model-exp vs actual: challenger 48.8 vs 20 (+144%); champion 16.0 vs 12 (+34%) -> FAIL (±15%)
-(c) containment (top-50% mass): challenger 24 vs champion 36 of 69 -> FAIL
+(a) log-loss: challenger 0.3391 vs champion 0.3276 -> FAIL
+(b) gold-set model-exp vs actual: challenger 16.8 vs 8 (+111%); champion 16.0 vs 12 (+34%) -> FAIL (±15%)
+(c) containment (top-50% mass): challenger 31 vs champion 36 of 69 -> FAIL
