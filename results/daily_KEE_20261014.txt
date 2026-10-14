@@ -1,0 +1,118 @@
+KEE 20261014 — post-scratch sheet: champion vs tree   [feed snapshot KEE_manual_1120.rss, last bulletin 2026-10-14 11:20:41-04:00]
+conditions: not posted yet
+scratches (13): R1: #1; R2: #6,7; R3: #2,8; R5: #2,3,10; R6: #1,5,8; R7: #3,4
+
+legend: ★ = both models' #1 (single candidate) · U = on the union ticket (top-50% mass of either model) · G/g = gold champion/tree · Δ = tree − champion, pts
+
+R1 D/R (5 run)
+  union ticket: #2 #5   ★ single candidate #2 (both #1)
+   pn horse                   ML |  champ rk    |   tree rk    |      Δ
+    2 WEST COAST DREAM       1.2 |  37.9%  1 U  |  46.9%  1 U  |   +9.0  <<
+    5 CARA FELCE             1.8 |  30.5%  2 U  |  26.1%  2 U  |   -4.3
+    6 HEARTBEAT              6.0 |  20.7%  3    |  20.3%  3    |   -0.4
+    3 HOLD MY HALO           4.5 |   5.6%  4    |   4.5%  4    |   -1.1
+    4 SPEED SKATER          10.0 |   5.3%  5    |   2.2%  5    |   -3.2
+
+R2 D/M (8 run)
+  union ticket: #2 #9 #10   ★ single candidate #2 (both #1)
+   pn horse                   ML |  champ rk    |   tree rk    |      Δ
+    2 SHOT AT PERFECTION     6.0 |  34.6%  1 G  |  34.4%  1 g  |   -0.2
+    9 SISTER WIFE            4.5 |  18.6%  2 U  |   4.0%  7    |  -14.6  <<
+    5 CHRISTY                3.0 |  18.4%  3    |   8.5%  4    |   -9.9  <<
+    8 RHAPSODY IN BLUE       8.0 |   8.3%  4    |   7.8%  5    |   -0.5
+    1 COCOA BEAN            10.0 |   6.6%  5    |  13.5%  3    |   +7.0  <<
+   10 DEMURE                15.0 |   6.2%  6    |  25.4%  2 g  |  +19.3  <<
+    4 IRISH PUB             20.0 |   4.6%  7    |   4.1%  6    |   -0.6
+    3 SERAFINA VIETTI       30.0 |   2.6%  8    |   2.2%  8    |   -0.5
+
+R3 D/C (7 run)
+  union ticket: #7 #3 #6   #1 split: champ #7 / tree #3
+   pn horse                   ML |  champ rk    |   tree rk    |      Δ
+    7 ELI'S PROMISE          6.0 |  21.6%  1 U  |  17.2%  2 U  |   -4.3
+    3 HEAVENLYCONVEYANCE     4.5 |  17.4%  2 U  |  20.5%  1 U  |   +3.2
+    6 WEST COAST BULL       10.0 |  15.6%  3 U  |  16.7%  3 U  |   +1.0
+    5 MACHINE GUN MAN       30.0 |  14.8%  4    |  13.5%  5    |   -1.3
+    9 LUCKY SHOT             6.0 |  12.5%  5    |  12.5%  6    |   -0.0
+    4 DECATUR STREET        15.0 |  10.0%  6    |   5.3%  7    |   -4.7
+    1 COMING IN HOT         20.0 |   8.1%  7    |  14.3%  4    |   +6.2  <<
+
+R4 T/A (11 run)
+  union ticket: #7 #4 #3 #8   #1 split: champ #7 / tree #3
+   pn horse                   ML |  champ rk    |   tree rk    |      Δ
+    7 COCO G                 8.0 |  29.5%  1 G  |  18.1%  2 g  |  -11.5  <<
+    4 SMELL THE LILIES       2.5 |  19.1%  2 U  |  15.8%  4    |   -3.3
+    3 MOONLIGHT DASH         3.5 |  11.1%  3 U  |  23.3%  1 U  |  +12.2  <<
+    5 HAVANA RUM            20.0 |   7.9%  4    |   5.2%  7    |   -2.7
+    1 RISEN POWER           30.0 |   7.5%  5    |   4.2%  8    |   -3.3
+    6 PRINCESS EM TOO       10.0 |   7.2%  6    |   6.1%  6    |   -1.1
+    8 COTILLARD              4.0 |   7.1%  7    |  17.3%  3 U  |  +10.2  <<
+    9 GALATINA               6.0 |   4.9%  8    |   6.6%  5    |   +1.7
+   11 FROSTY MOJITO         20.0 |   2.8%  9    |   1.3% 10    |   -1.6
+    2 MISS MOXEE            30.0 |   2.7% 10    |   1.9%  9    |   -0.8
+   10 TIDAL TACTICS         50.0 |   0.2% 11    |   0.3% 11    |   +0.1
+
+R5 D/S (8 run)
+  union ticket: #8 #9   #1 split: champ #8 / tree #9
+   pn horse                   ML |  champ rk    |   tree rk    |      Δ
+    8 PSALM BEAUTY           3.5 |  31.9%  1 U  |  26.3%  2 U  |   -5.6
+    9 FORTUNE COOKIE         6.0 |  29.6%  2 G  |  26.6%  1 U  |   -2.9
+    7 BRILLIANTEERING       10.0 |  10.6%  3    |   8.5%  5    |   -2.1
+   11 MARANELLO              6.0 |   9.8%  4    |  11.0%  3    |   +1.2
+    4 ICE EMPRESS            4.5 |   8.4%  5    |   7.9%  6    |   -0.5
+    5 CLEAR THINKING        15.0 |   3.9%  6    |   6.2%  7    |   +2.3
+    6 VIOLENT GAL           20.0 |   3.5%  7    |   4.6%  8    |   +1.1
+    1 SHEPHERD'S GRACE      12.0 |   2.2%  8    |   8.9%  4    |   +6.6  <<
+
+R6 T/A (8 run)
+  union ticket: #2 #6   #1 split: champ #2 / tree #6
+   pn horse                   ML |  champ rk    |   tree rk    |      Δ
+    2 BLAST FURNACE          3.0 |  35.6%  1 U  |  29.8%  2 U  |   -5.8
+    6 SUSHI MAN              6.0 |  23.2%  2 U  |  29.9%  1 U  |   +6.7  <<
+    7 TOUGH LITTLE NUT       8.0 |  16.3%  3    |  17.0%  3    |   +0.7
+    9 IRONSIDES              8.0 |   8.1%  4    |   4.3%  6    |   -3.8
+   10 BALTIMORE HEART       20.0 |   7.7%  5    |   3.9%  7    |   -3.8
+   11 JOEJOE GO             20.0 |   4.3%  6    |   8.9%  4    |   +4.7
+    4 SENDERO               30.0 |   2.5%  7    |   1.7%  8    |   -0.8
+    3 CANYON STREAK         20.0 |   2.3%  8    |   4.5%  5    |   +2.2
+
+R7 D/C (8 run)
+  union ticket: #8 #6 #5   ★ single candidate #8 (both #1)
+   pn horse                   ML |  champ rk    |   tree rk    |      Δ
+    8 HOP SING               3.5 |  35.7%  1 U  |  32.6%  1 U  |   -3.1
+    6 LEGITIMATE            10.0 |  17.2%  2 G  |  14.6%  3    |   -2.7
+    5 SAV'N MONEY            4.5 |  12.9%  3    |  19.0%  2 U  |   +6.1  <<
+    7 CULPRIT                6.0 |   9.5%  4    |   5.4%  7    |   -4.1
+   10 MAGICSTRIKESAGAIN     30.0 |   8.8%  5    |   6.0%  6    |   -2.9
+    1 KING OF ASHES          6.0 |   6.7%  6    |  12.6%  4    |   +5.9
+    9 ADMIRAL HALL           8.0 |   4.8%  7    |   8.4%  5    |   +3.6
+    2 SUSAN'S BOY           20.0 |   4.4%  8    |   1.5%  8    |   -2.8
+
+R8 T/A (12 run)
+  union ticket: #9 #1 #2   ★ single candidate #9 (both #1)
+   pn horse                   ML |  champ rk    |   tree rk    |      Δ
+    9 LIT SHIP               3.5 |  27.5%  1 U  |  27.0%  1 U  |   -0.5
+    1 FIERY LUCY             2.5 |  21.6%  2 U  |  16.8%  2 U  |   -4.8
+    2 RAIN GOLD             15.0 |  11.7%  3 G  |  16.5%  3 g  |   +4.8
+   10 MY STUBBORN LASSIE     8.0 |   8.5%  4    |   7.2%  5    |   -1.3
+    8 NO OTHER LIKE YOU      6.0 |   5.7%  5    |   5.6%  6    |   -0.1
+   11 TRAMUNTANA             4.5 |   5.3%  6    |   9.0%  4    |   +3.7
+    3 NEENAH                20.0 |   5.1%  7    |   4.6%  8    |   -0.5
+    4 MAVERICK QUEEN        20.0 |   4.6%  8    |   4.7%  7    |   +0.1
+    7 RACONTEUSE            12.0 |   3.6%  9    |   3.4%  9    |   -0.1
+   12 STUNNING SAPPHIRE     30.0 |   2.5% 10    |   1.8% 11    |   -0.7
+    5 TEMPLE GODDESS        30.0 |   2.1% 11    |   2.0% 10    |   -0.0
+    6 HONOR AZTECA          30.0 |   1.9% 12    |   1.3% 12    |   -0.6
+
+== Disagreements (|Δ| ≥ 6 pts), biggest first ==
+  R2 #10 DEMURE               ML 15.0  champ  6.2% (rk 6)  tree 25.4% (rk 2)  TREE likes 19 pts
+  R2 # 9 SISTER WIFE          ML  4.5  champ 18.6% (rk 2)  tree  4.0% (rk 7)  CHAMP likes 15 pts
+  R4 # 3 MOONLIGHT DASH       ML  3.5  champ 11.1% (rk 3)  tree 23.3% (rk 1)  TREE likes 12 pts
+  R4 # 7 COCO G               ML  8.0  champ 29.5% (rk 1)  tree 18.1% (rk 2)  CHAMP likes 11 pts
+  R4 # 8 COTILLARD            ML  4.0  champ  7.1% (rk 7)  tree 17.3% (rk 3)  TREE likes 10 pts
+  R2 # 5 CHRISTY              ML  3.0  champ 18.4% (rk 3)  tree  8.5% (rk 4)  CHAMP likes 10 pts
+  R1 # 2 WEST COAST DREAM     ML  1.2  champ 37.9% (rk 1)  tree 46.9% (rk 1)  TREE likes 9 pts
+  R2 # 1 COCOA BEAN           ML 10.0  champ  6.6% (rk 5)  tree 13.5% (rk 3)  TREE likes 7 pts
+  R6 # 6 SUSHI MAN            ML  6.0  champ 23.2% (rk 2)  tree 29.9% (rk 1)  TREE likes 7 pts
+  R5 # 1 SHEPHERD'S GRACE     ML 12.0  champ  2.2% (rk 8)  tree  8.9% (rk 4)  TREE likes 7 pts
+  R3 # 1 COMING IN HOT        ML 20.0  champ  8.1% (rk 7)  tree 14.3% (rk 4)  TREE likes 6 pts
+  R7 # 5 SAV'N MONEY          ML  4.5  champ 12.9% (rk 3)  tree 19.0% (rk 2)  TREE likes 6 pts
