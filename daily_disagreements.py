@@ -25,7 +25,7 @@ if rss:
     st = S.get_rss_status(a.track); cond = {k: v for k, v in st.items() if k in ("dirt", "turf", "aw") and v}
     for c in S.fetch_all_changes(a.track):
         t = (getattr(c, "raw_text", "") or "")
-        if re.search(r"off the turf|moved to (the )?(main|dirt)", t, re.I) and c.race: offturf.add(int(c.race))
+        if re.search(r"off the turf|off-turf|turf changed to dirt|moved to (the )?(main|dirt)", t, re.I) and c.race: offturf.add(int(c.race))
     rss_note = f"feed snapshot {Path(rss).name}, last bulletin {st.get('last_updated_et')}"
 for part in filter(None, a.scratches.split(";")):
     r, pns = part.split(":"); scr.setdefault(int(r), set()).update(p.strip() for p in pns.split(","))
