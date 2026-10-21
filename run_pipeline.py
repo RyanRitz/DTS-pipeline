@@ -1563,14 +1563,13 @@ def generate_pdf(scoring_result: ScoringResult,
     # for "$$$" in prose.
     work = src.copy()
     try:
-        from output import (compose_comment as _compose,
+        from output import (add_comments as _add_comments,
                             value_tier as _tier,
                             best_bet_flag as _bestbet,
                             green_flag as _greenflag)
         # Comments need access to btsm_odds / ml_odds. The composer accepts
         # either the canonical (btsm_odds/ml_odds) or upstream (DTSOdds/
         # MornOdds) names via row.get(), so this works on scored_df rows.
-        work["Comments"]  = work.apply(_compose, axis=1)
 
         def _ml_adj(r):
             v = r.get("MornOddsAdj")
@@ -1612,6 +1611,8 @@ def generate_pdf(scoring_result: ScoringResult,
         work["GreenFlag"] = work.apply(
             lambda r: _greenflag(r.get("DTSOdds"), _ml_adj(r),
                                  r.get("_prob_above")), axis=1)
+        # Comments last: the value sentence keys off BestBet / GreenFlag.
+        work["Comments"] = _add_comments(work)
     except Exception as e:
         log.warning(f"  generate_pdf: could not compose Comments: {e}")
         work["Comments"]  = ""

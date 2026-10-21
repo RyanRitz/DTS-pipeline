@@ -315,48 +315,150 @@ def _value_phrase(tier: int, btsm, ml) -> str:
     return ""
 
 
-def compose_comment(row) -> str:
-    """
-    Two-sentence horse summary.
+# ── Value line pools ────────────────────────────────────────────────────────
+# The value sentence used to close EVERY comment from 8 fixed strings, so ~2/3
+# of a card ended "Heavily overbet..." / "Overbet vs ML..." word for word —
+# information the Odds column and gold/green shading already carry. Now it only
+# appears when it changes the read (gold, green, the ML favorite), rotates
+# through a pool, and otherwise the space goes to another handicapping reason.
+_VALUE_POOLS = {
+    "gold4": ["Strong value vs ML, bet with conviction.",
+              "Big overlay, a price worth taking.",
+              "Well above the morning line on our numbers."],
+    "gold3": ["Real overlay at this price.",
+              "Value play off the morning line.",
+              "The price is better than the chance."],
+    "gold_short4": ["Heavy favorite. DTS sees an even stronger chance than ML.",
+                    "Short price, and still an overlay.",
+                    "Deserves to be favored, and then some."],
+    "gold_short": ["Short price, but DTS confirms the chalk.",
+                   "Favorite with the numbers to back it.",
+                   "Chalk worth trusting today."],
+    "green": ["Live longshot for the exotics.",
+              "Price makes this one a use underneath.",
+              "Worth including underneath at a price."],
+    "vuln_heavy": ["Vulnerable favorite, look to beat.",
+                   "Overbet favorite, worth trying to beat.",
+                   "Favorite looks too short, play against."],
+    "vuln": ["Vulnerable favorite at this price.",
+             "Favorite looks a bit short on our numbers.",
+             "Beatable favorite at the morning line."],
+    "chalk_ok": ["DTS agrees with the favorite.",
+                 "Logical favorite on our numbers.",
+                 "Favorite fits on the numbers."],
+}
 
-    Sentence 1 = top like/fade attributes by signal strength.
-    Sentence 2 = value vs morning line.
 
-    Requires row to have why_like_1..3, why_fade_1..3 with paired
-    *_score columns, plus btsm_odds / ml_odds (or DTSOdds / MornOdds).
-    """
-    likes, fades = _gather_signals(row)
-    strong_likes = [t for s, t in likes if s >= REASON_THRESHOLD]
-    strong_fades = [t for s, t in fades if s >= REASON_THRESHOLD]
+def _pick_value(key: str, usage) -> str:
+    pool = _VALUE_POOLS[key]
+    if usage is None:
+        return pool[0]
+    best = min(pool, key=lambda t: usage.get(t, 0))
+    usage[best] = usage.get(best, 0) + 1
+    return best
 
-    # Build sentence 1
-    if strong_likes and strong_fades:
-        s1 = f"{strong_likes[0]}, but {_lc_first(strong_fades[0])}."
-    elif len(strong_likes) >= 2:
-        s1 = f"{strong_likes[0]} plus {_lc_first(strong_likes[1])}."
-    elif strong_likes:
-        s1 = f"{strong_likes[0]}."
-    elif len(strong_fades) >= 2:
-        s1 = f"{strong_fades[0]}; also {_lc_first(strong_fades[1])}."
-    elif strong_fades:
-        s1 = f"{strong_fades[0]}."
-    else:
-        s1 = "No standout attributes either way."
 
-    # Build sentence 2 — value vs ML.
-    # The TIER (gold/green/best-bet driver) is computed against the
-    # SCRATCH-ADJUSTED morning line (MornOddsAdj) so it stays consistent with
-    # the highlighting. The phrase wording only references absolute price,
-    # never the adjusted number — nothing about the adjustment is surfaced.
+def _truthy(v) -> bool:
+    try:
+        if v is None or (isinstance(v, float) and v != v):
+            return False
+    except Exception:
+        return False
+    return bool(v)
+
+
+def _value_line(row, usage=None) -> str:
+    """Value sentence only when it adds something the row doesn't already say."""
     btsm = row.get("btsm_odds") if "btsm_odds" in row else row.get("DTSOdds")
     ml_raw = row.get("ml_odds") if "ml_odds" in row else row.get("MornOdds")
     ml_adj = row.get("MornOddsAdj")
     if ml_adj is None or (isinstance(ml_adj, float) and ml_adj != ml_adj):
         ml_adj = ml_raw
     tier = _value_tier(btsm, ml_adj)
-    s2   = _value_phrase(tier, btsm, ml_adj)
+    try:
+        b = float(btsm); m = float(ml_adj)
+    except (TypeError, ValueError):
+        b = m = None
+    short = b is not None and b < 2.5
+
+    if _truthy(row.get("BestBet")):
+        if short:
+            return _pick_value("gold_short4" if tier >= 4 else "gold_short", usage)
+        return _pick_value("gold4" if tier >= 4 else "gold3", usage)
+    if _truthy(row.get("GreenFlag")):
+        return _pick_value("green", usage)
+    if _truthy(row.get("_ml_fav")):
+        if tier == 0:
+            heavy = b is not None and m is not None and m > 0 and b / m >= 1.5
+            return _pick_value("vuln_heavy" if heavy else "vuln", usage)
+        if _truthy(row.get("_dts_top")):
+            return _pick_value("chalk_ok", usage)
+    return ""
+
+
+def compose_comment(row, usage=None) -> str:
+    """
+    One- or two-sentence horse summary.
+
+    Sentence 1 = the strongest like/fade reasons (by model impact).
+    Sentence 2 = value vs the morning line, ONLY for gold / green horses and the
+                 ML favorite (see _value_line). Without it, sentence 1 carries
+                 one more reason.
+
+    `usage` is a per-card dict for phrase rotation (add_comments supplies it).
+    """
+    likes, fades = _gather_signals(row)
+    L = [t for s, t in likes if s >= REASON_THRESHOLD]
+    F = [t for s, t in fades if s >= REASON_THRESHOLD]
+    s2 = _value_line(row, usage)
+    room = not s2          # no value line -> room for one more reason
+
+    if L and F:
+        if room and len(L) >= 2:
+            s1 = f"{L[0]} plus {_lc_first(L[1])}, but {_lc_first(F[0])}."
+        elif room and len(F) >= 2:
+            s1 = f"{L[0]}, but {_lc_first(F[0])} and {_lc_first(F[1])}."
+        else:
+            s1 = f"{L[0]}, but {_lc_first(F[0])}."
+    elif len(L) >= 2:
+        s1 = (f"{L[0]}, {_lc_first(L[1])}, and {_lc_first(L[2])}."
+              if room and len(L) >= 3 else f"{L[0]} plus {_lc_first(L[1])}.")
+    elif L:
+        s1 = f"{L[0]}."
+    elif len(F) >= 2:
+        s1 = (f"{F[0]}; also {_lc_first(F[1])} and {_lc_first(F[2])}."
+              if room and len(F) >= 3 else f"{F[0]}; also {_lc_first(F[1])}.")
+    elif F:
+        s1 = f"{F[0]}."
+    else:
+        s1 = "No standout attributes either way."
 
     return f"{s1} {s2}".strip()
+
+
+def add_comments(df: pd.DataFrame, ml_col: str = "MornOdds") -> pd.Series:
+    """
+    Comments for a whole card. Needs BestBet / GreenFlag already on df (the
+    value line keys off them). Marks each race's morning-line favorite
+    (lowest raw ML) and DTS top pick, and rotates phrases across the card.
+    """
+    work = df.copy()
+    if "Race" in work.columns and ml_col in work.columns:
+        ml = pd.to_numeric(work[ml_col], errors="coerce")
+        work["_ml_fav"] = ml.eq(ml.groupby(work["Race"]).transform("min")) & ml.notna()
+    else:
+        work["_ml_fav"] = False
+    if "Race" in work.columns and "ProbToWin" in work.columns:
+        p = pd.to_numeric(work["ProbToWin"], errors="coerce")
+        work["_dts_top"] = p.eq(p.groupby(work["Race"]).transform("max")) & p.notna()
+    else:
+        work["_dts_top"] = False
+    usage: dict = {}
+    order = work.sort_values(["Race"]).index if "Race" in work.columns else work.index
+    out = pd.Series("", index=work.index, dtype=object)
+    for i in order:
+        out.at[i] = compose_comment(work.loc[i], usage)
+    return out
 
 
 def value_tier(btsm, ml) -> int:
@@ -449,7 +551,6 @@ def generate_excel(
     else:
         _ml_cmp = scored["MornOdds"]
     scored["_MLCmp"] = _ml_cmp
-    scored['Comments']  = scored.apply(compose_comment, axis=1)
     # GREEN tint  = green_flag (bottom-half win-prob + edge >= 1.75 longshot looker)
     # GOLD / best = BestBet flag (edge >= 1.5 AND top-half win-prob mass).
     #               Rare by design; a race may have none.
@@ -476,6 +577,8 @@ def generate_excel(
         lambda r: green_flag(r.get('DTSOdds'), r.get('_MLCmp'),
                              r.get('_ProbAbove')), axis=1
     )
+    # Comments last: the value sentence keys off BestBet / GreenFlag.
+    scored['Comments'] = add_comments(scored)
 
     wb = Workbook()
     wb.remove(wb.active)  # remove default sheet
