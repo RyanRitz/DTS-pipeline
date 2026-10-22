@@ -1,0 +1,81 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,7,1,4.25,10.5,5.66,4.52,Math Tutor,6,0,,,0.0,"dueled 3p, edged clear",D,C,7,GD
+1,1,2,9.44,,6.06,4.3,Epitaph,1,0,,,4.0,"brush gate, improved",D,C,7,GD
+1,4,3,12.92,,,6.54,Nantz,3,0,,,4.75,"chased 5-4w, kept on",D,C,7,GD
+1,8,4,5.25,,,,Fistfulofmoney,7,0,,,5.25,"chased 3-2w, wknd late",D,C,7,GD
+1,3,5,15.96,,,,Schlomo,2,0,,,6.0,"dueled 2p, weakened",D,C,7,GD
+1,5,6,7.73,,,,Antietam,4,0,,,8.25,"chased 4-3w, no impact",D,C,7,GD
+1,6,7,1.0,,,,Salming,5,1,,,9.75,"bumped st, no impact",D,C,7,GD
+2,6,1,8.48,18.96,8.52,5.08,Scramjet,6,0,,,0.0,"2p trn,3p1/4,shook foe",D,S,9,GD
+2,4,2,5.27,,5.92,3.92,Mindfield,4,0,,,1.5,"bmp brk,5p-ins trn,bid",D,S,9,GD
+2,7,3,1.41,,,2.92,Big Handsome,7,1,,,5.0,"3path turn,4p1/4,wknd",D,S,9,GD
+2,2,4,17.65,,,,Equilibrate,2,0,,,6.5,"2p turn,3p1/4,mvd out",D,S,9,GD
+2,3,5,3.49,,,,Saratoga Tea,3,0,,,7.25,"inside turn,no rally",D,S,9,GD
+2,9,6,27.38,,,,Silver Knight,9,0,,,11.75,"4p turn,5p1/4,drft out",D,S,9,GD
+2,1,7,8.34,,,,Top Thriller,1,0,,,20.0,"off very slow,ins turn",D,S,9,GD
+2,8,8,15.71,,,,Upper Echelon,8,0,,,21.75,"2path turn,no factor",D,S,9,GD
+2,5,9,29.05,,,,Santis,5,0,,,41.0,"bmp brk,4p turn,empty",D,S,9,GD
+3,4,1,0.87,3.74,2.54,2.12,Road Show,4,1,,,0.0,"4w pursuit, edged away",D,S,8,GD
+3,7,2,2.74,,3.04,2.44,Cut Down the Nets,7,0,,,2.25,"prompt 4-3w, caught",D,S,8,GD
+3,6,3,31.31,,,6.58,J Buck,6,0,,,2.5,"4-5w upper, mild kick",D,S,8,GD
+3,1,4,35.28,,,,Neptuneroad Richie,1,0,,,8.25,"in hand 2p, weakened",D,S,8,GD
+3,8,5,12.72,,,,Arawak,8,0,,,8.5,"chased 5-4w, weakened",D,S,8,GD
+3,2,6,37.95,,,,Wartoendallwars,2,0,,,9.0,"hesitated st,no impact",D,S,8,GD
+3,5,7,3.87,,,,Nystateofmind,5,0,,,16.5,"chased 6-5w, tired",D,S,8,GD
+3,3,8,34.15,,,,Private Banker,3,0,,,25.75,"chased 2-3w, faltered",D,S,8,GD
+4,2,1,1.12,4.24,2.62,2.12,Lady Rose,2,1,,,0.0,"2-3p,lead ins3/16,clr",D,A,7,GD
+4,6,2,2.77,,3.78,2.72,Fedupwiththefed,6,0,,,5.0,"out,3-2p,led1/4-3/16",D,A,7,GD
+4,4,3,5.58,,,2.84,Full Pour,4,0,,,7.0,"stmbld bad brk,4p1/4",D,A,7,GD
+4,3,4,10.53,,,,Last Glory,3,0,,,10.0,"ins-2path turns,empty",D,A,7,GD
+4,7,5,18.38,,,,Grace Reformed,7,0,,,15.5,"5-4p1st,3-2p2nd,5p3/16",D,A,7,GD
+4,1,6,25.72,,,,Honest Reason,1,0,,,24.75,"ins trns,stopped,eased",D,A,7,GD
+4,5,7,6.77,,,,Top of the Table,5,0,,,30.5,"3-4p,5p1/4,faltered",D,A,7,GD
+5,1,1,3.2,8.4,3.3,2.62,Bertrille,1,0,,,0.0,"5w upper, edged away",D,A,6,FT
+5,5,2,1.37,,2.9,2.42,Britain,5,1,,,2.5,"in hand 2p, ran on",D,A,6,FT
+5,7,3,14.04,,,4.56,Miami Style,6,0,,,4.0,"prompted 3w, wknd late",D,A,6,FT
+5,3,4,4.66,,,,Boomington,3,0,,,7.5,"5w upper, weakened",D,A,6,FT
+5,2,5,3.08,,,,Tongue Twister,2,0,,,24.25,"stumbled st, tired",D,A,6,FT
+5,4,6,21.8,,,,Diptique,4,0,,,25.0,"3-2w pursuit, tired",D,A,6,FT
+6,3,1,1.22,4.44,2.94,2.22,Libby Lloyd,1,1,,,0.0,"drift out early,2p trn",D,S,5,FT
+6,9,2,4.24,,4.44,2.96,Groves,5,0,,,10.0,"outside,4path,no match",D,S,5,FT
+6,7,3,6.09,,,2.9,Free Verse,3,0,,,12.75,"rank3/8,chckd,stdy5/16",D,S,5,FT
+6,4,4,10.82,,,,Rags to Roses,2,0,,,25.75,"carried out5/8,ins3/8",D,S,5,FT
+6,8,5,2.07,,,,Tumoohaat,4,0,,,28.25,"3-4p turn,5p1/4,falter",D,S,5,FT
+7,2,1,4.3,10.6,4.26,2.72,Bite and Strike,1,0,,,0.0,"2w 1/4p, up last jumps",D,AO,5,FT
+7,9,2,1.28,,2.84,2.2,Vettriano,5,1,,,0.5,"pace 3-2w, caught late",D,AO,5,FT
+7,5,3,2.93,,,2.44,War Stride,2,0,,,3.5,"chased 4-2w, wknd late",D,AO,5,FT
+7,6,4,3.49,,,,Candytown,3,0,,,17.5,"buckled, bumped st",D,AO,5,FT
+7,7,5,10.36,,,,Vacation Dance,4,0,,,22.0,"chased 5-4w, tired",D,AO,5,FT
+8,3,1,1.26,4.52,2.96,2.38,Q B Rocket,2,1,,,0.0,"ins foe,rail,eased up",D,S,8,FT
+8,2,2,3.66,,4.46,3.06,Card Man,1,0,,,1.75,"ins-2p,4p1/4,willingly",D,S,8,FT
+8,7,3,11.4,,,4.36,Decimation,6,0,,,6.0,"outside,3p turn,wknd",D,S,8,FT
+8,10,4,4.81,,,,Vukota,8,0,,,7.0,"out,4p turn,5p1/4,wknd",D,S,8,FT
+8,6,5,9.93,,,,Dallas Star,5,0,,,10.75,"awkward brk,2-3p,4p1/4",D,S,8,FT
+8,9,6,22.5,,,,Hooked,7,0,,,23.5,"saved ground,empty",D,S,8,FT
+8,5,7,10.24,,,,Katz in the Cradle,4,0,,,30.0,"4-2path turn,mvd out",D,S,8,FT
+8,4,8,15.8,,,,Farsideofthemoon,3,0,,,31.5,"stdy5/8,3p trn,mvd out",D,S,8,FT
+9,7,1,4.48,10.96,4.92,3.24,Survie (IRE),6,0,,,0.0,"6w upper, good kick",t,G1,6,YL
+9,6,2,3.59,,4.42,2.94,Minaret Station,5,0,,,0.75,"4w uppr, led, caught",t,G1,6,YL
+9,4,3,3.37,,,3.0,Program Trading (GB),4,0,,,1.25,"5w uppr,herded, ran on",t,G1,6,YL
+9,1,4,1.98,,,,Ancient Egypt (IRE),1,1,,,2.5,"7w uppr, flattened out",t,G1,6,YL
+9,2,5,11.39,,,,Tawny Port,2,0,,,4.0,"tracked ins, wknd late",t,G1,6,YL
+9,3,6,5.84,,,,Ole Crazy Bone,3,0,,,4.1,"rated ins, wknd late",t,G1,6,YL
+10,5,1,4.04,10.08,4.88,3.54,Cadenza,5,0,,,0.0,"off slow,3-4path,rally",T,N,8,YL
+10,2,2,9.07,,8.06,5.52,Epic Lady Luck,2,0,,,1.5,"ins-2p trn,mvd out3/16",T,N,8,YL
+10,1,3,13.96,,,6.76,Gerrards Cross,1,0,,,1.55,"ins,headed 1/8,outkckd",T,N,8,YL
+10,8,4,14.57,,,,Mythical,8,0,,,1.65,"3-4p trn,5p1/4,willing",T,N,8,YL
+10,7,5,7.17,,,,Triskelion,7,0,,,4.15,"out,chsd 2p turn,tired",T,N,8,YL
+10,4,6,20.07,,,,Queen Juno,4,0,,,4.65,"saved ground,asked3/16",T,N,8,YL
+10,3,7,2.16,,,,Oscar's Encore,3,1,,,4.75,"ins turn,ask1/4,empty",T,N,8,YL
+10,6,8,2.61,,,,Mauna Loa,6,0,,,35.25,"3p,falter,bled,equ-amb",T,N,8,YL
+11,2,1,1.83,5.66,2.92,2.22,Calling Card,2,0,,,0.0,"4-5w uppr, geared down",D,R,7,FT
+11,7,2,1.74,,2.92,2.28,Come Full Circle,7,1,,,10.0,"chased 4-3w, kept on",D,R,7,FT
+11,1,3,4.57,,,2.78,Dinner Royale,1,0,,,12.0,"5w upper, equ amb",D,R,7,FT
+11,5,4,21.12,,,,McDiesel,5,0,,,12.5,"in hand 2p, weakened",D,R,7,FT
+11,3,5,12.87,,,,Big Brooklyn,3,0,,,14.5,"chased inside, tired",D,R,7,FT
+11,6,6,24.5,,,,Takahama,6,0,,,20.5,"4w both turns, tired",D,R,7,FT
+11,4,7,6.25,,,,Celtic Prince,4,0,,,20.55,"stumbled st, steady 7F",D,R,7,FT
+12,11,1,0.75,3.5,2.7,,Maximum Heat,4,1,,,0.0,"hit gate,4p1st,easd up",D,M,4,FT
+12,9,2,4.35,,3.5,,Mo Curls,3,0,,,7.75,"3-4path turns,no match",D,M,4,FT
+12,3,3,2.1,,,,D C Boy's,1,0,,,9.5,"hit gate,ins1st,3p2nd",D,M,4,FT
+12,5,4,8.04,,,,Lobbyist,2,0,,,40.75,"bmp brk,falter,eased",D,M,4,FT

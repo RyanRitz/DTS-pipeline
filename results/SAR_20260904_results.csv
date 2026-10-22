@@ -1,0 +1,97 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,7,1,1.67,5.34,3.34,2.7,Domestic Agenda,7,1,,,0.0,"2w 1/4p, up last jumps",t,S,8,FM
+1,8,2,4.23,,4.52,3.54,Charlotte's Beach,8,0,,,0.5,"in hand 2p, caught lte",t,S,8,FM
+1,4,3,11.01,,,5.42,Shared Services,4,0,,,1.75,"4w 1/4, shied, belated",t,S,8,FM
+1,1,4,7.54,,,,Queen Paola,1,0,,,3.25,"chased 3-2w, kept on",t,S,8,FM
+1,3,5,5.31,,,,Flamenco,3,0,,,4.5,"lost lane st, interest",t,S,8,FM
+1,6,6,11.74,,,,La Patronne (FR),6,0,,,9.75,"5w upper, no kick",t,S,8,FM
+1,2,7,13.06,,,,May December,2,0,,,12.25,"chased 2p, tired",t,S,8,FM
+1,5,8,7.46,,,,Bashfully,5,0,,,16.5,"steady 1M, tired",t,S,8,FM
+2,7,1,8.66,19.32,9.1,6.4,Carmen Amalia,6,0,,,0.0,"out,3p,2p1/4,responded",D,S,8,FT
+2,2,2,8.36,,6.88,5.4,Okay Annie,1,0,,,0.25,"shuffled5/16-1/4,6p1/8",D,S,8,FT
+2,5,3,30.63,,,12.72,A Little Presley,4,0,,,0.75,"3-5p turn,good courage",D,S,8,FT
+2,3,4,15.66,,,,Allegro Brillant,2,0,,,2.5,"keen1/2,2p turn,chsd",D,S,8,FT
+2,9,5,0.88,,,,Promise Me Amelody,8,1,,,5.5,"bmp brk,4p trn,btwn1/8",D,S,8,FT
+2,6,6,5.6,,,,Sparks Will Fly,5,0,,,9.25,"4p turn,6p1/4,no rally",D,S,8,FT
+2,8,7,47.31,,,,Midnight Honor,7,0,,,18.75,"bmp brk,2p turn,4p1/4",D,S,8,FT
+2,4,8,4.4,,,,Lady Vortex,3,0,,,23.0,"headed ins7/16,stopped",D,S,8,FT
+3,6,1,1.12,4.24,2.7,2.3,Commuted,4,1,,,0.0,"6w upper, going away",D,N,7,FT
+3,5,2,4.31,,4.0,3.22,Mischievous M,3,0,,,4.5,"under pressure, ran on",D,N,7,FT
+3,8,3,25.64,,,6.04,Pair of Socks,6,0,,,5.5,"pressed 3-2w, ran on",D,N,7,FT
+3,1,4,2.73,,,,Baby Yoda,1,0,,,5.75,"5w upper, kept on",D,N,7,FT
+3,7,5,6.15,,,,Run Classic,5,0,,,6.75,"chased 5w, no headway",D,N,7,FT
+3,2,6,26.69,,,,Inexorable,2,0,,,6.85,"brush gate, no impact",D,N,7,FT
+3,9,7,18.99,,,,Trust Issues,7,0,,,12.6,"brush gate st, wknd",D,N,7,FT
+4,2,1,4.16,10.32,4.9,3.36,Glycogen,2,0,,,0.0,"ins,2p1/4,angld,rally",t,N,5,FM
+4,7,2,4.07,,4.4,2.9,Mel Went Home,5,0,,,1.25,"out2p,led,collared1/16",t,N,5,FM
+4,1,3,1.54,,,2.46,Pros and Cons,1,1,,,4.75,"hit gate,2-3path,wknd",t,N,5,FM
+4,5,4,1.67,,,,Baliage (IRE),3,0,,,10.0,"ins,headed3/16,empty",t,N,5,FM
+4,6,5,29.71,,,,Urgent Claire,4,0,,,55.0,"2path turns,outrun",t,N,5,FM
+5,4,1,3.68,9.36,5.26,4.16,Tiger Line,3,0,,,0.0,"pace ins, held well",T,S,10,FM
+5,9,2,12.32,,12.66,8.28,Forecheck,8,0,,,0.75,"3w pursuit, late foot",T,S,10,FM
+5,11,3,9.96,,,6.66,Kinboshi,10,0,,,0.85,"6-5w upper, belatedly",T,S,10,FM
+5,8,4,3.21,,,,Carpet City,7,1,,,0.9,wrangled 3x ins turn,T,S,10,FM
+5,10,5,4.17,,,,Night Sky,9,0,,,0.95,"3-4w uppr, outfinished",T,S,10,FM
+5,2,6,14.73,,,,Road to Purfection,2,0,,,4.2,"chased ins, weakened",T,S,10,FM
+5,7,7,12.46,,,,Sitting On a Win,6,0,,,5.45,"brushed st, no headway",T,S,10,FM
+5,5,8,9.05,,,,Mass Confusion,4,0,,,10.7,"chased 2p, tired",T,S,10,FM
+5,1,9,7.17,,,,Judysdancin Tonite,1,0,,,40.2,"chased inside, eased",T,S,10,FM
+5,6,10,48.06,,,,Kwan,5,0,,,45.45,"bumped st, eased",T,S,10,FM
+6,2,1,3.29,8.58,4.66,3.46,Swiss Army Knife,2,0,,,0.0,"ins,drift out ins3/16",D,C,10,FT
+6,3,2,19.0,,12.94,7.64,Big Brooklyn,3,0,,,4.0,"ins-2p,5p1/4,improved",D,C,10,FT
+6,5,3,17.03,,,6.98,Whitby,5,0,,,6.5,"bobbld brk,2p-ins,chsd",D,C,10,FT
+6,4,4,8.98,,,,Corvus,4,0,,,8.5,"4p1st,2-3p2nd,ins1/8",D,C,10,FT
+6,1,5,28.79,,,,Magnum's Macrobrst,1,0,,,9.75,"2p1st,3-5p2nd,no rally",D,C,10,FT
+6,7,6,12.18,,,,Daiquiri Sommelier,7,0,,,10.0,"5-4p1st,3p2nd,4p,wknd",D,C,10,FT
+6,9,7,2.02,,,,Paul's Recovery,9,1,,,14.25,"7-4p1st,2-4p2nd,5p1/4",D,C,10,FT
+6,6,8,5.12,,,,Mike's Magic,6,0,,,16.25,"4-3p1st,out,2-3p,empty",D,C,10,FT
+6,8,9,18.77,,,,Hutchinson,8,0,,,34.75,"4-6p turns,eased,wlkd",D,C,10,FT
+6,10,10,9.2,,,,Shangrala Road,10,0,,,35.0,"5-8p turns,eased,wlkd",D,C,10,FT
+7,5,1,0.65,3.3,2.42,2.1,Velora,5,1,,,0.0,"3-2w uppr,shied, clear",D,N,7,FT
+7,2,2,4.32,,3.48,2.42,Prime Aurora,2,0,,,2.25,"2-3w upper, ran on",D,N,7,FT
+7,6,3,4.1,,,2.44,B Yutiful Carly,6,0,,,6.0,"4w upper, wknd late",D,N,7,FT
+7,3,4,18.85,,,,Saint Dymphna,3,0,,,14.25,"stumbled st, tired",D,N,7,FT
+7,1,5,28.51,,,,Cachorrita,1,0,,,14.75,"brush gate st, tired",D,N,7,FT
+7,4,6,26.85,,,,You Are My Suzie Q,4,0,,,17.75,"bobble st, tired",D,N,7,FT
+7,7,7,10.91,,,,Tiara,7,0,,,24.5,"brush gate st, tired",D,N,7,FT
+8,6,1,4.42,10.84,6.6,3.82,Spiced Up,6,0,,,0.0,"bmp brk,3-4p trn,6p1/4",T,AO,10,FM
+8,5,2,4.69,,5.7,3.54,No Evidence,5,0,,,0.05,"hit gate,bmp,2-3p,4p2F",T,AO,10,FM
+8,2,3,2.5,,,2.78,Bosun,2,1,,,0.3,"bmp4-1/2,stdy,ins trn",T,AO,10,FM
+8,3,4,5.44,,,,Final Verdict,3,0,,,1.05,"ins turn,bid late,stdy",T,AO,10,FM
+8,10,5,13.37,,,,Run Curtis Run,10,0,,,2.05,"fractious gate,2p turn",T,AO,10,FM
+8,8,6,8.5,,,,Ice Chocolat (BRZ),8,0,,,3.8,"squeezd after st,6p1/4",T,AO,10,FM
+8,9,7,24.0,,,,Vacation Dance,9,0,,,3.85,"inside turn,no rally",T,AO,10,FM
+8,7,8,9.39,,,,Vettriano,7,0,,,3.9,"3path turn,no kick",T,AO,10,FM
+8,4,9,16.99,,,,Boltage,4,0,,,7.65,"out,3p turn,gave way",T,AO,10,FM
+8,1,10,41.69,,,,What's Up Bro,1,0,,,11.9,"bmp st,2p,ins1/4,faded",T,AO,10,FM
+9,1,1,4.02,10.04,4.48,3.28,Madeline's Promise,1,0,,,0.0,"4w uppr, clear,held on",D,C,9,FT
+9,7,2,10.57,,9.34,5.86,Sunshine Lily,6,0,,,0.25,"6w 1/4,bumped,missed",D,C,9,FT
+9,10,3,13.08,,,7.54,Lexi's Melody,8,0,,,0.5,"7-8w uppr, mild kick",D,C,9,FT
+9,11,4,23.16,,,,Admiral Sol,9,0,,,2.75,"8w upper, belatedly",D,C,9,FT
+9,3,5,4.55,,,,Warm Up the Bus,2,0,,,5.0,"3w uppr, bid, flatten",D,C,9,FT
+9,5,6,1.43,,,,Heaven's Bolt,4,1,,,6.25,"buckled, bumped st",D,C,9,FT
+9,4,7,13.1,,,,Babcie,3,0,,,6.35,"4-5w upper, weakened",D,C,9,FT
+9,6,8,16.26,,,,Big Heleonora,5,0,,,14.1,"bumped st, empty",D,C,9,FT
+9,9,9,12.6,,,,St. Brigid's Cross,7,0,,,16.6,"cut pace 2p, tired",D,C,9,FT
+10,10,1,31.53,65.06,22.58,13.26,Athena's Fury,9,0,,,0.0,"svd grnd,3p1/4,rally",t,R,12,FM
+10,6,2,1.59,,3.44,2.76,Bryant and Cooper,5,1,,,0.05,"ins,2p1/4,inside,rally",t,R,12,FM
+10,4,3,8.93,,,5.5,Starlight Dancer,3,0,,,0.8,"hard to load,6p3/16",t,R,12,FM
+10,1,4,8.96,,,,Roagna,1,0,,,1.05,"rally,lead3/16,clr1/8",t,R,12,FM
+10,13,5,4.97,,,,Paula's Choice,12,0,,,1.3,"off step slw,3-5p2nd",t,R,12,FM
+10,7,6,5.77,,,,Gallega,6,0,,,2.55,"2p1st,2-4p2nd,5p1/4",t,R,12,FM
+10,11,7,18.46,,,,Artistic Success,10,0,,,11.3,"keen,out,2p,led,tired",t,R,12,FM
+10,9,8,46.28,,,,On a Summer Day,8,0,,,19.05,"3-4p turns,no threat",t,R,12,FM
+10,5,9,18.62,,,,Five Dozen Roses,4,0,,,21.05,"bmp brk,bmp7/8,3-2p",t,R,12,FM
+10,8,10,73.15,,,,Miss American Pie,7,0,,,21.15,"ins,headed5/16,tired",t,R,12,FM
+10,12,11,31.04,,,,Intothewilderness,11,0,,,23.65,"3-4path turns,empty",t,R,12,FM
+10,2,12,9.99,,,,She Takes Cash,2,0,,,24.15,"bmp st,bmp7/8,svd grnd",t,R,12,FM
+11,4,1,3.06,8.12,4.68,3.38,Seat At the Table,4,1,,,0.0,"svd grd, up fin 40yds",T,AO,10,FM
+11,2,2,23.66,,26.16,12.42,So Darn Pretty (IRE),2,0,,,0.5,"in hand ins, caught",T,AO,10,FM
+11,5,3,4.47,,,3.58,Dividend Recap,5,0,,,1.5,"5-6w uppr, closed well",T,AO,10,FM
+11,6,4,3.8,,,,Nonna Lynne,6,0,,,1.75,"tracked 2p, mild bid",T,AO,10,FM
+11,1,5,28.66,,,,Gum,1,0,,,2.0,"saved grd, outfinished",T,AO,10,FM
+11,7,6,4.53,,,,Consensus View (GB),7,0,,,3.25,"tracked 2p, one paced",T,AO,10,FM
+11,3,7,6.93,,,,Prime Connection,3,0,,,3.5,"tracked 2p, wknd late",T,AO,10,FM
+11,10,8,10.09,,,,Lady Firefoot,10,0,,,4.75,"3w both turns, wknd",T,AO,10,FM
+11,9,9,13.77,,,,Trail of Gold,9,0,,,6.25,"4w upper, no response",T,AO,10,FM
+11,8,10,68.67,,,,Celestial Express,8,0,,,11.0,"4-3w 1st turn, tired",T,AO,10,FM

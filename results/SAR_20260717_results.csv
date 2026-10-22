@@ -1,0 +1,32 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,1,1,13.2,28.4,11.54,5.54,Shirl's Soul Town,1,0,,,0.0,"bmp brk,ins-2p,4p1/4",T,S,6,FM
+1,6,2,4.85,,6.0,4.22,Blazing Tiger,5,0,,,0.5,"out,2p trn,led1/8-1/16",T,S,6,FM
+1,5,3,6.15,,,3.38,He's My Kind,4,0,,,1.25,"ins trn,fought,outkckd",T,S,6,FM
+1,2,4,1.32,,,,Red Square,2,1,,,1.5,"brk thru gate,bmp brk",T,S,6,FM
+1,3,5,3.54,,,,Beijing,3,0,,,3.75,"brk thru gate,2-3path",T,S,6,FM
+1,7,6,5.24,,,,Frenchquarter Note,6,0,,,20.75,"toss head,bit slw,4-5p",T,S,6,FM
+2,3,1,2.45,6.9,3.9,2.62,Discotheque,3,1,,,0.0,"in hand 2p, held safe",D,M,8,FT
+2,6,2,4.29,,4.66,3.12,The Standard,6,0,,,0.5,"prompted 3w, repelled",D,M,8,FT
+2,4,3,6.77,,,4.1,Old Time Rocknroll,4,0,,,1.0,"7w upper, belatedly",D,M,8,FT
+2,1,4,2.53,,,,Sir Duke,1,0,,,4.75,eager off heels to 1/2,D,M,8,FT
+2,5,5,6.67,,,,Grand Gesture,5,0,,,9.75,"4w pursuit, weakened",D,M,8,FT
+2,2,6,7.25,,,,Regeneration,2,0,,,16.75,"3w pursuit, tired",D,M,8,FT
+2,8,7,41.83,,,,Chess Match,8,0,,,25.25,"3w upper, no impact",D,M,8,FT
+2,7,8,38.79,,,,Sunshine Bobalou,7,0,,,25.35,"5-6w upper, no impact",D,M,8,FT
+3,1,1,1.98,5.96,3.2,2.6,Ridgewood Runner,1,1,,,0.0,"ins turn,angled out",D,C,7,FT
+3,4,2,3.26,,4.16,3.1,Two Eagles River,3,0,,,4.25,"ins-3path,5p3/16,led",D,C,7,FT
+3,2,3,10.32,,,4.68,Reddington,2,0,,,4.3,"ins bid3/8,2p1/4,drftd",D,C,7,FT
+3,6,4,9.18,,,,Castle Chaos,5,0,,,8.05,"3p turn,angled out3/16",D,C,7,FT
+3,8,5,2.08,,,,Twenty Four Mamba,7,0,,,10.55,"bid3/8,3-2p,led,wknd",D,C,7,FT
+3,5,6,15.41,,,,Paradise Valley,4,0,,,17.55,"4-5p turn,6p into lane",D,C,7,FT
+3,7,7,19.41,,,,What's Up Bro,6,0,,,30.3,"lug out 4p turn,faded",D,C,7,FT
+4,5,1,3.96,9.92,5.08,3.7,Lexi's Charm,5,0,,,0.0,,D,S,10,FT
+4,9,2,4.06,,4.78,3.7,Atlas a Eye,9,0,,,1.75,,D,S,10,FT
+4,7,3,15.18,,,7.04,Goodproblemtohave,7,0,,,1.85,,D,S,10,FT
+4,3,4,18.49,,,,Belmont C. C.,3,0,,,6.1,,D,S,10,FT
+4,6,5,2.26,,,,R Kan't Miss,6,1,,,8.85,,D,S,10,FT
+4,2,6,12.38,,,,Sea Isle City,2,0,,,9.85,,D,S,10,FT
+4,8,7,5.12,,,,Juneau,8,0,,,11.6,,D,S,10,FT
+4,4,8,35.13,,,,Vu Jade,4,0,,,14.1,,D,S,10,FT
+4,1,9,43.68,,,,Freshly Minted,1,0,,,17.1,,D,S,10,FT
+4,10,10,10.8,,,,Denos Grace,10,0,,,25.1,,D,S,10,FT

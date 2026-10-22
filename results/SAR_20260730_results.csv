@@ -1,0 +1,51 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,4,1,4.44,10.88,5.5,3.04,Unlock the Value,4,0,,,0.0,"brush st, geared down",D,S,6,SY
+1,3,2,2.37,,3.44,2.32,Into the Unknown,3,0,,,9.5,"5-6w upper, kept on",D,S,6,SY
+1,2,3,2.27,,,2.58,Suited Connectors,2,1,,,12.0,"3w upper, weakened",D,S,6,SY
+1,5,4,2.47,,,,Gotta Gun Runner,5,0,,,15.25,"brushed st, tired",D,S,6,SY
+1,1,5,26.06,,,,Run Flat,1,0,,,16.25,"prompted 3-2w, tired",D,S,6,SY
+1,6,6,11.38,,,,Ready Rosie Jane,6,0,,,20.25,"chased 4-3w, tired",D,S,6,SY
+2,12,1,4.97,11.94,7.28,,Midnight Raider,4,0,,,0.0,"ins-2p turn,angled out",D,S,4,SY
+2,10,2,6.68,,8.08,,Never Before,3,0,,,2.25,"2p turn,led past1/16",D,S,4,SY
+2,8,3,6.95,,,,Smooth Authority,2,0,,,4.0,"fractious gate,3p,wknd",D,S,4,SY
+2,2,4,0.3,,,,Honest Won,1,1,,,4.25,"stdy4-1/2,stdy1/8,altr",D,S,4,SY
+3,3,1,2.32,6.64,2.8,2.84,Barb,2,0,,,0.0,"split foes,bmp,up 70yd",D,C,5,SY
+3,2,2,1.44,,2.1,2.32,Bedard,1,1,,,0.25,"pace 2p, caught late",D,C,5,SY
+3,6,2,5.99,,2.6,3.26,Perfect Force,5,0,,,0.25,"3w pursuit, battled on",D,C,5,SY
+3,5,4,3.16,,,,Playing Tricks,4,0,,,4.75,"chased 3-4w, wknd late",D,C,5,SY
+3,4,5,9.29,,,,Shattuck,3,0,,,18.0,"bumped st, trailed",D,C,5,SY
+4,5,1,1.59,5.18,3.1,2.1,Preside,3,0,,,0.0,"stmbld brk,rally,3p1/4",D,S,5,SY
+4,1,2,4.22,,3.58,2.18,Hadrian's Wall,1,0,,,2.25,"ins turns,outfinished",D,S,5,SY
+4,6,3,1.44,,,2.1,Collado Hueco,4,1,,,8.5,"bmp st,3-4p trns,empty",D,S,5,SY
+4,4,4,5.24,,,,Presidential Power,2,0,,,31.0,"out,2p turns,retreated",D,S,5,SY
+4,7,5,21.69,,,,Battle,5,0,,,42.25,"buckled brk,2-4p2nd",D,S,5,SY
+5,2,1,6.06,14.12,6.02,3.82,Fortune Seller,2,0,,,0.0,"5w uppr, up fin 70yds",D,C,8,SY
+5,1,2,3.39,,4.94,3.22,Reynolds Channel,1,0,,,0.75,"in hand 2p, 2nd best",D,C,8,SY
+5,12,3,2.32,,,2.82,Sturdy,6,1,,,8.25,"5-4w 1st trn, kept on",D,C,8,SY
+5,9,4,6.85,,,,Ambition,4,0,,,11.0,"3w upper, improved",D,C,8,SY
+5,11,5,9.15,,,,Peek,5,0,,,13.5,"chased 4-3w, tired",D,C,8,SY
+5,5,6,13.06,,,,Lou,3,0,,,16.25,"brushed st, tired",D,C,8,SY
+5,14,7,5.61,,,,Three Technique,7,0,,,33.0,"6-5w 1st trn, faltered",D,C,8,SY
+5,15,8,12.76,,,,Determinedly,8,0,,,36.0,"7-6w 1st trn, gave way",D,C,8,SY
+6,5,1,5.62,13.24,5.04,3.5,Factually Correct,5,0,,,0.0,"2p turn,responded,held",D,C,7,SY
+6,2,2,1.74,,2.94,2.4,Run Classic,2,1,,,0.25,"3-4p,5p1/4,drift crop",D,C,7,SY
+6,1,3,17.95,,,5.92,Big Hat Willie,1,0,,,4.25,"chsd,3p trn,4p1/4,wknd",D,C,7,SY
+6,6,4,9.11,,,,Princip,6,0,,,6.0,"2-3path turn,swung 5p",D,C,7,SY
+6,3,5,1.97,,,,Pair of Socks,3,0,,,10.0,"ins-2path turn,empty",D,C,7,SY
+6,7,6,24.3,,,,Slim Slow Slider,7,0,,,14.0,"broke out,5-2path turn",D,C,7,SY
+6,4,7,5.78,,,,Kid Billy,4,0,,,99.99,"pulled up,equine-amb",D,C,7,SY
+7,3,1,5.59,13.18,6.32,3.9,Meg's Foxy Grey,3,0,,,0.0,"bump after st, edge cl",D,R,8,SY
+7,8,2,7.79,,8.84,5.3,Majestic Return,8,0,,,1.5,"dueled 4-2w, ran on",D,R,8,SY
+7,6,3,3.34,,,3.6,Adrian,6,0,,,2.5,"chased 4-2w, mild kick",D,R,8,SY
+7,4,4,8.2,,,,Miss Ellary,4,0,,,4.75,"bump after st, wkn lte",D,R,8,SY
+7,5,5,2.15,,,,Princess Ny,5,1,,,4.8,"dueled 2p, wknd late",D,R,8,SY
+7,2,6,29.52,,,,Vino Frizzante,2,0,,,5.8,"bumped st, no headway",D,R,8,SY
+7,1,7,7.01,,,,Accelerated News,1,0,,,18.3,"chased 2p, tired",D,R,8,SY
+7,7,8,7.96,,,,Madeline's Promise,7,0,,,19.3,"chased 6-4w, tired",D,R,8,SY
+9,4,1,3.97,9.94,4.7,3.02,Moment's Notice,2,0,,,0.0,"bmp brk,lost iron,ins",D,C,7,SY
+9,11,2,7.2,,7.66,4.06,Nash Potatoes,5,0,,,4.75,"out,3path,led1/4-3/16",D,C,7,SY
+9,12,3,3.16,,,3.34,Seeker's Hope,6,1,,,4.85,"out,4path turn,tired",D,C,7,SY
+9,9,4,12.26,,,,Hong Kong Phooey,3,0,,,7.6,"bmp btwn brk,checked",D,C,7,SY
+9,13,5,6.66,,,,Leo's Reward,7,0,,,11.1,"out,5p turn,bmpd6p1/4",D,C,7,SY
+9,10,6,4.21,,,,Heartily,4,0,,,13.85,"bmp brk,3-4p,bmp5p1/4",D,C,7,SY
+9,1,7,3.34,,,,Absolutely Hot,1,0,,,26.35,"2p,headed1/4,stopped",D,C,7,SY

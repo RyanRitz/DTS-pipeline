@@ -1,0 +1,62 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,4,1,4.98,11.96,3.88,2.5,Street View,3,0,,,0.0,"brush gate, drew clear",D,C,5,FT
+1,2,2,0.89,,2.78,2.1,Save Us Melania,2,1,,,6.0,"prompted 4-3w, kept on",D,C,5,FT
+1,5,3,2.0,,,2.34,All Class,4,0,,,7.0,"chased 5-4w, kept on",D,C,5,FT
+1,6,4,7.31,,,,Malu,5,0,,,7.05,"5w upper, passed tired",D,C,5,FT
+1,1,5,22.72,,,,Thirteen Red Flags,1,0,,,11.8,"cut pace 2p, tired",D,C,5,FT
+2,6,1,1.44,4.88,3.52,2.6,Pronghorn,6,1,,,0.0,"out,2-3p,drift out 1/8",D,AO,7,FT
+2,2,2,7.2,,5.56,3.56,Low Country Magic,2,0,,,3.0,"ins turns,chsd,earn2nd",D,AO,7,FT
+2,7,3,3.6,,,3.0,Concurrently,7,0,,,3.25,"frcd out st,2-4p2nd,5p",D,AO,7,FT
+2,3,4,2.9,,,,Ultimate Authority,3,0,,,5.5,"rank 2-3p1st turn,stdy",D,AO,7,FT
+2,1,5,24.52,,,,Purloin,1,0,,,5.75,"squeezed1st,ins,3p1/4",D,AO,7,FT
+2,4,6,8.04,,,,Ballerina d'Oro,4,0,,,6.0,"slow to stride,2p trns",D,AO,7,FT
+2,5,7,26.99,,,,Midtown Lights,5,0,,,8.25,"2p-ins,headed5/16,wknd",D,AO,7,FT
+3,4,1,7.74,17.48,9.28,5.44,Cravings,3,0,,,0.0,"5w upper, drew clear",D,N,7,FT
+3,1,2,7.04,,7.56,4.68,Huck's Agenda,1,0,,,4.75,"3-4w upper, kept on",D,N,7,FT
+3,6,3,3.19,,,3.58,L'Eclair,5,1,,,5.5,"chased 5-3w, improved",D,N,7,FT
+3,7,4,3.9,,,,Hot Gossip,6,0,,,5.55,"7w uppr, passed tired",D,N,7,FT
+3,2,5,10.52,,,,Baseball Lady,2,0,,,6.3,"coaxed 3-2w, weakened",D,N,7,FT
+3,5,6,3.3,,,,Pinky Brier,4,0,,,10.8,"bumped, pinched st",D,N,7,FT
+3,8,7,4.24,,,,Celestial Body,7,0,,,13.3,"4-3w in aim, tired",D,N,7,FT
+4,5,1,5.85,13.7,6.24,3.92,Mischievous M,5,0,,,0.0,"bmp brk,2p trn,driving",D,N,8,FT
+4,1,2,8.5,,7.62,4.38,Trust Issues,1,0,,,0.75,"step slw st,2-3p,5p1/4",D,N,8,FT
+4,3,3,3.82,,,3.56,Treaty Obligation,3,0,,,3.5,"4path turn,no kick",D,N,8,FT
+4,2,4,15.64,,,,Big Hat Willie,2,0,,,5.0,"ins turn,2p3/16,chased",D,N,8,FT
+4,6,5,26.82,,,,Conniving,6,0,,,8.75,"bmp btwn st,4-3p,2p1/4",D,N,8,FT
+4,4,6,39.3,,,,Disarmed,4,0,,,13.25,"3p trn,drft out ins1/8",D,N,8,FT
+4,7,7,0.74,,,,Gardiner,7,1,,,18.25,"bmp hard brk,5-6p turn",D,N,8,FT
+4,9,8,24.68,,,,Protected,8,0,,,20.0,"5p turn,7p3/16,mvd in",D,N,8,FT
+5,6,1,4.23,10.46,3.88,3.48,True Legend,6,0,,,0.0,"pressed 3-2w, edged cl",T,S,8,FM
+5,3,2,3.62,,2.86,3.4,Sultan Hassan,3,1,,,2.0,"cut pace ins, ran on",T,S,8,FM
+5,8,2,4.32,,2.96,3.42,Story of Rory,8,0,,,2.0,"chased 3-2w, mild bid",T,S,8,FM
+5,1,4,6.13,,,,Hot Off the Beach,1,0,,,3.75,"3w upper, belatedly",T,S,8,FM
+5,5,5,4.0,,,,Violent Act,5,0,,,5.0,"4-5w upper, wknd late",T,S,8,FM
+5,2,6,3.93,,,,Engraved,2,0,,,6.0,"3w uppr, late interest",T,S,8,FM
+5,7,7,32.14,,,,Crazy Busted,7,0,,,8.5,"6w upper, weakened",T,S,8,FM
+5,4,8,43.32,,,,Strobe Light,4,0,,,15.25,"chased inside, tired",T,S,8,FM
+6,3,1,3.12,8.24,3.96,2.88,Discotheque,2,0,,,0.0,"bmp brk,out,2-3p,clear",D,R,7,FT
+6,2,2,2.94,,4.06,3.0,Sea Vista,1,0,,,1.75,"bmp brk,ins,outfinishd",D,R,7,FT
+6,5,3,2.43,,,3.08,South Bend Tom,4,1,,,3.0,"bmp brk,2-3path turn",D,R,7,FT
+6,4,4,7.04,,,,Moment's Notice,3,0,,,4.25,"hit gate,bmp,ins-2p,4p",D,R,7,FT
+6,8,5,12.91,,,,Solo Jim,7,0,,,4.5,"bmp st,5p,6p1/4,mvd in",D,R,7,FT
+6,6,6,5.99,,,,Big Gain,5,0,,,6.0,"stumbld brk,4-5p,7p1/4",D,R,7,FT
+6,7,7,14.67,,,,Uncle Jim,6,0,,,13.5,"bmp brk,3-4p trn,6p1/4",D,R,7,FT
+7,2,1,4.45,10.9,4.96,2.96,Greyjoy,2,0,,,0.0,"3w upper, edged clear",t,N,8,FM
+7,3,2,5.84,,5.1,3.14,Morning Prayer,3,0,,,2.75,"5-6w upper, ran on",t,N,8,FM
+7,5,3,2.44,,,2.7,Celtic Dawn,5,1,,,5.25,"in hand 2p, weakened",t,N,8,FM
+7,6,4,30.7,,,,Lifeisbutadream,6,0,,,5.5,"6w upper, one paced",t,N,8,FM
+7,7,5,2.49,,,,She's Country,7,0,,,10.5,"chased 3-2w, tired",t,N,8,FM
+7,8,6,17.03,,,,Shake Em Off,8,0,,,13.25,"chased 3-2w, tired",t,N,8,FM
+7,4,7,4.74,,,,Combat Move,4,0,,,19.0,"6w upper, tired",t,N,8,FM
+7,1,8,39.78,,,,Into the Unknown,1,0,,,99.99,"pull up 9/16, walk off",t,N,8,FM
+8,3,1,0.7,3.4,2.68,2.52,Paula's Choice,3,1,,,0.0,"ins1st,2-4p2nd,5p1/4",T,M,11,FM
+8,9,2,10.64,,6.36,5.2,Two Clicks,9,0,,,3.5,"2p1st,3-5p2nd,6p1/4",T,M,11,FM
+8,11,3,15.1,,,6.58,Stella Fortuna,11,0,,,4.0,"out,3path,led1/4-1/8",T,M,11,FM
+8,7,4,15.67,,,,Raynham Hall,7,0,,,4.5,"2-3p1st,4p2nd,bid5p1/4",T,M,11,FM
+8,6,5,45.78,,,,The Gael,6,0,,,6.75,"inside,3p1/4,no kick",T,M,11,FM
+8,4,6,12.1,,,,Not Tapping,4,0,,,9.25,"bmp btwn st,stdy early",T,M,11,FM
+8,10,7,7.66,,,,Roasted Reds,10,0,,,9.5,"2-3p,4p1/4,brshd3/16",T,M,11,FM
+8,5,8,9.67,,,,Bounding Along,5,0,,,10.5,"bmp brk,inside turns",T,M,11,FM
+8,8,9,52.13,,,,Addagirl Addie,8,0,,,14.0,"bobbled after brk,3-5p",T,M,11,FM
+8,1,10,17.75,,,,Iwokeuplikethis,1,0,,,15.5,"inside pace,faded",T,M,11,FM
+8,2,11,63.21,,,,Signal Chat,2,0,,,23.0,"out,2p turns,retreated",T,M,11,FM

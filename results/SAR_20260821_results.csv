@@ -1,0 +1,68 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,1,1,1.21,4.42,2.88,,Tiz Dashing,1,0,,,0.0,"tip 3w 5/16, edged clr",T,AO,4,FM
+1,2,2,6.87,,4.98,,Carson's Run,2,0,,,2.25,"5w upper, ran on",T,AO,4,FM
+1,3,3,1.03,,,,Cugino,3,1,,,3.0,"tracked 2p, kept on",T,AO,4,FM
+1,4,4,7.16,,,,Capture the Flag,4,0,,,5.5,"in hand ins, wknd late",T,AO,4,FM
+2,5,1,1.36,4.72,3.36,2.48,Dr. Kraft,4,1,,,0.0,"bobbled after brk,2-3p",D,AO,6,FT
+2,6,2,5.67,,5.84,3.72,Concorde Spirit,5,0,,,5.5,"stmbld brk,4-3p turns",D,AO,6,FT
+2,4,3,5.66,,,3.34,Shadow Dragon,3,0,,,6.25,"buckled brk,2-3p2nd",D,AO,6,FT
+2,7,4,19.74,,,,Jackson Heights,6,0,,,6.5,"5-2p1st,ins-2p,5p1/4",D,AO,6,FT
+2,1,5,2.13,,,,Quick to Accuse,1,0,,,8.75,"bmp brk,brshd,ins,wknd",D,AO,6,FT
+2,2,6,8.94,,,,Palace Boss,2,0,,,9.5,"bobbled brk,bmp,ins-2p",D,AO,6,FT
+3,2,1,2.64,7.28,3.26,2.62,Jadorlinija,2,0,,,0.0,"in hand 2p, edged clr",D,S,7,FT
+3,7,2,2.85,,4.14,3.32,Hypnotica,7,0,,,2.25,"3w pursuit, repelled",D,S,7,FT
+3,5,3,26.64,,,6.26,Full of Tact,5,0,,,6.0,"5-6w upper, improved",D,S,7,FT
+3,3,4,2.03,,,,Moonlit,3,1,,,12.75,"stumbled st, tired",D,S,7,FT
+3,1,5,4.05,,,,Romala,1,0,,,15.0,"chased 2p, tired",D,S,7,FT
+3,6,6,17.2,,,,Epic Selloff,6,0,,,31.25,"chased 4-5w, faltered",D,S,7,FT
+3,4,7,25.57,,,,Masquerademistress,4,0,,,31.5,"hesitant st, trailed",D,S,7,FT
+4,1,1,5.27,12.54,5.24,2.74,Nash Potatoes,1,0,,,0.0,"ins-3p trn,bid3/16,clr",D,C,6,FT
+4,3,2,5.23,,4.68,2.8,Tartabull,3,0,,,1.25,"bmp brk,ins-2p,4p1/4",D,C,6,FT
+4,2,3,0.79,,,2.26,Island Town,2,1,,,3.75,"ins turn,dueled,wknd",D,C,6,FT
+4,5,4,11.73,,,,Unauthorized,4,0,,,4.0,"bmp brk,out,2p,tired",D,C,6,FT
+4,7,5,5.05,,,,Metatron,5,0,,,15.75,"5-3path turn,no threat",D,C,6,FT
+4,8,6,13.42,,,,Rochester,6,0,,,35.75,"4-5p trn,6p1/4,eased",D,C,6,FT
+5,7,1,16.07,34.14,15.94,8.42,Scalene,6,0,,,0.0,"bump st, up last jumps",T,S,8,FM
+5,8,2,7.0,,7.46,4.66,Fire Marshal,7,0,,,0.5,"awkward st, caught",T,S,8,FM
+5,9,3,5.02,,,4.32,Tinian,8,0,,,2.5,"3w pursuit, ran on",T,S,8,FM
+5,2,4,1.68,,,,Good Aim,2,1,,,2.75,"6-7w upper, belatedly",T,S,8,FM
+5,5,5,6.49,,,,Gnosis,4,0,,,2.8,"2w 1/4, outfinished",T,S,8,FM
+5,3,6,2.88,,,,Raise the Roof,3,0,,,3.3,"steady st, no headway",T,S,8,FM
+5,1,7,38.78,,,,Bet On Zion,1,0,,,5.05,bobbled after start,T,S,8,FM
+5,6,8,18.23,,,,Pyralis,5,0,,,5.55,"chased ins, weakened",T,S,8,FM
+6,3,1,2.78,7.56,4.02,3.0,Golden Siren,3,1,,,0.0,"ins,eased up final1/16",t,S,8,FM
+6,6,2,3.67,,4.76,3.52,Doves and Hawks,6,0,,,4.0,"jstld7/8,green,2-4p2nd",t,S,8,FM
+6,1,3,14.24,,,6.22,Belmont Street,1,0,,,4.75,"ins1st,2-4p2nd,8p3/16",t,S,8,FM
+6,2,4,4.16,,,,Determined Scholes (IRE),2,0,,,5.75,"bmpd7/8,ins-2p turns",t,S,8,FM
+6,5,5,10.38,,,,Belisa,5,0,,,6.25,"bmpd btwn7/8,stdied",t,S,8,FM
+6,8,6,4.19,,,,Energy Flows,8,0,,,7.75,"4-3p1st,2-3p2nd,empty",t,S,8,FM
+6,7,7,7.81,,,,Have Hope,7,0,,,7.8,"fractious gate,out,3p",t,S,8,FM
+6,4,8,15.82,,,,Encrypting,4,0,,,18.8,"2p-inside turns,empty",t,S,8,FM
+7,6,1,0.97,3.94,2.54,2.24,Georgia Magic,5,1,,,0.0,"stumbled st, edged clr",D,AO,7,FT
+7,4,2,4.48,,4.2,3.32,Render Judgment,3,0,,,2.5,"5w upper, belatedly",D,AO,7,FT
+7,8,3,16.8,,,6.9,Cooke Creek,7,0,,,3.25,"3w pursuit, kept on",D,AO,7,FT
+7,2,4,29.95,,,,Racing Driver,2,0,,,3.5,"chased 4-3w, kept on",D,AO,7,FT
+7,1,5,6.81,,,,Alan Turing,1,0,,,21.0,"chased 3-2w, tired",D,AO,7,FT
+7,5,6,11.05,,,,Sherlock's Jewel,4,0,,,32.5,"3w 1st turn, faltered",D,AO,7,FT
+7,7,7,3.95,,,,Solo Venturi,6,0,,,38.25,"overland, gave way",D,AO,7,FT
+8,3,1,0.59,3.18,2.18,2.1,Boston's Phinest,3,1,,,0.0,"ins trn,rally2p,up1/16",T,AO,6,FM
+8,4,2,14.34,,7.0,4.6,Ratu Jawa,4,0,,,1.25,"3p turn,5p3/16,gained",T,AO,6,FM
+8,7,3,11.42,,,4.44,Only for Now,6,0,,,2.75,"outside,3p turn,4p3/16",T,AO,6,FM
+8,6,4,3.76,,,,Sod Siren (FR),5,0,,,2.8,"out,2p turn,weakened",T,AO,6,FM
+8,1,5,6.18,,,,One Last Knock,1,0,,,2.9,"ins,headed out1/16,wkn",T,AO,6,FM
+8,2,6,13.38,,,,Star of Life (GB),2,0,,,11.9,"2path turn,no response",T,AO,6,FM
+9,4,1,1.6,5.2,3.28,2.44,Iron Orchard,3,1,,,0.0,"in hand ins, went clr",D,N,7,FT
+9,5,2,6.59,,5.08,3.14,Lady Rose,4,0,,,12.0,"3w upper, kept on",D,N,7,FT
+9,3,3,2.31,,,2.3,Venetta,2,0,,,15.25,"3-2w in aim, wknd late",D,N,7,FT
+9,8,4,5.89,,,,Unlock the Value,7,0,,,18.5,"3-4w upper, weakened",D,N,7,FT
+9,7,5,25.55,,,,Victory Hall,6,0,,,18.55,"5w upper, weakened",D,N,7,FT
+9,1,6,9.08,,,,Power of Women,1,0,,,18.8,"chased 2-3w, weakened",D,N,7,FT
+9,6,7,9.96,,,,New York Special,5,0,,,26.05,"4-3w into 1st, tired",D,N,7,FT
+10,8,1,6.58,15.16,7.16,4.94,Coach of the Year,8,0,,,0.0,"ins2nd,2p1/4,rallied",t,S,8,FM
+10,1,2,2.49,,4.32,3.54,Ganderella,1,1,,,0.75,"2-3path,5p1/4,chased",t,S,8,FM
+10,2,3,3.42,,,2.94,Felixyn,2,0,,,1.0,"bmp erly,angld out3/16",t,S,8,FM
+10,3,4,6.94,,,,Zap That Ghost,3,0,,,3.75,"ins-3p turns,weakened",t,S,8,FM
+10,7,5,3.55,,,,Amazing Gracer,7,0,,,3.85,"fractious,rank8F,stdy",t,S,8,FM
+10,4,6,12.44,,,,Fifty Shades Free,4,0,,,9.35,"bmp btwn early,2p trns",t,S,8,FM
+10,5,7,9.59,,,,Magic in My Eyes,5,0,,,14.6,"frctious gate,bmp erly",t,S,8,FM
+10,6,8,29.53,,,,No Need to Panic,6,0,,,19.35,"off slow,3-2path,eased",t,S,8,FM

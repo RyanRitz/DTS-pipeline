@@ -1,0 +1,76 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,5,1,5.46,12.92,6.26,4.56,Credit Risk,4,0,,,0.0,"in hand 2p, drew off",D,M,8,FT
+1,7,2,10.83,,9.76,6.5,Noisetomakenoise,6,0,,,13.75,"5w upper, kept on",D,M,8,FT
+1,1,3,19.12,,,7.18,That's Amore,1,0,,,16.5,"2w 1/4, best of rest",D,M,8,FT
+1,6,4,8.95,,,,Run On States,5,0,,,27.0,"3w upper, tired",D,M,8,FT
+1,3,5,2.79,,,,Bounding Along,3,0,,,28.5,"bumped st, tired",D,M,8,FT
+1,2,6,2.02,,,,Key Actress,2,1,,,37.0,"stumbled st, faltered",D,M,8,FT
+1,9,7,4.54,,,,Authentic Beauty,8,0,,,40.5,"6w upper, no impact",D,M,8,FT
+1,8,8,37.32,,,,Maizey Blue,7,0,,,51.0,"3w upper, eased",D,M,8,FT
+2,8,1,10.74,23.48,12.16,6.46,Gun Barrel City,8,0,,,0.0,"2p1st,3-4p2nd,6p3/16",T,C,9,FM
+2,7,2,27.71,,23.16,11.48,Middle Market,7,0,,,0.1,"3-4p turns,led,gamely",T,C,9,FM
+2,2,3,4.1,,,3.76,Maximum Promise,2,0,,,0.2,"ins1st,4-5p2nd,rallied",T,C,9,FM
+2,5,4,1.6,,,,Blast Furnace,5,1,,,0.3,"2-3p,wait1/4-3/16,gain",T,C,9,FM
+2,1,5,14.77,,,,Madagascar,1,0,,,1.8,"wait1/4,stdy1/8,alter",T,C,9,FM
+2,9,6,12.13,,,,In the Dark,9,0,,,4.55,"out,4-3p turns,wknd",T,C,9,FM
+2,4,7,18.2,,,,Tough Critic,4,0,,,6.8,"2p1st,ins2nd,no rally",T,C,9,FM
+2,3,8,3.75,,,,Light Fantastic,3,0,,,9.05,"2p-inside turns,tired",T,C,9,FM
+2,6,9,10.26,,,,Shangrala Road,6,0,,,11.55,"3-2p,out leader,tired",T,C,9,FM
+3,1,1,1.97,5.94,3.38,2.68,Normandy Coast,1,1,,,0.0,"bumped st, up late",D,C,7,FT
+3,3,2,2.85,,3.54,2.76,Norwich,2,0,,,0.5,"stumbled st, caught",D,C,7,FT
+3,7,3,9.14,,,4.12,Mr Skylight,5,0,,,9.25,"chased 2p, weakened",D,C,7,FT
+3,8,4,3.15,,,,Sheriff Bianco,6,0,,,14.0,"brush gate, steady st",D,C,7,FT
+3,6,5,17.92,,,,Fifty Cent Dollars,4,0,,,17.25,"chased 3-2w, tired",D,C,7,FT
+3,9,6,6.11,,,,Hey Toby,7,0,,,23.25,"3-4w uppr, faltered",D,C,7,FT
+3,4,7,15.18,,,,Dot's Dollar,3,0,,,27.25,"lunge st, checked 7/16",D,C,7,FT
+4,5,1,1.36,4.72,2.72,2.1,Salamis,4,1,,,0.0,"2-3p trns,lead ins3/16",t,AO,6,FM
+4,7,2,6.08,,5.38,2.68,Sand Pipes,6,0,,,0.25,"ins-2p,headed,fought",t,AO,6,FM
+4,2,3,1.7,,,2.1,Spirit of St Louis,2,0,,,2.0,"bmp after brk,ins trns",t,AO,6,FM
+4,6,4,12.06,,,,Sea Singer (IRE),5,0,,,4.25,"awkward brk,2-4p2nd,5p",t,AO,6,FM
+4,1,5,9.68,,,,Britain's Kitten,1,0,,,6.25,"bmp after brk,ins trns",t,AO,6,FM
+4,4,6,10.73,,,,Capture the Flag,3,0,,,6.5,"2p turns,chsd,empty",t,AO,6,FM
+5,9,1,2.14,6.28,4.04,3.22,Side Quest,9,1,,,0.0,"brush gate, drew clear",T,S,10,FM
+5,6,2,14.91,,11.08,7.22,All Show,6,0,,,5.75,"4w upper, belatedly",T,S,10,FM
+5,2,3,8.3,,,5.56,Quoted,2,0,,,6.5,"7w upper, mild kick",T,S,10,FM
+5,5,4,17.64,,,,By Grace,5,0,,,6.75,"in hand 2p, wknd late",T,S,10,FM
+5,10,5,28.12,,,,Saint Dymphna,10,0,,,7.5,"chased 4-3w, weakened",T,S,10,FM
+5,4,6,3.22,,,,Cadillac Mary,4,0,,,8.5,"chased 2p, weakened",T,S,10,FM
+5,3,7,12.88,,,,Split the Blanket,3,0,,,9.0,"steadied st, no rally",T,S,10,FM
+5,8,8,29.52,,,,Early and Often,8,0,,,11.5,"3w pursuit, tired",T,S,10,FM
+5,7,9,24.32,,,,Miss Money Pants,7,0,,,15.5,"chased inside, tired",T,S,10,FM
+5,1,10,3.28,,,,Cody's Approval,1,0,,,18.75,"chased inside, tired",T,S,10,FM
+6,1,1,0.82,3.64,3.2,2.76,Ancient World,1,1,,,0.0,"ins-2p,3p1/4,lead1/8",D,C,10,FT
+6,7,2,22.22,,11.62,6.8,Epitaph,7,0,,,0.75,"bmp st,3p,led5/16-3/16",D,C,10,FT
+6,9,3,6.8,,,3.66,Schlomo,9,0,,,2.5,"2p trn,headed5/16,wknd",D,C,10,FT
+6,10,4,10.68,,,,Tapwrits Temper,10,0,,,3.75,"outside,4p turn,chased",D,C,10,FT
+6,4,5,14.05,,,,Nantz,4,0,,,6.0,"3-5path turn,no rally",D,C,10,FT
+6,6,6,16.0,,,,Otto Nipoti,6,0,,,6.25,"bmp brk,clip behind,3p",D,C,10,FT
+6,2,7,8.95,,,,Liberty Rising,2,0,,,6.5,"3-2path turn,mvd out",D,C,10,FT
+6,5,8,17.28,,,,Three Little Birds,5,0,,,7.25,"bmp brk,clipped heels",D,C,10,FT
+6,3,9,16.35,,,,Catch a Tiger,3,0,,,7.3,"ins-2p,lost crop 3/16",D,C,10,FT
+6,8,10,19.53,,,,Executive Order,8,0,,,22.55,"bmp after brk,4-3p trn",D,C,10,FT
+7,7,1,26.81,55.62,20.48,9.32,Cosmic Candy Girl,5,0,,,0.0,"in hand ins, edged clr",t,N,6,FM
+7,8,2,10.66,,8.82,4.94,Considerate City,6,0,,,3.5,"4w upper, closed well",t,N,6,FM
+7,1,3,4.05,,,4.2,New York Special,1,0,,,3.55,"chased ins, ran on",t,N,6,FM
+7,6,4,10.22,,,,Neshika,4,0,,,3.8,"7w upper, kept on",t,N,6,FM
+7,3,5,1.22,,,,All of It,2,1,,,5.55,"chased 2-3w, wknd late",t,N,6,FM
+7,5,6,2.0,,,,Celtic Dawn,3,0,,,5.6,"tracked 2p, wknd late",t,N,6,FM
+8,4,1,4.03,10.06,4.32,2.9,Beauty Reigns,4,0,,,0.0,"bmp brk,2-3p trn,4p1/4",D,AO,8,FT
+8,2,2,1.87,,3.42,2.64,Senza Parole,2,1,,,0.5,"2-3path,led1/4-3/16",D,AO,8,FT
+8,1,3,3.08,,,3.18,Munnings Express,1,0,,,5.0,"ins to5/16,4p ins3/16",D,AO,8,FT
+8,5,4,16.7,,,,Dazzling Move,5,0,,,9.25,"bobbled brk,bmpd,3-2p",D,AO,8,FT
+8,8,5,12.42,,,,Beyond Belief,8,0,,,15.25,"2p-ins,headed1/4,tired",D,AO,8,FT
+8,7,6,5.91,,,,Reputation,7,0,,,16.75,"3-4path turn,no rally",D,AO,8,FT
+8,6,7,10.5,,,,Queen's Martini,6,0,,,17.25,"4-5p turn,7p3/16,empty",D,AO,8,FT
+8,3,8,26.0,,,,Autumn Evening,3,0,,,17.75,"2path turn,no factor",D,AO,8,FT
+9,7,1,6.37,14.74,7.36,3.58,Garden of Grace,7,0,,,0.0,"3w uppr, up fin 70yds",T,M,11,FM
+9,4,2,5.43,,7.1,3.86,Avery's Wonderland,4,0,,,0.75,"chased 3-2w,caught lte",T,M,11,FM
+9,3,3,2.02,,,2.54,Midtown Mischief,3,1,,,3.25,carried out 5w 5/16,T,M,11,FM
+9,8,4,35.7,,,,Stella Fortuna,8,0,,,4.25,"7-6w upper, improved",T,M,11,FM
+9,6,5,8.31,,,,You Know Better,6,0,,,4.3,"toss head,lost lane st",T,M,11,FM
+9,2,6,34.67,,,,Bank On Bebe,2,0,,,5.3,"ins, bid, flattened",T,M,11,FM
+9,5,7,14.63,,,,Dancing Miracle,5,0,,,6.3,"6w upper, no kick",T,M,11,FM
+9,11,8,35.31,,,,Spirit Forward,11,0,,,6.8,"bumped st, no response",T,M,11,FM
+9,9,9,17.14,,,,Mischievous Jo,9,0,,,10.05,carried out 6w 5/16,T,M,11,FM
+9,10,10,6.36,,,,Anna Brocknana,10,0,,,11.05,"bumped st, tired",T,M,11,FM
+9,1,11,7.05,,,,Blue Authenticity,1,0,,,20.8,got out 4w 3/8 to 5/16,T,M,11,FM

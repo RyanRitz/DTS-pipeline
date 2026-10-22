@@ -1,0 +1,77 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,2,1,5.88,13.76,5.28,4.04,Caddiemaster,2,0,,,0.0,"switch out 6-1/2,2-3p",D,A,5,FT
+1,5,2,1.64,,3.24,3.08,Crescendo's Rein,5,1,,,4.75,"ins-2p,ins foe from3/4",D,A,5,FT
+1,3,3,9.67,,,4.34,Senegal,3,0,,,6.0,"3p1st trn,ins2nd,4p1/4",D,A,5,FT
+1,1,4,3.46,,,,Zapruder,1,0,,,8.0,"ins-2p turns,no rally",D,A,5,FT
+1,4,5,1.86,,,,Judge Boushay,4,0,,,20.75,"lungd out brk,3p,4p1/4",D,A,5,FT
+2,5,1,0.41,2.82,2.18,2.1,Carc Brothers,4,1,,,0.0,"6w upper, edged clear",T,A,5,FM
+2,6,2,5.5,,4.12,2.42,Calvin's Ride,5,0,,,2.5,"brush gate, 2nd best",T,A,5,FM
+2,2,3,3.68,,,2.12,Willpowered,1,0,,,7.25,"5w upper, one paced",T,A,5,FM
+2,3,4,11.07,,,,Six Fortyfive,2,0,,,13.5,"spurted away ins,tired",T,A,5,FM
+2,4,5,28.05,,,,Blue Pill,3,0,,,15.0,"asked 3/16, trailed",T,A,5,FM
+3,2,1,1.83,5.66,3.14,2.22,She's a Gamer,2,1,,,0.0,"ins foe,rail,shook clr",D,AO,5,FT
+3,1,2,2.39,,3.02,2.12,Limes Don't Lie,1,0,,,2.5,"2p turn,3p1/8,chased",D,AO,5,FT
+3,5,3,2.29,,,2.34,Next On Stage,5,0,,,4.5,"bmp brk,out,4p,wknd",D,AO,5,FT
+3,3,4,5.77,,,,Coaster,3,0,,,11.0,"stmbld bad brk,3-2p,5p",D,AO,5,FT
+3,4,5,9.8,,,,The Big Calhouna,4,0,,,12.5,"bmp brk,out,2p,tired",D,AO,5,FT
+4,3,1,9.3,20.6,10.56,6.72,Culpable,3,0,,,0.0,"tracked 2p, game",t,S,10,FM
+4,2,2,6.44,,9.26,6.12,Suspend,2,0,,,0.25,"6w upper, good energy",t,S,10,FM
+4,10,3,6.36,,,5.7,Related Party,10,0,,,1.0,"in tight 6 1/2,willing",t,S,10,FM
+4,7,4,7.8,,,,Dignify,7,0,,,3.75,"4w upper, belatedly",t,S,10,FM
+4,9,5,3.27,,,,Greenwell,9,1,,,4.25,"hit gate st, flattened",t,S,10,FM
+4,5,6,3.64,,,,Real Restraint,5,0,,,7.0,"in hand 2p, weakened",t,S,10,FM
+4,4,7,5.65,,,,Jersey Guy,4,0,,,8.25,"3-2w in aim, weakened",t,S,10,FM
+4,1,8,21.1,,,,Captain G,1,0,,,8.75,"hit gate st, steady 1m",t,S,10,FM
+4,8,9,50.26,,,,No Law,8,0,,,8.85,"3w upper, empty",t,S,10,FM
+4,6,10,20.82,,,,Vintage Velocity,6,0,,,39.35,rank 3w 1st & 7/16,t,S,10,FM
+5,4,1,0.72,3.44,2.76,2.22,Seeker's Hope,4,1,,,0.0,"2p-ins,powered away",D,C,8,FT
+5,5,2,7.95,,5.18,3.62,Majestic Arc,5,0,,,10.25,"pressd,3p trn,no match",D,C,8,FT
+5,7,3,14.98,,,5.68,Red Miller,7,0,,,10.5,"4p turn,6p1/4,missd2nd",D,C,8,FT
+5,3,4,20.76,,,,Sports Hero,3,0,,,11.25,"2p turn,chased,wknd",D,C,8,FT
+5,2,5,6.68,,,,Lexington Pike,2,0,,,14.25,"3path turn,empty",D,C,8,FT
+5,1,6,5.09,,,,Ducky Medwick,1,0,,,18.5,"inside turn,retreated",D,C,8,FT
+5,6,7,34.91,,,,Mo Spice,6,0,,,19.25,"4p turn,5p1/4,faltered",D,C,8,FT
+5,8,8,13.74,,,,Waitin'onasunnyday,8,0,,,21.75,"off bit slow,5p trn,7p",D,C,8,FT
+6,9,1,16.13,34.26,14.9,7.0,Let Em Know,9,0,,,0.0,"4-3w 1st trn, gamely",T,S,11,FM
+6,11,2,11.75,,11.14,6.56,Roscoe Goose,11,0,,,0.1,"4-5w uppr, fought game",T,S,11,FM
+6,10,3,3.18,,,3.72,Permanent Record (GB),10,0,,,1.6,"3w uppr, late interest",T,S,11,FM
+6,3,4,19.87,,,,Bring Cash,3,0,,,3.1,"tracked 2p, kept on",T,S,11,FM
+6,1,5,9.43,,,,E Z Speaker,1,0,,,4.6,"off 1/2 slw, improved",T,S,11,FM
+6,2,6,3.15,,,,Not Ever (IRE),2,1,,,5.6,"dueled ins, wknd late",T,S,11,FM
+6,7,7,4.75,,,,Casino,7,0,,,8.1,"dueled 2p, wknd late",T,S,11,FM
+6,4,8,29.87,,,,Justifiableexpense,4,0,,,10.85,"5w upper, no impact",T,S,11,FM
+6,5,9,9.79,,,,Chambered,5,0,,,14.35,"chased 2p, no impact",T,S,11,FM
+6,8,10,9.24,,,,Amplified,8,0,,,21.85,"3w into 1st trn, tired",T,S,11,FM
+6,6,11,28.29,,,,Hilts,6,0,,,74.35,bumped solidly start,T,S,11,FM
+7,3,1,3.98,9.96,5.4,3.32,Rebalancing,3,0,,,0.0,"3p trn,lead,clear,held",D,M,8,FT
+7,8,2,4.54,,5.54,3.6,Turbo Launch,8,0,,,0.5,"brk out,2-3p trn,5p1/4",D,M,8,FT
+7,4,3,2.63,,,2.58,Private Flight,4,0,,,2.75,"bobbld st,ins-3p,6p1/4",D,M,8,FT
+7,5,4,2.0,,,,Instantly,5,1,,,3.75,"stumbled brk,3-4p turn",D,M,8,FT
+7,2,5,15.51,,,,Bootsy's a Rascal,2,0,,,4.75,"out foe,2p turn,wknd",D,M,8,FT
+7,1,6,14.39,,,,Thundertaker,1,0,,,6.0,"ins,headed3/16,wknd",D,M,8,FT
+7,6,7,34.66,,,,Go Dharma,6,0,,,8.5,"2-3path turn,no threat",D,M,8,FT
+7,7,8,19.84,,,,True Adirondacker,7,0,,,26.25,"5-4p turn,mvd in,eased",D,M,8,FT
+8,7,1,23.2,48.4,17.64,12.52,Funny Factor,7,0,,,0.0,"tracked 2p, inched clr",t,AO,10,FM
+8,4,2,2.16,,4.12,3.32,Inspeightofcharlie,4,1,,,0.75,"tracked 2-3w,mild kick",t,AO,10,FM
+8,2,3,29.19,,,13.0,Shared Success,2,0,,,1.25,"keen, split foes 1/8p",t,AO,10,FM
+8,8,4,13.81,,,,Truman's Commander,8,0,,,1.5,"5-6w upper, ran on",t,AO,10,FM
+8,3,5,2.74,,,,Jack and Jim,3,0,,,1.75,steady btw 2p early,t,AO,10,FM
+8,9,6,14.5,,,,Mo Trump,9,0,,,4.0,"prompted 2p, wknd late",t,AO,10,FM
+8,6,7,5.57,,,,Smooth Breeze,6,0,,,5.25,"3w 1st turn, no kick",t,AO,10,FM
+8,1,8,10.76,,,,Cable Ready,1,0,,,5.5,"tracked ins, no impact",t,AO,10,FM
+8,5,9,6.21,,,,Jack's World,5,0,,,5.6,"brush st, no response",t,AO,10,FM
+8,10,10,37.95,,,,Terminal Velocity,10,0,,,12.85,"in hand ins, tired",t,AO,10,FM
+9,7,1,7.1,16.2,7.92,5.94,Stradale,7,0,,,0.0,"out,3p,lead1/4,clr1/16",T,G3,7,FM
+9,3,2,16.49,,11.16,11.32,Oscar's Hope,3,0,,,0.25,"jstld5/8,3-4p trn,6p2F",T,G3,7,FM
+9,1,3,12.6,,,7.06,Rebel With a Cause,1,0,,,1.75,"off step slw,ins,2p1/4",T,G3,7,FM
+9,2,4,0.68,,,,Outfielder,2,1,,,2.75,"3p turn,4p1/4,no kick",T,G3,7,FM
+9,6,5,8.67,,,,Learntodiscover (GB),6,0,,,4.75,"hit gate,4p turn,5p1/4",T,G3,7,FM
+9,5,6,8.54,,,,Big Destroyer,5,0,,,5.0,"jstld5/8,2p turn,3p1/4",T,G3,7,FM
+9,4,7,6.33,,,,Intricate Spirit,4,0,,,5.5,"mild bump brk,ins,wknd",T,G3,7,FM
+10,8,1,5.07,12.14,5.38,4.02,Stewie,6,0,,,0.0,"in hand 2p, drew off",D,C,7,FT
+10,5,2,12.5,,11.54,5.48,Mr Skylight,4,0,,,6.25,"7w upper, kept on",D,C,7,FT
+10,3,3,7.23,,,3.98,Princip,2,0,,,6.3,"8-9w upper, improved",D,C,7,FT
+10,4,4,5.18,,,,Farm Team,3,0,,,6.8,"3-4w upper, weakened",D,C,7,FT
+10,2,5,1.71,,,,Projectability,1,1,,,8.8,"hit gate st, weakened",D,C,7,FT
+10,9,6,15.2,,,,Neuschwanstein,7,0,,,20.55,"3w pursuit, tired",D,C,7,FT
+10,6,7,3.19,,,,On the Ledge,5,0,,,23.3,"pressed ins, tired",D,C,7,FT

@@ -1,0 +1,65 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,5,1,5.32,12.64,5.18,3.92,Dotsy,5,0,,,0.0,"off bit slw,4p turn,2p",D,S,7,FT
+1,1,2,2.5,,3.64,2.66,Atlas a Eye,1,0,,,4.0,"ins-2p,stdy3/8,bid1/4",D,S,7,FT
+1,7,3,2.45,,,2.92,Cody's Approval,7,1,,,16.75,"out,2p turn,led,wknd",D,S,7,FT
+1,6,4,7.52,,,,Belmont C. C.,6,0,,,19.75,"off heels5-1/2,3-4p",D,S,7,FT
+1,4,5,25.08,,,,Freshly Minted,4,0,,,26.75,"2-4path turn,no factor",D,S,7,FT
+1,2,6,46.02,,,,Dream of Me,2,0,,,28.25,"ins trn,mvd out out1/8",D,S,7,FT
+1,3,7,2.56,,,,Lady Starstruck,3,0,,,33.75,checked tiring out 1/4,D,S,7,FT
+2,7,1,0.46,2.92,2.42,2.34,Unit Economics (GB),6,1,,,0.0,"rated 3w, edged clear",t,C,7,FM
+2,2,2,9.42,,4.98,3.66,Heathguard,2,0,,,1.25,"5w upper, mild kick",t,C,7,FM
+2,8,3,13.09,,,4.7,Late Call,7,0,,,3.0,"4-5w upper, kept on",t,C,7,FM
+2,1,4,17.98,,,,Ambition,1,0,,,4.75,"tracked 2p, wknd late",t,C,7,FM
+2,5,5,6.36,,,,Brigadier General,4,0,,,7.0,"in hand 2p, wknd late",t,C,7,FM
+2,6,6,6.92,,,,Right to Win (IRE),5,0,,,8.0,"attended 3-2w, wkn lte",t,C,7,FM
+2,4,7,38.76,,,,Outtawaterbury,3,0,,,8.75,"tracked ins, weakened",t,C,7,FM
+3,8,1,6.77,15.54,6.3,4.18,Kaz Farm Girl,7,0,,,0.0,"4p turn,bmpd3/16,rally",D,R,7,FT
+3,1,2,2.95,,3.96,3.04,Furry Fox,1,0,,,1.75,"2p turn,overtaken1/16",D,R,7,FT
+3,6,3,2.25,,,2.58,Our Preferred Pal,5,1,,,3.25,"5-3p trn,5p3/16,chased",D,R,7,FT
+3,7,4,25.23,,,,Sabby Sunset,6,0,,,7.75,"3p turn,bmpd3/16,wknd",D,R,7,FT
+3,3,5,10.37,,,,Calling an Audible,2,0,,,9.5,"stumbled brk,ins,2p1/4",D,R,7,FT
+3,5,6,2.76,,,,Timia,4,0,,,10.75,"stdy7/16,2-3path turn",D,R,7,FT
+3,4,7,8.12,,,,Thirteen Red Flags,3,0,,,10.85,"checked7/16,ins-4p,6p",D,R,7,FT
+4,1,1,1.97,5.94,3.26,2.44,Vajra,1,1,,,0.0,"bumped st, edged clear",T,S,8,FM
+4,8,2,3.25,,4.66,3.3,My Divine Spirit (GB),8,0,,,3.0,"chased 3w, ran on",T,S,8,FM
+4,2,3,4.12,,,3.68,Saint Tropez,2,0,,,3.25,"chased ins, kept on",T,S,8,FM
+4,4,4,4.93,,,,Fletch's Rockette,4,0,,,3.5,"5-6w upper, improved",T,S,8,FM
+4,5,5,8.29,,,,Empress New Groove,5,0,,,4.25,"2-3w uppr, no headway",T,S,8,FM
+4,6,6,10.89,,,,Chestnut,6,0,,,4.75,"2-3w pursuit, wknd lte",T,S,8,FM
+4,7,7,29.3,,,,Foster Lane,7,0,,,7.5,"hesitated st, no kick",T,S,8,FM
+4,3,8,31.62,,,,Collective Bargain,3,0,,,8.0,"pressed 2p, tired",T,S,8,FM
+5,1,1,11.72,25.44,10.62,7.52,House of War,1,0,,,0.0,"ins,shuffled5/16-1/4",t,S,10,FM
+5,7,2,1.87,,3.66,2.84,Calling Mr. Mo,7,0,,,1.0,"hit gate,out,2-3p,duel",t,S,10,FM
+5,5,3,10.91,,,5.66,Nystateofmind,5,0,,,2.5,"bmpd hard7/8,ins-2path",t,S,10,FM
+5,4,4,37.46,,,,Solo Stryker,4,0,,,5.0,"2-3p,4p1/4,improved",t,S,10,FM
+5,9,5,1.63,,,,Al Mowashaah,9,1,,,5.5,"rank,checked7/8,2-3p",t,S,10,FM
+5,3,6,6.02,,,,Our Warrior,3,0,,,9.75,"ins-2p turns,no threat",t,S,10,FM
+5,11,7,68.48,,,,Cuylle,10,0,,,11.25,"3-5path turns,empty",t,S,10,FM
+5,2,8,29.03,,,,Zack the Grey,2,0,,,12.0,"checked6-1/2,ins,3p1/4",t,S,10,FM
+5,6,9,21.3,,,,Vals Bro,6,0,,,13.0,"rank7/8,bmpd very hard",t,S,10,FM
+5,8,10,24.5,,,,Mr. Rogers,8,0,,,26.5,"4p1st,3-2pnd,faltered",t,S,10,FM
+6,2,1,2.86,7.72,3.88,2.92,Secured Landing,1,0,,,0.0,"in hand ins, held on",D,N,7,FT
+6,6,2,2.84,,3.76,2.78,Glen Airy,5,0,,,0.1,"pinched st, missed",D,N,7,FT
+6,7,3,6.93,,,4.02,Unload,6,0,,,3.1,"bumped st, ran on",D,N,7,FT
+6,4,4,7.55,,,,Pineapple Man,3,0,,,5.85,"prompted 2p, wknd late",D,N,7,FT
+6,8,5,7.4,,,,Gee No Hollander,7,0,,,9.6,"bumped st, weakened",D,N,7,FT
+6,3,6,2.51,,,,Trusty Rusty,2,1,,,10.35,"chased inside, tired",D,N,7,FT
+6,5,7,39.74,,,,Smilensaycheese,4,0,,,15.1,"shied out st, trailed",D,N,7,FT
+7,2,1,10.03,22.06,9.64,6.8,Go for Launch,2,0,,,0.0,"ins,ask2p1/4,rally,clr",T,N,8,FM
+7,6,2,12.74,,13.56,7.6,Allura,6,0,,,2.25,"2p turn,headed out1/8",T,N,8,FM
+7,4,3,2.6,,,3.34,Extravaganzoo,4,0,,,2.75,"2-3p turn,5p1/4,chased",T,N,8,FM
+7,5,4,10.09,,,,Lexi's Charm,5,0,,,4.5,"slw st,ins trn,mvd out",T,N,8,FM
+7,1,5,3.54,,,,More Champagne,1,0,,,5.0,"hit gate,ins-2p turn",T,N,8,FM
+7,3,6,2.21,,,,Side Quest,3,1,,,7.75,"3p turn,4p1/4,mvd out",T,N,8,FM
+7,9,7,29.07,,,,Army Salute,8,0,,,15.25,"out,4p trn,6p1/4,empty",T,N,8,FM
+7,8,8,9.53,,,,Shining Moment,7,0,,,16.0,"out,3p,brshd1/4,tired",T,N,8,FM
+8,3,1,4.72,11.44,6.38,4.22,Starship Lizzy,3,0,,,0.0,"traded bumps, up 1/16",D,M,10,FT
+8,7,2,9.65,,9.24,5.12,Hanna's Hideaway,7,0,,,0.5,"4w uppr, led, caught",D,M,10,FT
+8,1,3,2.92,,,3.1,All Bright,1,0,,,1.0,"6w 1/4, traded bumps",D,M,10,FT
+8,6,4,14.69,,,,Extravagant,6,0,,,4.25,"chased ins, belatedly",D,M,10,FT
+8,8,5,20.17,,,,That's Amore,8,0,,,6.0,"5-6w upper, improved",D,M,10,FT
+8,4,6,2.64,,,,Forever to Go,4,1,,,13.75,"in hand ins, weakened",D,M,10,FT
+8,10,7,54.82,,,,Battle Rifle,10,0,,,30.0,"chased 4-3w, no impact",D,M,10,FT
+8,5,8,40.07,,,,Angie's Angel,5,0,,,54.5,"eased, bled, equ amb",D,M,10,FT
+8,9,9,3.9,,,,Raised,9,0,,,57.0,"got out far turn, ease",D,M,10,FT
+8,2,10,27.04,,,,Peggie Castle,2,0,,,75.5,"bobbled st, eased",D,M,10,FT

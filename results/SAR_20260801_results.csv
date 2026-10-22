@@ -1,0 +1,88 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,5,1,1.03,4.06,2.44,2.2,Voyager,5,1,,,0.0,"in hand 2p, held game",t,S,6,FM
+1,3,2,2.0,,2.86,2.36,Correlation Trade (GB),3,0,,,0.05,"steady st, good finish",t,S,6,FM
+1,4,3,15.91,,,4.74,Bittersweet Memory,4,0,,,6.3,"chased 3w, wknd late",t,S,6,FM
+1,2,4,8.18,,,,Bashfully,2,0,,,7.8,bobbled after start,t,S,6,FM
+1,1,5,5.13,,,,Pavlova's Palace (GB),1,0,,,11.55,"chased 2p, weakened",t,S,6,FM
+1,6,6,27.69,,,,So Angelina,6,0,,,30.8,"chased 4w, tired",t,S,6,FM
+2,4,1,0.8,3.6,2.58,2.1,Velora,4,1,,,0.0,"2p trn,bmp foe hard1/4",D,S,6,FT
+2,2,2,13.64,,7.86,3.6,Annotate,2,0,,,4.75,"hit gate,ins trn,2p1/4",D,S,6,FT
+2,8,3,2.17,,,2.46,Doitforjack,5,0,,,10.75,"4p,bmpd hard1/4,tired",D,S,6,FT
+2,1,4,15.11,,,,Blessednotbothered,1,0,,,19.0,"2p turn,4p into lane",D,S,6,FT
+2,3,5,8.94,,,,Luck Penny,3,0,,,19.5,"3p,bmpd hard1/4,wknd",D,S,6,FT
+2,9,6,9.92,,,,Wildest Dreams,6,0,,,39.5,"outside,5p turn,falter",D,S,6,FT
+3,2,1,4.55,11.1,4.64,2.96,Tuscan Sky,2,0,,,0.0,"4-3w pursuit, gamely",D,C,5,FT
+3,6,2,1.79,,3.46,2.42,Reasoned Analysis,4,1,,,0.1,"dueled ins, fought on",D,C,5,FT
+3,3,3,3.02,,,2.42,Dreamlike,3,0,,,0.35,"6w upper, repelled",D,C,5,FT
+3,1,4,3.25,,,,Gewurztraminer,1,0,,,12.1,"3w 1/4, never extended",D,C,5,FT
+3,7,5,4.9,,,,Mr. Papagiorgio,5,0,,,19.35,"dueled 3-2w, tired",D,C,5,FT
+4,7,1,12.09,26.18,8.92,5.1,Pinpoint,6,0,,,0.0,"2p turn,strong drive",D,S,7,FT
+4,6,2,2.92,,4.64,3.1,Cybersteel,5,0,,,6.25,"played up post,ins trn",D,S,7,FT
+4,2,3,8.35,,,4.92,Jackpot Rocket,2,0,,,6.5,"fractious gate,green",D,S,7,FT
+4,1,4,2.41,,,,Subjugation,1,1,,,8.0,"veer out brk,bmpd,2p",D,S,7,FT
+4,5,5,21.71,,,,Apotheon,4,0,,,8.75,"bmp brk,chsd,3p,tired",D,S,7,FT
+4,8,6,2.6,,,,Roll Wave,7,0,,,18.25,"3p turn,4p1/4,faltered",D,S,7,FT
+4,4,7,6.22,,,,Chief of Staff,3,0,,,27.0,"bmp hrd brk,slw stride",D,S,7,FT
+5,8,1,2.17,6.34,4.38,3.08,Life Changing,8,1,,,0.0,"in hand 2p, went clear",D,S,10,FT
+5,2,2,8.01,,6.96,4.94,Judy's Rockette,2,0,,,7.0,"stumbled st, kept on",D,S,10,FT
+5,10,3,6.29,,,4.18,First Site,10,0,,,8.5,tried to get out turn,D,S,10,FT
+5,7,4,11.32,,,,Virabhadrasana,7,0,,,9.25,"8-9w uppr, belatedly",D,S,10,FT
+5,6,5,5.31,,,,Wyna,6,0,,,11.75,"7w uppr, passed tired",D,S,10,FT
+5,9,6,21.95,,,,Flightress,9,0,,,12.0,"chased 3-4w, tired",D,S,10,FT
+5,3,7,14.08,,,,Amelia in Air,3,0,,,12.5,saved ground no avail,D,S,10,FT
+5,4,8,5.49,,,,Fair Practice,4,0,,,12.75,"3w upper, tired",D,S,10,FT
+5,1,9,11.62,,,,Charlotte's Beach,1,0,,,15.0,"hit gate, buckled st",D,S,10,FT
+5,5,10,20.94,,,,Maybe It's Destiny,5,0,,,23.5,"4-5w pursuit, tired",D,S,10,FT
+6,3,1,3.54,9.08,3.86,2.72,Twinkle Town,3,0,,,0.0,"out,3-4p,strong drive",D,G2,6,FT
+6,4,2,2.04,,3.28,2.42,Booked,4,0,,,6.0,"off bit slow,2p turn",D,G2,6,FT
+6,1,3,4.42,,,2.98,How's Al Today,1,0,,,13.0,"3p trn,5p1/4,best rest",D,G2,6,FT
+6,2,4,35.51,,,,Rasasi,2,0,,,18.25,"chased ins turn,tired",D,G2,6,FT
+6,5,5,17.82,,,,Uncle Kef,5,0,,,28.75,"4-5p turn,6p1/4,tired",D,G2,6,FT
+6,6,6,1.65,,,,Flight Command,6,1,,,34.75,"stmbld brk,4-6p,7p1/4",D,G2,6,FT
+7,1,1,1.57,5.14,3.42,2.92,Sassmaster,1,1,,,0.0,"4w upper, inched away",D,A,7,FT
+7,6,2,18.95,,10.86,4.96,Expect the Best,6,0,,,1.0,"led ins 5/16,fought on",D,A,7,FT
+7,3,3,7.1,,,5.3,Thunderously,3,0,,,2.5,"3w upper, ran on",D,A,7,FT
+7,5,4,22.96,,,,Statesman,5,0,,,10.25,"4w bid, passed tired",D,A,7,FT
+7,2,5,7.61,,,,Hop Sing,2,0,,,12.5,"stumbled st, tired",D,A,7,FT
+7,8,6,2.91,,,,Iron Dome,7,0,,,12.55,"4-3w 1st turn, tired",D,A,7,FT
+7,4,7,3.64,,,,Universe,4,0,,,13.55,"3-2w 1st turn, tired",D,A,7,FT
+8,6,1,5.55,13.1,8.5,5.14,Heat Missile (AUS),5,0,,,0.0,"3p trn,5p1/4,rally,clr",T,A,10,FM
+8,10,2,43.37,,37.84,15.4,Queen Juno,9,0,,,2.25,"3p turn,bid3/16,led1/8",T,A,10,FM
+8,11,3,34.73,,,11.36,One More Guitar,10,0,,,3.25,"ins-3p,5p1/4,mvd out",T,A,10,FM
+8,5,4,1.98,,,,Silsbee,4,1,,,3.5,"stdy7/16,bmp1/4,chckd",T,A,10,FM
+8,9,5,10.46,,,,Duboff,8,0,,,3.75,"out,3path,led3/16,wknd",T,A,10,FM
+8,8,6,12.0,,,,Paula's a Star,7,0,,,5.5,"outside,4p turn,6p1/4",T,A,10,FM
+8,3,7,4.92,,,,Only for Now,2,0,,,5.75,"2-3p turn,bmp1/4,tired",T,A,10,FM
+8,2,8,3.04,,,,Lady Jancis,1,0,,,5.85,"lug out7/16,ins-2p trn",T,A,10,FM
+8,7,9,28.79,,,,Army Gal,6,0,,,7.35,"ins-3p turn,asked4p1/4",T,A,10,FM
+8,4,10,25.07,,,,Just Add Water,3,0,,,8.6,"bmp brk,ins turn,empty",T,A,10,FM
+9,6,1,1.66,5.32,3.72,2.96,Amberglen (IRE),6,1,,,0.0,"bumped st, edged clear",t,G3,8,FM
+9,8,2,5.34,,5.76,3.7,Deep Learning,7,0,,,1.25,"6w upper, mild kick",t,G3,8,FM
+9,1,3,11.03,,,5.16,Honfleur,1,0,,,1.5,"bobble st, mild kick",t,G3,8,FM
+9,4,4,8.4,,,,Time to Dream,4,0,,,1.55,"brk out, lost iron st",t,G3,8,FM
+9,5,5,16.4,,,,Ultimate Love,5,0,,,1.8,"3w upper, outfinished",t,G3,8,FM
+9,2,6,15.5,,,,Star Actress,2,0,,,4.55,"4-5w uppr, no response",t,G3,8,FM
+9,9,7,2.14,,,,Lion Lake (IRE),8,0,,,4.65,"3w both trns, wknd lte",t,G3,8,FM
+9,3,8,30.82,,,,Candy Moonshine,3,0,,,7.9,"in hand ins, weakened",t,G3,8,FM
+10,3,1,1.36,4.72,2.6,2.1,Renegade,3,0,,,0.0,"svd grnd,angld out3/16",D,G2,5,FT
+10,5,2,1.19,,2.46,2.1,Commandment,5,1,,,0.5,"3-4p2nd,led3/16-1/16",D,G2,5,FT
+10,4,3,10.34,,,2.74,Silent Tactic,4,0,,,2.5,"out,2-3p,led 5/16-1/4",D,G2,5,FT
+10,1,4,4.16,,,,Chip Honcho,1,0,,,14.5,"ins,2path ins3/8,tired",D,G2,5,FT
+10,2,5,33.91,,,,Asked and Answered,2,0,,,18.75,"bmp brk,2path turns",D,G2,5,FT
+11,9,1,2.43,6.86,3.6,2.94,Dakota Country,9,1,,,0.0,"8w upper, just up",T,A,9,FM
+11,2,2,3.51,,4.22,3.0,Joker On Fire,2,0,,,0.1,"5w uppr, led, nailed",T,A,9,FM
+11,1,3,2.46,,,2.98,Illmatic,1,0,,,0.15,boxed ins to ins 1/8p,T,A,9,FM
+11,4,4,12.22,,,,Van Vollenhoven,4,0,,,2.4,"3w uppr, led, wknd lte",T,A,9,FM
+11,7,5,8.68,,,,Rhyton,7,0,,,2.5,"6w upper, no headway",T,A,9,FM
+11,5,6,18.49,,,,Blamicker,5,0,,,4.75,"in hand ins, weakened",T,A,9,FM
+11,8,7,38.64,,,,Diliello,8,0,,,5.25,"stumbled st, no rally",T,A,9,FM
+11,3,8,23.2,,,,Mozambique,3,0,,,7.25,"4-5w upper, no impact",T,A,9,FM
+11,6,9,9.84,,,,King Puck,6,0,,,7.75,"chased 3-2w, weakened",T,A,9,FM
+12,5,1,1.92,5.84,3.76,2.32,Nonconsecutivetrms,5,1,,,0.0,"frctious gate,2p,4p1/4",t,S,8,FM
+12,1,2,18.28,,13.54,5.82,Prime Connection,1,0,,,3.25,"ins,2p1/4,bmpd,3p3/16",t,S,8,FM
+12,3,3,3.8,,,2.96,Amicable Farce,3,0,,,3.5,"keen,out,2-3path,wknd",t,S,8,FM
+12,7,4,4.23,,,,Hedge Book,7,0,,,4.25,"2p1st,ins-3p2nd,5p1/4",t,S,8,FM
+12,4,5,6.37,,,,Timeless Melody,4,0,,,7.5,"inside turns,no threat",t,S,8,FM
+12,2,6,12.68,,,,Music Box,2,0,,,8.5,"inside,asked1/4,tired",t,S,8,FM
+12,6,7,7.59,,,,Fancy n' Flight,6,0,,,14.5,"reared st,off slw,2-4p",t,S,8,FM
+12,8,8,12.84,,,,Lose the Blues,8,0,,,17.25,"out,3p trns,bmp ins1/4",t,S,8,FM

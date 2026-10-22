@@ -1,0 +1,77 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,7,1,4.04,10.08,5.04,3.24,Smart Uncle,7,0,,,0.0,"tracked 2p, up fin 70y",T,G1,8,FM
+1,1,2,7.16,,6.42,4.74,Fil Dor (FR),1,0,,,0.75,"tracked ins, up for 2d",T,G1,8,FM
+1,6,3,6.49,,,4.9,Roja Redemption,6,0,,,1.0,"tracked 2p,led, caught",T,G1,8,FM
+1,5,4,10.12,,,,Salted Carmel,5,0,,,6.75,"late at 5, mild kick",T,G1,8,FM
+1,3,5,3.48,,,,St James the Great,3,0,,,10.5,"late at 5, weakened",T,G1,8,FM
+1,4,6,27.63,,,,L'Avvocato (FR),4,0,,,17.0,"early at 7, no impact",T,G1,8,FM
+1,2,7,12.13,,,,Take Your Seats (IRE),2,0,,,37.25,"spurted 2p, faltered",T,G1,8,FM
+1,8,8,2.19,,,,McTigue (IRE),8,1,,,99.99,"4th fell at 9, equ amb",T,G1,8,FM
+2,2,1,2.29,6.58,2.98,2.46,Fabian's Princess,2,0,,,0.0,"ins from7/16,responded",D,S,5,FT
+2,1,2,2.06,,2.96,2.64,Promise Me Amelody,1,1,,,2.0,"ins turn,ask2p1/4,chsd",D,S,5,FT
+2,7,3,4.22,,,2.98,Carmen Amalia,5,0,,,7.75,"stumbled brk,2-3p turn",D,S,5,FT
+2,5,4,16.49,,,,Allegro Brillant,3,0,,,12.0,"hit gate,off slw,2-4p",D,S,5,FT
+2,6,5,2.21,,,,Quiddity,4,0,,,99.99,"pulled up,equ-amb",D,S,5,FT
+3,3,1,1.63,5.26,3.62,3.26,Maria Louise,3,1,,,0.0,"prompt 3-2w, edged clr",D,S,7,FT
+3,2,2,4.01,,4.34,3.56,Noble Glow,2,0,,,2.25,"3-4w uppr, second best",D,S,7,FT
+3,6,3,11.55,,,5.56,Miss Twitter,6,0,,,7.25,"4w 1st turn, improved",D,S,7,FT
+3,4,4,1.81,,,,Wedelia,4,0,,,7.75,"bump st, 3w both turns",D,S,7,FT
+3,1,5,10.51,,,,Empress New Groove,1,0,,,9.0,"in hand ins, weakened",D,S,7,FT
+3,7,6,15.67,,,,Slow Kara,7,0,,,16.0,"4-3w 1st turn, tired",D,S,7,FT
+3,5,7,31.72,,,,Reconnected,5,0,,,27.5,"4w upper, trailed",D,S,7,FT
+4,3,1,8.09,18.18,8.46,5.12,Ontario,3,0,,,0.0,"svd grnd,6p3/16,rally",t,AO,7,FM
+4,2,2,4.51,,5.42,3.46,Unreasonable (IRE),2,0,,,0.1,"ins-2p,3p3/16,led late",t,AO,7,FM
+4,6,3,7.99,,,5.2,Power of Destiny (GB),6,0,,,1.6,"2p,led ins 3/16 to1/16",t,AO,7,FM
+4,1,4,2.02,,,,Relaxx (FR),1,0,,,1.65,"2-3p,4p1/4,willingly",t,AO,7,FM
+4,5,5,14.34,,,,Lady Firefoot,5,0,,,4.15,"2-3path trns,roused1/4",t,AO,7,FM
+4,7,6,1.75,,,,Serendipity,7,1,,,6.9,"2p-inside,gave way",t,AO,7,FM
+4,4,7,33.83,,,,Flowers for Me,4,0,,,11.65,"ins turns,no response",t,AO,7,FM
+5,6,1,2.27,6.54,3.06,2.34,Sharons Beach,5,0,,,0.0,"dueled 2p,just held on",D,N,7,FT
+5,4,2,1.77,,2.98,2.5,Ramajay,3,1,,,0.05,"stumble st,just missed",D,N,7,FT
+5,7,3,3.15,,,2.56,Imagine John,6,0,,,0.55,"dueled 4-2w, fought on",D,N,7,FT
+5,3,4,21.67,,,,Life Is Gravy (IRE),2,0,,,5.55,"brushed st, late foot",D,N,7,FT
+5,1,5,5.93,,,,Tripp's Promise,1,0,,,7.3,"9w uppr, passed tired",D,N,7,FT
+5,5,6,27.82,,,,Rochester,4,0,,,8.55,"brush gate, weakened",D,N,7,FT
+5,8,7,15.52,,,,Unauthorized,7,0,,,16.3,"awkward st, tired",D,N,7,FT
+6,3,1,15.63,33.26,10.84,6.06,Embouteillage,3,0,,,0.0,"ins trn,3p3/16,rallied",T,S,9,FM
+6,7,2,2.02,,3.82,2.82,Rockabye,7,1,,,1.25,"out,2p,overtaken1/16",T,S,9,FM
+6,6,3,4.77,,,4.14,Queenly,6,0,,,6.25,"awkward brk,2-3p,4p1/4",T,S,9,FM
+6,2,4,18.46,,,,Harpoon,2,0,,,7.0,"2path turn,empty",T,S,9,FM
+6,9,5,2.84,,,,Without Hesitation,9,0,,,7.5,"hrd to load,bit slw st",T,S,9,FM
+6,4,6,8.62,,,,Never Gonna Stop (IRE),4,0,,,15.0,"3-4path turn,no rally",T,S,9,FM
+6,8,7,28.91,,,,Oh Come On,8,0,,,16.25,"out,3-4p,5p1/4,tired",T,S,9,FM
+6,5,8,9.05,,,,Not My Niche,5,0,,,18.0,"3-4p,falter,eased,wlkd",T,S,9,FM
+6,1,9,11.72,,,,Shinobu,1,0,,,21.5,"bmp brk,inside,faded",T,S,9,FM
+7,9,1,0.86,3.72,2.64,2.34,Abrigado,7,1,,,0.0,"4-5w uppr, went clear",D,M,8,FT
+7,5,2,43.58,,22.1,11.36,Lough Currane,4,0,,,7.25,"chased 3-2w, ran on",D,M,8,FT
+7,6,3,15.22,,,5.08,Mr R T,5,0,,,10.75,"bobbled, bumped st",D,M,8,FT
+7,3,4,13.72,,,,Camino,3,0,,,10.8,"buckled st, improved",D,M,8,FT
+7,1,5,13.48,,,,It's Banksy,1,0,,,12.55,"cut pace ins, tired",D,M,8,FT
+7,11,6,45.61,,,,Fess,8,0,,,18.05,"bobble after st, tired",D,M,8,FT
+7,7,7,6.63,,,,Draft Riots,6,0,,,19.05,"ins from 1/2, tired",D,M,8,FT
+7,2,8,2.54,,,,Implacable,2,0,,,30.05,"4-5w from 9/16, folded",D,M,8,FT
+8,1,1,3.11,8.22,4.46,3.24,Ashikidah (FR),1,0,,,0.0,"ins,ask2p1/4,rallied",t,AO,7,FM
+8,3,2,3.99,,5.22,3.58,Tirupati,3,0,,,0.75,"bobbled brk,ins turns",t,AO,7,FM
+8,7,3,7.79,,,5.54,Shore War,7,0,,,3.25,"2p-ins turns,improved",t,AO,7,FM
+8,4,4,14.98,,,,Pop Art,4,0,,,5.75,"outside 2p,3p1/4,wknd",t,AO,7,FM
+8,2,5,8.4,,,,Gowells Delight,2,0,,,6.5,"inside turns,no rally",t,AO,7,FM
+8,6,6,3.04,,,,Brisbane (FR),6,1,,,6.55,"hit gate,2-3path,5p1/4",t,AO,7,FM
+8,5,7,3.6,,,,Marketplaceofideas (GB),5,0,,,6.65,"3path turns,empty",t,AO,7,FM
+9,3,1,5.75,13.5,6.18,3.46,Munnings Express,3,0,,,0.0,"ins bid 3/8, edged clr",D,N,7,FT
+9,2,2,10.73,,7.9,4.76,Landed,2,0,,,1.75,"pressed 4-3w,mild kick",D,N,7,FT
+9,6,3,1.06,,,2.58,Usha,5,1,,,2.5,"ins from 1/2, mild bid",D,N,7,FT
+9,7,4,7.96,,,,Iron Orchard,6,0,,,4.0,"5-6w upper, wknd late",D,N,7,FT
+9,5,5,2.82,,,,With the Angels,4,0,,,10.25,"2-3w uppr, weakened",D,N,7,FT
+9,1,6,20.96,,,,Bam's Bliss Kiss,1,0,,,16.75,"coaxed 2p, tired",D,N,7,FT
+9,8,7,17.75,,,,Naive Melody,7,0,,,42.5,"veer out st, trailed",D,N,7,FT
+10,6,1,2.88,7.76,4.5,3.22,Rossbeigh,6,0,,,0.0,"2-3p,lead3/16,clr,held",T,M,11,FM
+10,5,2,6.94,,6.38,6.3,Bourboncentric,5,0,,,0.5,"ins-2path 3p1/4,gained",T,M,11,FM
+10,3,3,15.81,,,6.84,Nonno Joe,3,0,,,3.25,"ins,blocked3/16,stdied",T,M,11,FM
+10,1,4,2.83,,,,Beau Cheval,1,1,,,4.25,"ins1st,2-3p2nd,no kick",T,M,11,FM
+10,2,5,12.67,,,,Vitalize,2,0,,,6.5,"ins1st,2-3p2nd,no kick",T,M,11,FM
+10,10,6,3.08,,,,Classic Commander,10,0,,,8.25,"bit slw st,bmp3/4,4-5p",T,M,11,FM
+10,4,7,14.09,,,,Wazey's Charm,4,0,,,8.3,"bmpd out7/8,2-3p trns",T,M,11,FM
+10,11,8,61.04,,,,Sunshine Bobalou,11,0,,,8.8,"off step slow,3p1st",T,M,11,FM
+10,7,9,20.96,,,,Berman,7,0,,,9.3,"out,3-2path trns,tired",T,M,11,FM
+10,8,10,52.05,,,,Portadown Lad,8,0,,,12.8,"bmpd out7/8,3-4p turns",T,M,11,FM
+10,9,11,43.51,,,,Followill,9,0,,,19.55,"inside turns, faded",T,M,11,FM

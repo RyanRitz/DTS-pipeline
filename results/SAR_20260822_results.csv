@@ -1,0 +1,99 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,7,1,2.34,6.68,3.18,2.8,Bubster,5,0,,,0.0,"3-2p,drft out1/8,drvng",D,S,6,FT
+1,8,2,2.94,,3.7,3.44,Term Premium,6,0,,,9.5,"out,4-3p trns,no match",D,S,6,FT
+1,5,3,48.52,,,10.82,Uncle Barrie,3,0,,,13.25,"bmp brk,2-3p,drift1/8",D,S,6,FT
+1,6,4,0.99,,,,Modest Maclean,4,1,,,13.75,"bmp brk,3-4p trns,wknd",D,S,6,FT
+1,3,5,9.79,,,,Just Tipsy,2,0,,,18.5,"bmp brk,inside,empty",D,S,6,FT
+1,2,6,41.42,,,,Imperial Anthem,1,0,,,54.5,"ins-2p turns,easd,wlkd",D,S,6,FT
+2,1,1,4.05,10.1,4.32,2.9,Rothschild,1,0,,,0.0,"uncontested, held game",t,AO,7,FM
+2,4,2,1.52,,3.28,2.42,Asbury Park (GB),4,1,,,0.5,"3w upper, not enough",t,AO,7,FM
+2,7,3,2.29,,,2.36,Arkhipov,7,0,,,2.5,"loom 3w 1/4, rebuffed",t,AO,7,FM
+2,3,4,8.16,,,,Mutaawid,3,0,,,3.75,"toss head st, belated",t,AO,7,FM
+2,5,5,10.44,,,,Sardis,5,0,,,8.25,"tracked 2p, weakened",t,AO,7,FM
+2,6,6,16.1,,,,The Hidden Chamber,6,0,,,13.25,"pinched st, tired",t,AO,7,FM
+2,2,7,24.98,,,,L'Imperator (FR),2,0,,,19.5,saved ground no avail,t,AO,7,FM
+3,6,1,9.61,21.22,8.76,5.66,American History,6,0,,,0.0,"5p trn,4p1/4,rally,clr",D,S,9,FT
+3,8,2,4.46,,6.5,4.44,Art Museum,8,0,,,7.75,"6p turn,5p1/4,no match",D,S,9,FT
+3,7,3,38.99,,,15.12,Shocked,7,0,,,8.25,"2p,headed inside3/16",D,S,9,FT
+3,1,4,0.63,,,,Powerline,1,1,,,9.25,"very slw st,rank,chckd",D,S,9,FT
+3,4,5,19.1,,,,Barrel Roll,4,0,,,10.5,"bmp brk,3-2p trn,empty",D,S,9,FT
+3,3,6,12.04,,,,Got Tough,3,0,,,11.75,"steadied5-1/2,stdy5/16",D,S,9,FT
+3,9,7,12.64,,,,No Time to Lose,9,0,,,14.5,"outside,4p turn,tired",D,S,9,FT
+3,5,8,38.9,,,,Pass On By,5,0,,,15.5,"bmp brk,3p turn,tired",D,S,9,FT
+3,2,9,17.78,,,,Louden,2,0,,,20.0,"checked5-1/2,ins turn",D,S,9,FT
+4,2,1,3.56,9.12,4.14,2.8,Heads in Beds (FR),2,0,,,0.0,"3-2w 1/4,up last jumps",T,C,9,FM
+4,1,2,1.75,,3.26,2.46,Americanexpression,1,1,,,0.1,"spurted clr 2p, caught",T,C,9,FM
+4,6,3,4.67,,,2.74,Five Dozen Roses,6,0,,,0.6,"chased 3w, missed",T,C,9,FM
+4,3,4,10.59,,,,Give Her Another,3,0,,,0.85,"3-4w upper, late foot",T,C,9,FM
+4,8,5,7.04,,,,Divineintervention,8,0,,,1.85,"3w upper, improved",T,C,9,FM
+4,4,6,21.32,,,,Fifi La Fume,4,0,,,2.35,"lunge st, outkicked",T,C,9,FM
+4,9,7,7.13,,,,Paynterpretty,9,0,,,4.85,"7w upper, no impact",T,C,9,FM
+4,7,8,39.6,,,,Call Me Jal,7,0,,,4.95,"5w upper, outfinished",T,C,9,FM
+4,5,9,32.54,,,,Leslie's Star,5,0,,,10.45,"chased inside, tired",T,C,9,FM
+5,1,1,3.45,8.9,6.24,3.9,Private Property (IRE),1,0,,,0.0,"ins1st,3-4p2nd,6p1/4",t,M,10,FM
+5,4,2,12.85,,12.1,8.0,Outro,4,0,,,0.05,"ins,2p1/4,led1/8-late",t,M,10,FM
+5,7,3,16.77,,,11.68,Raging Bloom,7,0,,,0.1,"ins-2p,rally,bid late",t,M,10,FM
+5,6,4,7.91,,,,U Vicky,6,0,,,0.2,"last awy,4p trns,5p1/4",t,M,10,FM
+5,5,5,8.95,,,,Just Tell Anne,5,0,,,1.7,"3p trns,4p1/4,chased",t,M,10,FM
+5,8,6,12.29,,,,Dr Glick,8,0,,,1.75,"keen1st,2p,4p3/16,chsd",t,M,10,FM
+5,10,7,3.45,,,,Loveontheleftbank,9,1,,,2.0,"ins-2p,headed ins3/16",t,M,10,FM
+5,11,8,6.83,,,,Devilish Grin,10,0,,,3.0,"2-3p,behind foes late",t,M,10,FM
+5,2,9,10.19,,,,River Empress,2,0,,,7.25,"ins,mvd out 2nd,5p1/4",t,M,10,FM
+5,3,10,8.23,,,,Madeline's Agenda,3,0,,,10.25,"rated inside,empty",t,M,10,FM
+6,5,1,1.59,5.18,4.16,3.64,Forever Carina,5,1,,,0.0,"chased 3-2w, edged clr",D,S,11,FT
+6,1,2,15.13,,10.4,8.6,Classic Nora,1,0,,,2.0,"shied in st, willingly",D,S,11,FT
+6,3,3,16.16,,,7.88,Lucerra,3,0,,,5.0,"5w upper, kept on",D,S,11,FT
+6,11,4,6.53,,,,Very Clever,11,0,,,6.75,"5-6w upper, improved",D,S,11,FT
+6,4,5,2.81,,,,Key Colony Beach,4,0,,,7.25,"vied, dueled, wknd lte",D,S,11,FT
+6,8,6,8.79,,,,Mysticious,8,0,,,8.5,"vied, dueled, weakened",D,S,11,FT
+6,7,7,28.29,,,,White Truffles,7,0,,,8.55,"bumped st, pass tired",D,S,11,FT
+6,9,8,10.48,,,,Above All Odds,9,0,,,9.55,brushed after start,D,S,11,FT
+6,6,9,52.84,,,,Keshi,6,0,,,12.8,"steady st, no impact",D,S,11,FT
+6,2,10,39.92,,,,Coastal Conflict,2,0,,,14.05,saved ground no avail,D,S,11,FT
+6,10,11,41.67,,,,Sparky's Delight,10,0,,,54.3,"bumped st, eased",D,S,11,FT
+7,2,1,2.86,7.72,4.12,2.94,Cat On Time,2,0,,,0.0,"bmp brk,3-4p trn,5p1/4",D,AO,6,FT
+7,5,2,4.13,,5.64,3.52,Over and Ollie,4,0,,,0.25,"out,2-3p,4p1/4,fought",D,AO,6,FT
+7,4,3,4.57,,,3.16,Acoustic Ave,3,0,,,1.25,"ins turn,2p1/4,outkckd",D,AO,6,FT
+7,6,4,2.68,,,,Nakatomi,5,1,,,1.5,"off bit slw,2-4p,6p1/4",D,AO,6,FT
+7,1,5,8.74,,,,Bold Journey,1,0,,,8.0,"hit gate,ins-2p,9p3/16",D,AO,6,FT
+7,7,6,4.44,,,,Gunmetal,6,0,,,9.5,"4p turn,7p1/4,empty",D,AO,6,FT
+8,6,1,4.48,10.96,6.42,4.28,Fairy Godmother,5,0,,,0.0,"bobble 1/2, surged, up",T,A,11,FM
+8,7,2,21.03,,18.46,10.92,Scorch,6,0,,,0.25,"dueled inside, nailed",T,A,11,FM
+8,5,3,31.04,,,14.3,Vernon Valley,4,0,,,1.75,"5w upper, ran on",T,A,11,FM
+8,11,4,6.86,,,,Tuthilltown,10,0,,,1.8,"6w upper, belatedly",T,A,11,FM
+8,8,5,4.67,,,,Dancingwithdestiny,7,0,,,1.85,"dueled 3-2w, wknd late",T,A,11,FM
+8,9,6,4.09,,,,Maria Callas,8,0,,,2.6,stymied 1/16p to fin,T,A,11,FM
+8,1,7,41.45,,,,Sinead,1,0,,,4.85,"5w uppr, passed tired",T,A,11,FM
+8,3,8,2.54,,,,Arinata,3,1,,,5.1,"chased 2p, wknd late",T,A,11,FM
+8,12,9,9.34,,,,Emergency Nine,11,0,,,5.35,"chased 4-3w, wknd late",T,A,11,FM
+8,10,10,80.21,,,,Kaaterskill,9,0,,,12.85,"chased 3-4w, tired",T,A,11,FM
+8,2,11,56.38,,,,Juliet On Approach,2,0,,,15.6,"brush rail 7/16, tired",T,A,11,FM
+9,5,1,1.08,4.16,3.14,2.5,Stimulate,4,1,,,0.0,"2-3p trns,drifted crop",D,A,8,FT
+9,4,2,5.88,,4.74,3.16,Freddie B,3,0,,,1.5,"2p-ins,3p3/16,kept on",D,A,8,FT
+9,9,3,3.84,,,2.78,Playa Del Mar,7,0,,,3.25,"5-3p1st,4-5p2nd,chased",D,A,8,FT
+9,1,4,55.21,,,,Filoso,1,0,,,4.5,"2-5p2nd,6p1/4,improved",D,A,8,FT
+9,7,5,13.11,,,,Enforced Agenda,6,0,,,6.0,"4p turns,3p1/4,tired",D,A,8,FT
+9,3,6,8.76,,,,Cocktailsnkringle,2,0,,,6.05,"stmbld brk,ins-2p trns",D,A,8,FT
+9,6,7,6.69,,,,Silver Talent,5,0,,,11.05,"ins-2p trns,swung5p1/4",D,A,8,FT
+9,10,8,25.64,,,,C McGriff,8,0,,,31.8,"6-4p1st,3-4p,easd,wlkd",D,A,8,FT
+10,5,1,6.31,14.62,6.34,4.48,And One More Time,4,0,,,0.0,"2w 1/4,herd foes,held",t,G2,7,FM
+10,2,2,9.98,,10.06,6.72,Sunlit Uplands (IRE),2,0,,,0.25,"3-4w upper, herded out",t,G2,7,FM
+10,3,3,3.88,,,3.88,Deep Satin,3,0,,,0.5,"6w upper, missed",t,G2,7,FM
+10,7,4,8.57,,,,Grayosh,6,0,,,1.0,"6-7w uppr, belatedly",t,G2,7,FM
+10,6,5,0.9,,,,Segesta,5,1,,,1.5,"bumped st, herded str",t,G2,7,FM
+10,1,6,11.08,,,,Ozara (IRE),1,0,,,6.5,"rank ins early, wknd",t,G2,7,FM
+10,8,7,21.1,,,,Long Ago (GB),7,0,,,11.75,"3-4w in aim, tired",t,G2,7,FM
+11,4,1,3.37,8.74,5.48,2.3,My Gun's Loaded,4,0,,,0.0,"3-4path,6p1/4,lead3/16",D,G1,6,FT
+11,3,2,10.76,,8.38,2.52,Measure,3,0,,,0.25,"last away,ins-2p,rally",D,G1,6,FT
+11,6,3,0.38,,,2.1,Counting Stars,6,1,,,1.75,"4-3p,5p1/4,outfinished",D,G1,6,FT
+11,5,4,24.48,,,,A. P.'s Girl,5,0,,,4.5,"2-3p1st,3-4p2nd,5p1/4",D,G1,6,FT
+11,2,5,10.93,,,,Ati Girl,2,0,,,4.55,"ins-2path,3p3/16,tired",D,G1,6,FT
+11,1,6,33.04,,,,Nycon,1,0,,,4.65,"ins1st,ins-3p2nd,angld",D,G1,6,FT
+12,2,1,14.13,30.26,12.94,6.42,Prime Connection,2,0,,,0.0,"4w upper, edged clear",T,S,8,FM
+12,1,2,4.42,,6.22,3.96,Stand the Rain,1,0,,,1.75,"2-3w uppr, closed well",T,S,8,FM
+12,6,3,3.48,,,3.02,Mary Lois (IRE),6,0,,,2.75,"tracked ins, willingly",T,S,8,FM
+12,3,4,7.66,,,,Home Wrecker,3,0,,,4.5,"in hand ins, wknd late",T,S,8,FM
+12,8,5,2.57,,,,Osmosis (FR),8,1,,,5.0,"7w uppr, passed tired",T,S,8,FM
+12,5,6,4.67,,,,Secretly Delighted,5,0,,,6.5,"tracked 2-3w, weakened",T,S,8,FM
+12,4,7,6.7,,,,Fango Creek,4,0,,,9.75,"4w upper, weakened",T,S,8,FM
+12,7,8,62.33,,,,Riyah Al Nil,7,0,,,30.25,"rushed 4-3w, eased",T,S,8,FM

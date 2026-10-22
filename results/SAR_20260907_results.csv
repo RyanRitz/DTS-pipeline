@@ -1,0 +1,110 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,1,1,2.11,6.22,3.72,2.86,Miss Nightfall (GB),1,0,,,0.0,"5-6w uppr, edged away",t,A,6,FM
+1,7,2,1.14,,2.62,2.1,Accent (GB),6,1,,,1.75,"5w uppr, led, ran on",t,A,6,FM
+1,6,3,5.18,,,2.66,Majaz (GB),5,0,,,3.25,"4w upper, led, kept on",t,A,6,FM
+1,5,4,12.64,,,,Candy Moonshine,4,0,,,5.0,"in hand ins, wknd late",t,A,6,FM
+1,3,5,5.76,,,,Two Martini's,3,0,,,5.75,"brushed st, wknd late",t,A,6,FM
+1,2,6,48.08,,,,Lady River Lily,2,0,,,10.5,"unsettled ins, tired",t,A,6,FM
+2,6,1,13.98,29.96,13.36,9.12,Rescue Dawn,6,0,,,0.0,"2p turn,ask1/4,respond",D,S,10,FT
+2,10,2,2.7,,4.88,4.0,Heirsuta,10,0,,,1.75,"out,bid 3p turn,4p1/4",D,S,10,FT
+2,1,3,21.34,,,10.1,Saintly Villain,1,0,,,3.5,"ins turn,chsd,no kick",D,S,10,FT
+2,3,4,5.58,,,,Eight Rose's,3,0,,,8.5,"2p-ins turn,improved",D,S,10,FT
+2,7,5,2.25,,,,Norah Begorrah,7,1,,,8.55,"off bit slw,5path turn",D,S,10,FT
+2,2,6,5.37,,,,Ready Set Roll,2,0,,,9.3,"off bit slw,stdied1/2",D,S,10,FT
+2,9,7,22.25,,,,Jetsetter,9,0,,,9.35,"bit slw st,boltd early",D,S,10,FT
+2,5,8,19.32,,,,Tookenette,5,0,,,14.85,"forcd out brk,6-5p trn",D,S,10,FT
+2,8,9,32.49,,,,Call Me,8,0,,,15.1,"hit gate,4-3p trn,wknd",D,S,10,FT
+2,4,10,13.11,,,,Fourteen Roses,4,0,,,20.35,"3path turn,retreated",D,S,10,FT
+3,8,1,1.58,5.16,3.36,2.9,Little Thunder,7,1,,,0.0,"pressed 5-3w, got bob",D,AO,7,FT
+3,1,2,8.53,,5.4,3.62,Two Eagles River,1,0,,,0.1,"4w uppr, lost the bob",D,AO,7,FT
+3,7,3,22.22,,,5.88,Barb,6,0,,,0.85,"chased 3-4w, mild kick",D,AO,7,FT
+3,2,4,3.53,,,,Gate to Wire,2,0,,,4.35,"brush gate st, belated",D,AO,7,FT
+3,6,5,7.82,,,,Twenty Four Mamba,5,0,,,4.85,"in hand 2p, wknd late",D,AO,7,FT
+3,4,6,2.48,,,,Sharp Swinger,3,0,,,7.6,"chased 4w, weakened",D,AO,7,FT
+3,5,7,28.06,,,,Perfect Force,4,0,,,9.35,"3-4w upper, weakened",D,AO,7,FT
+4,6,1,2.77,7.54,3.82,3.02,Bakuto,6,1,,,0.0,"ins turn,strong urging",D,M,11,FT
+4,4,2,3.02,,4.46,3.62,Sfumato,4,0,,,5.0,"3-5p turn,improved 2nd",D,M,11,FT
+4,3,3,10.64,,,5.04,Kings Landyn,3,0,,,5.75,"ins,4p1/4,drift out1/8",D,M,11,FT
+4,2,4,17.06,,,,Tampa Storm,2,0,,,6.25,"bmpd1/2,2p turn,tired",D,M,11,FT
+4,1,5,16.17,,,,Thundertaker,1,0,,,9.0,"ins-2p turn,no rally",D,M,11,FT
+4,10,6,4.01,,,,Plan On It,10,0,,,9.05,"bumped5-1/2,4p turn",D,M,11,FT
+4,9,7,60.48,,,,True Adirondacker,9,0,,,10.55,"bmpd5-1/2,5-6path turn",D,M,11,FT
+4,5,8,5.22,,,,Chris's Song,5,0,,,11.55,"4path turn,empty",D,M,11,FT
+4,8,9,52.86,,,,Taqueeto Jones,8,0,,,24.8,"bumped1/2,3-2p turn",D,M,11,FT
+4,11,10,13.21,,,,Always Honest,11,0,,,24.85,"last away,4-3p turn",D,M,11,FT
+4,7,11,75.04,,,,Klimt Master,7,0,,,26.1,"ins from 7/16,outrun",D,M,11,FT
+5,3,1,14.2,30.4,11.38,7.92,Episodic,3,0,,,0.0,"8w uppr, up last jumps",D,S,10,FT
+5,1,2,4.61,,8.3,5.9,Just a Girl,1,0,,,0.25,"in hand 2p, caught lte",D,S,10,FT
+5,2,3,42.1,,,16.86,Sesasi,2,0,,,2.5,"chased ins, willingly",D,S,10,FT
+5,7,4,7.17,,,,Guns of Roses,7,0,,,3.25,"prompted 3w, wknd late",D,S,10,FT
+5,8,5,35.32,,,,Flying Hawley,8,0,,,6.5,"stumbled st, weakened",D,S,10,FT
+5,5,6,2.5,,,,Glow of a Rose,5,1,,,8.0,"steady 6 1/2, improved",D,S,10,FT
+5,10,7,3.06,,,,Noble Glow,10,0,,,10.75,"chased 5w, weakened",D,S,10,FT
+5,6,8,5.86,,,,Miss Watermelon,6,0,,,16.5,bumped start & 6 1/2,D,S,10,FT
+5,9,9,16.7,,,,Raging Vortex,9,0,,,19.25,"7-8w upper, no impact",D,S,10,FT
+5,4,10,23.82,,,,Red Beach,4,0,,,27.0,"off beat slw, tired",D,S,10,FT
+6,9,1,2.47,6.94,4.72,3.56,Bernin Hot,8,0,,,0.0,"2-3p,clear past1/16",D,C,8,FT
+6,3,2,5.06,,5.1,4.04,Frizzante,2,0,,,0.25,"bmp brk,pinchd,2-4p",D,C,8,FT
+6,7,3,13.38,,,7.14,Castle Chaos,6,0,,,1.75,"3p turns,4p1/4,chased",D,C,8,FT
+6,1,4,1.1,,,,Glen Airy,1,1,,,3.0,"checked early,4p2nd,5p",D,C,8,FT
+6,8,5,8.99,,,,Metatron's Muse,7,0,,,10.25,"5p1st,2p2nd,no threat",D,C,8,FT
+6,5,6,34.31,,,,Peek,4,0,,,10.5,"2-4p turns,no response",D,C,8,FT
+6,4,7,54.15,,,,Late Call,3,0,,,16.0,"awkwrd brk,bmp,pinchd",D,C,8,FT
+6,6,8,20.37,,,,Three Technique,5,0,,,26.0,"inside turns, faltered",D,C,8,FT
+7,7,1,2.53,7.06,4.56,3.44,Dargham,7,1,,,0.0,"in hand 3-2w, edged cl",D,S,12,FT
+7,2,2,9.87,,8.5,5.64,Hullabaloo Ray Ray,2,0,,,2.25,"bumped st, ran on",D,S,12,FT
+7,6,3,10.67,,,6.62,Motawaali,6,0,,,9.25,"chased 4-3w, wknd late",D,S,12,FT
+7,4,4,3.42,,,,Damavand,4,0,,,9.35,"4w pursuit, improved",D,S,12,FT
+7,12,5,45.77,,,,Hooked,12,0,,,11.1,lugged in to rail 1/8p,D,S,12,FT
+7,11,6,36.61,,,,Closing Surge,11,0,,,16.85,"chase 6-4w, pass tired",D,S,12,FT
+7,3,7,15.33,,,,Louisiana Baby,3,0,,,17.1,"chased 2p, tired",D,S,12,FT
+7,10,8,5.74,,,,Bellissimo d'Oro,10,0,,,19.35,"chased 6-5w, tired",D,S,12,FT
+7,5,9,38.4,,,,Road to Ravello,5,0,,,19.6,"3w upper, tired",D,S,12,FT
+7,1,10,30.66,,,,Roughkin,1,0,,,23.35,"ins to 5w uppr, tired",D,S,12,FT
+7,8,11,32.37,,,,I'm America,8,0,,,23.4,stumbled badly start,D,S,12,FT
+7,9,12,5.26,,,,Shahnameh,9,0,,,28.9,"bobble st, no impact",D,S,12,FT
+8,4,1,8.82,19.64,10.02,7.04,Urgency,4,0,,,0.0,"ins,ask2p1/4,responded",t,N,11,FM
+8,11,2,7.56,,8.62,5.88,Hard Circle,10,0,,,0.75,"2p-ins turns,mvd out",t,N,11,FM
+8,1,3,9.71,,,6.82,English Law,1,0,,,1.25,"ins1st,2-3p2nd,4p1/4",t,N,11,FM
+8,7,4,17.08,,,,Rabaja,7,0,,,2.0,"tkn up 7-1/2,ins-2path",t,N,11,FM
+8,2,5,2.47,,,,Debt Limit (FR),2,1,,,2.75,"inside,4p1/4,movd out",t,N,11,FM
+8,10,6,16.12,,,,Vintage Vino,9,0,,,5.25,"2p1st,2-4p2nd,7p1/4",t,N,11,FM
+8,9,7,5.45,,,,Outsource,8,0,,,6.25,"3path turns,5p3/16",t,N,11,FM
+8,6,8,6.8,,,,Hammerhead,6,0,,,6.75,"out,2-3path,weakened",t,N,11,FM
+8,5,9,58.64,,,,High Beta,5,0,,,15.0,"3-4p trns,drift in3/16",t,N,11,FM
+8,12,10,34.49,,,,Hot Property,11,0,,,17.75,"inside turns,no factor",t,N,11,FM
+8,3,11,5.72,,,,Siesta Key,3,0,,,18.0,"2-3p turns,no response",t,N,11,FM
+9,2,1,3.55,9.1,4.14,2.8,Light Fantastic,2,0,,,0.0,"in hand ins, edged clr",T,N,7,FM
+9,4,2,1.35,,2.9,2.36,Escapades,3,1,,,1.75,off heels ins to 7/16,T,N,7,FM
+9,8,3,3.85,,,2.7,Ambassador Blue,7,0,,,2.25,"3w pursuit, belatedly",T,N,7,FM
+9,6,4,13.74,,,,Global Prosperity,5,0,,,2.75,"2p in aim, wknd late",T,N,7,FM
+9,5,5,5.81,,,,Sea Vista,4,0,,,2.8,"brushed st, one paced",T,N,7,FM
+9,7,6,15.84,,,,Sicilian Defense,6,0,,,4.05,"chased 3-2w, weakened",T,N,7,FM
+9,1,7,14.01,,,,Abrigado,1,0,,,13.8,"bumped st, trailed",T,N,7,FM
+10,5,1,2.18,6.36,3.86,2.48,Scramjet,5,0,,,0.0,"out,3p,lead3/16,clear",D,N,6,FT
+10,1,2,7.54,,6.4,2.92,Professor Plum,1,0,,,2.0,"2-3p turn,bmpd 4p1/4",D,N,6,FT
+10,2,3,1.64,,,2.36,Fullcup,2,1,,,4.25,"ins turn,chased,wknd",D,N,6,FT
+10,3,4,3.71,,,,Mindfield,3,0,,,8.0,"4p trn,bmpd5p1/4,tired",D,N,6,FT
+10,4,5,7.22,,,,D I Wire,4,0,,,12.5,"2p trn,headed3/16,fade",D,N,6,FT
+10,6,6,20.19,,,,Midnight Raider,6,0,,,16.5,"awkward brk,ins trn,6p",D,N,6,FT
+11,7,1,3.27,8.54,4.54,3.44,Siyouincanada (FR),7,1,,,0.0,"in hand ins, edged clr",t,N,9,FM
+11,2,2,3.42,,4.66,3.4,Third Coast,2,0,,,2.25,"tracked inside, ran on",t,N,9,FM
+11,3,3,5.97,,,3.96,Glavine,3,0,,,3.75,"5w upper, mild kick",t,N,9,FM
+11,5,4,20.51,,,,Bull Shoals,5,0,,,5.5,"4w upper, wknd late",t,N,9,FM
+11,8,5,4.75,,,,Chummers,8,0,,,5.75,"3w pursuit, improved",t,N,9,FM
+11,6,6,5.12,,,,Doubting Thomas,6,0,,,7.0,"chased 2p, weakened",t,N,9,FM
+11,4,7,6.64,,,,Lyneham (FR),4,0,,,7.5,"3w upper, no response",t,N,9,FM
+11,9,8,18.02,,,,Black Hornet,9,0,,,10.5,"chased 3-2w, no impact",t,N,9,FM
+11,1,9,48.92,,,,Glorious Boy,1,0,,,10.55,"6w upper, weakened",t,N,9,FM
+12,5,1,4.05,10.1,5.9,3.86,My Lil Army Girl,5,1,,,0.0,"ins turn,responded",T,M,12,FM
+12,1,2,5.83,,5.7,3.38,Ticket to Ride,1,0,,,0.1,"ins-3p,5p1/4,driftd in",T,M,12,FM
+12,6,3,7.01,,,4.34,Midtown Mischief,6,0,,,0.35,"stmbld brk,blocked3/16",T,M,12,FM
+12,12,4,4.34,,,,Copper Caduceus,12,0,,,3.35,"4p turn,steadied 1/16",T,M,12,FM
+12,3,5,6.57,,,,Daylight Dreamer,3,0,,,4.85,"inside turn,moved out",T,M,12,FM
+12,8,6,10.83,,,,Sassy Sats,8,0,,,5.1,"lug out 7/16,3-4p turn",T,M,12,FM
+12,9,7,27.63,,,,Adroit,9,0,,,6.85,"fractious gate,bmp3/16",T,M,12,FM
+12,10,8,12.87,,,,You Know Better,10,0,,,6.9,"chased,3p turn,tired",T,M,12,FM
+12,11,9,46.02,,,,Quell,11,0,,,7.65,"stmbld7/16,bmpd3/16",T,M,12,FM
+12,7,10,18.8,,,,Lively Pal,7,0,,,8.9,"3-2path turn,empty",T,M,12,FM
+12,2,11,7.25,,,,Avery's Wonderland,2,0,,,8.95,"light bump brk,3-2p",T,M,12,FM
+12,4,12,54.11,,,,Bank On Bebe,4,0,,,9.05,"ins turn,empty,equ-amb",T,M,12,FM

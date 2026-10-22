@@ -1,0 +1,96 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,4,1,9.11,20.22,7.5,5.48,Furry Fox,3,0,,,0.0,"pace,2p turn,responded",D,C,7,FT
+1,1,2,1.96,,3.78,3.0,Mobelladream,1,0,,,1.5,"stmbld st,off slw,gain",D,C,7,FT
+1,7,3,14.59,,,9.26,Call Me Jal,6,0,,,3.25,"out,3p turn,kept on",D,C,7,FT
+1,5,4,19.59,,,,Here'syourtrouble,4,0,,,3.75,"bmp brk,squeezed,4p1/4",D,C,7,FT
+1,9,5,7.93,,,,Admiral Sol,7,0,,,4.25,"4p turn,6p1/4,no rally",D,C,7,FT
+1,2,6,1.18,,,,Margarita Molly,2,1,,,4.75,"bobbld brk,ins-2p,wknd",D,C,7,FT
+1,6,7,12.85,,,,Lady Delilah,5,0,,,12.5,"bmp brk,squeezd,2p-ins",D,C,7,FT
+2,9,1,7.22,16.44,8.5,4.68,Mobile,8,0,,,0.0,"chased 4-2w, edged clr",T,M,10,FM
+2,8,2,7.82,,7.9,4.9,Ticket to Ride,7,0,,,3.0,"8w upper, ran on",T,M,10,FM
+2,2,3,1.31,,,2.68,Midtown Mischief,1,1,,,4.0,"5w upper, kept on",T,M,10,FM
+2,5,4,45.18,,,,Dancing Miracle,4,0,,,5.0,"bumped st, improved",T,M,10,FM
+2,4,5,5.81,,,,Luckbeourlady,3,0,,,5.25,"in hand 3-2w, wknd lte",T,M,10,FM
+2,3,6,17.56,,,,Raynham Hall,2,0,,,6.75,"chased ins, pass tired",T,M,10,FM
+2,7,7,11.92,,,,Froghollowsummer,6,0,,,12.0,"bmp btw 4w uppr, tired",T,M,10,FM
+2,10,8,4.44,,,,Lake Ariel,9,0,,,12.75,"6-7w upper, tired",T,M,10,FM
+2,6,9,41.91,,,,Bank On Bebe,5,0,,,19.75,"chased inside, tired",T,M,10,FM
+2,11,10,57.51,,,,Shes Sal's Dream,10,0,,,21.5,"6-7w upper, trailed",T,M,10,FM
+3,8,1,2.26,6.52,4.06,3.04,Coach Ryan,8,1,,,0.0,"2p1st,3-4p2nd,6p3/16",t,S,12,FM
+3,12,2,10.91,,9.4,6.56,Liam's Legacy,12,0,,,0.75,"3-4p turns,rally,miss",t,S,12,FM
+3,5,3,29.32,,,9.78,Tango Tango,5,0,,,1.75,"2-3p trns,chsd,bid1/16",t,S,12,FM
+3,9,4,7.12,,,,Ohonte's Own,9,0,,,1.85,"2-3p,stdy3/16,mvd out",t,S,12,FM
+3,11,5,53.84,,,,Daisy Doo,11,0,,,1.95,"inside,led past 1/16",t,S,12,FM
+3,10,6,4.42,,,,Maximum Heat,10,0,,,3.45,"ins-3p,5p3/16,mvd out",t,S,12,FM
+3,6,7,7.86,,,,Emotionlyavailble,6,0,,,3.55,"out,3-2p trns,chsd,wkn",t,S,12,FM
+3,3,8,3.7,,,,Isthereanormalwife,3,0,,,3.65,"2p-ins trns,chsd,tired",t,S,12,FM
+3,1,9,14.52,,,,Takeiteasy Charlie,1,0,,,3.7,"stdied ins1/8,altered",t,S,12,FM
+3,2,10,58.38,,,,Runcot,2,0,,,5.2,"inside,stdy3/16,alter",t,S,12,FM
+3,7,11,49.46,,,,In Front Runner,7,0,,,19.45,"bmp st,rank7/8,tkn up",t,S,12,FM
+3,4,12,64.89,,,,Bold Scholar,4,0,,,21.45,"rank7/8,tkn up,2p-ins",t,S,12,FM
+4,3,1,2.56,7.12,3.98,2.66,Anyway,3,0,,,0.0,"tip 3w 5/16, up 1/16p",D,AO,6,FT
+4,8,2,23.79,,16.98,5.84,What's Up Bro,6,0,,,0.75,"drift out str, ran on",D,AO,6,FT
+4,7,3,1.77,,,2.78,Party in the Army,5,1,,,1.25,"dueled 3-2w, kept on",D,AO,6,FT
+4,2,4,2.23,,,,Long Pour,2,0,,,2.5,"chased ins, mild kick",D,AO,6,FT
+4,6,5,7.57,,,,Kenny Be,4,0,,,5.75,"chased 3-2w, weakened",D,AO,6,FT
+4,1,6,11.04,,,,Elysian Meadows,1,0,,,9.0,"5-6w upper, trailed",D,AO,6,FT
+5,1,1,2.11,6.22,2.7,2.22,Papa Yo,1,0,,,0.0,"mvd out5F,easd up late",D,R,7,FT
+5,4,2,0.96,,2.54,2.1,Ez Roll,4,1,,,5.25,"ins-2p,3p5/16,4p1/4",D,R,7,FT
+5,2,3,7.78,,,3.0,Fateful Lightning,2,0,,,11.25,"off bit slow,3-5p trns",D,R,7,FT
+5,8,4,16.91,,,,Leftembehind,7,0,,,14.25,"off slow,2-3path,empty",D,R,7,FT
+5,5,5,26.19,,,,American Grant,5,0,,,19.25,"ins turns,no response",D,R,7,FT
+5,3,6,12.17,,,,Googol Joke,3,0,,,20.0,"3p1st,ins-2p2nd,tired",D,R,7,FT
+5,7,7,11.92,,,,Antietam,6,0,,,20.25,"veer out brk,4p,empty",D,R,7,FT
+6,4,1,8.1,18.2,11.38,6.06,Constant Force,4,0,,,0.0,stumbled 2x start,D,S,12,FT
+6,11,2,66.16,,62.56,17.72,Nodin,11,0,,,2.5,"stumbled st, mild kick",D,S,12,FT
+6,1,3,10.09,,,7.56,Pirate Ship,1,0,,,3.25,"bumped st, kept on",D,S,12,FT
+6,9,4,16.31,,,,Audible Johnny,9,0,,,3.35,"dueled 3-2w, wknd late",D,S,12,FT
+6,6,5,14.18,,,,Hurricane Mo,6,0,,,3.6,"dueled ins, wknd late",D,S,12,FT
+6,3,6,19.55,,,,Big Bold Red,3,0,,,6.6,"7w uppr, passed tired",D,S,12,FT
+6,2,7,4.86,,,,Rufus the Red,2,0,,,7.1,"steadied st, flattened",D,S,12,FT
+6,5,8,25.33,,,,Coltrane,5,0,,,8.35,"8w upper, no impact",D,S,12,FT
+6,8,9,35.31,,,,Knee High,8,0,,,9.6,"chased 3-2w, weakened",D,S,12,FT
+6,7,10,7.96,,,,Ed Charles,7,0,,,14.35,"2p from 1/2p, tired",D,S,12,FT
+6,10,11,3.58,,,,City of Rome,10,0,,,18.6,"coaxed 4-3w, tired",D,S,12,FT
+6,12,12,3.2,,,,Silverus,12,1,,,24.85,"chased 5-4w, faltered",D,S,12,FT
+7,4,1,2.72,7.44,3.84,2.92,Money Makes Money,4,0,,,0.0,"ins-2p,ask1/4,chsd,up",T,N,9,FM
+7,1,2,2.45,,4.06,3.02,New York Scrappy,1,1,,,0.25,"2p turn,led past1/16",T,N,9,FM
+7,3,3,7.82,,,4.36,Bridle a Butterfly,3,0,,,2.5,"2-3p,wait1/4,mvd out",T,N,9,FM
+7,7,4,4.28,,,,Remi's Moon,7,0,,,3.0,"2p turn,6p3/16,improvd",T,N,9,FM
+7,9,5,25.63,,,,Frostelle,9,0,,,3.75,"3-4p turn,chsd,no kick",T,N,9,FM
+7,8,6,18.91,,,,Russi,8,0,,,4.25,"4-5p trn,6p1/4,fan out",T,N,9,FM
+7,2,7,4.93,,,,Projectability,2,0,,,5.25,"inside turn,no rally",T,N,9,FM
+7,5,8,32.82,,,,Gypsy Dreaming,5,0,,,8.25,"outside,3p turn,empty",T,N,9,FM
+7,6,9,21.71,,,,Two Ducks,6,0,,,11.5,"3-4p turn,5p1/4,mvd in",T,N,9,FM
+8,10,1,10.15,22.3,9.4,6.44,You're Lookin Good,10,0,,,0.0,"4w upper, edged clear",D,C,10,FT
+8,3,2,10.43,,9.12,5.92,Sociably Johnny,3,0,,,3.25,"brush gate st, ran on",D,C,10,FT
+8,5,3,3.48,,,4.12,Mike's Magic,5,0,,,4.0,"cut pace 3-2w, kept on",D,C,10,FT
+8,8,4,2.43,,,,Mirage,8,0,,,5.25,"6w upper, one paced",D,C,10,FT
+8,7,5,8.44,,,,The Obliterator,7,0,,,6.25,"brush gate, pass tired",D,C,10,FT
+8,1,6,52.95,,,,Monte Avi,1,0,,,6.5,"3w upper, no headway",D,C,10,FT
+8,9,7,2.1,,,,Shangrala Road,9,1,,,9.25,"chased 6-4w, weakened",D,C,10,FT
+8,6,8,69.33,,,,Jake's Orchard,6,0,,,16.75,"bobbled st, tired",D,C,10,FT
+8,2,9,56.19,,,,Raging Sea Captain,2,0,,,18.0,"3w upper, no impact",D,C,10,FT
+8,4,10,46.61,,,,Reside,4,0,,,18.25,saved ground no avail,D,C,10,FT
+9,9,1,3.62,9.24,5.2,2.78,Bottas,7,0,,,0.0,"2p,3p out1/4,rallied",t,G2,7,FM
+9,8,2,8.2,,6.76,3.38,Blinging It Back,6,0,,,1.5,"2p,led1/8,outfinished",t,G2,7,FM
+9,1,3,1.21,,,2.26,Touch of Fire,1,1,,,1.75,"ins,alter1/16,willing",t,G2,7,FM
+9,2,4,31.27,,,,Print,2,0,,,2.5,"bmp after st,ins,5p1/4",t,G2,7,FM
+9,4,5,5.61,,,,Third Coast,4,0,,,2.75,"bmp twice brk,ins,wknd",t,G2,7,FM
+9,6,6,5.67,,,,Arizona Territory,5,0,,,2.85,"bmp brk,2p trns,4p1/4",t,G2,7,FM
+9,3,7,11.13,,,,Vasy (IRE),3,0,,,3.35,"bmp btwn brk,ins,3p1/4",t,G2,7,FM
+10,1,1,10.6,23.2,8.44,4.54,Kentucky Belle,1,0,,,0.0,"6-7w uppr, up late",T,G2,8,FM
+10,6,2,1.51,,3.46,2.6,Faithful Departed,6,1,,,0.1,circled foes 3-4w 5/16,T,G2,8,FM
+10,2,3,3.26,,,2.9,Fitz Right,2,0,,,1.35,"tracked 2p, ran on",T,G2,8,FM
+10,4,4,14.9,,,,Bless Her,4,0,,,4.6,"5w upper, wknd late",T,G2,8,FM
+10,5,5,4.46,,,,Imaginationthelady,5,0,,,5.35,"2-3w pursuit, wknd lte",T,G2,8,FM
+10,8,6,5.61,,,,Consensus View (GB),8,0,,,12.1,"2-3w pursuit, tired",T,G2,8,FM
+10,7,7,19.44,,,,Just Aloof,7,0,,,12.6,checked wkning 1/4p,T,G2,8,FM
+10,3,8,36.58,,,,Code,3,0,,,13.35,tight btw wkning 3/16,T,G2,8,FM
+11,8,1,3.29,8.58,3.96,2.38,Mursal,5,0,,,0.0,"hit gate,bobld,2-3p,4p",D,N,7,FT
+11,10,2,2.24,,3.6,2.4,Despo's Dream,7,0,,,3.5,"out,bid1/2,3-2p turn",D,N,7,FT
+11,5,3,1.72,,,2.28,Coquito,2,1,,,4.0,"out,2p-ins turn,wknd",D,N,7,FT
+11,6,4,17.48,,,,Baby Sassicaia,3,0,,,8.75,"ins-2p turn,no rally",D,N,7,FT
+11,7,5,24.46,,,,Curlin's Magic,4,0,,,11.75,"hit gate,2-3path,4p1/4",D,N,7,FT
+11,9,6,6.92,,,,Heavenly Light,6,0,,,15.0,"3-4p turn,5p1/4,empty",D,N,7,FT
+11,3,7,15.03,,,,Carolina Smokeshow,1,0,,,35.25,"drop back rail3/8,stop",D,N,7,FT

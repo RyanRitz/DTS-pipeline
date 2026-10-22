@@ -1,0 +1,112 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,7,1,2.41,6.82,4.9,3.42,Gaudreau,7,1,,,0.0,"out,3-2p,lead3/16,held",D,S,8,FT
+1,2,2,12.51,,9.12,6.38,Coach Pope,2,0,,,0.5,"ins,ask3p1/4,chsd,gain",D,S,8,FT
+1,1,3,5.37,,,3.8,U. S. S. Valor,1,0,,,0.75,"carry in brk,stdy5/16",D,S,8,FT
+1,3,4,2.72,,,,Gorillaz,3,0,,,8.0,"path taken early,2-4p",D,S,8,FT
+1,6,5,18.73,,,,Bellissimo d'Oro,6,0,,,8.75,"brk fast,2p-ins,tired",D,S,8,FT
+1,4,6,6.62,,,,With Luck Forward,4,0,,,13.75,"shied out 1/2,3p turn",D,S,8,FT
+1,5,7,11.28,,,,Star Salute,5,0,,,14.25,"inside turn, no factor",D,S,8,FT
+1,8,8,6.39,,,,Hemingway,8,0,,,20.25,"out,4-5p,3p3/16,falter",D,S,8,FT
+2,5,1,2.87,7.74,4.46,3.0,Admiralty,5,0,,,0.0,"5-4w uppr, got the nod",D,S,10,FT
+2,8,2,2.69,,4.32,3.02,Mystrix,8,1,,,0.1,"3-2w, dueled, lost bob",D,S,10,FT
+2,10,3,5.85,,,4.2,Implied Open,10,0,,,0.2,"4w uppr, game btw foes",D,S,10,FT
+2,1,4,11.92,,,,Magical Mikel,1,0,,,9.45,"chased ins, weakened",D,S,10,FT
+2,2,5,19.31,,,,Sharply Dressed,2,0,,,9.95,"bumped st, no headway",D,S,10,FT
+2,7,6,19.81,,,,Stone Aged,7,0,,,10.05,"5w upper, no rally",D,S,10,FT
+2,9,7,13.0,,,,Code of Arms,9,0,,,10.15,"awkward st, steady aft",D,S,10,FT
+2,6,8,17.86,,,,Iron Confessor,6,0,,,11.4,"3w upper, no impact",D,S,10,FT
+2,3,9,6.61,,,,Live,3,0,,,12.9,"brush gate st, tired",D,S,10,FT
+2,4,10,10.66,,,,Tommy Tang,4,0,,,26.15,"got out 4w 7/16,falter",D,S,10,FT
+3,1,1,10.23,22.46,8.24,3.8,San Siro,1,0,,,0.0,"ins-3p,angled out3/16",D,AO,6,FT
+3,6,2,4.83,,5.96,3.2,Yo Daddy,5,0,,,0.5,"out,3-2p,led1/8-1/16",D,AO,6,FT
+3,3,3,2.37,,,2.5,Full Screen,2,0,,,0.55,"ins-3p,drift out lane",D,AO,6,FT
+3,7,4,6.8,,,,Instant Replay,6,0,,,7.05,"fractious gate,3-4p",D,AO,6,FT
+3,4,5,1.43,,,,Vibe,3,1,,,7.15,"ins,headed 1/8,tired",D,AO,6,FT
+3,5,6,9.46,,,,Classicist,4,0,,,7.65,"2p-ins,came out 1/4",D,AO,6,FT
+4,4,1,3.69,4.48,4.96,3.68,Hand Over Heart,3,0,,,0.0,"checked st, just up",T,A,8,FM
+4,7,1,2.79,3.94,3.94,2.74,Sail With the Wind,6,1,,,0.0,"7w uppr, up ins 1/16p",T,A,8,FM
+4,6,3,6.71,,,4.06,Scratch It,5,0,,,0.75,"3-4w uppr, led, caught",T,A,8,FM
+4,5,4,3.43,,,,Carmensita (ARG),4,0,,,0.8,steadied after start,T,A,8,FM
+4,9,5,17.19,,,,Two Martini's,8,0,,,1.8,"3w upper, outkicked",T,A,8,FM
+4,3,6,18.27,,,,Mermaid,2,0,,,5.05,"veered out st, wknd",T,A,8,FM
+4,2,7,44.23,,,,Lady River Lily,1,0,,,7.8,"coaxed ins, weakened",T,A,8,FM
+4,8,8,3.35,,,,Lovely Christina,7,0,,,9.05,"5-6w upper, weakened",T,A,8,FM
+5,7,1,2.73,7.46,4.1,2.98,Tagermeen,5,0,,,0.0,"stmbld st,off slw,5p2F",D,A,6,FT
+5,8,2,3.29,,3.96,2.88,Fact,6,0,,,0.5,"gain3-6p turn,chsd,bid",D,A,6,FT
+5,2,3,3.85,,,3.02,Rock Music,2,0,,,2.0,"2p turn,clip heels5/16",D,A,6,FT
+5,4,4,12.17,,,,Private Desire,3,0,,,7.25,"outside,3p turn,tired",D,A,6,FT
+5,1,5,13.84,,,,Unbroken Chain,1,0,,,14.75,"ins foe,rail trn,faded",D,A,6,FT
+5,6,6,1.93,,,,Pretty Boy Miah,4,1,,,17.0,"outside,4p turn,empty",D,A,6,FT
+6,9,1,15.88,33.76,14.28,8.74,Summer Starlet,7,0,,,0.0,"bid 6w uppr, drew clr",D,S,8,FT
+6,6,2,9.77,,9.14,6.24,Aerial Affair,4,0,,,6.5,"in hand 2p, 2nd best",D,S,8,FT
+6,10,3,16.48,,,8.06,Joy of Life,8,0,,,13.0,"chased 3-2w, weakened",D,S,8,FT
+6,2,4,8.96,,,,Rum Twist,1,0,,,13.75,balk in tight rail 5/8,D,S,8,FT
+6,3,5,0.61,,,,Red Poppy,2,1,,,15.5,"tepid handling, wknd",D,S,8,FT
+6,7,6,5.25,,,,Dulce Vita,5,0,,,23.5,"3-4w pursuit, tired",D,S,8,FT
+6,4,7,11.82,,,,Stefania,3,0,,,31.5,check in tight 2p 5/8,D,S,8,FT
+6,8,8,40.12,,,,Burrata,6,0,,,34.25,"chased 3-2w, tired",D,S,8,FT
+7,10,1,6.38,14.76,6.74,4.34,Il Siciliano,10,0,,,0.0,"4-3p1st,2-3p,rallied",t,AO,10,FM
+7,3,2,9.12,,9.2,4.8,Greystone,3,0,,,1.0,"ins,mvd out3/16,rally",t,AO,10,FM
+7,5,3,1.87,,,2.96,Iron Sight,5,1,,,3.5,"ins-2p,2-4p3rd,5p1/4",t,AO,10,FM
+7,6,4,16.36,,,,Just for Luck,6,0,,,4.0,"2-3path turns,no kick",t,AO,10,FM
+7,1,5,13.21,,,,Monterey Bay,1,0,,,4.05,"ins,vied past1/8,wknd",t,AO,10,FM
+7,7,6,11.62,,,,Kravitz,7,0,,,4.1,"2p-ins,mvd out 3/16",t,AO,10,FM
+7,9,7,3.62,,,,Emergence,9,0,,,4.85,"out,2-3p,btwn1/8,wknd",t,AO,10,FM
+7,4,8,9.09,,,,Write Off Jerry,4,0,,,5.35,"inside turns,no rally",t,AO,10,FM
+7,2,9,34.43,,,,Ramblin' Wreck,2,0,,,7.6,"ins-2p,swung 6p1/4",t,AO,10,FM
+7,8,10,16.25,,,,Fort Thomas,8,0,,,8.6,"2-3path,4p1/4,empty",t,AO,10,FM
+8,4,1,2.42,6.84,3.86,3.3,Oscar,4,1,,,0.0,"beh foe to 3/16, held",T,S,9,FM
+8,11,2,3.31,,4.8,3.38,Bold Leadership,9,0,,,0.05,"5-4w uppr, lost nod",T,S,9,FM
+8,3,3,24.47,,,10.2,Mo Misery,3,0,,,2.3,"hit gate st, mild kick",T,S,9,FM
+8,2,4,6.65,,,,Time in Motion,2,0,,,2.8,"in hand ins, wknd late",T,S,9,FM
+8,1,5,10.78,,,,Djokovic,1,0,,,3.8,"leapt st, improved",T,S,9,FM
+8,6,6,13.12,,,,Port in a Storm,6,0,,,3.85,"7w upper, outkicked",T,S,9,FM
+8,9,7,4.89,,,,Berta's Stitch,7,0,,,3.9,"chased 2p, no kick",T,S,9,FM
+8,5,8,7.09,,,,Just Joe,5,0,,,4.4,"3w both turns, wkn lte",T,S,9,FM
+8,10,9,19.58,,,,Arequipe,8,0,,,10.65,"hit gate, bobbled st",T,S,9,FM
+9,7,1,1.87,5.74,3.82,2.8,Explora,7,1,,,0.0,"out,3p,bid,4p1/4,clear",D,G1,8,FT
+9,2,2,6.81,,6.12,4.4,Percy's Bar,2,0,,,5.0,"stmbld st,ins-2p,3p1/4",D,G1,8,FT
+9,5,3,14.04,,,6.14,Goodall,5,0,,,6.75,"pressd,2p,led1/4,tired",D,G1,8,FT
+9,3,4,11.38,,,,Sippin Pretty,3,0,,,9.5,"hit gate,bmp,ins-3p,5p",D,G1,8,FT
+9,6,5,5.42,,,,On Time Girl,6,0,,,14.5,"3-4path turn,no factor",D,G1,8,FT
+9,1,6,2.02,,,,Movie Night,1,0,,,17.25,"stumbled brk,ins,tired",D,G1,8,FT
+9,8,7,43.07,,,,Carmel Coast,8,0,,,23.5,"4p turn,5p1/4,empty",D,G1,8,FT
+9,4,8,16.29,,,,Where Luck Lives,4,0,,,54.25,"stmbld brk,bmp,tkn up",D,G1,8,FT
+10,5,1,1.61,5.22,3.78,2.62,Deterministic,4,1,,,0.0,"tracked 2p, edged clr",t,G1,6,FM
+10,2,2,16.84,,12.26,6.02,Mi Bago,2,0,,,1.5,"rated inside, willing",t,G1,6,FM
+10,3,3,2.85,,,3.02,Zulu Kingdom (IRE),3,0,,,2.25,"nudge foe 1/16,kept on",t,G1,6,FM
+10,1,4,4.48,,,,Rhetorical,1,0,,,2.35,"5w upper, out-finished",t,G1,6,FM
+10,7,5,4.14,,,,Lagynos,6,0,,,2.45,"4w upper, wknd late",t,G1,6,FM
+10,6,6,7.67,,,,Capitol Hill,5,0,,,5.95,"6w upper, empty",t,G1,6,FM
+11,6,1,9.62,21.24,8.46,5.68,Glacius (GB),5,0,,,0.0,"ins-2p,responded,held",T,G1,8,FM
+11,10,2,2.06,,3.74,3.22,West End Kid,8,0,,,1.25,"2-3p trns,drift in1/16",T,G1,8,FM
+11,4,3,3.63,,,3.56,Title Role (GB),4,0,,,2.5,"ins,3p1/4,mvd in1/8",T,G1,8,FM
+11,3,4,2.02,,,,Remember Mamba,3,1,,,2.75,"2-3p2nd,4p,drift about",T,G1,8,FM
+11,7,5,13.73,,,,The Big Con (GB),6,0,,,5.75,"rank1m,3-4p1st turn",T,G1,8,FM
+11,2,6,12.28,,,,Heeere's Johnny,2,0,,,7.25,"ins,2p out1/4,angld1/8",T,G1,8,FM
+11,1,7,19.43,,,,Glavine,1,0,,,11.25,"2-3pathturns,empty",T,G1,8,FM
+11,8,8,29.57,,,,McCready,7,0,,,11.75,"3-4p trns,5p into lane",T,G1,8,FM
+12,6,1,2.26,6.52,4.1,3.22,Sovereignty,5,0,,,0.0,"5-6w upper, drew clear",D,G1,7,FT
+12,2,2,5.83,,5.8,4.24,Nitrogen,2,0,,,4.75,"stumbled st, drifted",D,G1,7,FT
+12,3,3,15.12,,,5.14,Antiquarian,3,0,,,5.0,"prompted 3-2w, kept on",D,G1,7,FT
+12,8,4,3.3,,,,Baeza,7,0,,,6.0,"hesitant st, improved",D,G1,7,FT
+12,7,5,39.28,,,,Tiztastic,6,0,,,6.1,"3w uppr,bid, flattened",D,G1,7,FT
+12,1,6,1.95,,,,Magnitude,1,1,,,15.35,"stumbled st, tired",D,G1,7,FT
+12,5,7,11.48,,,,White Abarrio,4,0,,,17.6,"4-3w 1st turn, tired",D,G1,7,FT
+13,5,1,12.0,26.0,8.38,5.32,Will Not Be Swayed,5,0,,,0.0,"3-4p trn,5p1/4,rallied",D,AO,8,FT
+13,8,2,3.91,,5.54,4.68,Battis Grove,7,0,,,1.0,"forced out brk,out,3p",D,AO,8,FT
+13,1,3,6.09,,,5.64,Romantic Dancer,1,0,,,2.25,"2p trn,3p1/4,angld out",D,AO,8,FT
+13,2,4,4.6,,,,Feminism,2,0,,,2.5,"ins turn,2p1/4,chased",D,AO,8,FT
+13,3,5,1.97,,,,Helen's Revenge,3,1,,,4.0,"ins-3path turn,6p1/4",D,AO,8,FT
+13,4,6,19.08,,,,Golden Irish,4,0,,,4.05,"stumbled brk,4p turn",D,AO,8,FT
+13,9,7,4.78,,,,Beach Heist,8,0,,,5.8,"2p trn,headed3/16,wknd",D,AO,8,FT
+13,7,8,30.66,,,,Mermaid Magic,6,0,,,29.3,"5-4p turn,3p1/4,falter",D,AO,8,FT
+14,4,1,3.82,9.64,5.32,3.72,Versailles Road,2,0,,,0.0,"3-2w uppr, edged away",t,AO,9,FM
+14,11,2,10.35,,9.14,5.74,Sardis,9,0,,,1.5,"saved grd, mild kick",t,AO,9,FM
+14,10,3,9.47,,,6.42,Rotterdam,8,0,,,1.75,"chased inside, ran on",t,AO,9,FM
+14,2,4,2.68,,,,Capital Partner (GB),1,1,,,2.75,"in hand ins, wknd late",t,AO,9,FM
+14,9,5,7.38,,,,Stark,7,0,,,3.25,"bumped, squeezed st",t,AO,9,FM
+14,8,6,6.45,,,,Miztertonic,6,0,,,4.25,"bumped st, weakened",t,AO,9,FM
+14,6,7,17.75,,,,Very Connected,4,0,,,9.5,"5w upper, weakened",t,AO,9,FM
+14,7,8,4.36,,,,Complex Agenda,5,0,,,12.0,"shied out st, tired",t,AO,9,FM
+14,5,9,27.41,,,,Light Cav,3,0,,,15.0,"3-2w pursuit, tired",t,AO,9,FM

@@ -1,0 +1,58 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,3,1,2.03,6.06,3.84,2.12,Combat Move,3,0,,,0.0,"roused 2p turn,rallied",D,S,5,FT
+1,1,2,7.22,,7.12,2.88,Galway Gurl,1,0,,,2.25,"swtch out,2p,3p1/4,led",D,S,5,FT
+1,7,3,0.97,,,2.1,Liberty's Advance,5,1,,,7.75,"3p turn,4p1/4,no kick",D,S,5,FT
+1,2,4,8.12,,,,Lively Pal,2,0,,,10.25,"bmp brk,ins turn,tired",D,S,5,FT
+1,5,5,7.09,,,,My Lil Army Girl,4,0,,,13.75,"hit gate,2-3p trn,4p",D,S,5,FT
+2,2,1,1.14,4.28,2.76,2.2,Mo the Merrier,2,1,,,0.0,"pressed 3w, drew clear",D,M,6,FT
+2,1,2,14.0,,8.46,4.98,Relative Risk,1,0,,,4.75,"in hand ins, 2nd best",D,M,6,FT
+2,3,3,11.07,,,4.78,Grand Gesture,3,0,,,8.0,"brush gate st, improve",D,M,6,FT
+2,6,4,5.6,,,,Onepac,6,0,,,13.25,"5-4w pursuit, tired",D,M,6,FT
+2,5,5,2.11,,,,The Standard,5,0,,,14.5,"3w pursuit, tired",D,M,6,FT
+2,4,6,8.7,,,,Cost Effective,4,0,,,14.6,"brushed st, tired",D,M,6,FT
+3,1,1,0.68,3.36,2.2,2.1,Lady Wisdom,1,1,,,0.0,"bmp foe 1st,3-4p2nd",D,R,6,FT
+3,2,2,4.74,,3.62,3.06,Our Preferred Pal,2,0,,,3.75,"ins-2p,overtaken1/16",D,R,6,FT
+3,6,3,18.81,,,5.14,Icy Legs,5,0,,,9.25,"bmp 2-3p1st turn,4p1/4",D,R,6,FT
+3,3,4,5.03,,,,Island Charm,3,0,,,13.0,"climb 1st,ins-2p,wknd",D,R,6,FT
+3,4,5,4.92,,,,Babcie,4,0,,,21.75,"3-4path turns,empty",D,R,6,FT
+3,7,6,25.46,,,,Spirit of Esther,6,0,,,26.75,"3p trns,5p1/4,faltered",D,R,6,FT
+4,4,1,1.61,5.22,2.92,2.14,Midnight Concerto,4,1,,,0.0,"3-4w uppr, good finish",T,AO,6,GD
+4,5,2,6.57,,6.2,3.72,Tulip,5,0,,,0.25,"keen, spurted, nailed",T,AO,6,GD
+4,1,3,2.25,,,2.34,Majaz (GB),1,0,,,2.0,"4-3w uppr, repelled",T,AO,6,GD
+4,2,4,3.08,,,,Make You Mine (IRE),2,0,,,4.0,"tracked ins, wknd late",T,AO,6,GD
+4,6,5,15.51,,,,Trail of Gold,6,0,,,6.5,"3w upper, no headway",T,AO,6,GD
+4,3,6,14.74,,,,Special Wood (FR),3,0,,,10.5,"2-3w pursuit, tired",T,AO,6,GD
+5,8,1,2.82,7.64,4.6,3.02,Mascara,7,0,,,0.0,"2p-ins turn,gamely",D,C,8,FT
+5,9,2,6.44,,5.78,4.0,Cloudy Chance,8,0,,,0.5,"out,3p turn,fought on",D,C,8,FT
+5,3,3,1.55,,,2.54,Vekomancer,3,1,,,1.75,"2p turn,mvd out 1/8",D,C,8,FT
+5,1,4,6.28,,,,Vino Frizzante,1,0,,,2.75,"ins trn,ask1/4,willing",D,C,8,FT
+5,4,5,7.98,,,,Spun Size,4,0,,,5.75,"veer out brk,bmp,3p,5p",D,C,8,FT
+5,7,6,14.18,,,,St. Brigid's Cross,6,0,,,8.75,"bmp brk,4p turn,empty",D,C,8,FT
+5,2,7,16.63,,,,Calling an Audible,2,0,,,9.75,"bobbld st,4p trn,5p1/4",D,C,8,FT
+5,5,8,30.53,,,,Santagata,5,0,,,30.0,checked sharply start,D,C,8,FT
+6,3,1,2.77,7.54,3.68,3.22,Table Flirt,3,0,,,0.0,"toss head st, up late",t,AO,5,GD
+6,6,2,6.83,,6.06,4.5,Spinning Colors,5,0,,,0.1,"in hand 2p, caught lte",t,AO,5,GD
+6,2,3,5.23,,,3.58,Shotgun Wedding,2,0,,,1.1,"3w upper, ran on",t,AO,5,GD
+6,4,4,8.56,,,,Ready to Jam,4,0,,,1.6,"4w upper, ran on",t,AO,5,GD
+6,1,5,0.87,,,,Fionn,1,1,,,7.6,"chased 3-2w, empty",t,AO,5,GD
+7,6,1,0.6,3.2,2.12,2.1,Shoot It True,5,1,,,0.0,"3-4p turn,rallied,clr",T,AO,5,GD
+7,3,2,3.18,,3.0,2.42,Highway Harmony,2,0,,,3.0,"outside,3p trn,led3/16",T,AO,5,GD
+7,1,3,10.45,,,2.84,Abientot,1,0,,,5.25,"off step slw,2-3p turn",T,AO,5,GD
+7,5,4,6.51,,,,Opulent Restraint (IRE),4,0,,,10.0,"ins turn,mvd out 3/16",T,AO,5,GD
+7,4,5,8.41,,,,Quiet Confidence,3,0,,,10.5,"toss head brk,2p turn",T,AO,5,GD
+8,3,1,2.43,6.86,2.98,2.76,Stars and Stripes,3,0,,,0.0,scraped the paint 1/16,D,N,8,FT
+8,1,2,1.32,,2.84,2.44,Parchment Party,1,1,,,0.05,"2w 1/4,up 1/16, caught",D,N,8,FT
+8,4,3,33.66,,,8.42,Passing Game,4,0,,,0.8,"2-3w, up 3/8, caught",D,N,8,FT
+8,8,4,37.71,,,,Carolo Rapido,8,0,,,8.8,"3-4w upper, wknd late",D,N,8,FT
+8,5,5,30.32,,,,Waitlist,5,0,,,9.55,"chased 5-3w, weakened",D,N,8,FT
+8,6,6,5.21,,,,Interceptor,6,0,,,10.3,"bobbled st, weakened",D,N,8,FT
+8,7,7,7.0,,,,Jokestar,7,0,,,14.55,"3w 1st & 2nd trn,tired",D,N,8,FT
+8,2,8,9.36,,,,Annexperience,2,0,,,14.6,"rated inside, tired",D,N,8,FT
+9,2,1,1.66,5.32,3.06,2.48,Criteria,1,1,,,0.0,"ins-2p turn,responded",D,S,8,FT
+9,4,2,7.32,,6.18,4.62,Royal Enclosure,3,0,,,2.5,"out,3p turn,outfinishd",D,S,8,FT
+9,3,3,8.79,,,4.68,Spherical,2,0,,,2.6,"2p turn,chased,miss2nd",D,S,8,FT
+9,10,4,2.51,,,,Holy Seven,8,0,,,9.35,"chsd,5-4p turn,tired",D,S,8,FT
+9,7,5,8.45,,,,Bamboozie,6,0,,,11.85,"bmpd btwn brk,squeezed",D,S,8,FT
+9,8,6,23.37,,,,Palpable,7,0,,,11.95,"bmp brk,5-6path turn",D,S,8,FT
+9,5,7,6.62,,,,Dark Force,4,0,,,15.2,"4-3path turn,empty",D,S,8,FT
+9,6,8,31.8,,,,Ima Big Bad Wolf,5,0,,,15.3,"bmp st,ins trn,mvd out",D,S,8,FT

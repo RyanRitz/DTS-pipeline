@@ -1,0 +1,98 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,4,1,2.77,7.54,4.12,2.4,Golden Symphony,3,0,,,0.0,"ins-2p,lead3/16,clear",D,C,6,FT
+1,1,2,5.18,,5.74,2.7,Shipsational,1,0,,,3.75,"ins-2p,3p1/4,mvd out1F",D,C,6,FT
+1,3,3,0.77,,,2.1,Interlock Empire,2,1,,,5.5,"2p1st,2-4p2nd,flatten",D,C,6,FT
+1,7,4,14.01,,,,Screaming Uncle,5,0,,,7.0,"3p-ins1st,ins2nd,wknd",D,C,6,FT
+1,8,5,12.4,,,,First Trumpet,6,0,,,12.5,"4-3p1st,out,2-3p,wknd",D,C,6,FT
+1,6,6,16.16,,,,Thrill of It,4,0,,,20.75,"3p1st,3-5p2nd,eased",D,C,6,FT
+2,3,1,6.12,14.24,5.32,3.78,Howard's Hope,3,0,,,0.0,"bumped st,up fin 70yds",t,S,11,FM
+2,5,2,1.35,,3.3,2.68,Al Mowashaah,5,1,,,1.0,"tracked 2p, ran on",t,S,11,FM
+2,10,3,8.48,,,3.96,Captain George,10,0,,,3.25,"3w uppr,bid, flattened",t,S,11,FM
+2,2,4,6.63,,,,Monaco Crown,2,0,,,8.5,"bit rank, eager, wknd",t,S,11,FM
+2,7,5,8.99,,,,Parea,7,0,,,9.25,"in hand 2p, weakened",t,S,11,FM
+2,11,6,32.12,,,,Motorcycle Cop,11,0,,,9.75,"5w uppr, passed tired",t,S,11,FM
+2,1,7,11.02,,,,All About Soul,1,0,,,10.75,saved ground no avail,t,S,11,FM
+2,4,8,51.27,,,,Solo Stryker,4,0,,,10.8,"chased ins, no impact",t,S,11,FM
+2,8,9,10.55,,,,Papa Brez,8,0,,,12.05,"3-4w uppr, no impact",t,S,11,FM
+2,9,10,48.07,,,,Roadhouse Warrior,9,0,,,25.55,"bobbled st, tired",t,S,11,FM
+2,6,11,18.79,,,,Mendel,6,0,,,26.05,"3-2w in aim, faltered",t,S,11,FM
+3,3,1,2.3,6.6,4.68,3.94,How Much Is Enough,3,1,,,0.0,"ins turn,drift out1/16",D,M,12,FT
+3,5,2,21.95,,14.52,8.48,Always Honest,5,0,,,5.5,"ins-3path turn,4p1/4",D,M,12,FT
+3,8,3,10.23,,,6.38,Kings Landyn,8,0,,,5.75,"frctious gate,2-3p trn",D,M,12,FT
+3,1,4,3.61,,,,Chris's Song,1,0,,,7.5,"2path turn,weakened",D,M,12,FT
+3,9,5,32.13,,,,Mo Mahomie,9,0,,,9.5,"inside turn,improved",D,M,12,FT
+3,11,6,6.03,,,,Bargain Purchase,11,0,,,18.0,"3-2path turn,no factor",D,M,12,FT
+3,2,7,35.5,,,,Easemyworriedmind,2,0,,,19.75,"2-3path turn,empty",D,M,12,FT
+3,4,8,18.7,,,,Bye for Now,4,0,,,25.75,"3-4path turn, tired",D,M,12,FT
+3,6,9,7.19,,,,Recurring Revenue,6,0,,,26.25,"saved ground,mvd out",D,M,12,FT
+3,7,10,24.82,,,,Montosoli,7,0,,,36.25,"off step slow,4-3p trn",D,M,12,FT
+3,10,11,7.85,,,,Ours to Start,10,0,,,48.0,"off slow,5-4path turn",D,M,12,FT
+3,12,12,67.14,,,,Rocolino,12,0,,,75.75,"3p turn,eased,wlkd off",D,M,12,FT
+4,3,1,2.69,7.38,3.64,3.26,City Blocks,3,0,,,0.0,"4-5w upper, drew clear",D,C,8,FT
+4,2,2,5.86,,5.76,3.78,Play Good Pay Good,2,0,,,4.5,"dueled 2p, kept on",D,C,8,FT
+4,4,3,9.2,,,6.06,Short Shift,4,0,,,7.0,"dueled 3p, wknd late",D,C,8,FT
+4,5,4,17.42,,,,Open Soul Autism,5,0,,,9.0,"6w upper, weakened",D,C,8,FT
+4,1,5,6.08,,,,Jackie the Joker,1,0,,,14.5,"chased inside, tired",D,C,8,FT
+4,7,6,5.55,,,,Irish Jackson,6,0,,,21.25,"chased 4-3w, no impact",D,C,8,FT
+4,8,7,2.27,,,,Jackson's Dixie,7,1,,,99.99,"protected 1/2, equ amb",D,C,8,FT
+4,9,8,42.52,,,,Shezanarcticqueen,8,0,,,99.99,"protected 1/2, equ amb",D,C,8,FT
+5,4,1,22.44,46.88,17.84,9.3,Until Last Call,4,0,,,0.0,"2p-ins,heat-distress",T,M,9,FM
+5,6,2,1.82,,3.82,3.26,Sir Walta,5,1,,,0.5,"3p,dueld,heat-distress",T,M,9,FM
+5,2,3,2.64,,,3.34,High Leverage,2,0,,,2.25,"saved ground,chsd lane",T,M,9,FM
+5,8,4,5.68,,,,Eye On the Ball,7,0,,,3.25,"bmpd brk,4path turn",T,M,9,FM
+5,3,5,16.84,,,,Twenty One Red,3,0,,,3.75,"2-4p turn,roused3/16",T,M,9,FM
+5,1,6,22.44,,,,Charlie My Boy,1,0,,,4.0,"ins turn,chsd,no kick",T,M,9,FM
+5,7,7,46.29,,,,Pilot Knob,6,0,,,6.5,"bmp brk,3-4p trn,6p1/4",T,M,9,FM
+5,11,8,4.4,,,,Mykonos,9,0,,,6.75,"3-5p turn,no threat",T,M,9,FM
+5,10,9,14.24,,,,Tizlawry,8,0,,,6.8,"mvd in,2-3p turn,empty",T,M,9,FM
+6,2,1,2.77,7.54,4.78,3.48,Beach Belle,1,0,,,0.0,"in hand 2p, edged clr",D,S,10,FT
+6,10,2,5.75,,6.64,5.36,Cody's Approval,9,0,,,3.75,"chased 4-2w, ran on",D,S,10,FT
+6,6,3,14.77,,,7.44,Hammers Nickel,5,0,,,7.5,"chased 3-2w, kept on",D,S,10,FT
+6,7,4,2.32,,,,Capodost,6,1,,,8.25,"brush gate st, improve",D,S,10,FT
+6,11,5,9.13,,,,Juana Margarita,10,0,,,9.0,"veer out st,pass tired",D,S,10,FT
+6,5,6,19.34,,,,Cream of the Crop,4,0,,,9.1,"brush gate, weakened",D,S,10,FT
+6,8,7,5.66,,,,Goodproblemtohave,7,0,,,12.1,"bobble after st, tired",D,S,10,FT
+6,9,8,51.33,,,,Gustavia,8,0,,,15.85,"8w upper, tired",D,S,10,FT
+6,3,9,14.15,,,,We Goin,2,0,,,17.35,"eager inside, tired",D,S,10,FT
+6,4,10,31.19,,,,My Sweet 'Em,3,0,,,20.6,"stumbled st, tired",D,S,10,FT
+7,6,1,0.98,3.96,3.18,2.32,Risk Tolerance (IRE),6,1,,,0.0,"bmp brk,ins-2p,4p1/4",t,A,7,FM
+7,5,2,8.31,,5.98,3.4,Highlands Way,5,0,,,0.75,"bmp brk,ins-2p,mvd out",t,A,7,FM
+7,4,3,5.12,,,3.14,Siyouincanada (FR),4,0,,,1.75,"2-3p,bid1/8,out-kicked",t,A,7,FM
+7,1,4,6.47,,,,Market Timing,1,0,,,3.25,"ins-2p,lugged in lane",t,A,7,FM
+7,2,5,3.37,,,,Deep Manhattan,2,0,,,3.35,"keen,bid,heat-distress",t,A,7,FM
+7,3,6,40.82,,,,Cuando,3,0,,,4.6,"ins,headed ins3/16,wkn",t,A,7,FM
+7,7,7,32.38,,,,Griffin's Wharf,7,0,,,6.85,"2-3path,5p1/4,empty",t,A,7,FM
+8,2,1,1.75,5.5,2.94,2.5,Starship Titan,2,1,,,0.0,"ins,held safe, equ amb",T,AO,10,FM
+8,9,2,2.68,,3.74,3.22,A Bourbon for Toby,9,0,,,1.0,"chased 2p, mild kick",T,AO,10,FM
+8,3,3,10.51,,,4.12,Early Adopter (GB),3,0,,,5.0,"3w upper, mild kick",T,AO,10,FM
+8,4,4,62.2,,,,Mount Rundle,4,0,,,5.05,"8w upper, belatedly",T,AO,10,FM
+8,6,5,5.18,,,,Walley World,6,0,,,6.05,"attended 2-3w, wkn lte",T,AO,10,FM
+8,7,6,48.35,,,,Daunt,7,0,,,6.8,"6-7w uppr, weakened",T,AO,10,FM
+8,10,7,45.53,,,,Discreet Dancer,10,0,,,11.8,"3-2w 1st turn, tired",T,AO,10,FM
+8,5,8,16.7,,,,Slapintheface,5,0,,,13.8,"chased inside, tired",T,AO,10,FM
+8,8,9,22.22,,,,Ocean Atlantique,8,0,,,31.8,"chased 2-3w, tired",T,AO,10,FM
+8,1,10,5.64,,,,Relative Value (GB),1,0,,,54.05,"chased ins, eased home",T,AO,10,FM
+9,5,1,5.9,13.8,5.28,4.84,Buttah,5,0,,,0.0,"bid4-1/2,3p,dueld,clr",D,N,12,FT
+9,10,2,2.19,,4.46,3.64,Doc Sullivan,9,1,,,1.5,"2-3p turn,mvd out,gain",D,N,12,FT
+9,7,3,19.52,,,7.6,Acoustic Ave,6,0,,,2.0,"out,4p trn,bid,outkckd",D,N,12,FT
+9,2,4,33.09,,,,Light Man,2,0,,,5.25,"3p turn,6p1/4,improved",D,N,12,FT
+9,4,5,15.49,,,,Hit the Post,4,0,,,5.5,"pace,inside turn,tired",D,N,12,FT
+9,3,6,4.82,,,,El Grande O,3,0,,,7.5,"inside turn, tired",D,N,12,FT
+9,11,7,7.11,,,,Donegal Surges,10,0,,,9.5,"2p turn,5p into lane",D,N,12,FT
+9,1,8,43.2,,,,Dr. Kraft,1,0,,,10.5,"brk in,2p turn,empty",D,N,12,FT
+9,9,9,11.39,,,,Yo Banana Boy,8,0,,,11.0,"4-5path turn,no rally",D,N,12,FT
+9,12,10,45.83,,,,Drake's Passage,11,0,,,11.05,"4path turn, no factor",D,N,12,FT
+9,8,11,7.27,,,,Bold Journey,7,0,,,12.55,"angled in,ins-2p turn",D,N,12,FT
+9,13,12,17.78,,,,Radio Red,12,0,,,14.8,"5p turn,7p into lane",D,N,12,FT
+10,8,1,4.79,11.58,5.88,4.02,Intothewilderness,8,0,,,0.0,"3w upp, bmp foe, up",t,M,12,FM
+10,3,2,6.1,,6.86,5.28,Italianne,3,0,,,0.5,"4w upper, led, caught",t,M,12,FM
+10,10,3,13.94,,,5.54,Sky Low Low,10,0,,,0.75,"6w upper, willingly",t,M,12,FM
+10,1,4,3.47,,,,Chaumet,1,0,,,1.25,"7w upper, came again",t,M,12,FM
+10,2,5,13.82,,,,Amicus Curiae,2,0,,,4.75,"bumped 1/16, wknd late",t,M,12,FM
+10,5,6,71.12,,,,Mia Sophia,5,0,,,5.5,"steady 1/16,pass tired",t,M,12,FM
+10,12,7,8.16,,,,Saratoga Daisy,12,0,,,6.0,"pulled to front, wknd",t,M,12,FM
+10,6,8,23.35,,,,Zelena,6,0,,,12.25,"chased 3-2w, tired",t,M,12,FM
+10,11,9,30.72,,,,Sunshine Dakotah,11,0,,,14.25,"chased 4-5w, tired",t,M,12,FM
+10,4,10,2.63,,,,Bernina Express,4,1,,,15.5,"3-2w in aim, tired",t,M,12,FM
+10,9,11,25.59,,,,Luciana's Honor,9,0,,,16.0,"bumped st, tired",t,M,12,FM
+10,7,12,87.44,,,,Tank Girl,7,0,,,19.75,carried 5w into 1st tn,t,M,12,FM

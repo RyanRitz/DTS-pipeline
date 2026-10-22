@@ -1,0 +1,85 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,4,1,2.89,7.78,4.28,3.2,High Official,4,0,,,0.0,"5w upper, edged away",t,S,8,FM
+1,3,2,3.77,,5.1,3.38,Harbaugh,3,0,,,2.0,"tracked 2p, ran on",t,S,8,FM
+1,8,3,9.41,,,5.18,Jersey Guy,8,0,,,6.5,"4w upper, kept on",t,S,8,FM
+1,1,4,11.1,,,,Kipros,1,0,,,7.75,"shied in st, improved",t,S,8,FM
+1,6,5,4.98,,,,Showa,6,0,,,9.25,"chased ins, weakened",t,S,8,FM
+1,7,6,17.01,,,,Blue Law,7,0,,,10.0,"chased 2p, no impact",t,S,8,FM
+1,2,7,2.85,,,,Geneva Lake,2,1,,,10.25,pull keen and green 2p,t,S,8,FM
+1,5,8,14.72,,,,Le Patron,5,0,,,18.75,steadied after start,t,S,8,FM
+2,4,1,6.94,15.88,6.24,3.22,Vacation Dance,4,0,,,0.0,"ins trn,rally,bmpd1/16",T,N,7,FM
+2,2,2,1.56,,3.8,2.5,Fluid Situation,2,1,,,0.5,"2p turn,led past1/16",T,N,7,FM
+2,5,3,2.31,,,2.56,Son of a Birch,5,0,,,0.6,"off stp slw,ins-2p trn",T,N,7,FM
+2,1,4,5.52,,,,Billionaires Row,1,0,,,2.1,"ins,2p1/4,bmpd1/16",T,N,7,FM
+2,7,5,10.59,,,,Doctor Jeff,6,0,,,3.85,"2p turn,4p1/4,no kick",T,N,7,FM
+2,8,6,9.39,,,,Niagara Skyline,7,0,,,4.35,"outside,3p trn,no kick",T,N,7,FM
+2,3,7,26.17,,,,Trust Issues,3,0,,,6.85,"off slow,2path turn",T,N,7,FM
+3,1,1,4.03,10.06,5.68,3.68,Beira,1,0,,,0.0,"bobbled st, just up",D,R,7,FT
+3,4,2,15.84,,13.6,7.48,Racing Colors,3,0,,,0.05,"bobble, bmp st, nailed",D,R,7,FT
+3,5,3,6.1,,,4.64,Angel Bella,4,0,,,2.05,"3w 1st turn, kept on",D,R,7,FT
+3,8,4,4.84,,,,Royal Bobbie,7,0,,,6.05,"5-4w 1st trn, 4w 2nd",D,R,7,FT
+3,6,5,30.12,,,,Bourbon N Lace,5,0,,,6.15,"4-3w 1st trn, no rally",D,R,7,FT
+3,7,6,8.3,,,,Katie King,6,0,,,13.65,"in hand 2p, tired",D,R,7,FT
+3,2,7,1.07,,,,Don't Be Salty,2,1,,,32.65,"2p, never involved",D,R,7,FT
+4,3,1,1.99,5.98,3.36,2.66,Emirates Road,1,0,,,0.0,"2-4p2nd,5p1/4,rallied",D,C,6,FT
+4,4,2,3.38,,4.24,2.82,Alternate Reality,2,0,,,2.25,"stmbld brk,bid ins1/8",D,C,6,FT
+4,5,3,12.66,,,4.04,Frizzante,3,0,,,3.0,"2-3p1st,3-5p2nd,6p1/4",D,C,6,FT
+4,7,4,8.03,,,,Castle Chaos,5,0,,,4.0,"out,2-3p,wknd last1/8",D,C,6,FT
+4,6,5,23.71,,,,Celestial Glaze,4,0,,,4.25,"2p-ins,tired last 1/8",D,C,6,FT
+4,9,6,1.47,,,,Counterspy,6,1,,,12.75,"off step slw,3-4p trns",D,C,6,FT
+5,9,1,3.76,9.52,5.44,4.04,Marvelous Madison,9,0,,,0.0,"3w upper, edged clear",t,A,10,FM
+5,2,2,3.19,,4.96,3.7,Charlottesuniverse,2,1,,,2.25,"bumped st, ran on",t,A,10,FM
+5,7,3,3.43,,,3.14,Livin the Breeze,7,0,,,3.0,"2-3w pursuit, kept on",t,A,10,FM
+5,5,4,9.14,,,,Tongue Twister,5,0,,,3.5,"chased ins, kept on",t,A,10,FM
+5,1,5,5.13,,,,She Takes Cash,1,0,,,3.75,"8w uppr, bid, flatten",t,A,10,FM
+5,4,6,41.08,,,,Full Pour,4,0,,,6.0,"4-5w uppr, pass tired",t,A,10,FM
+5,10,7,52.29,,,,Miami Style,10,0,,,6.1,"2-3w uppr, no response",t,A,10,FM
+5,6,8,15.87,,,,Last Glory,6,0,,,6.35,"3w both turns, wknd",t,A,10,FM
+5,3,9,7.4,,,,Fedupwiththefed,3,0,,,6.85,"bumped st, weakened",t,A,10,FM
+5,8,10,28.01,,,,Fabulous Fox,8,0,,,15.1,"brush gate st, tired",t,A,10,FM
+6,7,1,5.37,12.74,6.32,3.54,Samartina (FR),7,0,,,0.0,"bmp hard brk,ins-2p,3p",T,M,12,FM
+6,2,2,4.91,,6.76,4.44,Majestic Moonlight,2,0,,,0.25,"ins-2p turns,rally,bid",T,M,12,FM
+6,8,3,7.91,,,5.46,Devilish Grin,8,0,,,0.5,"bmp brk,3p,4p1/4,angld",T,M,12,FM
+6,11,4,11.64,,,,Just Tell Anne,10,0,,,0.75,"2p1st,3-4p2nd,willing",T,M,12,FM
+6,6,5,1.8,,,,Outro,6,1,,,2.25,"bmp hard brk,bmp5-1/2",T,M,12,FM
+6,12,6,16.48,,,,Mappy,11,0,,,2.75,"out,3-2p,collared1/8",T,M,12,FM
+6,4,7,35.53,,,,Sweet Mackenzie,4,0,,,5.25,"inside turns, tired",T,M,12,FM
+6,3,8,54.51,,,,Pay the Bills (FR),3,0,,,5.5,"inside turns,no factor",T,M,12,FM
+6,9,9,86.58,,,,Riyah Al Nil,9,0,,,9.5,"bmp brk,tkn up,2-3p",T,M,12,FM
+6,5,10,12.95,,,,Beside You,5,0,,,10.5,"stumbled brk,2p turns",T,M,12,FM
+6,1,11,8.06,,,,Playing Games,1,0,,,14.0,"injured late,equ-amb",T,M,12,FM
+6,13,12,48.0,,,,Sliceaway,12,0,,,16.75,"bmpd5-1/2,3-4p,empty",T,M,12,FM
+7,3,1,4.43,10.86,5.66,3.96,Willintoriskitall,3,0,,,0.0,"5w upper, just up",D,R,10,FT
+7,6,2,6.25,,7.08,4.52,Discotheque,6,0,,,0.1,"3w pursuit,led, nailed",D,R,10,FT
+7,10,3,4.41,,,4.74,Art Fair,9,0,,,1.35,"dueled 6-3w, ran on",D,R,10,FT
+7,7,4,2.78,,,,South Bend Tom,7,1,,,1.4,"chased 2p, mild kick",D,R,10,FT
+7,1,5,13.7,,,,Momentum Files,1,0,,,4.4,"dueled ins, wknd late",D,R,10,FT
+7,5,6,63.93,,,,Conniving,5,0,,,8.15,"chased 3-4w, weakened",D,R,10,FT
+7,4,7,6.26,,,,Golden Symphony,4,0,,,9.15,"bumped st, no impact",D,R,10,FT
+7,2,8,17.97,,,,Hot Property,2,0,,,13.4,"chased inside, tired",D,R,10,FT
+7,8,9,10.91,,,,Master Freud,8,0,,,13.65,"brushed st, tired",D,R,10,FT
+7,11,10,15.05,,,,Egyptian,10,0,,,20.4,"5-6w upper, tired",D,R,10,FT
+8,1,1,6.82,15.64,7.48,2.96,Maida,1,0,,,0.0,"ins,responded,held",D,G2,7,FT
+8,4,2,4.73,,5.84,2.5,Haulin Ice,4,0,,,1.25,"3-4p turn,5p1/4,gained",D,G2,7,FT
+8,6,3,0.42,,,2.1,Grand Job,6,1,,,2.25,"out,4-3p,bid,2p,outckd",D,G2,7,FT
+8,3,4,15.09,,,,Striker Has Dial,3,0,,,2.3,"2-4p turn,chsd,kept on",D,G2,7,FT
+8,2,5,11.56,,,,Kappa Kappa,2,0,,,8.05,"off step slow,ins turn",D,G2,7,FT
+8,5,6,32.57,,,,Going Steady,5,0,,,12.8,"2p turn,came out1/4",D,G2,7,FT
+8,7,7,56.97,,,,Do Gooder,7,0,,,37.3,"stmbld brk,5-4p turn",D,G2,7,FT
+9,4,1,0.97,3.94,2.66,2.1,Senior Officer,4,1,,,0.0,"weaved way thru str,up",D,AO,7,FT
+9,8,2,3.88,,4.28,2.94,Tip Top Thomas,6,0,,,0.25,"pressed, led, nailed",D,AO,7,FT
+9,5,3,3.67,,,2.82,Sacrosanct,5,0,,,1.25,"chased 4-2w, mild kick",D,AO,7,FT
+9,2,4,9.93,,,,Bring the Smoke,2,0,,,1.3,"stumbling st, mild bid",D,AO,7,FT
+9,9,5,12.35,,,,Acoustic Ave,7,0,,,3.55,"bumped st, lug in 3/16",D,AO,7,FT
+9,3,6,24.53,,,,Tarantino,3,0,,,13.55,"check 5 1/2, no impact",D,AO,7,FT
+9,1,7,15.37,,,,Stars and Strides,1,0,,,16.05,"in hand ins, tired",D,AO,7,FT
+10,7,1,3.27,8.54,4.62,2.92,Whitethorn,7,1,,,0.0,"bmp st,2-3p,bmp5p1/4",t,S,10,FM
+10,9,2,4.72,,5.72,4.18,Mary Lois (IRE),9,0,,,4.25,"3-4p3rd,bmpd out3/16",t,S,10,FM
+10,1,3,7.59,,,4.48,Eenymeanymightymo,1,0,,,5.5,"clip heels early,bid1F",t,S,10,FM
+10,5,4,16.16,,,,Don't Look Now,5,0,,,5.6,"bmpd out3/16,no rally",t,S,10,FM
+10,8,5,8.38,,,,Onehotmess,8,0,,,5.65,"stmbld st,2-4p3rd,7p",t,S,10,FM
+10,2,6,5.7,,,,American Debutante (IRE),2,0,,,8.9,"keen ins,2-4p3rd,bmp6p",t,S,10,FM
+10,4,7,10.53,,,,Isadora Duncan (IRE),4,0,,,9.15,"stdy into1st,no threat",t,S,10,FM
+10,3,8,56.64,,,,Raging Bloom,3,0,,,10.4,"rank1st,ins-2p,wknd",t,S,10,FM
+10,6,9,21.05,,,,Abundant Love,6,0,,,11.4,"2-3p,bid3/8,led,wknd",t,S,10,FM
+10,10,10,3.93,,,,Phantom Blue,10,0,,,27.15,"2p-ins1st,ins,stopped",t,S,10,FM

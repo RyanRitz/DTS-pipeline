@@ -1,0 +1,87 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,6,1,8.73,19.46,8.08,3.88,Cactus Closer,5,0,,,0.0,"ins foe,hedge,gamely",T,S,6,FM
+1,7,2,2.21,,3.7,2.44,Lou's Room,6,0,,,0.25,"out,2p trn,duel,denied",T,S,6,FM
+1,3,3,1.63,,,2.38,Foolin,2,1,,,4.5,"ins trn,2p1/4,mvd out",T,S,6,FM
+1,4,4,3.56,,,,Flowline,3,0,,,6.5,"bmpd early,3-4p,tired",T,S,6,FM
+1,1,5,6.1,,,,Songbird Prince (IRE),1,0,,,7.25,"green5/8,drop back7/16",T,S,6,FM
+1,5,6,25.23,,,,Fear No One,4,0,,,25.75,"bmp early,bucked,3p",T,S,6,FM
+2,3,1,4.24,10.48,3.6,2.46,Momentum Files,2,0,,,0.0,"bobbled st, held well",D,C,5,FT
+2,5,2,0.53,,2.36,2.1,Tiger Twenty Four,4,1,,,0.5,"chased 4-3w, repelled",D,C,5,FT
+2,7,3,4.61,,,2.42,Celestial Glaze,5,0,,,6.25,"3-4w upper, wknd late",D,C,5,FT
+2,1,4,7.88,,,,Tripp's Promise,1,0,,,10.25,"hit gate, got out 3/8p",D,C,5,FT
+2,4,5,16.19,,,,Gypsy Dreaming,3,0,,,18.75,"bobbled st, tired",D,C,5,FT
+3,2,1,3.33,8.66,4.7,3.36,Kipros,2,0,,,0.0,"bmp brk,bmpd foe 1/4",t,S,8,FM
+3,4,2,29.06,,17.22,9.08,Arequipe,4,0,,,0.1,"ins,open up,gamely",t,S,8,FM
+3,7,3,9.76,,,5.98,Ticket to Fame,7,0,,,0.2,"2-3path,4p3/16,rallied",t,S,8,FM
+3,6,4,2.01,,,,Jackpot Jackie,6,1,,,3.45,"inside turns,no kick",t,S,8,FM
+3,1,5,6.86,,,,Warrior At Heart,1,0,,,3.95,"hit gate,jstld1/4,5p",t,S,8,FM
+3,8,6,9.88,,,,Mapped,8,0,,,4.95,"off slw,swerved 7p1/4",t,S,8,FM
+3,5,7,5.51,,,,Geneva Lake,5,0,,,6.95,"very rank,out 2p,wknd",t,S,8,FM
+3,3,8,6.67,,,,Hetch Hetchy,3,0,,,7.95,"bmpd out1/4,checked",t,S,8,FM
+4,7,1,7.96,17.92,6.3,3.82,Donor Advised,7,0,,,0.0,"6w upper, drew clear",D,AO,7,FT
+4,4,2,5.06,,5.54,3.3,Bow Draw,4,0,,,4.75,"chased 4-3w, ran on",D,AO,7,FT
+4,5,3,1.0,,,2.56,Maria Louise,5,1,,,7.0,"3-2w in aim, wknd late",D,AO,7,FT
+4,1,4,26.8,,,,Raghba,1,0,,,8.25,"3-2w uppr, weakened",D,AO,7,FT
+4,2,5,8.78,,,,Golden Irish,2,0,,,9.0,"in hand ins, weakened",D,AO,7,FT
+4,3,6,3.4,,,,Fire Moon,3,0,,,17.5,"chased 3-2w, no impact",D,AO,7,FT
+4,6,7,18.64,,,,Trusty Troutman,6,0,,,19.75,"4w 1st turn, tired",D,AO,7,FT
+5,3,1,9.99,21.98,6.7,5.12,Sun Kissed Bliss,3,0,,,0.0,"3p trn,brisk hand ride",D,S,10,FT
+5,6,2,0.91,,2.64,2.42,D'muehl,6,1,,,5.5,"out,4p turn,no match",D,S,10,FT
+5,1,3,27.29,,,9.4,Fantasy Fortune,1,0,,,7.25,"buckled brk,2-3p,6p1/4",D,S,10,FT
+5,4,4,20.21,,,,Buccherita,4,0,,,7.75,"ins turn,stdy ins5/16",D,S,10,FT
+5,5,5,43.64,,,,White Star,5,0,,,10.25,"stumbld bad brk,2p-ins",D,S,10,FT
+5,7,6,4.35,,,,Annotate,7,0,,,13.75,"out,5p turn,6p1/4,wknd",D,S,10,FT
+5,2,7,42.61,,,,Cara's Chrome,2,0,,,13.8,"stdy ins9/16,ins turn",D,S,10,FT
+5,9,8,16.51,,,,McLight,9,0,,,14.05,"4path turn,no threat",D,S,10,FT
+5,10,9,7.95,,,,Stellabration,10,0,,,14.1,"off bit slw,swung7p1/4",D,S,10,FT
+5,8,10,9.78,,,,Bankthemoneyhoney,8,0,,,17.6,"out,4-2p turn,empty",D,S,10,FT
+6,11,1,4.19,10.38,5.12,3.72,Golden Maiden,10,0,,,0.0,"cut corner,geared down",t,S,12,FM
+6,5,2,4.95,,5.48,3.76,Fave,5,0,,,2.75,"tracked ins, mild kick",t,S,12,FM
+6,13,3,3.28,,,3.64,J'ray's Jewel,12,1,,,2.85,"tracked 2p, mild kick",t,S,12,FM
+6,6,4,26.89,,,,Seismic Activity,6,0,,,9.1,"tracked 2p, wknd late",t,S,12,FM
+6,8,5,20.31,,,,Mc Cruiser,7,0,,,9.6,"6w upper, passed tired",t,S,12,FM
+6,10,6,15.72,,,,Cream of the Crop,9,0,,,10.35,"3w both turns, wknd",t,S,12,FM
+6,4,7,64.05,,,,Coursiere,4,0,,,10.4,"5-6w upper, no kick",t,S,12,FM
+6,2,8,8.43,,,,Welcome Road,2,0,,,10.65,"check 1M, 4w into 1st",t,S,12,FM
+6,9,9,5.72,,,,Mios,8,0,,,11.15,"3w 1st turn, weakened",t,S,12,FM
+6,12,10,57.85,,,,Ciao Baby,11,0,,,12.4,carried 5w into 1st tn,t,S,12,FM
+6,1,11,9.91,,,,Saratoga Lake,1,0,,,20.65,"chased inside, tired",t,S,12,FM
+6,3,12,12.25,,,,High Tide Honey,3,0,,,25.15,"checked 1M, balk 7F",t,S,12,FM
+7,1,1,1.33,4.66,2.98,2.48,Brunch With Amy,1,1,,,0.0,"bobbled brk,2-4p turn",D,C,10,FT
+7,9,2,7.93,,7.08,4.9,Pocket Queens,8,0,,,2.25,"4-5p turn,7p1/4,gained",D,C,10,FT
+7,11,3,35.45,,,12.24,That'sthefactjack,10,0,,,2.75,"out,4-3p trn,outfinshd",D,C,10,FT
+7,4,4,8.54,,,,Bobby Jean,4,0,,,4.25,"2-4p,6p1/4,stdied3/16",D,C,10,FT
+7,10,5,59.65,,,,Caradise,9,0,,,4.5,"2p turn,moved out",D,C,10,FT
+7,5,6,21.41,,,,Scarlet's Dream,5,0,,,7.25,"3-2p turn,mvd out1/8",D,C,10,FT
+7,3,7,3.26,,,,Donna Romano,3,0,,,8.0,"2p-ins turn,weakened",D,C,10,FT
+7,8,8,74.79,,,,Moonlit Weekend,7,0,,,10.5,"inside-2p turn,empty",D,C,10,FT
+7,2,9,40.05,,,,Cararra,2,0,,,19.25,"ins foe,rail trn,faded",D,C,10,FT
+7,7,10,4.39,,,,Belle Cherie,6,0,,,31.25,"3p turn,eased,wlkd off",D,C,10,FT
+8,10,1,1.99,5.98,4.66,3.38,Modest Maclean,10,1,,,0.0,"6w upper, edged away",D,S,10,FT
+8,6,2,19.93,,13.78,8.5,High Leverage,6,0,,,1.0,"7w upper, mild kick",D,S,10,FT
+8,1,3,8.96,,,5.9,Karsten,1,0,,,1.5,"cut pace 2p, ran on",D,S,10,FT
+8,3,4,7.22,,,,Tap Rules,3,0,,,2.75,"chased 3-2w, mild bid",D,S,10,FT
+8,5,5,24.11,,,,Galicat,5,0,,,4.25,"5-6w uppr, pass tired",D,S,10,FT
+8,2,6,2.77,,,,Isthereanormalwife,2,0,,,6.0,"chased 3-2w, weakened",D,S,10,FT
+8,4,7,9.14,,,,Happy Go More,4,0,,,11.75,"pressed 4-3w, tired",D,S,10,FT
+8,8,8,6.71,,,,Bossofeverything,8,0,,,17.0,"overland route, tired",D,S,10,FT
+8,9,9,26.38,,,,My Munny Talks,9,0,,,19.75,"5w pursuit, tired",D,S,10,FT
+8,7,10,54.96,,,,Thespian,7,0,,,40.5,"stumble st, walked off",D,S,10,FT
+9,1,1,2.47,6.94,3.56,2.84,Midnight Concerto,1,0,,,0.0,"ins,stdy2p3/16,rally",T,N,8,FM
+9,4,2,8.25,,6.98,5.8,Being Betty,4,0,,,0.05,"act-up,slw st,7p3/16",T,N,8,FM
+9,8,3,9.71,,,5.24,Sail With the Wind,7,0,,,0.3,"2p turns,5p3/16,rally",T,N,8,FM
+9,9,4,1.24,,,,Awesome Czech,8,1,,,1.8,"rank7-1/2,traffic lane",T,N,8,FM
+9,2,5,15.48,,,,Marvelous Madison,2,0,,,1.9,"2-3p turns,6p3/16,gain",T,N,8,FM
+9,3,6,10.31,,,,Bernietakescharge,3,0,,,1.95,"2-3p2nd,bid,outkicked",T,N,8,FM
+9,5,7,15.43,,,,Spinning Colors,5,0,,,4.95,"ins-2p,bid3/16,wknd",T,N,8,FM
+9,7,8,21.13,,,,Brokealltherules,6,0,,,6.95,"ins from7/8,gave way",T,N,8,FM
+10,2,1,8.53,19.06,10.66,6.36,Peppermint Twist,2,0,,,0.0,"2-3w uppr, drew clear",t,S,10,FM
+10,5,2,13.26,,10.84,5.56,Majestic Moonlight,5,0,,,4.0,"tracked 3-2w, ran on",t,S,10,FM
+10,8,3,2.91,,,3.34,Miss Twitter,8,0,,,5.5,boxed ins 1/4-ins 3/16,t,S,10,FM
+10,7,4,1.76,,,,Indomiknow (IRE),7,1,,,5.6,"3w pursuit, kept on",t,S,10,FM
+10,1,5,9.16,,,,Delta Code,1,0,,,6.1,"chased 2p, improved",t,S,10,FM
+10,10,6,6.21,,,,Legal Squeeze,10,0,,,6.6,"5w upper, no response",t,S,10,FM
+10,3,7,21.69,,,,Good Ghost,3,0,,,8.6,"5w upper, passed tired",t,S,10,FM
+10,4,8,10.57,,,,Portixol,4,0,,,9.6,"2-3w upper, weakened",t,S,10,FM
+10,6,9,55.18,,,,No Difference,6,0,,,12.35,"chased ins, no impact",t,S,10,FM
+10,9,10,76.34,,,,One Bad Habit,9,0,,,13.35,"spurt,hard hold, tired",t,S,10,FM

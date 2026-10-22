@@ -1,0 +1,73 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,4,1,1.82,5.64,3.26,2.86,Stickupwithoutagun,4,1,,,0.0,"well rated 2p,respond",D,N,6,FT
+1,1,2,2.12,,3.42,2.9,Into the Light,1,0,,,1.5,"ins1st,ins-3p2nd,chsd",D,N,6,FT
+1,2,3,15.22,,,5.1,Jets Rio,2,0,,,3.75,"bmp brk,2-4p1st,4p1/4",D,N,6,FT
+1,3,4,5.42,,,,Bold Love,3,0,,,10.5,"bmp btwn brk,squeezed",D,N,6,FT
+1,5,5,10.72,,,,First Blessing,5,0,,,16.75,"4-3p2nd,5p1/4,mvd out",D,N,6,FT
+1,6,6,3.65,,,,Who's Your Zaddy,6,0,,,29.5,"out,4-3p,2p1/4,eased",D,N,6,FT
+2,5,1,2.71,7.42,4.9,3.16,Early Autumn,4,0,,,0.0,"5w upper, edged away",T,S,7,FM
+2,8,2,13.2,,10.9,4.66,Night Sky,7,0,,,1.25,"led 2w 1/4p, ran on",T,S,7,FM
+2,6,3,0.91,,,2.2,Southern Kiss,5,1,,,2.25,"hit gate st, wknd late",T,S,7,FM
+2,7,4,9.26,,,,Split the Blanket,6,0,,,7.5,"in hand ins, weakened",T,S,7,FM
+2,4,5,14.72,,,,Denos Grace,3,0,,,8.0,"3w upper, weakened",T,S,7,FM
+2,1,6,18.8,,,,White Star,1,0,,,8.5,"7w upper, no headway",T,S,7,FM
+2,3,7,7.48,,,,Miss Ma'am,2,0,,,9.75,"coaxed 2p, weakened",T,S,7,FM
+3,5,1,1.9,5.8,2.54,2.12,Intellect (FR),5,0,,,0.0,"2p1st,2-4p2nd,rally5p",t,AO,7,FM
+3,2,2,1.29,,2.36,2.1,Cosmic Year (GB),2,1,,,3.5,"bmp brk,ins,2p1/4,chsd",t,AO,7,FM
+3,6,3,9.37,,,3.14,Paros,6,0,,,6.25,"2p1st,2-5p2nd,mvd out",t,AO,7,FM
+3,4,4,3.32,,,,Maui Strong,4,0,,,8.0,"out,3path,bid3/8,empty",t,AO,7,FM
+3,1,5,29.21,,,,Makes Sense,1,0,,,8.25,"bmp st,2-3p2nd,4p1/4",t,AO,7,FM
+3,7,6,45.31,,,,Frosted Over,7,0,,,11.25,"keen,3p1st,2p-ins2nd",t,AO,7,FM
+3,3,7,33.64,,,,High Beta,3,0,,,11.75,"2p-ins,headed1/4,tired",t,AO,7,FM
+4,3,1,12.05,26.1,10.58,5.64,Freaky,3,0,,,0.0,"5w uppr, dueled, game",D,C,7,FT
+4,7,2,7.35,,8.0,5.36,Swaging,7,0,,,0.05,"bobble st, bested",D,C,7,FT
+4,6,3,9.17,,,5.08,Neigh Baby,6,0,,,1.05,"steadied st, mild kick",D,C,7,FT
+4,1,4,8.62,,,,Hot Property,1,0,,,1.15,"bumped st, mild kick",D,C,7,FT
+4,5,5,2.63,,,,Abrigado,5,0,,,4.65,"cut pace ins, wknd lte",D,C,7,FT
+4,2,6,5.67,,,,Daiquiri Sommelier,2,0,,,26.9,"chased 2p, faltered",D,C,7,FT
+4,4,7,1.72,,,,Toga d'Oro,4,1,,,99.99,"got out 7-8w, walk off",D,C,7,FT
+5,3,1,11.81,25.62,12.92,6.4,Ovechkin,3,0,,,0.0,"2p,driftd out 1/8,held",D,M,8,FT
+5,7,2,5.02,,6.24,3.84,Stream It,7,0,,,4.5,"4-2p1st,lost crop1/8",D,M,8,FT
+5,6,3,1.96,,,3.04,Old Time Rocknroll,6,1,,,7.25,"4p1st,5-3p2nd,clear3rd",D,M,8,FT
+5,1,4,8.01,,,,Disparate Impact,1,0,,,11.5,"ins-2path,btwn1/4,wknd",D,M,8,FT
+5,5,5,13.28,,,,Bedeviled,5,0,,,15.75,"brief steady 1st,4p1/4",D,M,8,FT
+5,2,6,6.36,,,,Gordy,2,0,,,27.0,"2-3p trns,5p1/4,falter",D,M,8,FT
+5,8,7,13.89,,,,Asked and Answered,8,0,,,35.5,"5-4p1st,2-3p2nd,eased",D,M,8,FT
+5,4,8,3.44,,,,Knowledge Sharing,4,0,,,35.6,"outside,retreat,eased",D,M,8,FT
+6,8,1,0.91,3.82,2.74,2.34,Baliage (IRE),7,1,,,0.0,"5w uppr, shied, game",t,S,9,FM
+6,10,2,4.91,,4.18,3.14,Mel Went Home,9,0,,,0.05,"4w uppr,led, fought on",t,S,9,FM
+6,2,3,9.44,,,4.08,Whatever It Takes,2,0,,,3.05,"6w upper, mild kick",t,S,9,FM
+6,5,4,5.64,,,,Cut Your Losses,5,0,,,5.05,"5w upper, improved",t,S,9,FM
+6,1,5,22.03,,,,Infuriata,1,0,,,5.55,"tracked 2p, wknd late",t,S,9,FM
+6,4,6,12.29,,,,May December,4,0,,,6.05,"in hand 2p, weakened",t,S,9,FM
+6,7,7,19.33,,,,Bourbon Madness,6,0,,,7.05,"3w 1st turn, weakened",t,S,9,FM
+6,3,8,29.2,,,,Divine Sunshine,3,0,,,16.55,"ins to 4w uppr, tired",t,S,9,FM
+6,9,9,18.6,,,,Into Forever,8,0,,,23.55,"attended 3-2w, tired",t,S,9,FM
+7,7,1,1.5,5.0,3.22,2.36,Glen Airy,6,1,,,0.0,"out,3-4p,lead1/4,clear",D,C,8,FT
+7,5,2,6.45,,5.5,3.18,Sharp Spark,4,0,,,2.5,"2-3p turns,4p1/4,up2nd",D,C,8,FT
+7,9,3,3.55,,,2.62,Apalta,8,0,,,3.0,"veer out st,2-4p,5p1/4",D,C,8,FT
+7,6,4,3.33,,,,Pineapple Man,5,0,,,4.5,"2-3p,led7/16-5/16,wknd",D,C,8,FT
+7,3,5,55.65,,,,Good Bali,3,0,,,15.0,"ins1st,2-3p2nd,4p1/4",D,C,8,FT
+7,8,6,6.79,,,,Indy Rags,7,0,,,31.75,"4-5p turns, no threat",D,C,8,FT
+7,1,7,24.72,,,,Hey Toby,1,0,,,33.5,"ins foe,rail trns,stop",D,C,8,FT
+7,2,8,44.01,,,,Laughing Boy,2,0,,,35.0,"ins-2p turns,retreated",D,C,8,FT
+8,2,1,2.71,7.42,4.78,2.94,Contrary Thinking,2,0,,,0.0,"3-4w upper, held clear",D,AO,7,FT
+8,3,2,17.52,,12.12,5.62,Commuted,3,0,,,2.5,"7-8w upper, mild kick",D,AO,7,FT
+8,7,3,1.4,,,2.32,Bold Strength,7,1,,,3.75,"3-4w in aim, kept on",D,AO,7,FT
+8,1,4,3.97,,,,Ridgewood Runner,1,0,,,7.25,"steady 5/16, weakened",D,AO,7,FT
+8,6,5,21.9,,,,Otello,6,0,,,15.25,"chased 3-2w, tired",D,AO,7,FT
+8,5,6,6.51,,,,Eliminate,5,0,,,16.0,stumbled badly start,D,AO,7,FT
+8,4,7,12.51,,,,Vibrant Express,4,0,,,22.25,stumbled badly start,D,AO,7,FT
+9,9,1,1.38,4.76,2.98,2.34,Zeitlos,7,1,,,0.0,"3p trn,rally4p1/4,best",T,N,7,YL
+9,2,2,12.0,,6.84,5.18,Delightful Flame,2,0,,,1.75,"ins trn,rally3p1/4,bid",T,N,7,YL
+9,4,3,12.84,,,6.76,Le Amazonia,4,0,,,2.0,"off bit slw,2-3p turn",T,N,7,YL
+9,1,4,8.53,,,,Me Governor,1,0,,,4.0,"tkn up brk,2p trn,5p2F",T,N,7,YL
+9,7,5,8.89,,,,Itzel,6,0,,,10.25,"duel out,2p trn,tired",T,N,7,YL
+9,6,6,2.72,,,,Miss Vyvyanne,5,0,,,11.25,"dueld ins foe,ins,wknd",T,N,7,YL
+9,3,7,5.79,,,,Praying,3,0,,,12.75,"2path turn,empty",T,N,7,YL
+10,9,1,5.33,12.66,6.08,2.7,Luz de Guia,6,0,,,0.0,"bumped st, edged clear",D,M,6,SY
+10,7,2,6.67,,6.9,3.34,Languid,4,0,,,3.0,"4-3w pursuit, belated",D,M,6,SY
+10,2,3,1.12,,,2.12,About Face,1,1,,,4.75,"prompt 4-3w, wknd late",D,M,6,SY
+10,8,4,2.97,,,,Duty,5,0,,,6.25,"in hand 2p, weakened",D,M,6,SY
+10,5,5,9.03,,,,Mortal Lock,2,0,,,20.5,"stumbled st, tired",D,M,6,SY
+10,6,6,11.53,,,,Ghost Driver,3,0,,,65.25,"bumped st, eased home",D,M,6,SY

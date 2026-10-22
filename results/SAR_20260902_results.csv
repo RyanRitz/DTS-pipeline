@@ -1,0 +1,75 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,1,1,4.24,10.48,4.02,3.1,Mr Percy (IRE),1,0,,,0.0,"late at 3,up last jump",T,G1,7,GD
+1,3,2,2.35,,3.14,2.88,Siennois (IRE),3,1,,,0.25,"headstrong, nailed",T,G1,7,GD
+1,7,3,20.14,,,6.54,Sweet Will (IRE),7,0,,,0.5,"tracked ins, fought on",T,G1,7,GD
+1,4,4,6.38,,,,Coutach (GB),4,0,,,4.0,"late at 2 &4, kept on",T,G1,7,GD
+1,5,5,9.52,,,,L'Imperator (FR),5,0,,,7.5,"2-3w, bid 1/8, flatten",T,G1,7,GD
+1,2,6,2.49,,,,Smart Uncle,2,0,,,25.5,"tracked 2p, tired",T,G1,7,GD
+1,6,7,6.24,,,,Little Trilby (GB),6,0,,,99.99,"5th when fell 9, amb",T,G1,7,GD
+2,1,1,6.38,14.76,5.66,3.82,El Grande O,1,0,,,0.0,"3-4p turn,bid,up1/16",D,AO,6,FT
+2,4,2,2.53,,4.58,3.18,Be You,4,1,,,0.05,"2-4p trn,5p1/4,rallied",D,AO,6,FT
+2,6,3,5.98,,,4.24,Over and Ollie,6,0,,,1.05,"3-2p turn,overtaken",D,AO,6,FT
+2,5,4,2.56,,,,Pentathlon,5,0,,,4.05,"drop bck4-1/2,2-4p trn",D,AO,6,FT
+2,3,5,9.96,,,,Acoustic Ave,3,0,,,4.8,"last awy,ins trn,empty",D,AO,6,FT
+2,2,6,2.89,,,,Whatchatalkinabout,2,0,,,22.8,"bobbld st,5p trn,6p1/4",D,AO,6,FT
+3,5,1,1.68,5.36,3.0,2.36,Protect and Defend,4,1,,,0.0,"3w 1st trn, edged clr",T,S,7,YL
+3,8,2,2.3,,3.3,2.52,Pay the Piper,7,0,,,3.0,"4-5w uppr, 2nd best",T,S,7,YL
+3,2,3,9.61,,,3.76,Duty,2,0,,,9.75,"in hand ins, weakened",T,S,7,YL
+3,6,4,4.58,,,,Donnadoyawanna,5,0,,,10.5,"chased 2p, weakened",T,S,7,YL
+3,3,5,7.34,,,,Evenly Alert,3,0,,,23.0,"chased 2-3w, tired",T,S,7,YL
+3,7,6,9.0,,,,Pauillac,6,0,,,30.75,"3w 1st turn, faltered",T,S,7,YL
+3,1,7,42.43,,,,Ghost Driver,1,0,,,60.5,"brush gate, eased home",T,S,7,YL
+4,3,1,0.44,2.88,2.26,2.1,Senza Parole,3,1,,,0.0,"2p trn,bid ins3/16,clr",D,AO,5,MY
+4,4,2,5.91,,3.88,2.56,With the Angels,4,0,,,2.25,"4p turn,5p,led3/16-1/8",D,AO,5,MY
+4,1,3,5.11,,,2.68,Kappa Kappa,1,0,,,6.5,"out,3p,led3/8-1/4,wknd",D,AO,5,MY
+4,2,4,16.28,,,,Beyond Belief,2,0,,,10.25,"ins,headed3/8,tired",D,AO,5,MY
+4,6,5,6.57,,,,Strong State,5,0,,,12.75,"out,5p,6p3/16,empty",D,AO,5,MY
+5,1,1,3.66,9.32,4.96,3.88,Dia Por Dia,1,0,,,0.0,"in hand 2p, drew off",D,C,10,MY
+5,4,2,5.24,,6.24,4.28,Margarita Molly,4,0,,,4.25,"4-5w upper, ran on",D,C,10,MY
+5,5,3,3.59,,,3.78,Twirly,5,0,,,5.75,"4w pursuit, kept on",D,C,10,MY
+5,3,4,3.04,,,,Amelia's Echo,3,1,,,6.75,"brushed st, weakened",D,C,10,MY
+5,10,5,11.71,,,,Doppio Espresso,10,0,,,12.0,"bumped st, weakened",D,C,10,MY
+5,6,6,12.04,,,,Here'syourtrouble,6,0,,,17.5,"8w uppr, passed tired",D,C,10,MY
+5,7,7,51.36,,,,Rose Lisa,7,0,,,17.6,"bumped st, tired",D,C,10,MY
+5,9,8,38.01,,,,Queen Sally,9,0,,,26.85,"6-7w upper, tired",D,C,10,MY
+5,2,9,25.18,,,,Dat Dares Right,2,0,,,42.1,"brushed st, eased",D,C,10,MY
+5,8,10,7.87,,,,Successful Agenda,8,0,,,96.1,"bumped st, eased",D,C,10,MY
+6,3,1,1.58,5.16,2.9,2.24,Berta's Stitch,3,1,,,0.0,"bmp st,ins,2p1/4,rally",t,MO,11,YL
+6,5,2,3.46,,3.88,2.82,George St.,5,0,,,2.25,"inside,headed out 1/8",t,MO,11,YL
+6,4,3,3.05,,,2.52,Inclusivity,4,0,,,11.0,"inside turns,no kick",t,MO,11,YL
+6,10,4,15.23,,,,Motorcycle Cop,10,0,,,13.75,"3-4path trns,no threat",t,MO,11,YL
+6,9,5,13.35,,,,Epic Prayer,9,0,,,13.8,"ins-2path turns,empty",t,MO,11,YL
+6,8,6,22.96,,,,Gus's Boy,8,0,,,14.3,"hit gate,3p trns,tired",t,MO,11,YL
+6,11,7,45.65,,,,Toneacity,11,0,,,16.55,"off step slw,2p-inside",t,MO,11,YL
+6,1,8,25.41,,,,No Law,1,0,,,17.3,"hit gate,bmpd,2-4p,5p",t,MO,11,YL
+6,6,9,51.17,,,,Bet Bold,6,0,,,22.3,"stmbld brk,2-3p turns",t,MO,11,YL
+6,7,10,31.99,,,,Executive Force,7,0,,,22.8,"out,3-2p turns,retreat",t,MO,11,YL
+6,2,11,18.42,,,,Mo Coffee,2,0,,,27.3,"off slw,3-5p2nd,6p1/4",t,MO,11,YL
+7,9,1,6.31,14.62,7.36,6.16,Gold Fashioned,8,0,,,0.0,"3w pursuit, edged away",T,S,10,YL
+7,10,2,5.21,,4.88,5.18,Comets Choice,9,0,,,2.5,"bumped st, ran on",T,S,10,YL
+7,7,3,15.74,,,10.78,Frosty Blaze,6,0,,,2.75,"6w upper, belatedly",T,S,10,YL
+7,4,4,3.83,,,,Juneau,3,0,,,2.8,"5-6w upper, mild kick",T,S,10,YL
+7,8,5,6.65,,,,Skidmore,7,0,,,3.8,"4-3w upper, late foot",T,S,10,YL
+7,11,6,9.81,,,,Bourbon Mojo,10,0,,,4.05,"6w upper, no response",T,S,10,YL
+7,1,7,2.65,,,,Tappin Magic,1,1,,,4.3,"5w upper, one paced",T,S,10,YL
+7,6,8,37.08,,,,Snapper Time,5,0,,,10.55,"5w upper, no impact",T,S,10,YL
+7,2,9,10.04,,,,Wildest Dreams,2,0,,,12.05,got out 2-3w 5/16,T,S,10,YL
+7,5,10,74.88,,,,Nix in Twentysix,4,0,,,13.3,trailed throughout,T,S,10,YL
+8,5,1,2.13,6.26,4.34,3.72,Braverthanubelieve,5,1,,,0.0,"switch out,3p,lead3/16",D,AO,8,MY
+8,7,2,30.09,,18.28,10.68,Irish Fortune,6,0,,,4.0,"2p turn,headed3/16",D,AO,8,MY
+8,4,3,9.48,,,6.3,Sweetest Princess,4,0,,,5.0,"bmp early,2-4p,6p1/4",D,AO,8,MY
+8,1,4,7.11,,,,Kay Cup,1,0,,,5.5,"bmp brk,ins turn,3p1/4",D,AO,8,MY
+8,2,5,2.66,,,,Grace and Grit,2,0,,,6.0,"bmp brk,3p turn,5p1/4",D,AO,8,MY
+8,3,6,4.75,,,,Queens Cat,3,0,,,14.25,"bmp brk,bmp,climb,3-2p",D,AO,8,MY
+8,8,7,54.12,,,,Mischief Lady,7,0,,,18.75,"outside,4p turn,tired",D,AO,8,MY
+8,9,8,5.38,,,,Rina's Revenge,8,0,,,19.75,"4p turn,no response",D,AO,8,MY
+9,8,1,3.46,8.92,4.76,3.22,Vintage Vino,8,0,,,0.0,"7w upper, up fin 40yds",t,C,10,YL
+9,3,2,14.17,,8.3,5.1,Overseer,3,0,,,1.0,"tracked ins, mild kick",t,C,10,YL
+9,7,3,3.34,,,3.34,Printer's Alley,7,0,,,2.25,"in hand ins,caught lte",t,C,10,YL
+9,6,4,6.09,,,,Royal Browne,6,0,,,3.0,"attended 2p, wknd late",t,C,10,YL
+9,1,5,32.38,,,,Lexington Pike,1,0,,,4.0,"2w 1/4, bid, flattened",t,C,10,YL
+9,4,6,10.21,,,,T V Channel,4,0,,,6.75,"chased 2p, wknd late",t,C,10,YL
+9,5,7,16.09,,,,Free Refills,5,0,,,13.5,"bump btw, squeezed st",t,C,10,YL
+9,9,8,2.42,,,,I Can See That,9,1,,,14.75,"chased 2p, tired",t,C,10,YL
+9,2,9,36.89,,,,Blue Pill,2,0,,,16.25,"7-8w uppr, no impact",t,C,10,YL
+9,10,10,28.74,,,,Mirage,10,0,,,16.35,"3-2w 1st turn, tired",t,C,10,YL

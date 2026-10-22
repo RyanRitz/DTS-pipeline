@@ -1,0 +1,87 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,1,1,0.74,3.48,2.18,2.1,Midnight Still,1,1,,,0.0,"4w upper, drew clear",D,S,5,FT
+1,3,2,3.16,,3.18,2.56,Decimation,3,0,,,6.25,"coaxed 2p, kept on",D,S,5,FT
+1,2,3,10.74,,,3.72,Motawaali,2,0,,,8.75,"buckle st,in tight 1/2",D,S,5,FT
+1,4,4,14.87,,,,Johnny Hockey,4,0,,,10.25,"steady 9/16, weakened",D,S,5,FT
+1,5,5,3.36,,,,Harbaugh,5,0,,,25.5,"brush gate st, tired",D,S,5,FT
+2,5,1,1.33,4.66,3.34,2.44,Angel of Kirk,4,1,,,0.0,"out,4-2p trn,kept task",D,S,7,FT
+2,4,2,16.8,,10.0,5.16,Rum Twist,3,0,,,4.75,"stdy brk,ins trn,angld",D,S,7,FT
+2,7,3,2.54,,,3.08,Aerial Affair,6,0,,,7.25,"frctious gate,4-3p trn",D,S,7,FT
+2,8,4,16.4,,,,Christopher Vedder,7,0,,,9.25,"3-4p turn,5p into lane",D,S,7,FT
+2,2,5,6.8,,,,Hormesis,1,0,,,12.0,"headed ins7/16,wknd",D,S,7,FT
+2,6,6,6.7,,,,Harpoon,5,0,,,12.25,"2-3p turn,4p into lane",D,S,7,FT
+2,3,7,7.9,,,,Hot Fries,2,0,,,16.25,"stdy7/16,lost position",D,S,7,FT
+3,1,1,4.0,10.0,3.46,2.5,Next On Stage,1,0,,,0.0,"stumbled st, drew clr",D,AO,6,FT
+3,6,2,0.84,,2.52,2.1,Speightful Lily,6,1,,,6.0,"chased 4-3w, kept on",D,AO,6,FT
+3,5,3,3.11,,,2.3,Army Gal,5,0,,,6.75,"hit gate st, led, wknd",D,AO,6,FT
+3,3,4,13.3,,,,Gridlock,3,0,,,6.85,"lost footing st, wknd",D,AO,6,FT
+3,4,5,19.3,,,,Edistrudis,4,0,,,12.1,"7w upper, tired",D,AO,6,FT
+3,2,6,10.3,,,,Mischief Lady,2,0,,,12.2,"stumbled st, tired",D,AO,6,FT
+4,1,1,1.8,5.6,3.16,2.78,Sounds Like a Plan,1,1,,,0.0,"well rated ins-2p,held",t,AO,9,FM
+4,4,2,2.9,,3.8,2.72,Intellect (FR),4,0,,,0.5,"ins1st,2-3p2nd,6p1/4",t,AO,9,FM
+4,7,3,4.88,,,3.56,Life and Times,7,0,,,1.25,"2-3path trns,willingly",t,AO,9,FM
+4,2,4,8.48,,,,Sherlock's Jewel,2,0,,,4.0,"2-3path turns,improved",t,AO,9,FM
+4,9,5,16.64,,,,Ejtimaa,9,0,,,4.05,"ins turns,no threat",t,AO,9,FM
+4,6,6,9.03,,,,Alan Turing,6,0,,,4.55,"inside turns,no kick",t,AO,9,FM
+4,8,7,24.09,,,,Ciao Chuck,8,0,,,5.05,"3-4p trns,5p into lane",t,AO,9,FM
+4,3,8,18.86,,,,Final Verdict,3,0,,,7.8,"4-3p2nd,2p2nd,empty",t,AO,9,FM
+4,5,9,16.96,,,,Burhan (GB),5,0,,,8.3,"toss head1st,4-5p,7p2F",t,AO,9,FM
+5,2,1,5.31,12.62,5.1,2.96,Movin' On Up,2,0,,,0.0,"5-6w uppr, edged clear",T,G2,5,FM
+5,1,2,2.85,,4.2,2.74,Zeitlos,1,0,,,1.25,"2-3w upper, mild kick",T,G2,5,FM
+5,6,3,1.49,,,2.22,In Our Time,5,1,,,2.25,"dueled 3w, kept on",T,G2,5,FM
+5,5,4,20.5,,,,Obstreperous,4,0,,,2.75,"3-4w uppr, one paced",T,G2,5,FM
+5,4,5,2.06,,,,Sunna,3,0,,,3.25,"dueled 2p, wknd late",T,G2,5,FM
+6,9,1,35.52,73.04,29.66,15.0,B Yutiful Carly,7,0,,,0.0,"off slow,5p1/4,rallied",D,S,10,FT
+6,7,2,6.14,,7.94,5.46,D'muehl,5,0,,,3.0,"out,4-3p,duel,no match",D,S,10,FT
+6,10,3,26.19,,,15.24,Lady Azul,8,0,,,9.5,"bmp brk,toss head,stdy",D,S,10,FT
+6,12,4,2.89,,,,Annotate,9,1,,,9.75,"4-3path turn,weakened",D,S,10,FT
+6,13,5,24.28,,,,In the Queue,10,0,,,9.85,"out,5-4p,bid5/16,wknd",D,S,10,FT
+6,1,6,9.6,,,,Rosapenna,1,0,,,12.1,"inside turn,empty",D,S,10,FT
+6,1,6,9.6,,,,Rosapenna,1,0,,,12.1,"inside turn,empty",D,S,10,FT
+6,6,7,5.24,,,,Uptown Rosie,4,0,,,12.85,"2p-inside turn,tired",D,S,10,FT
+6,6,7,5.24,,,,Uptown Rosie,4,0,,,12.85,"2p-inside turn,tired",D,S,10,FT
+6,4,8,3.75,,,,Secret Connection,3,0,,,13.1,"btwn,2p turn,empty",D,S,10,FT
+6,2,9,4.77,,,,Call Me Rosie,2,0,,,14.35,"awkward brk,3-6p,9p1/4",D,S,10,FT
+6,8,10,18.17,,,,Randi's Girl,6,0,,,17.6,"bmp brk,3-6p,lost crop",D,S,10,FT
+7,4,1,3.24,8.48,5.4,4.1,Yinzer,4,0,,,0.0,"bumped st, held safe",t,AO,9,FM
+7,1,2,8.62,,9.26,6.26,Starship Titan,1,0,,,0.75,"hit gate st, closed in",t,AO,9,FM
+7,3,3,5.22,,,4.04,Walley World,3,0,,,2.5,"brush gate, mild kick",t,AO,9,FM
+7,7,4,4.76,,,,Candytown,7,0,,,3.5,"3w pursuit, kept on",t,AO,9,FM
+7,8,5,5.94,,,,Plensa,8,0,,,4.0,"5w upper, one paced",t,AO,9,FM
+7,2,6,3.11,,,,Unit Economics (GB),2,1,,,6.0,"tracked 2p, weakened",t,AO,9,FM
+7,6,7,25.16,,,,Daunt,6,0,,,7.0,"steady 3/8, no kick",t,AO,9,FM
+7,5,8,14.2,,,,Slapintheface,5,0,,,12.75,"3w pursuit, tired",t,AO,9,FM
+7,9,9,38.32,,,,Ranger Battalion,9,0,,,16.75,"3-2w in aim, tired",t,AO,9,FM
+8,9,1,6.66,15.32,7.42,5.42,No Evidence,9,0,,,0.0,"2-3p turn,4p1/4,rally",T,A,10,FM
+8,2,2,4.69,,6.62,4.72,Bosun,2,0,,,0.5,"ins,2p3/16,alter out1F",T,A,10,FM
+8,7,3,8.77,,,6.08,Grunge,7,0,,,0.75,"2p turn,3p1/4,outfnshd",T,A,10,FM
+8,5,4,10.43,,,,Mission Improbable,5,0,,,1.25,"3p turn,5p1/4,rallied",T,A,10,FM
+8,8,5,3.67,,,,Gypsy Art,8,0,,,3.25,"2p turn,shy out ins1/8",T,A,10,FM
+8,4,6,8.62,,,,Cuando,4,0,,,4.25,"ins trn,headed ins3/16",T,A,10,FM
+8,10,7,14.27,,,,Oil Capital,10,0,,,4.35,"3-4path turn,no rally",T,A,10,FM
+8,1,8,2.96,,,,Cyclonite,1,1,,,4.85,"ins-3path turn,4p1/4",T,A,10,FM
+8,3,9,28.65,,,,Sweeping Shadow,3,0,,,7.85,"off bit slw,3-4p,5p1/4",T,A,10,FM
+8,6,10,38.07,,,,Forgiving Spirit,6,0,,,8.1,"ins turn,no response",T,A,10,FM
+9,6,1,4.25,10.5,5.14,3.82,Sunday Boy,5,0,,,0.0,"dueled 2p, edged clear",D,A,6,FT
+9,7,2,6.69,,6.42,3.96,Judge Boushay,6,0,,,1.5,"dueled 4-3w, ran on",D,A,6,FT
+9,5,3,5.87,,,3.94,King Farro,4,0,,,5.0,"hit gate, brushed st",D,A,6,FT
+9,1,4,27.26,,,,Az U Chase Me,1,0,,,10.25,"steady 6 1/2, weakened",D,A,6,FT
+9,2,5,1.22,,,,Tricky Business,2,1,,,10.75,"buckled st, weakened",D,A,6,FT
+9,4,6,3.18,,,,Toscano,3,0,,,25.25,"steady after st, trail",D,A,6,FT
+10,1,1,1.4,4.8,3.06,2.1,Ole Crazy Bone,1,1,,,0.0,"ins trns,eased up late",t,G2,6,FM
+10,4,2,2.9,,4.0,2.82,Fort George (GB),4,0,,,0.05,"4-3p1st,2-3p,fought",t,G2,6,FM
+10,6,3,2.21,,,2.26,Minaret Station,6,0,,,0.55,"svd grnd,mvd out ins1F",t,G2,6,FM
+10,3,4,16.11,,,,Desvio,3,0,,,4.55,checked bad into 1st,t,G2,6,FM
+10,5,5,10.17,,,,Carson's Run,5,0,,,5.05,"ins-2path,swung 5p1/4",t,G2,6,FM
+10,2,6,15.81,,,,Soleil Volant,2,0,,,5.3,"ins-2p turns,no rally",t,G2,6,FM
+11,9,1,12.97,27.94,9.5,5.78,Manor Park,9,0,,,0.0,"5w uppr, up last jumps",T,S,11,FM
+11,10,2,1.9,,4.14,2.74,Coach Ryan,10,1,,,0.5,"6w upper, good finish",T,S,11,FM
+11,1,3,17.74,,,7.26,Professor Proton,1,0,,,0.6,"2w 1/4, caught late",T,S,11,FM
+11,5,4,2.59,,,,Karsten,5,0,,,1.35,"tracked 2p, repelled",T,S,11,FM
+11,11,5,8.02,,,,Maximum Heat,11,0,,,1.6,"6-7w uppr, closed well",T,S,11,FM
+11,2,6,10.23,,,,Classic Commander,2,0,,,1.85,"steady st, outfinished",T,S,11,FM
+11,3,7,51.53,,,,Tango Tango,3,0,,,3.6,"brush 2x st, steady",T,S,11,FM
+11,4,8,19.24,,,,Runcot,4,0,,,3.85,"chased ins, weakened",T,S,11,FM
+11,6,9,8.1,,,,Before the Wind,6,0,,,4.35,"saved grd, empty",T,S,11,FM
+11,8,10,39.47,,,,Imperial Anthem,8,0,,,5.35,"4-5w upper, no kick",T,S,11,FM
+11,7,11,23.61,,,,Tizlawry,7,0,,,8.6,"3-2w 1st trn, weakened",T,S,11,FM

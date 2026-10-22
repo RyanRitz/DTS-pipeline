@@ -1,0 +1,71 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,1,1,0.47,2.94,2.1,,Wood Island,1,1,,,0.0,"2p-ins turn,responded",D,S,4,FT
+1,3,2,2.01,,2.14,,Jackpot Jackie,2,0,,,1.5,"bmp brk,ins trn,2p3/16",D,S,4,FT
+1,5,3,18.94,,,,Mambo Jazz,3,0,,,11.5,"bmp brk,3-2p turn,wknd",D,S,4,FT
+1,6,4,6.53,,,,Zodiac Warrior,4,0,,,19.5,"out,4-3path turn,tired",D,S,4,FT
+2,1,1,1.61,5.22,2.9,2.38,You Are My Suzie Q,1,1,,,0.0,"dueled ins, edged clr",D,M,7,FT
+2,8,2,4.0,,4.68,2.98,Risky Mission,7,0,,,2.0,"4-3w off duel, willing",D,M,7,FT
+2,6,3,3.69,,,2.72,Beltandsuspenders,5,0,,,3.25,"off slow, belatedly",D,M,7,FT
+2,4,4,7.15,,,,Miss Money Pants,3,0,,,6.0,"dueled 2p, wknd late",D,M,7,FT
+2,3,5,4.37,,,,Cream Puff,2,0,,,7.5,"toss head,lost lane st",D,M,7,FT
+2,5,6,15.67,,,,Solo Belle,4,0,,,8.75,"coaxed 3-2w, no impact",D,M,7,FT
+2,7,7,37.06,,,,X Ten Doe,6,0,,,26.0,"stumbled st, faltered",D,M,7,FT
+3,2,1,2.84,7.68,4.06,3.0,Mursal,2,0,,,0.0,"ins turn,2p1/4,chsd,up",D,N,6,FT
+3,7,2,4.05,,4.66,3.9,Sweet Note,6,0,,,0.1,"2p turn,led past1/16",D,N,6,FT
+3,1,3,16.87,,,5.38,Edistrudis,1,0,,,4.85,"ins-3p,5p1/4,mvd out",D,N,6,FT
+3,4,4,2.54,,,,Proud Foot,4,0,,,4.95,"bmp brk,bmp early,3p",D,N,6,FT
+3,3,5,11.34,,,,Confirmed Star,3,0,,,5.45,"bmp st,bmp erly,6p3/16",D,N,6,FT
+3,5,6,2.18,,,,Sheer Will,5,1,,,99.99,"pulled up,equine-amb",D,N,6,FT
+4,1,1,0.55,3.1,2.52,2.1,First Call Bob,1,1,,,0.0,"6-7w uppr, up fin 70yd",D,C,7,FT
+4,7,2,16.79,,8.52,4.78,Swaging,7,0,,,1.5,"3w pursuit, ran on",D,C,7,FT
+4,5,3,6.1,,,3.5,Who's Your Zaddy,5,0,,,1.75,"prompted, led, caught",D,C,7,FT
+4,4,4,3.59,,,,I'm Worthy,4,0,,,7.75,"lunge st, weakened",D,C,7,FT
+4,3,5,15.46,,,,Swiss Army Knife,3,0,,,10.25,"chased 3-4w, weakened",D,C,7,FT
+4,6,6,50.91,,,,Good Bali,6,0,,,23.5,"5-4w into 1st,4-3w 1st",D,C,7,FT
+4,2,7,17.77,,,,Kaz Oil Changer,2,0,,,35.75,"pace inside, faltered",D,C,7,FT
+5,4,1,4.23,10.46,4.04,3.04,Urgency,2,0,,,0.0,"4-2p,came out1/4,rally",D,M,7,FT
+5,14,2,0.82,,2.38,2.1,Disparate Impact,7,1,,,2.25,"7-3p1st,led 2p-ins2nd",D,M,7,FT
+5,12,3,10.08,,,3.96,Meanstepper,6,0,,,4.5,"squeezd6-5p1st,3-4p2nd",D,M,7,FT
+5,7,4,12.84,,,,Authentic Legend,4,0,,,5.0,"bmp early,5-4p1st,3-2p",D,M,7,FT
+5,8,5,17.46,,,,Dixie Hex,5,0,,,21.5,"bmp early,checked,rank",D,M,7,FT
+5,6,6,5.1,,,,Cederberg,3,0,,,31.25,"stmbld bad brk,ins-2p",D,M,7,FT
+5,2,7,13.26,,,,Streetcar,1,0,,,99.99,"3-2p1st,stopped,eased",D,M,7,FT
+6,8,1,12.1,26.2,9.76,6.36,Fullcup,7,0,,,0.0,"4-3w in aim, drew clr",D,S,10,GD
+6,9,2,2.35,,4.1,3.26,McMoon,8,1,,,4.75,"in hand 2p, ran on",D,S,10,GD
+6,1,3,4.54,,,3.6,Freedom Charge,1,0,,,6.5,"2-3w upper, wknd late",D,S,10,GD
+6,5,4,10.6,,,,Maximilian,5,0,,,8.0,"chased 3-4w, improved",D,S,10,GD
+6,2,5,7.65,,,,Calling Mr. Mo,2,0,,,10.25,"awkward st, weakened",D,S,10,GD
+6,6,5,2.55,,,,Yestahal,6,0,,,10.25,"chased 3-4w, weakened",D,S,10,GD
+6,10,7,21.24,,,,Vals Bro,9,0,,,13.75,"chased 5w, tired",D,S,10,GD
+6,11,8,45.71,,,,Ninuccio,10,0,,,14.0,"5-6w upper, tired",D,S,10,GD
+6,4,9,50.19,,,,Cuylle,4,0,,,20.25,"chased 4-2w, tired",D,S,10,GD
+6,3,10,14.0,,,,Parkridge,3,0,,,22.25,"6-7w upper, no impact",D,S,10,GD
+7,1,1,6.67,15.34,6.4,3.66,Metatron's Muse,1,0,,,0.0,"ins-2p,5p1/4,rallied",D,N,7,GD
+7,2,2,6.77,,7.04,4.32,Secured Landing,2,0,,,1.25,"inside,fought,outfnshd",D,N,7,GD
+7,6,3,2.21,,,3.06,Calibrate,6,0,,,3.25,"3-4p trns,bid3/16,wknd",D,N,7,GD
+7,5,4,6.43,,,,Sharp Spark,5,0,,,3.3,"hrd to load,3-4p,6p1/4",D,N,7,GD
+7,8,5,27.32,,,,Smilensaycheese,7,0,,,6.05,"veer out st,4p trns,7p",D,N,7,GD
+7,4,6,23.99,,,,Sara's Shaman,4,0,,,8.05,"outside,2-3path,empty",D,N,7,GD
+7,3,7,1.43,,,,Coach Cronin,3,1,,,99.99,"through after 1/2,easd",D,N,7,GD
+8,7,1,5.44,12.88,5.2,3.14,Queens Cat,6,0,,,0.0,"coaxed 2p, held well",D,A,7,GD
+8,4,2,1.51,,3.1,2.32,Liberty's Secret,3,1,,,1.75,"6w upper, mild kick",D,A,7,GD
+8,5,3,2.14,,,2.46,K Gun,4,0,,,3.75,"chased 5-4w, kept on",D,A,7,GD
+8,6,4,5.63,,,,Lady Rose,5,0,,,8.0,"2-3w upper, improved",D,A,7,GD
+8,3,5,39.44,,,,Sunshine Lily,2,0,,,9.5,"chased ins, weakened",D,A,7,GD
+8,2,6,7.48,,,,Daniella Marie,1,0,,,11.25,"got out 5w 3/8, tired",D,A,7,GD
+8,10,7,36.61,,,,Floy Joy,7,0,,,54.0,"4-3w in aim, gave way",D,A,7,GD
+9,2,1,4.17,10.34,5.02,3.1,Local Knowledge,2,0,,,0.0,"bid1/2,2p turn,dueled",D,G2,7,GD
+9,3,2,6.45,,6.08,3.24,Solitude Dude,3,0,,,0.1,"out,3p,bid1/4,dueled",D,G2,7,GD
+9,7,3,0.8,,,2.16,Obliteration,6,1,,,3.6,"swerved in5-1/2,ins-3p",D,G2,7,GD
+9,1,4,8.5,,,,American Man,1,0,,,5.85,"ins,headed3/16,tired",D,G2,7,GD
+9,5,5,21.65,,,,White Smoke Rising,5,0,,,6.1,"bmp brk,step slw,5p1/4",D,G2,7,GD
+9,4,6,6.18,,,,Gilded Bandit,4,0,,,9.35,"bmp brk,forced in5-1/2",D,G2,7,GD
+9,8,7,47.4,,,,Rockies Balboa,7,0,,,14.85,"bmp brk,4p turn,empty",D,G2,7,GD
+10,9,1,1.77,5.54,3.16,2.82,From Scratch,4,1,,,0.0,"in hand 2p, held well",D,C,8,GD
+10,3,2,4.22,,4.38,3.5,Emerald Ember,1,0,,,2.0,"chased 3w, 2nd best",D,C,8,GD
+10,10,3,18.09,,,7.0,Give Her Another,5,0,,,7.0,"5-6w uppr, improved",D,C,8,GD
+10,7,4,17.93,,,,Union Doos,3,0,,,9.5,"chased 4w, weakened",D,C,8,GD
+10,14,5,8.88,,,,Amelia's Echo,8,0,,,11.75,"8w uppr, passed tired",D,C,8,GD
+10,12,6,2.69,,,,Expecto Patronum,6,0,,,11.85,"chased 5-3w, weakened",D,C,8,GD
+10,4,7,9.01,,,,Rockyta,2,0,,,15.1,"chased 2p, tired",D,C,8,GD
+10,13,8,15.14,,,,Leslie's Star,7,0,,,17.35,"chased 6-3w, trailed",D,C,8,GD

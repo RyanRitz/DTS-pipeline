@@ -1,0 +1,77 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,1,1,2.59,7.18,3.6,3.08,Mr Percy (IRE),1,1,,,0.0,"hit fence9,3p5th,rally",T,N,8,FM
+1,3,2,2.83,,3.54,2.88,Cyber Ninja,3,0,,,0.5,toss head rank early,T,N,8,FM
+1,5,3,10.56,,,5.78,Lynches Knock (IRE),5,0,,,8.0,"struggled fence6,up3rd",T,N,8,FM
+1,4,4,15.43,,,,Doctor Love (FR),4,0,,,14.25,"keen1st,open up,tired",T,N,8,FM
+1,2,5,13.68,,,,Morning March,2,0,,,16.0,"rank, saved ground",T,N,8,FM
+1,7,6,5.92,,,,Lord Flintshire,7,0,,,16.75,"jumped well, empty",T,N,8,FM
+1,6,7,3.04,,,,Famous Figure (IRE),6,0,,,17.25,"late fence 9,stumbled",T,N,8,FM
+1,8,8,21.27,,,,Vintage Year,8,0,,,99.99,"keen early,falter,easd",T,N,8,FM
+2,7,1,8.75,19.5,11.98,6.88,Tuning In,6,0,,,0.0,"4-5w uppr, duel, game",D,S,6,FT
+2,3,2,8.26,,8.3,5.04,Bubster,3,0,,,0.5,"bobbled st, fought on",D,S,6,FT
+2,4,3,2.78,,,2.92,Irish Goodbye,4,0,,,10.0,"brush gate, bumped st",D,S,6,FT
+2,2,4,1.17,,,,Term Premium,2,1,,,13.5,"bumped st, tired",D,S,6,FT
+2,1,5,10.92,,,,Bakuto,1,0,,,14.75,"veered out st, tired",D,S,6,FT
+2,6,6,4.79,,,,In Front Runner,5,0,,,18.5,"chased 3-2w, tired",D,S,6,FT
+3,4,1,12.1,26.2,7.48,5.3,Kunshan Bridge,3,0,,,0.0,"ins foe,rail,clear1/4",D,N,7,FT
+3,5,2,1.75,,2.86,2.74,Tizmarkus,4,1,,,1.5,"bmp brk,3-4p turn,chsd",D,N,7,FT
+3,2,3,30.56,,,8.9,Smilensaycheese,1,0,,,3.0,"2-4p turn,6p1/4,imprvd",D,N,7,FT
+3,3,4,18.46,,,,Sin Nombre,2,0,,,4.0,"ins turn,2p1/4,mvd out",D,N,7,FT
+3,9,5,2.16,,,,Princip,7,0,,,8.25,"3p trn,5p1/4,no threat",D,N,7,FT
+3,6,6,3.19,,,,Lucky Dude,5,0,,,9.5,"bmp btwn brk,2p turn",D,N,7,FT
+3,7,7,7.74,,,,Screaming Uncle,6,0,,,14.5,"brk in,bmp,out,2p,wknd",D,N,7,FT
+4,6,1,6.92,15.84,7.06,4.28,Chester Boy,6,0,,,0.0,"3w uppr, up, clr, safe",t,M,9,FM
+4,2,2,6.6,,7.28,4.84,Alghero,2,0,,,0.5,"brushed st, mild kick",t,M,9,FM
+4,7,3,7.78,,,5.92,Mount Sopris,7,0,,,1.75,"5w upper, mild bid",t,M,9,FM
+4,8,4,17.32,,,,Minotaur,8,0,,,3.25,"5w upper, kept on",t,M,9,FM
+4,1,5,2.25,,,,Arabian Power,1,1,,,3.75,"stumbled st, wknd late",t,M,9,FM
+4,9,6,5.23,,,,Franklin Delano,9,0,,,4.0,shuffled 2-3w 5/16,t,M,9,FM
+4,5,7,5.0,,,,Asked and Answered,5,0,,,6.0,"6-7w upper, no impact",t,M,9,FM
+4,3,8,22.02,,,,Alley Oop,3,0,,,11.0,"chased 2p, no impact",t,M,9,FM
+4,4,9,10.48,,,,He's a Piper,4,0,,,16.5,"3w 1st turn, tired",t,M,9,FM
+5,13,1,2.31,6.62,4.12,3.28,Extravaganzoo,10,1,,,0.0,"mvd in,2p turn,lead1/4",T,S,10,FM
+5,3,2,3.56,,4.9,3.4,All Star Leigh,3,0,,,3.75,"off slow,ins trn,rally",T,S,10,FM
+5,4,3,3.27,,,2.86,J'ray's Jewel,4,0,,,5.75,"ins-2p turn,3p1/4,chsd",T,S,10,FM
+5,1,4,6.97,,,,Beach Life,1,0,,,7.5,"ins,headed1/4,wknd",T,S,10,FM
+5,7,5,23.9,,,,Sweet Grace,7,0,,,8.5,"ins trn,3p3/16,mvd out",T,S,10,FM
+5,2,6,16.31,,,,Sweet Lisa,2,0,,,8.75,"off bit slow,2p turn",T,S,10,FM
+5,5,7,19.18,,,,Seismic Activity,5,0,,,13.5,"drift out 1/2,4-2p trn",T,S,10,FM
+5,6,8,15.41,,,,I'm Not Kidding,6,0,,,14.25,"3p turn,no response",T,S,10,FM
+5,12,9,11.88,,,,Mc Cruiser,9,0,,,21.0,"out,4p trn,5p1/4,empty",T,S,10,FM
+5,8,10,38.74,,,,Champagne in Paris,8,0,,,42.25,"bore out 13p trn,7p1/4",T,S,10,FM
+6,4,1,1.41,4.82,2.7,2.26,Ati Girl,3,1,,,0.0,"4-5w uppr, edged away",D,S,7,FT
+6,6,2,2.64,,3.08,2.56,Pippa Adds,5,0,,,2.5,"in hand 2p, ran on",D,S,7,FT
+6,5,3,8.2,,,3.6,Moonlit,4,0,,,5.25,"6-7w upper, kept on",D,S,7,FT
+6,7,4,7.37,,,,Jadorlinija,6,0,,,6.0,"6-7w uppr, no headway",D,S,7,FT
+6,2,5,7.45,,,,Prairie Princess,1,0,,,7.0,"chased 3-2w, weakened",D,S,7,FT
+6,3,6,25.01,,,,Full of Tact,2,0,,,8.75,"stumbled st, empty",D,S,7,FT
+6,8,7,7.49,,,,Raghba,7,0,,,8.85,"3w upper, weakened",D,S,7,FT
+7,2,1,2.15,6.3,4.12,3.58,English Law,1,1,,,0.0,"3-4p turns,rallied,up",t,C,10,FM
+7,10,2,10.74,,9.06,5.68,Coach Case,9,0,,,0.5,"ins,wait1/4,paused1/8",t,C,10,FM
+7,11,3,32.87,,,10.74,Chips and Fish,10,0,,,0.6,"out 3path,bid out1/16",t,C,10,FM
+7,4,4,16.0,,,,Blame It On K J,3,0,,,1.6,"2-3p turns,angled out",t,C,10,FM
+7,6,5,2.68,,,,Vintage Vino,5,0,,,2.1,"inside turns,improved",t,C,10,FM
+7,9,6,37.32,,,,Royal Browne,8,0,,,3.35,"head turnd,off bit slw",t,C,10,FM
+7,7,7,4.03,,,,Ciro di Marzio,6,0,,,3.6,"ins,2p3/16,headed1/16",t,C,10,FM
+7,3,8,17.84,,,,Bold Love,2,0,,,6.85,"inside turns,mvd out",t,C,10,FM
+7,8,9,7.39,,,,Sicilian Defense,7,0,,,6.9,"prompt out 2p,tired",t,C,10,FM
+7,5,10,30.06,,,,Take a Stance,4,0,,,9.4,"2-3p,5p1/4,mvd out",t,C,10,FM
+8,6,1,3.06,8.12,5.2,3.32,Max Money,6,0,,,0.0,"in hand 2p, edged clr",D,N,7,FT
+8,1,2,6.28,,6.6,3.58,Into the Light,1,0,,,3.75,"chased 3-2w, ran on",D,N,7,FT
+8,7,3,2.17,,,2.78,Palacios,7,1,,,4.75,"5-4w, bid, kept on",D,N,7,FT
+8,5,4,3.79,,,,Gethsemane,5,0,,,6.5,"5-6w uppr, wknd late",D,N,7,FT
+8,3,5,7.07,,,,Life Is Gravy (IRE),3,0,,,13.5,"chased 2p, tired",D,N,7,FT
+8,2,6,21.6,,,,Swiss Army Knife,2,0,,,13.75,"bumped st, tired",D,N,7,FT
+8,4,7,7.63,,,,Exhibition Only,4,0,,,25.25,"chased 4-3w, faltered",D,N,7,FT
+9,12,1,4.22,10.44,5.38,3.6,Island Charm,12,0,,,0.0,"3p1st,ins2nd,bid1/8",T,M,12,FM
+9,2,2,15.61,,13.94,8.02,Sky Low Low,2,0,,,0.25,"keen,ins-3p,5p1/4,gain",T,M,12,FM
+9,1,3,4.68,,,4.82,Intothewilderness,1,0,,,0.75,"ins turns,mvd out1/8",T,M,12,FM
+9,3,4,13.09,,,,Valiant Diva,3,0,,,1.0,"keen,tkn up3/4,6p1/4",T,M,12,FM
+9,6,5,3.49,,,,Roasted Reds,6,1,,,2.75,"inside,4p3/16,chased",T,M,12,FM
+9,10,6,13.72,,,,Two Clicks,10,0,,,3.25,"bmp early,4p1st,ins2nd",T,M,12,FM
+9,7,7,5.37,,,,Zelena,7,0,,,8.0,"2-3path turns,no rally",T,M,12,FM
+9,5,8,46.53,,,,Ready Rosie Jane,5,0,,,11.0,"very rank 1st,checked",T,M,12,FM
+9,9,9,5.53,,,,Whatta Weekend,9,0,,,11.25,"keen1st,ins-2p,tired",T,M,12,FM
+9,8,10,47.71,,,,Ms Nikki D,8,0,,,11.3,"bmpd early,4-5p turns",T,M,12,FM
+9,4,11,67.39,,,,Tank Girl,4,0,,,17.8,"very rank 1st,checked",T,M,12,FM
+9,11,12,27.34,,,,Mia Sophia,11,0,,,19.8,"2-3path turns,empty",T,M,12,FM
