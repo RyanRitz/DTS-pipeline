@@ -1,0 +1,86 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,10,1,2.63,7.26,4.44,3.44,Muffin Music,8,1,,,0.0,"stalk 3w btw,drove clr",D,C,8,FT
+1,7,2,9.46,,10.54,5.26,Beauxbatons,5,0,,,4.0,"ins,no mtch,lasted plc",D,C,8,FT
+1,8,3,5.48,,,3.48,Getting After It,6,0,,,4.1,"stlk 2p,ran on,mss plc",D,C,8,FT
+1,5,4,3.42,,,,Nut Bush City,4,0,,,10.1,"brsh,4w,mild bid,flatn",D,C,8,FT
+1,3,5,6.44,,,,Justice Prevails,2,0,,,11.6,"3p,btw,improved late",D,C,8,FT
+1,2,6,4.7,,,,Sang,1,0,,,12.1,"off slw/steady,4p,6-7p",D,C,8,FT
+1,9,7,8.1,,,,Nightmare Fuel,7,0,,,12.85,"vied 2w,btw 5/16,faded",D,C,8,FT
+1,4,8,47.6,,,,B D's Angel,3,0,,,17.6,"chased ins,faded turn",D,C,8,FT
+2,4,1,5.03,12.06,5.32,3.32,Summit Ridge,4,0,,,0.0,"2p,bid 3w2nd,drove clr",D,M,5,FT
+2,1,2,14.41,,10.58,4.04,Steel Golden,1,0,,,4.5,"ins pair 2nd, 2nd best",D,M,5,FT
+2,5,3,0.98,,,2.28,Flaming Rainbow,5,1,,,16.0,"3p, moved up",D,M,5,FT
+2,3,4,2.19,,,,Throttle,3,0,,,16.75,"brk thru gt,2w,wkn btw",D,M,5,FT
+2,2,5,5.93,,,,Summer of George,2,0,,,22.5,"inside, outrun",D,M,5,FT
+3,5,1,1.21,4.42,,,Booray,2,0,,,0.0,"brk in,2w,btw,game ins",D,C,3,FT
+3,3,2,2.81,,,,Red Sun,1,0,,,0.25,"forced in,chck,3w,duel",D,C,3,FT
+3,8,3,1.09,,,,Chiqueada,3,1,,,24.75,"brush gate,ins,stopped",D,C,3,FT
+4,5,1,1.36,4.72,2.8,2.64,Dontworryboutnothn,5,1,,,0.0,"ins foe,drew off,lastd",D,M,11,FT
+4,9,2,3.8,,4.86,4.26,Stelvio Pass,9,0,,,0.5,"bump 2x st,4w,rallied",D,M,11,FT
+4,2,3,34.76,,,7.02,Torre Eiffel,2,0,,,5.75,"bmpd btw,2w,rally btw",D,M,11,FT
+4,8,4,7.34,,,,Mizzou,8,0,,,6.0,"bmp st,vied 3-2w,faded",D,M,11,FT
+4,10,5,10.98,,,,Southern Whisper,10,0,,,9.0,"bob/steady st,wllng 7p",D,M,11,FT
+4,6,6,14.94,,,,Lifes Reward,6,0,,,11.75,"2w btw,4-5p upr,no bid",D,M,11,FT
+4,4,7,44.14,,,,A. P. Cloud,4,0,,,12.75,"stalk 3p,chsd,gave way",D,M,11,FT
+4,3,8,8.93,,,,Machado,3,0,,,13.5,"bob/bmpd btw,3p,6p1/4",D,M,11,FT
+4,11,9,61.73,,,,King Lee,11,0,,,17.0,"bumped after start, 5p",D,M,11,FT
+4,7,10,7.92,,,,Harry Houdini,7,0,,,23.5,"vied 2wd btw,wknd 3/8",D,M,11,FT
+4,1,11,64.44,,,,He Has Game,1,0,,,29.0,"chased ins,faded turn",D,M,11,FT
+5,6,1,2.14,6.28,4.26,2.94,Moviestar Handsome,6,1,,,0.0,"prompt 2w,cleared,held",T,S,10,GD
+5,4,2,5.45,,6.64,3.72,Wall Street Mogul,4,0,,,0.75,"tght erly,ins,rally 6p",T,S,10,GD
+5,10,3,4.35,,,3.28,Kelz,10,0,,,2.5,"stalk 3p,4p upr,outkck",T,S,10,GD
+5,7,4,45.72,,,,Still Sober,7,0,,,5.75,"stdy btw erly,ins,wlln",T,S,10,GD
+5,2,5,16.2,,,,Monster Cookie,2,0,,,6.25,"ins winner, gave way",T,S,10,GD
+5,8,6,3.53,,,,Grand Premiere,8,0,,,8.75,"2wd,5p btw upr,no bid",T,S,10,GD
+5,5,7,19.49,,,,New Fund,5,0,,,9.25,"2-3p, wknd 2nd",T,S,10,GD
+5,3,8,68.41,,,,Travertine,3,0,,,10.75,"tracked ins, faded 2nd",T,S,10,GD
+5,1,9,6.25,,,,No Objection,1,0,,,11.25,"stalked ins,faded btwn",T,S,10,GD
+5,9,10,32.24,,,,In the Books,9,0,,,15.25,"off 1/2 step slow,ins",T,S,10,GD
+6,8,1,1.32,4.64,3.02,2.56,Talkin in Cursive,8,1,,,0.0,"stalked 3w,cleared upr",D,R,8,FT
+6,3,2,11.02,,6.8,4.76,Blazing Affair,3,0,,,2.25,"4-5wd,ran on,2nd best",D,R,8,FT
+6,6,3,19.93,,,6.86,Take Me to Londyn,6,0,,,5.0,"bmpd,3-4wd btw,outkck",D,R,8,FT
+6,1,4,3.37,,,,Creative Quality,1,0,,,7.25,"3p,6p upr,moved up",D,R,8,FT
+6,2,5,9.02,,,,Jet Pack,2,0,,,7.5,"ins,3p btw 1/4,no bid",D,R,8,FT
+6,7,6,5.44,,,,Argan,7,0,,,8.25,"vied 2wd btw,gave way",D,R,8,FT
+6,4,7,6.53,,,,Q's Your Mama,4,0,,,16.5,"ins,ins pair 5/16,wknd",D,R,8,FT
+6,5,8,69.89,,,,Joia Rara,5,0,,,29.5,"2wd btwn, done early",D,R,8,FT
+7,6,1,20.99,43.98,16.44,9.16,Revereign,4,0,,,0.0,"4-5w,7p upr,bid,herded",D,S,10,FT
+7,2,2,2.79,,4.7,3.34,Sweet Venture,2,0,,,0.75,"green3/4,4-6p,bid,drft",D,S,10,FT
+7,1,3,10.64,,,7.64,Amoaray,1,0,,,5.75,"ins,rally 3-4w,wllngly",D,S,10,FT
+7,12,4,1.76,,,,Fumed,10,1,,,11.75,"3w,bid,left lead,yield",D,S,10,FT
+7,8,5,5.74,,,,Pardi Vida,6,0,,,20.75,"2wd,vied btwn,gave way",D,S,10,FT
+7,4,6,95.97,,,,Waawaatesi,3,0,,,25.0,"3p, moved up",D,S,10,FT
+7,7,7,6.09,,,,Puunene,5,0,,,25.25,"ins pair trn,faded upr",D,S,10,FT
+7,9,8,43.73,,,,Avie Mo,7,0,,,31.75,"chased 3p-ins,wknd 3/8",D,S,10,FT
+7,10,9,9.51,,,,Enchanted Life,8,0,,,45.0,"4-2wd btwn,faded turn",D,S,10,FT
+7,11,10,59.41,,,,Moirai,9,0,,,45.05,"bump st,4p,faded,eased",D,S,10,FT
+8,8,1,11.56,25.12,9.86,9.14,Zakinthos,7,0,,,0.0,"ins-2p,drew off,drivng",D,A,11,FT
+8,12,2,4.04,,5.72,4.54,Gypsy Art,11,0,,,8.25,"4-5p,ran on,edge place",D,A,11,FT
+8,11,3,55.42,,,18.38,Livehappy,10,0,,,8.75,"prss 4-3p,no match,yld",D,A,11,FT
+8,6,4,12.46,,,,Atlal,5,0,,,9.75,"bump st,ins,4p btw 1/4",D,A,11,FT
+8,7,5,2.62,,,,Red Square,6,1,,,10.75,"bump st,2w,no thrt btw",D,A,11,FT
+8,9,6,49.93,,,,Ghost Tales,8,0,,,11.0,"chsd 2w,fade btw 4w1/4",D,A,11,FT
+8,10,7,11.39,,,,Stunning,9,0,,,11.5,"prmpt 2w-3pbtw,gave wy",D,A,11,FT
+8,4,8,3.33,,,,Beautiful War,3,0,,,12.75,"bump after st,svd grnd",D,A,11,FT
+8,5,9,8.76,,,,Assertiveness,4,0,,,14.5,"chased inside, faded",D,A,11,FT
+8,3,10,9.22,,,,Expressway,2,0,,,17.5,"bump after start, 4p",D,A,11,FT
+8,2,11,73.0,,,,Stashu,1,0,,,29.75,"ins,3p turn,outrun",D,A,11,FT
+9,7,1,14.64,31.28,16.12,9.84,Towner Too,7,0,,,0.0,"stalk 4p,bid 5p1/4,hld",D,C,10,FT
+9,9,2,18.1,,15.92,9.08,Shan,8,0,,,0.5,"5-4p,6p upr,rallied",D,C,10,FT
+9,11,3,6.52,,,5.34,Executive Chef,10,0,,,0.55,"6-5p,7p1/4,rallied btw",D,C,10,FT
+9,10,4,5.98,,,,Mena,9,0,,,0.65,"4p,8p upr,rlly,mss shw",D,C,10,FT
+9,2,5,5.67,,,,Tagliatelle,2,0,,,1.15,"track 3-4p,ran on btwn",D,C,10,FT
+9,4,6,4.41,,,,Bourbon's Fault,4,0,,,1.9,"2p,chs 3p btw1/8,nobid",D,C,10,FT
+9,5,7,11.55,,,,Mitty's Griddy,5,0,,,2.4,"2w-3p,bid btw,yielded",D,C,10,FT
+9,3,8,6.65,,,,Shadow Coast,3,0,,,3.4,"ins,headd 5/16,gave wy",D,C,10,FT
+9,6,9,21.5,,,,Sambalover,6,0,,,9.9,"saved ground, no avail",D,C,10,FT
+9,1,10,3.78,,,,Tuskegee Airmen,1,1,,,11.4,"trailed 2p, outrun",D,C,10,FT
+10,5,1,4.62,11.24,5.92,3.58,Okefenokee,3,0,,,0.0,"ins,4w5/16,drew clear",D,S,9,FT
+10,9,2,6.51,,7.98,4.74,Ryu,7,0,,,2.75,"track 4-3p,5p2nd,rally",D,S,9,FT
+10,4,3,2.67,,,2.92,Puteketeke,2,1,,,6.5,"ins,headd 3/16,gave wy",D,S,9,FT
+10,3,4,3.91,,,,Cash Alley,1,0,,,8.5,"ins,bid 2wbtw2nd,yield",D,S,9,FT
+10,11,5,21.86,,,,Unique Performance,9,0,,,8.75,"4p,willingly,miss 4th",D,S,9,FT
+10,10,6,9.94,,,,Provider,8,0,,,13.0,"5-4p,3p-ins,no menace",D,S,9,FT
+10,6,7,17.96,,,,Delancey Street,4,0,,,15.5,"press 2w-3p,faded btwn",D,S,9,FT
+10,7,8,10.72,,,,Transformative,5,0,,,19.25,"2p, no impact",D,S,9,FT
+10,8,9,6.63,,,,Tend to You,6,0,,,38.25,"2wd btwn, done early",D,S,9,FT

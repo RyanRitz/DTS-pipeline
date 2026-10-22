@@ -1,0 +1,95 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,8,1,1.17,4.34,3.12,2.72,Trouble Time,7,1,,,0.0,"pace,roused,drew clear",D,C,10,FT
+1,11,2,23.75,,12.64,7.02,Keepinitreal,10,0,,,4.0,"chased, ran on late",D,C,10,FT
+1,7,3,10.41,,,5.34,L Rankin,6,0,,,4.05,"angled 5wd, rallied",D,C,10,FT
+1,1,4,35.13,,,,Dispersion,1,0,,,4.55,closed willingly 8wd,D,C,10,FT
+1,9,5,3.24,,,,Heartily,8,0,,,5.05,"std'd early, 4wd bid",D,C,10,FT
+1,4,6,18.98,,,,Our Standard,3,0,,,5.3,"rail trip, mild rally",D,C,10,FT
+1,10,7,43.65,,,,Knick the Quick,9,0,,,9.3,"chased for 1/2, faded",D,C,10,FT
+1,6,8,6.1,,,,Strummin,5,0,,,12.3,"rail bid, no rally",D,C,10,FT
+1,3,9,46.91,,,,Essential Wild Cat,2,0,,,14.05,"away awkwardly, no bid",D,C,10,FT
+1,5,10,8.56,,,,Hodl Hard,4,0,,,14.1,stumbled badly start,D,C,10,FT
+2,8,1,4.69,11.38,6.44,4.6,Dream Wave,7,0,,,0.0,"bmp'd st, 6wd in time",D,M,11,FT
+2,14,2,11.28,,10.18,6.14,J Z's Not Again,11,0,,,0.05,"chased,led,caught",D,M,11,FT
+2,7,3,2.78,,,3.36,Queens Ambition,6,1,,,2.3,"pinballed st, pressed",D,M,11,FT
+2,4,4,9.28,,,,Ardennes,3,0,,,4.8,"std'd 3/8, gaining 6wd",D,M,11,FT
+2,3,5,4.78,,,,Absolute Lea W,2,0,,,5.3,"dropped back, came on",D,M,11,FT
+2,13,6,24.73,,,,Mussume,10,0,,,8.8,got loose post parade,D,M,11,FT
+2,5,7,9.57,,,,Puzzled,4,0,,,14.05,"hustled,pace,gave way",D,M,11,FT
+2,1,8,11.95,,,,Ginger Money,1,0,,,15.55,"stmbl'd st, no bid 5wd",D,M,11,FT
+2,6,9,7.45,,,,Bellacielo,5,0,,,15.8,"bmp'd st,chased,faded",D,M,11,FT
+2,9,10,29.37,,,,Avos Rose,8,0,,,26.8,"stmbl'd st, 5wd trip",D,M,11,FT
+2,11,11,25.6,,,,Epiphany,9,0,,,33.05,"tucked in, no factor",D,M,11,FT
+3,8,1,3.97,9.94,5.92,3.36,Swirvin,8,0,,,0.0,"pace,all out,prevailed",D,R,9,FT
+3,2,2,6.88,,6.52,3.64,Dr. Storm,2,0,,,0.05,"full of run 8wd,missed",D,R,9,FT
+3,7,3,2.55,,,2.88,Dancin for Gold,7,1,,,1.8,"4wd trip, ran on late",D,R,9,FT
+3,6,4,4.43,,,,Lord Majesty,6,0,,,1.85,"rail bid, mild rally",D,R,9,FT
+3,4,5,14.14,,,,Doctor Jeff,4,0,,,2.85,"steadied early,6wd bid",D,R,9,FT
+3,9,6,10.19,,,,Halfway Joking,9,0,,,2.95,"loomed 1/4, faltered",D,R,9,FT
+3,5,7,5.79,,,,Nation,5,0,,,9.45,"sqz'd early, 5wd bid",D,R,9,FT
+3,1,8,34.92,,,,El Dandi,1,0,,,14.2,"brief foot, faded",D,R,9,FT
+3,3,9,14.06,,,,King Apollo,3,0,,,17.95,"tucked in, no response",D,R,9,FT
+4,15,1,9.78,21.56,10.98,8.56,Breezy,10,0,,,0.0,rallied in time 6wd,D,S,10,FT
+4,12,2,30.71,,21.94,13.8,Rosabella Gold,9,0,,,2.25,"pressed,bid,2nd best",D,S,10,FT
+4,6,3,4.73,,,5.48,Gray Eminence,5,0,,,3.75,"pace, all out, ran on",D,S,10,FT
+4,10,4,10.58,,,,Ultraviolet,7,0,,,3.8,"chased 4wd, rallied",D,S,10,FT
+4,1,5,6.68,,,,Toco Dancer,1,0,,,5.05,"chased, gave way late",D,S,10,FT
+4,3,6,1.92,,,,Candy Pancakes,3,1,,,9.05,"tight hld,chased,faded",D,S,10,FT
+4,11,7,33.18,,,,Woodmere,8,0,,,11.8,"carried out 7/8,evenly",D,S,10,FT
+4,5,8,4.87,,,,Delightful Diva,4,0,,,15.55,"off slowly, no factor",D,S,10,FT
+4,2,9,15.35,,,,Speedbird,2,0,,,25.3,"rail trip,urged,no bid",D,S,10,FT
+4,8,10,12.59,,,,Nuccia,6,0,,,32.05,"steadied 7/8,no factor",D,S,10,FT
+5,8,1,8.2,18.4,9.04,6.04,Rockies Balboa,8,0,,,0.0,"stalked,led,held sway",D,AO,10,FT
+5,3,2,4.04,,5.66,3.98,Creole Chrome,3,0,,,1.0,"tight hold 1/2,rallied",D,AO,10,FT
+5,5,3,5.9,,,4.52,Classic Time,5,0,,,2.5,"pace,headed,ran on",D,AO,10,FT
+5,7,4,22.81,,,,Market Street,7,0,,,2.75,"shut off strt,gaining",D,AO,10,FT
+5,10,5,6.9,,,,Ship Ship Hooray,10,0,,,2.85,"asked btwn, mild rally",D,AO,10,FT
+5,2,6,3.55,,,,Jefferson Street,2,1,,,4.1,"sqz'd st, mild rally",D,AO,10,FT
+5,1,7,9.37,,,,Camp Hale,1,0,,,4.85,"6wd bid, faltered",D,AO,10,FT
+5,9,8,5.92,,,,Great White,9,0,,,5.6,"7wd 1/4, lugged in",D,AO,10,FT
+5,6,9,21.01,,,,Raymond,6,0,,,8.35,"shut off, steadied 1/2",D,AO,10,FT
+5,4,10,14.54,,,,Track Phantom,4,0,,,18.35,"pressed pace, faded",D,AO,10,FT
+6,3,1,3.01,8.02,4.78,3.66,Decimation,3,0,,,0.0,"loomed 3/8, drew away",D,S,11,FT
+6,1,2,13.71,,12.56,7.86,Brazen Caine,1,0,,,7.0,rallied late rail,D,S,11,FT
+6,11,3,2.99,,,3.64,Capitola,10,1,,,7.5,"split horses, rallied",D,S,11,FT
+6,12,4,9.36,,,,Fair Chase,11,0,,,7.75,"lugged in, late gain",D,S,11,FT
+6,2,5,20.81,,,,Midnight Rumble,2,0,,,12.75,"split horses, mild bid",D,S,11,FT
+6,6,6,20.71,,,,Dr. Bob,6,0,,,14.0,"sqz'd start, some run",D,S,11,FT
+6,7,7,20.01,,,,Outlaw Joe,7,0,,,14.5,"sqz'd st, 8wd rally",D,S,11,FT
+6,10,8,9.48,,,,Accelerator,9,0,,,14.75,"off slow, urged 3/8",D,S,11,FT
+6,4,9,30.91,,,,Goshawk,4,0,,,17.0,"stmbl'd st, 7wd bid",D,S,11,FT
+6,8,10,38.33,,,,Big City Steve,8,0,,,17.5,"rail trip, no factor",D,S,11,FT
+6,5,11,3.25,,,,Start the Party,5,0,,,34.25,"rushed, pace, empty",D,S,11,FT
+7,6,1,24.12,50.24,14.52,6.8,Dr. Kapur,5,0,,,0.0,4wd rally in time,D,G3,10,FT
+7,3,2,6.24,,6.54,3.76,Chief Wallabee,2,0,,,0.25,"led late, caught",D,G3,10,FT
+7,11,3,2.65,,,3.26,Obliteration,9,0,,,0.3,"all out 5wd, missed",D,G3,10,FT
+7,4,4,7.96,,,,Roscoe's Brother,3,0,,,1.8,"pace, clear, faded",D,G3,10,FT
+7,5,5,69.63,,,,American Man,4,0,,,3.3,"pressed, some run late",D,G3,10,FT
+7,12,6,0.95,,,,Deep Flame,10,1,,,7.05,"5wd trip,flattened out",D,G3,10,FT
+7,7,7,106.33,,,,Mo Koko,6,0,,,7.55,"chased 4wd, gave way",D,G3,10,FT
+7,9,8,92.63,,,,Street Beast,8,0,,,12.05,"bmp'd start, steadied",D,G3,10,FT
+7,1,9,12.47,,,,Solitude Dude,1,0,,,13.55,"brief foot rail, faded",D,G3,10,FT
+7,8,10,113.6,,,,I C Light,7,0,,,32.55,"bmp'd st, chased 5wd",D,G3,10,FT
+8,1,1,2.22,6.44,2.84,2.4,Caviar Breakfast,1,0,,,0.0,"waited, late rally 5wd",D,A,5,FT
+8,3,2,0.93,,2.42,2.1,Hear the Queen,2,1,,,0.25,"4wd trip, led, caught",D,A,5,FT
+8,6,3,7.35,,,3.26,Dare to Fly,4,0,,,3.5,"set pace, no match",D,A,5,FT
+8,4,4,5.3,,,,For Love and Honor,3,0,,,19.25,"off rail, no rally 5wd",D,A,5,FT
+8,9,5,10.7,,,,Buttons and Lace,5,0,,,23.5,"chased pace, faded",D,A,5,FT
+9,11,1,3.92,9.84,5.56,4.48,Movie Night,10,0,,,0.0,"chased 4wd, drew clear",D,G2,11,FT
+9,2,2,33.92,,25.46,16.22,Mythical,2,0,,,2.0,"pace, all out,held 2nd",D,G2,11,FT
+9,1,3,51.02,,,13.14,Army's Marauder,1,0,,,3.0,"rail trip, ran on late",D,G2,11,FT
+9,8,4,3.46,,,,Conceit,7,0,,,4.25,"waited, split, rallied",D,G2,11,FT
+9,9,5,2.36,,,,Mashallah,8,1,,,4.75,stumbled badly start,D,G2,11,FT
+9,12,6,13.63,,,,Star Actress,11,0,,,6.5,"6wd trip, faltered",D,G2,11,FT
+9,10,7,9.15,,,,With a Kiss,9,0,,,6.75,"steadied 5/8, some run",D,G2,11,FT
+9,7,8,21.09,,,,A Fine Chardonnay,6,0,,,10.25,"bmp'd start, 7wd move",D,G2,11,FT
+9,6,9,4.84,,,,Percy's Bar,5,0,,,11.75,"bmp'd st, lacked room",D,G2,11,FT
+9,3,10,42.45,,,,Hen Party,3,0,,,13.25,"chased for 1/2, faded",D,G2,11,FT
+9,4,11,82.49,,,,Coco Connect,4,0,,,21.5,"urged 1/2, empty",D,G2,11,FT
+10,9,1,3.66,9.32,4.42,3.02,Paris Twilight,5,0,,,0.0,"6wd rally, drew clear",D,A,7,FT
+10,10,2,6.76,,7.02,3.88,Windy Houston,6,0,,,2.75,"pressed, held place",D,A,7,FT
+10,6,3,4.52,,,4.42,Ms. Jay Dee Em,2,0,,,3.5,"pace, headed, ran on",D,A,7,FT
+10,4,4,3.05,,,,Petronella,1,0,,,5.75,"steadied 5/8,belatedly",D,A,7,FT
+10,11,5,2.65,,,,Shirley Ann,7,1,,,11.75,"chased 4wd, gave way",D,A,7,FT
+10,8,6,10.71,,,,Elite,4,0,,,24.0,"stumbled st, no rally",D,A,7,FT
+10,7,7,15.54,,,,Zoe's Prime,3,0,,,31.5,"brief foot, faded",D,A,7,FT

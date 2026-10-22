@@ -1,0 +1,80 @@
+race,program,finish,final_odds,win_payout,place_payout,show_payout,horse_name,post,favorite,dq,dq_placing,beaten_lengths,trip_comment,surface,race_type,field_size,track_cond
+1,2,1,3.85,9.7,5.66,4.02,Miss Enchanted,2,0,,,0.0,"pace,pressed,held sway",D,C,7,FT
+1,6,2,16.21,,13.98,7.62,Bolt Dior,6,0,,,1.75,"angled 4wd, rallied",D,C,7,FT
+1,4,3,14.13,,,6.26,Tizianna,4,0,,,3.0,closed willingly 5wd,D,C,7,FT
+1,7,4,1.02,,,,Carol's Melody,7,1,,,4.25,"chased 5wd, faltered",D,C,7,FT
+1,5,5,7.52,,,,No What Ifs,5,0,,,17.0,"asked 3/8, no response",D,C,7,FT
+1,1,6,8.1,,,,Turkish Pistachio,1,0,,,17.25,"pressed rail, faded",D,C,7,FT
+1,3,7,6.18,,,,Alta Avenue,3,0,,,23.5,"squeezed st, no rally",D,C,7,FT
+2,9,1,4.02,10.04,4.58,3.82,Spun Up,8,0,,,0.0,"chased 4wd, drew clear",D,C,9,FT
+2,8,2,2.26,,4.06,3.2,Song of Songs,7,1,,,3.0,"steadied 7/8, gaining",D,C,9,FT
+2,2,3,6.76,,,4.0,Flirtin Again,2,0,,,6.75,"stmbl'd st, late bid",D,C,9,FT
+2,7,4,6.03,,,,Parking Lot Pours,6,0,,,6.85,"5wd trip, mild rally",D,C,9,FT
+2,4,5,22.97,,,,Tiz Salty,3,0,,,10.6,"no speed,belatedly 8wd",D,C,9,FT
+2,10,6,27.1,,,,Morgs World,9,0,,,12.35,"angled 6wd, no rally",D,C,9,FT
+2,1,7,52.05,,,,Wildest Problem,1,0,,,14.35,"stalked, gave way",D,C,9,FT
+2,6,8,15.08,,,,Richiesgoldengirl,5,0,,,17.35,"pace, headed, faded",D,C,9,FT
+2,5,9,2.91,,,,Wild Acclaim,4,0,,,99.99,"clipped heels 5/8,fell",D,C,9,FT
+3,6,1,36.0,74.0,24.04,11.36,Pappy's Revenge,6,0,,,0.0,"stalked, responded",D,C,9,FT
+3,2,2,2.7,,5.9,4.6,Brigadier General,2,0,,,0.75,"tight hold, late rally",D,C,9,FT
+3,7,3,10.03,,,5.66,Hurry Hurry,7,0,,,1.75,"off slowly, 5wd trip",D,C,9,FT
+3,8,4,4.66,,,,Company You Keep,8,0,,,2.25,"bid, lugged out,ran on",D,C,9,FT
+3,3,5,14.24,,,,Single Dot Yaht,3,0,,,3.0,"angled 5wd, belatedly",D,C,9,FT
+3,1,6,3.91,,,,Bestfriend Rocket,1,0,,,6.5,"urged 3/8, evenly",D,C,9,FT
+3,10,7,56.26,,,,Magic Grant,9,0,,,6.75,"asked 3/8, no response",D,C,9,FT
+3,4,8,2.1,,,,Excel Calculator,4,1,,,7.0,"7wd bid, flattened out",D,C,9,FT
+3,5,9,52.8,,,,Here Comes Braylon,5,0,,,40.0,"pace, headed, faded",D,C,9,FT
+4,4,1,2.25,6.5,3.74,3.28,Smart N Centsible,4,1,,,0.0,"bmp'd st, pace, clear",D,M,7,FT
+4,8,2,2.99,,4.44,2.76,Informer,7,0,,,3.0,"stalked pace, 2nd best",D,M,7,FT
+4,1,3,2.73,,,2.78,Lindenborg,1,0,,,5.5,"altered 6wd,late rally",D,M,7,FT
+4,2,4,11.87,,,,Munningsredprince,2,0,,,6.0,"urged 3/8, mild rally",D,M,7,FT
+4,3,5,7.58,,,,Lookism,3,0,,,12.5,"bmp'd st, rail, faded",D,M,7,FT
+4,7,6,6.24,,,,Croatoan,6,0,,,14.0,"lugged in, no rally",D,M,7,FT
+4,6,7,29.44,,,,Prairie Avenue,5,0,,,21.75,"away awkward, 5wd trip",D,M,7,FT
+5,1,1,1.27,4.54,3.08,2.38,Johny's Rendezvous,1,1,,,0.0,"stmbl'd st, came again",D,A,6,FT
+5,5,2,6.21,,5.34,3.2,Judge Davis,3,0,,,3.25,"loomed 6wd, 2nd best",D,A,6,FT
+5,9,3,2.5,,,2.62,Mesero,5,0,,,4.75,"tight hold,gaining 5wd",D,A,6,FT
+5,8,4,11.05,,,,Pierre,4,0,,,6.0,"6wd bid, mild rally",D,A,6,FT
+5,4,5,9.51,,,,Papa Golf,2,0,,,6.25,"battled 5wd, gave way",D,A,6,FT
+5,10,6,5.74,,,,Covert Law,6,0,,,12.0,"stalked, led, faded",D,A,6,FT
+6,10,1,1.96,5.92,3.56,2.96,Appeals to Me,9,1,,,0.0,"asked 6wd, responded",D,S,10,FT
+6,9,2,11.14,,10.78,7.3,America Votes,8,0,,,5.25,battled back for 2nd,D,S,10,FT
+6,11,3,15.72,,,6.86,Topeka,10,0,,,5.75,"4wd bid, ran on late",D,S,10,FT
+6,4,4,9.52,,,,Skindred Spirit,3,0,,,14.0,"split horses,belatedly",D,S,10,FT
+6,3,5,26.46,,,,Bourbon O'Clock,2,0,,,15.0,"asked rail, mild rally",D,S,10,FT
+6,8,6,6.75,,,,Blazing Sunset,7,0,,,17.75,"4wd bid, faltered",D,S,10,FT
+6,6,7,12.73,,,,Ms Candice,5,0,,,18.5,avoided kickback 5/8,D,S,10,FT
+6,7,8,4.12,,,,First Look,6,0,,,19.25,"pressed pace, gave way",D,S,10,FT
+6,2,9,5.41,,,,Georgy Girl,1,0,,,20.25,"rail trip, no factor",D,S,10,FT
+6,5,10,36.0,,,,Ali Darling,4,0,,,24.75,"pace, pressed, faded",D,S,10,FT
+7,2,1,14.7,31.4,11.88,7.46,Malibu Smart,2,0,,,0.0,"tight hold, rail rally",T,G3,11,GD
+7,5,2,3.41,,5.16,3.72,Fionn,5,0,,,1.75,rallied late 6 wide,T,G3,11,GD
+7,9,3,3.3,,,3.52,Speed Shopper,9,1,,,3.0,"loomed 1/2, late gain",T,G3,11,GD
+7,1,4,27.36,,,,Massarat,1,0,,,3.5,"asked 3/8, late rally",T,G3,11,GD
+7,10,5,8.31,,,,Somethinabouther,10,0,,,5.75,"4wd bid, outfinished",T,G3,11,GD
+7,8,6,6.92,,,,Golden Sunshine,8,0,,,11.25,"6wd bid, faltered",T,G3,11,GD
+7,6,7,16.96,,,,Snipsnippitysnip,6,0,,,13.75,"asked 5wd, no rally",T,G3,11,GD
+7,3,8,67.39,,,,Sky Low Low,3,0,,,15.0,"stumbled st, rail trip",T,G3,11,GD
+7,12,9,12.25,,,,Modarosa,11,0,,,15.75,"pace, headed, faded",T,G3,11,GD
+7,4,10,3.32,,,,Pretty Tapit,4,0,,,21.75,"stalked pace, empty",T,G3,11,GD
+7,7,11,43.72,,,,Poppy the Princess,7,0,,,43.5,"rail trip, no threat",T,G3,11,GD
+8,9,1,7.41,16.82,8.86,5.92,Mandy's Man Can,9,0,,,0.0,"pressed, led,held sway",D,C,10,FT
+8,10,2,6.68,,7.14,5.04,Rocky Raccoon,10,0,,,1.25,"loomed 1/4, ran on",D,C,10,FT
+8,7,3,8.53,,,6.26,Antrax,7,0,,,1.5,"rail bid, late gain",D,C,10,FT
+8,6,4,8.2,,,,Kid Twist,6,0,,,2.5,"squeezed st, 6wd bid",D,C,10,FT
+8,3,5,5.58,,,,Grande Sorpreso,3,0,,,4.75,"chased btwn, evenly",D,C,10,FT
+8,8,6,13.48,,,,Equilibrium,8,0,,,5.75,"tucked in, no rally",D,C,10,FT
+8,4,7,6.47,,,,Big Boy Thunder,4,0,,,5.8,"asked rail,no response",D,C,10,FT
+8,1,8,33.57,,,,Love in Lights (GB),1,0,,,11.3,"off slow, 6wd, no bid",D,C,10,FT
+8,5,9,10.52,,,,Intuitive Wisdom,5,0,,,29.8,"brief foot, faded",D,C,10,FT
+8,2,10,2.88,,,,Ring Curl,2,1,,,69.8,"eased, walked off",D,C,10,FT
+9,13,1,2.16,6.32,4.2,3.56,Arrival Time,9,1,,,0.0,"stalked, drew clear",D,S,10,FT
+9,2,2,8.3,,7.94,5.8,Sagamore,2,0,,,3.0,"ducked out 1/4,rallied",D,S,10,FT
+9,14,3,13.32,,,6.46,Platinum Power,10,0,,,3.05,"chased 4wd, caught",D,S,10,FT
+9,7,4,5.52,,,,Rivelli,6,0,,,4.05,"altered 1/4,late rally",D,S,10,FT
+9,5,5,6.07,,,,Epic Roll,4,0,,,4.8,"asked 5wd, ran on late",D,S,10,FT
+9,6,6,11.81,,,,Which One,5,0,,,7.05,"off slow, took up 1/4",D,S,10,FT
+9,3,7,36.57,,,,Midway Gold,3,0,,,15.8,"off slow, some run",D,S,10,FT
+9,11,8,3.32,,,,Bold Speaker,8,0,,,16.8,"urged 1/2, empty",D,S,10,FT
+9,8,9,26.28,,,,Eight Hundred,7,0,,,20.55,"pace,brief foot,faded",D,S,10,FT
+9,1,10,32.16,,,,Noe Standard Risk,1,0,,,22.55,"rail trip, no factor",D,S,10,FT
