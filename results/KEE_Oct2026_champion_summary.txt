@@ -1,0 +1,49 @@
+KEE: 17 cards, 140 in-scope races, 1224 runners  (all logged: 161 races)
+
+== Headline ==            Champion   Market  ML-only
+log-loss/runner           0.3217   0.3032   0.3150
+winners in top-50% mass   79/140 (56%)
+winners in pos. top half  109/140
+top pick wins             42/140 (30%)   favorite wins ?/140
+sum p vs winners          140.2 vs 140
+
+== Gold (edge>=1.5 vs ML adj, top-50% mass) ==
+             plays wins mod-exp mkt-exp  $2 ROI   CLV avg ML avg fin
+  all         138   23    32.5    22.9   -26.8%  1.66    9.4     5.9
+  dirt         45    6    10.2     7.6   -49.1%  1.55    9.5     5.5
+  turf         28    8     6.3     4.6    34.8%  1.52    9.7     5.3
+  maiden       65    9    16.0    10.7   -37.9%  1.79    9.2     6.4
+  rank1        61   17    18.8    13.7    -6.9%  1.54    6.5     3.5
+  rank2        46    2     9.4     6.3   -76.5%  1.75   10.3     6.4
+  rank3+       31    4     4.3     2.9     7.7%  1.74   13.9     9.8
+  month 10    138   23    32.5    22.9   -26.8%  1.66    9.4     5.9
+
+== Validation bet (top-50% mass, >=25% over FINAL) ==
+  all         156   18    35.0    20.9   -38.8%  1.80    8.3     6.7
+  dirt         57    6    12.7     7.9   -44.8%  1.71    7.4     6.1
+  turf         35    5     7.8     4.8   -18.5%  1.69    8.3     6.1
+  maiden       64    7    14.6     8.3   -44.6%  1.94    9.0     7.6
+
+== Calibration ==
+   band      n  model  actual  market
+    0- 10%   696    5.2%    5.5%    6.2%
+   10- 20%   323   14.2%   14.6%   14.0%
+   20- 30%   137   24.2%   22.6%   21.9%
+   30- 40%    53   34.3%   35.8%   30.0%
+   40-100%    15   44.1%   40.0%   39.2%
+
+== By rank ==
+  rank    n  wins  mod-exp  mkt-exp   ROI
+     1  140    42     42.0     37.1   -8.2%
+     2  140    22     27.8     25.3  -37.2%
+     3  140    24     20.5     20.5   -1.4%
+  4+    804    53     49.8     57.1  -38.7%
+
+== By segment (log-loss, top pick, containment) ==
+  dirt      61 races  LL 0.3569 vs mkt 0.3392   top pick 19/61   top-50% 34/61
+  turf      28 races  LL 0.2922 vs mkt 0.2841   top pick 8/28   top-50% 17/28
+  maiden    51 races  LL 0.3035 vs mkt 0.2785   top pick 15/51   top-50% 28/51
+
+== Multi-race, cum-50% legs, in-scope consecutive, chart payoffs ==
+  Daily Double  117 tix  38 hits ( 32%)  mkt-exp  33.3  avg combos   6.9  cost $   809  return $   885  ROI    +9%
+  Pick Three     98 tix  18 hits ( 18%)  mkt-exp  14.9  avg combos  17.6  cost $  2126  return $  4954  ROI  +133%
