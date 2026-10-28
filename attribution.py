@@ -466,6 +466,8 @@ OCT26_GROUPS = {
     "iltrwps_s26":        "class",     # lifetime WPS %, indexed; HIGHER = better
     "xLTrecWPSpct_d12":   "class",     # lifetime WPS % (x, clip +/-.25); HIGHER = better
     "ltwpstr_dmrm":       "class",     # lifetime WPS % at today's track (x, clip +/-.3); HIGHER = better
+    "xWatTT26":           "class",     # lifetime WINS at today's track (x, clip +/-2; graded dirt cell); HIGHER = better
+    "IEarningsPYRKOct26": "class",     # previous-year earnings, indexed (cap 3.5; graded dirt cell); HIGHER = better
     "lrclass1_alt":       "class",     # BRIS speed par for class level, last race (x, +/-5); HIGHER = ran at higher class (better)
     "lrclass1_kmr26":     "class",     # BRIS speed par for class level, last race (x, -8..2); HIGHER = higher class (better)
     "lrclass1_kot26":     "class",     # BRIS speed par for class level, last race (x, -6..5); HIGHER = higher class (better)
@@ -495,6 +497,7 @@ OCT26_GROUPS = {
     "lp1_nc":             "pace",      # BRIS late-pace fig last race (x, miss->5); HIGHER = stronger finish (better)
     "lp3_kot26":          "pace",      # avg BRIS late-pace fig last 3 (x, clip +/-20); HIGHER = stronger finish (better)
     "latepace_avg2":      "pace",      # avg BRIS late-pace fig last 2 (x); HIGHER = stronger finish (better)
+    "latepace_avg3":      "pace",      # avg BRIS late-pace fig last 3 (x; graded dirt cell); HIGHER = stronger finish (better)
     "latepacec_dmrt26":   "pace",      # latepace_avg2 clipped -6..7; HIGHER = stronger finish (better)
 
     # ---------------- works ----------------
@@ -614,7 +617,7 @@ _OCT26_SYN_NEW = {
     "TwoF_sarm": _OCT26_EARLY, "bris2f12": _OCT26_EARLY, "pace4f_dmrt26": _OCT26_EARLY,
     "pace4f_kmd26": _OCT26_EARLY, "qsp_dmrd26": _OCT26_EARLY,
     "lp1_kot26": _OCT26_LATE, "lp1_nc": _OCT26_LATE, "lp3_kot26": _OCT26_LATE,
-    "latepace_avg2": _OCT26_LATE, "latepacec_dmrt26": _OCT26_LATE,
+    "latepace_avg2": _OCT26_LATE, "latepacec_dmrt26": _OCT26_LATE, "latepace_avg3": _OCT26_LATE,
     "TopTrnStatWpct": _OCT26_TRN_ANGLE, "xKSwpct1_kmd26": _OCT26_TRN_ANGLE,
     "xKSwpct1_msp26": _OCT26_TRN_ANGLE, "xKSwins1KMd26": _OCT26_TRN_ANGLE,
     "xKSwins1KOct26": _OCT26_TRN_ANGLE, "xKSitm1_kmd26": _OCT26_TRN_ANGLE,
@@ -644,6 +647,12 @@ _OCT26_SYN_NEW = {
     "ltwpstr_dmrm": (
         ["Earns well at this track", "Likes this oval", "Track record is a plus"],
         ["Hasn't earned at this track", "This oval hasn't been kind", "Track record is light"]),
+    "xWatTT26": (
+        ["Has won over this track", "Proven winner at this oval", "Knows the way home here"],
+        ["Yet to win over this track", "No wins at this oval", "Hasn't broken through here"]),
+    "IEarningsPYRKOct26": (
+        ["Big earner last year", "Banked plenty last season", "Last year's earnings stand out"],
+        ["Light earnings last year", "Quiet season at the windows last year", "Didn't earn much last year"]),
     "xinfortag26": (
         ["Placed right for the tag", "Spot looks right on the class ladder", "Well-spotted by the barn"],
         ["Class spot is a question", "Placement raises an eyebrow", "Level looks like a tough ask"]),
@@ -788,6 +797,13 @@ MAIDEN_BUCKET_WEIGHTS = {"score1": 0.50, "score2": 0.25, "score3": 0.25}
 def _is_oct26_maiden(config) -> bool:
     """KEE Fall-2026 maiden family (dispatched in score.py by '1026' filenames)."""
     return any("1026" in str(f) for f in getattr(config, "MAIDEN_MODELS", {}).values())
+
+
+def _is_oct26_dirt_graded(config) -> bool:
+    """KEE Fall-2026 dirt family WITH the graded cell (score._score_dirt_oct26,
+    2026-10-27): graded races blend 0.7*g + 0.3*mean(core, c|n, s|r)."""
+    dm = getattr(config, "DIRT_MODELS", {}) or {}
+    return "g" in dm and any("102026" in str(f) for f in dm.values())
 
 
 def _is_oct26_turf(config) -> bool:
@@ -950,6 +966,7 @@ def add_attributions(
     # fired cell. SAR = 3-suite MAIDEN_ENSEMBLE (pred_m_*); KEE = legacy.
     maiden_plan = _maiden_plan(config)
     turf_oct26 = _is_oct26_turf(config)
+    dirt_oct26_graded = _is_oct26_dirt_graded(config)
 
     # Track synonym usage across the whole card (like and fade separately)
     like_usage: dict[str, int] = {}
@@ -972,7 +989,8 @@ def add_attributions(
             if not sub_coefs:
                 continue
             attributions = _compute_attributions(rg, model_id, sub_coefs, maiden_plan,
-                                                 turf_oct26=turf_oct26)
+                                                 turf_oct26=turf_oct26,
+                                                 dirt_oct26_graded=dirt_oct26_graded)
             pool_map = None
 
         if not attributions:
@@ -1186,7 +1204,7 @@ def _load_coefficient_sets(config, coeff_dir: Path, available_columns) -> dict:
 # ---------------------------------------------------------------------------
 
 def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None,
-                          turf_oct26=False):
+                          turf_oct26=False, dirt_oct26_graded=False):
     """
     Compute per-horse relative feature contributions for one race.
 
@@ -1224,7 +1242,8 @@ def _compute_attributions(race_df, model_id, sub_coefs, maiden_plan=None,
     for idx in race_df.index:
         row = race_df.loc[idx]
         contrib_rows[idx] = _blend_contribution(
-            row, model_id, sub_coefs, all_feats, maiden_plan, turf_oct26
+            row, model_id, sub_coefs, all_feats, maiden_plan, turf_oct26,
+            dirt_oct26_graded=dirt_oct26_graded
         )
 
     if not contrib_rows:
@@ -1490,6 +1509,7 @@ def _blend_contribution(
     feats: list[str],
     maiden_plan=None,
     turf_oct26=False,
+    dirt_oct26_graded=False,
 ) -> dict:
     """
     Compute per-feature contribution for a single horse, replicating
@@ -1547,6 +1567,18 @@ def _blend_contribution(
 
     # ── KEE Oct26 graded turf: 0.7*g + 0.3*mean(core, s, r) ────────────────
     if model_id == 2 and turf_oct26 and "g" in firing:
+        rest = [k for k in firing if k != "g"]
+        contrib = {f: 0.7 * sub_coefs["g"].get(f, 0.0) * fvals[f] for f in feats}
+        if rest:
+            for k in rest:
+                for f in feats:
+                    c = sub_coefs[k].get(f)
+                    if c is not None:
+                        contrib[f] += 0.3 * c * fvals[f] / len(rest)
+        return contrib
+
+    # ── KEE Oct26 graded dirt: 0.7*g + 0.3*mean(core, c|n, s|r) ──────────────
+    if model_id == 1 and dirt_oct26_graded and "g" in firing:
         rest = [k for k in firing if k != "g"]
         contrib = {f: 0.7 * sub_coefs["g"].get(f, 0.0) * fvals[f] for f in feats}
         if rest:

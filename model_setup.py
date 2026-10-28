@@ -102,6 +102,7 @@ def setup_registry(config) -> None:
             "n":    "keedirt102026n.sas7bdat",
             "s":    "keedirt102026s.sas7bdat",
             "r":    "keedirt102026r.sas7bdat",
+            "g":    "keedirt102026g.sas7bdat",   # graded dirt (G1-G3), pooled SAR+CD+KEE build 2026-10-27; 0.7*g + 0.3*mean(5)
         },
         dirt_ensemble=[
             ("core", "all"),

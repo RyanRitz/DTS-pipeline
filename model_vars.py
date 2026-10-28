@@ -1050,6 +1050,21 @@ def _kee_oct26_dirt_vars(df: pd.DataFrame) -> pd.DataFrame:
                                      axis=1).sum(axis=1, min_count=1)
     df["wotimefrlg_dmrd"] = (df["xwotimeperfrlg1c"] + df["xwotimeperfrlg2c"]
                              + df["xwotimeperfrlg3c"] + df["xwotimeperfrlg4c"])
+
+    # ── graded-dirt cell vars (KEEDirt102026g, added 2026-10-27; KEE_AllModelVars_master) ──
+    # lp2_avg / lp3_avg — late-pace legs 2/3 clipped [-10,15], MISSING STAYS MISSING
+    lp2 = gi("xBRISLatePaceFig2"); lp3 = gi("xBRISLatePaceFig3")
+    df["lp2_avg"] = np.where(lp2.isna(), np.nan, np.where(lp2 >= 15, 15, np.where(lp2 < -10, -10, lp2)))
+    df["lp3_avg"] = np.where(lp3.isna(), np.nan, np.where(lp3 > 15, 15, np.where(lp3 < -10, -10, lp3)))
+    # latepace_avg3 — mean of the non-missing legs (SAS mean() skips .); all missing -> 0
+    df["latepace_avg3"] = pd.concat([df["lp1_avg"], df["lp2_avg"], df["lp3_avg"]], axis=1) \
+                            .mean(axis=1, skipna=True).fillna(0.0)
+    # IEarningsPYRKOct26 — prev-year earnings index, cap 3.5, missing stays missing
+    ipy = gi("IEarningsPrevYearRec")
+    df["IEarningsPYRKOct26"] = np.where(ipy > 3.5, 3.5, ipy)
+    # xWatTT26 — race-centered lifetime wins at today's track, clip +/-2, missing -> 0
+    xw = gi("xWinsLTRecTodayTrack")
+    df["xWatTT26"] = np.where(xw.isna(), 0.0, np.where(xw >= 2, 2, np.where(xw <= -2, -2, xw)))
     return df
 
 

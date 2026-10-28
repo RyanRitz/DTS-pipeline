@@ -1018,16 +1018,44 @@ def _score_cells(df, coeff_dir, models, cells):
 
 
 def _score_dirt_oct26(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
-    """KEE Oct26 dirt: mean(pred_core, pred_c, pred_n, pred_s, pred_r).
-    Each horse = core + (c|n by C/CO/R) + (s|r by sprint); equal-mean-skipna."""
+    """KEE Oct26 dirt: blend5 = mean(pred_core, pred_c, pred_n, pred_s, pred_r).
+    Each horse = core + (c|n by C/CO/R) + (s|r by sprint); equal-mean-skipna.
+    Graded (G1/G2/G3) races, when the family declares a "g" cell (added
+    2026-10-27, KEEDirt102026g): predicted = 0.7*pred_g + 0.3*blend5 —
+    mirrors scoring_KEE_OCT26.sas and the turf graded override."""
     surf = df["Surface"].str.upper().fillna(""); rt = df["RaceType"].fillna("")
     dist = df["Distanceinyards"].abs()
     base = (~rt.isin(["M", "S"])) & surf.isin(["D"])
     clm = rt.isin(["C", "CO", "R"])
+    graded = rt.isin(["G1", "G2", "G3"])
     cells = {"core": base, "c": base & clm, "n": base & ~clm,
              "s": base & (dist <= 1540), "r": base & (dist > 1540)}
+    has_g = "g" in (config.DIRT_MODELS or {})
+    if has_g:
+        cells["g"] = base & graded
     sp, mm = _score_cells(df, coeff_dir, config.DIRT_MODELS, cells)
-    return _merge_scored_parts(sp, df, mm, ensemble_col="predicted", model_id=1)
+    # ensemble over the 5 blend cells only (the "g" marker is merged but excluded)
+    mm5 = [m for m in mm if m[0] != "g"]
+    result = _merge_scored_parts(sp, df, mm5 + [m for m in mm if m[0] == "g"],
+                                 ensemble_col=None, model_id=1)
+    pred5 = []
+    for key, marker_col, pred_col in mm:
+        if marker_col in result.columns:
+            result[pred_col] = sigmoid(result[marker_col])
+            if key != "g":
+                pred5.append(pred_col)
+    if pred5:
+        result["blend5"] = result[pred5].mean(axis=1, skipna=True)
+        result.loc[result[pred5].isna().all(axis=1), "blend5"] = np.nan
+    else:
+        result["blend5"] = np.nan
+    result["predicted"] = result["blend5"]
+    if has_g and "predictedg" in result.columns:
+        pg = result["predictedg"]
+        is_graded = result["RaceType"].fillna("").isin(["G1", "G2", "G3"])
+        use_g = is_graded & pg.notna() & result["blend5"].notna()
+        result.loc[use_g, "predicted"] = 0.7 * pg[use_g] + 0.3 * result.loc[use_g, "blend5"]
+    return result
 
 
 def _score_turf_oct26(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
