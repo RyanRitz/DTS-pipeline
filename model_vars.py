@@ -1128,7 +1128,17 @@ def _kee_oct26_turf_vars(df: pd.DataFrame) -> pd.DataFrame:
 
     # foreignbred26 — flag
     scab = gi("StateCountryabrvw").astype(str).str.upper().str.strip()
-    df["foreignbred26"] = scab.isin(["GB", "IRE", "FR", "GER"]).astype(float)
+    df["foreignbred26"] = scab.isin(["GB", "IRE"]).astype(float)   # tightened to GB/IRE 2026-10-28 (FR overbet, GER neutral in pool)
+
+    # ── graded-turf foreign-form vars (KEETurf102026g refit 2026-10-28; KEE_AllModelVars_master) ──
+    # gradewin26 — last-line grade points (G1=3,G2=2,G3=1,listed/stk=.5), credited only if finished 1-3
+    rt1 = gi("RaceType1").astype(str).str.strip().str.upper()
+    _g1 = np.select([rt1 == "G1", rt1 == "G2", rt1 == "G3", rt1.isin(["N", "S"])], [3.0, 2.0, 1.0, 0.5], default=0.0)
+    fp1 = pd.to_numeric(gi("FinishPosition1"), errors="coerce")
+    df["gradewin26"] = np.where(fp1.isin([1, 2, 3]), _g1, 0.0)
+    # elitebarn26 — Appleby / Aidan O'Brien (name-contains, so the 'O'BRIEN AIDAN P' suffix matches)
+    trn = gi("TodaysTrainer").astype(str).str.upper()
+    df["elitebarn26"] = (trn.str.contains("APPLEBY CHARLES", regex=False) | trn.str.contains("O'BRIEN AIDAN", regex=False)).astype(float)
 
     # means-of-fields with fill+clip
     efr = pd.concat([gi("xFrstCallBtnLngthsonly1"), gi("xFrstCallBtnLngthsonly2")], axis=1).mean(axis=1)

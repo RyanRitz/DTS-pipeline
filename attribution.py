@@ -546,7 +546,9 @@ OCT26_GROUPS = {
     "IAucPriKOct26":      "breeding",  # auction price, indexed (0.03-4); HIGHER = pricier (better)
     "IAucPrice_s26":      "breeding",  # auction price, indexed (cap 5); HIGHER = pricier (better)
     "xBRIS_DtPRc":        "breeding",  # BRIS dirt pedigree rating (x, -7..8); HIGHER = better
-    "foreignbred26":      "breeding",  # bred in GB/IRE/FR/GER (flag); HIGHER = foreign-bred (direction unclear)
+    "foreignbred26":      "breeding",  # bred in GB/IRE (flag; tightened 2026-10-28); HIGHER = foreign-bred (direction unclear)
+    "gradewin26":         "class",     # last-line grade points if finished 1-3 (G1=3..listed=.5); HIGHER = placed in better company last out
+    "elitebarn26":        "trainer",   # Appleby / Aidan O'Brien flag; HIGHER = elite shipping barn
     "SoldatTrack":        "breeding",  # sold at auction held at today's track (flag); HIGHER = sold here (direction unclear)
 
     # ---------------- age ----------------
@@ -704,6 +706,12 @@ _OCT26_SYN_NEW = {
     "foreignbred26": (
         ["European breeding is an edge", "Imported pedigree fits here", "Overseas breeding suits the spot"],
         ["Imported pedigree is a question", "Overseas breeding adds doubt", "Pedigree is untested here"]),
+    "gradewin26": (
+        ["Placed in top company last out", "Hit the board at the graded level last time", "Last-out graded form stands up"],
+        ["Didn't fire in graded company last out", "Last-out form came in lesser company", "Graded form last time was ordinary"]),
+    "elitebarn26": (
+        ["World-class barn ships to win", "Barn's record on these stages is elite", "Top international yard, here with intent"],
+        ["Up against the elite shipping barns", "Faces the top international yards", "The big overseas barns are in here"]),
     "SoldatTrack": (
         ["Sale grad from right here", "Local sale pedigree", "Sold at this track, pedigree fits"],
         ["Sale history is light", "Pedigree profile is modest", "Sale profile doesn't stand out"]),
