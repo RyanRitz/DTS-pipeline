@@ -515,7 +515,7 @@ _RACE_LINE_RE = re.compile(r"^Race\s+(\d{1,2})\s*:\s*(.*)$", re.IGNORECASE)
 # Accepts straight or curly apostrophes in horse names.
 _HORSE_LINE_RE = re.compile(
     r"""^\#\s*(\d{1,2}[A-Z]?)\s+        # program number
-        ([A-Za-z][A-Za-z0-9 .'\u2019\-]*?)   # horse name (lazy)
+        ([A-Za-z][A-Za-z0-9 .'\u2019\-()]*?)   # horse name (lazy; allows (IRE)/(GB) suffix)
         (?:\s+(Scratched|Scratch\ Reason|Jockey|Equipment|Weight|Trainer)\b
          |\s*$)
     """,
