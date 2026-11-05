@@ -44,6 +44,7 @@ import argparse
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -66,10 +67,17 @@ log = logging.getLogger(__name__)
 
 # ── Constants ───────────────────────────────────────────────────────────────
 
-# Network timeout: connect 10s, read 30s. PDFs are small; if the server
-# hasn't responded in 30s something's wrong and we should fail fast so the
-# next tick can retry.
-REQUEST_TIMEOUT = (10, 30)
+# Network timeout: connect 10s, read 60s. PDFs are small, but the Vercel
+# upload function can cold-start, so one slow response is not a real failure.
+# We allow 60s per attempt and retry a few times (see below) before failing.
+REQUEST_TIMEOUT = (10, 60)
+
+# Transient-failure retry policy. A timeout, a network error, or a 5xx from
+# the endpoint is retried up to UPLOAD_MAX_ATTEMPTS times with linear backoff
+# (UPLOAD_BACKOFF_SEC * attempt seconds). A 4xx (incl. 401/403) is NOT retried
+# -- it will not self-heal. Only after all attempts are exhausted do we alert.
+UPLOAD_MAX_ATTEMPTS = 3
+UPLOAD_BACKOFF_SEC  = 4
 
 # The endpoint validates label as exactly "PREVIEW" or "FINAL".
 LABEL_PREVIEW = "PREVIEW"
@@ -222,7 +230,7 @@ def upload_to_dts(
                  pdf_path, f"{size:,}", fname)
         return True
 
-    # ── 3. Build and send the request ──────────────────────────────────
+    # ── 3. Build and send the request (with transient-failure retry) ────
     headers = {"X-DTS-Upload-Secret": secret}
     data = {
         "track":     track.upper(),
@@ -230,61 +238,91 @@ def upload_to_dts(
         "label":     label,
     }
 
-    try:
-        with open(pdf_path, "rb") as fh:
-            files = {"file": (fname, fh, "application/pdf")}
-            resp = requests.post(
-                url,
-                headers=headers,
-                data=data,
-                files=files,
-                timeout=REQUEST_TIMEOUT,
-            )
-    except requests.exceptions.Timeout as e:
-        log.error("[upload_to_dts] timeout uploading %s: %s", fname, e)
-        _alert(
-            "WARNING",
-            f"timeout uploading {fname}",
-            f"Request to {url} timed out after {REQUEST_TIMEOUT[1]}s.\n"
-            f"Track: {track}  Date: {race_date}  Label: {label}\n\n"
-            f"Pipeline will retry on the next tick.",
-        )
-        return False
-    except requests.exceptions.RequestException as e:
-        log.error("[upload_to_dts] network error uploading %s: %s", fname, e)
-        _alert(
-            "WARNING",
-            f"network error uploading {fname}",
-            f"Request to {url} failed: {e}\n"
-            f"Track: {track}  Date: {race_date}  Label: {label}\n\n"
-            f"Pipeline will retry on the next tick.",
-        )
-        return False
+    # Deferred alert: only email after ALL attempts are exhausted, so a
+    # transient blip that succeeds on retry stays silent.
+    pending = None  # (severity, subject, body)
 
-    # ── 4. Check the response ──────────────────────────────────────────
-    if 200 <= resp.status_code < 300:
-        # Parse the JSON body just to log the public URL — non-fatal if it fails
+    for attempt in range(1, UPLOAD_MAX_ATTEMPTS + 1):
         try:
-            body = resp.json()
-            public_url = body.get("url", "(no url in response)")
-        except Exception:
-            public_url = "(could not parse response body)"
-        log.info("[upload_to_dts] OK   %s  →  %s", fname, public_url)
-        return True
+            with open(pdf_path, "rb") as fh:
+                files = {"file": (fname, fh, "application/pdf")}
+                resp = requests.post(
+                    url,
+                    headers=headers,
+                    data=data,
+                    files=files,
+                    timeout=REQUEST_TIMEOUT,
+                )
+        except requests.exceptions.Timeout as e:
+            log.warning("[upload_to_dts] timeout uploading %s (attempt %d/%d): %s",
+                        fname, attempt, UPLOAD_MAX_ATTEMPTS, e)
+            pending = (
+                "WARNING",
+                f"timeout uploading {fname}",
+                f"Request to {url} timed out after {REQUEST_TIMEOUT[1]}s on "
+                f"all {UPLOAD_MAX_ATTEMPTS} attempt(s).\n"
+                f"Track: {track}  Date: {race_date}  Label: {label}\n\n"
+                f"Pipeline will retry on the next tick.",
+            )
+            if attempt < UPLOAD_MAX_ATTEMPTS:
+                time.sleep(UPLOAD_BACKOFF_SEC * attempt)
+                continue
+            _alert(*pending)
+            return False
+        except requests.exceptions.RequestException as e:
+            log.warning("[upload_to_dts] network error uploading %s (attempt %d/%d): %s",
+                        fname, attempt, UPLOAD_MAX_ATTEMPTS, e)
+            pending = (
+                "WARNING",
+                f"network error uploading {fname}",
+                f"Request to {url} failed on all {UPLOAD_MAX_ATTEMPTS} "
+                f"attempt(s): {e}\n"
+                f"Track: {track}  Date: {race_date}  Label: {label}\n\n"
+                f"Pipeline will retry on the next tick.",
+            )
+            if attempt < UPLOAD_MAX_ATTEMPTS:
+                time.sleep(UPLOAD_BACKOFF_SEC * attempt)
+                continue
+            _alert(*pending)
+            return False
 
-    # Non-2xx: log + alert with severity classification
-    severity = _classify_severity(resp.status_code, None)
-    body_snippet = (resp.text or "")[:500]
-    log.error("[upload_to_dts] HTTP %d uploading %s: %s",
-              resp.status_code, fname, body_snippet)
-    _alert(
-        severity,
-        f"HTTP {resp.status_code} uploading {fname}",
-        f"Endpoint: {url}\n"
-        f"Status:   {resp.status_code}\n"
-        f"Track: {track}  Date: {race_date}  Label: {label}\n\n"
-        f"Response body:\n{body_snippet}",
-    )
+        # ── 4. Check the response ──────────────────────────────────────
+        if 200 <= resp.status_code < 300:
+            # Parse the JSON body just to log the public URL — non-fatal if it fails
+            try:
+                body = resp.json()
+                public_url = body.get("url", "(no url in response)")
+            except Exception:
+                public_url = "(could not parse response body)"
+            if attempt > 1:
+                log.info("[upload_to_dts] OK   %s  →  %s  (recovered on attempt %d)",
+                         fname, public_url, attempt)
+            else:
+                log.info("[upload_to_dts] OK   %s  →  %s", fname, public_url)
+            return True
+
+        # Non-2xx. Retry transient server errors (5xx); 4xx will not self-heal.
+        severity = _classify_severity(resp.status_code, None)
+        body_snippet = (resp.text or "")[:500]
+        log.warning("[upload_to_dts] HTTP %d uploading %s (attempt %d/%d): %s",
+                    resp.status_code, fname, attempt, UPLOAD_MAX_ATTEMPTS, body_snippet)
+        pending = (
+            severity,
+            f"HTTP {resp.status_code} uploading {fname}",
+            f"Endpoint: {url}\n"
+            f"Status:   {resp.status_code}\n"
+            f"Track: {track}  Date: {race_date}  Label: {label}\n\n"
+            f"Response body:\n{body_snippet}",
+        )
+        if 500 <= resp.status_code < 600 and attempt < UPLOAD_MAX_ATTEMPTS:
+            time.sleep(UPLOAD_BACKOFF_SEC * attempt)
+            continue
+        _alert(*pending)
+        return False
+
+    # Defensive: the loop always returns above, but just in case.
+    if pending:
+        _alert(*pending)
     return False
 
 

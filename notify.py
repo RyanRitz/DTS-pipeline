@@ -76,8 +76,35 @@ def send_failure_email(subject: str, body: str) -> bool:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Usage: notify.py <subject> <body>")
+    # Optional flags (order-independent): --logfile PATH, --tail N.
+    # When --logfile is given, the last N lines of that file are appended to
+    # the email body so a real failure arrives with its own log tail.
+    _args = sys.argv[1:]
+    _logfile = None
+    _tail_n = 30
+    _pos = []
+    _i = 0
+    while _i < len(_args):
+        if _args[_i] == "--logfile" and _i + 1 < len(_args):
+            _logfile = _args[_i + 1]; _i += 2; continue
+        if _args[_i] == "--tail" and _i + 1 < len(_args):
+            try:
+                _tail_n = int(_args[_i + 1])
+            except ValueError:
+                pass
+            _i += 2; continue
+        _pos.append(_args[_i]); _i += 1
+    if len(_pos) < 2:
+        print("Usage: notify.py <subject> <body> [--logfile PATH] [--tail N]")
         sys.exit(2)
-    ok = send_failure_email(sys.argv[1], sys.argv[2])
+    _subject, _body = _pos[0], _pos[1]
+    if _logfile:
+        try:
+            with open(_logfile, "r", encoding="utf-8", errors="replace") as _fh:
+                _lines = _fh.readlines()
+            _tail = "".join(_lines[-_tail_n:]).rstrip()
+            _body = f"{_body}\n\nLast {_tail_n} log lines:\n{'-' * 40}\n{_tail}"
+        except Exception as _e:
+            _body = f"{_body}\n\n(could not read log file {_logfile}: {_e})"
+    ok = send_failure_email(_subject, _body)
     sys.exit(0 if ok else 1)

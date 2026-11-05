@@ -26,11 +26,7 @@ REM never has to be re-purchased. Runs every tick; idempotent, skips duplicates.
 if %RC% NEQ 0 (
     echo Pipeline tick failed with exit code %RC% — sending email
 
-    REM Grab the last 30 lines of the log to embed in the email
-    powershell -NoProfile -Command "Get-Content pipeline_run.log -Tail 30 | Out-File -Encoding utf8 _tail.txt"
-    set /p TAIL=<_tail.txt
-    "%PY%" notify.py "Pipeline tick failed (exit %RC%)" "Last log lines:\n\n!TAIL!\n\nFull log: %~dp0pipeline_run.log"
-    del _tail.txt 2>nul
+    "%PY%" notify.py "Pipeline tick failed (exit %RC%)" "The pipeline tick returned a non-zero exit code. This now fires only when a FINAL (race-day) publish fails; transient preview-upload hiccups retry on the next tick and no longer trigger this alert." --logfile "%~dp0pipeline_run.log" --tail 40
     exit /b %RC%
 )
 

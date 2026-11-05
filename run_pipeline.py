@@ -2749,7 +2749,15 @@ def main() -> int:
         log.error("  Failed: " + ", ".join(failures))
     log.info("=" * 60)
 
-    return 1 if failures else 0
+    # Exit-code policy: only FINAL failures (race-day, time-sensitive) make the
+    # tick exit non-zero and fire the wrapper's "tick failed" alert. PREVIEW
+    # upload failures already self-alert (one WARNING after upload retries are
+    # exhausted) and retry on the next tick, so a transient preview blip must
+    # not raise a loud "pipeline tick failed" email every time.
+    final_failures = [f for f in failures if f.startswith("FINAL ")]
+    if failures and not final_failures:
+        log.warning("  (preview-only failures -- non-fatal, will retry next tick)")
+    return 1 if final_failures else 0
 
 
 if __name__ == "__main__":
