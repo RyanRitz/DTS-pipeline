@@ -79,9 +79,9 @@ _y = DISTANCE_YARDS
 # below with explicit entries.
 STANDARD_1MILE_DIRT_OVALS: set[str] = {
     "SAR",   # 1 1/8 main but uses standard route layout (1-turn mile)
-    "AQU",   # 1-mile main
+    "AQU",   # 1 1/8 main; one-turn mile overridden in TRACK_TURNS
     "SA",    # 1-mile main
-    "GP",    # 1 1/8 main; sprints 1-turn, routes 2-turn
+    "GP",    # 1 1/8 main; one-turn mile overridden in TRACK_TURNS
     "OP",    # 1-mile
     "DMR",   # 1-mile main
     "KEE",   # 1 1/16 main
@@ -173,7 +173,9 @@ TRACK_TURNS: dict[tuple[str, str, int], int] = {
     ("BEL", "t", _y["1_1/8"]):  2,
 
     # ── Aqueduct: 1-mile main + inner dirt + turf ──────────────────────
-    # Standard 1-mile dirt: sprints 1-turn, routes 2-turn (handled by default).
+    # Main track is 1 1/8 with a chute: the mile is ONE turn, 1 1/8 two turns.
+    # The old inner dirt ("d", through 2017) was a two-turn mile (default rule).
+    ("AQU", "D", _y["1mi"]):  1,   # one-turn mile via chute
     # Turf course (7f inside main):
     ("AQU", "T", _y["6f"]):   1,
     ("AQU", "T", _y["6.5f"]): 1,
@@ -236,11 +238,13 @@ TRACK_TURNS: dict[tuple[str, str, int], int] = {
     ("DMR", "T", _y["1_3/8"]):  2,
 
     # ── Gulfstream Park ──────────────────────────────────────────────
-    # 1 1/8 main dirt, 7f turf.
-    # Default rule covers dirt sprints; routes use two turns:
+    # 1 1/8 main dirt with a backstretch chute; turf 7f (1 mile, 2005-2021).
+    # Default rule covers dirt sprints and 1 1/16+ (two turns). The dirt
+    # mile starts in the chute and is ONE turn. Tapeta runs 1m70, not 1 mile.
+    ("GP",  "D", _y["1mi"]):  1,   # one-turn mile via chute
     ("GP",  "T", _y["5f"]):   1,
     ("GP",  "T", _y["5.5f"]): 1,
-    ("GP",  "T", _y["7.5f"]): 1,   # GP turf 7.5f one-turn (rare config)
+    ("GP",  "T", _y["7.5f"]): 2,   # two turns: turf oval was 1 mile (2005-2021), 7f since
     ("GP",  "T", _y["1mi"]):  2,
     ("GP",  "T", _y["1_1/16"]): 2,
     ("GP",  "T", _y["1_1/8"]):  2,
@@ -262,7 +266,7 @@ TRACK_TURNS: dict[tuple[str, str, int], int] = {
     ("WO",  "T", _y["7f"]):   1,
     ("WO",  "T", _y["1mi"]):  1,
     ("WO",  "T", _y["1_1/16"]): 1,
-    ("WO",  "T", _y["1_1/8"]):  2,
+    ("WO",  "T", _y["1_1/8"]):  1,   # E.P. Taylor: one turn through 1 1/8 (chute)
     ("WO",  "T", _y["1_1/4"]):  2,
     ("WO",  "T", _y["1_3/8"]):  2,
     ("WO",  "T", _y["1_1/2"]):  2,
