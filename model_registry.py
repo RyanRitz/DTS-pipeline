@@ -114,6 +114,10 @@ class ScoringConfig:
     TURF_NY_ROUTE_MODEL: Optional[str] = None
     # DMR config-F turf flag (read by score._score_turf and attribution)
     TURF_CONFIGF: Optional[bool] = None
+    # GP turf flag (read by score._score_turf and attribution). Set per TRACK via
+    # register_track_turf_model, not per family: the track keeps whatever family
+    # it otherwise resolves to for dirt and maiden.
+    TURF_GP: Optional[bool] = None
 
     # Family-specific maiden ensemble (None => legacy KEE maiden blend)
     MAIDEN_ENSEMBLE: Optional[list] = None
@@ -145,6 +149,12 @@ _TRACK_TO_FAMILY: dict[str, str] = {}
 # over _TRACK_TO_FAMILY when a race_date is supplied.
 _TRACK_SEASONAL: dict[str, dict[str, str]] = {}
 _DEFAULT_FAMILY: Optional[str] = None
+# track -> turf-model key, for a track that has its OWN turf non-maiden model but
+# no dirt/maiden models yet (GP, 2026-11). The track's family resolution is
+# untouched (so dirt + maiden keep the normal fallback, seasonal included); only
+# turf non-maiden scoring and its attribution switch to the named model.
+_TRACK_TURF_MODEL: dict[str, str] = {}
+_KNOWN_TURF_MODELS = {"GP"}
 # Season -> family for the DEFAULT fallback, so unmodeled tracks (Churchill,
 # etc.) also follow the meet: Spring uses KEE, Fall uses KEE_OCT. Consulted
 # only when a track has no explicit family/seasonal mapping AND a race_date is
@@ -221,6 +231,19 @@ def register_track(track: str, family_name: str) -> None:
             f"Known families: {sorted(_FAMILIES)}"
         )
     _TRACK_TO_FAMILY[track.upper()] = family_name
+
+
+def register_track_turf_model(track: str, turf_model: str) -> None:
+    """Give one track its own turf non-maiden model without creating a family.
+    Dirt and maiden keep resolving through the family/default chain. Currently
+    the only model is "GP" (score_gp_turf: distance + crossed cell, 50/50)."""
+    turf_model = turf_model.upper()
+    if turf_model not in _KNOWN_TURF_MODELS:
+        raise ValueError(
+            f"Unknown per-track turf model {turf_model!r}. "
+            f"Known: {sorted(_KNOWN_TURF_MODELS)}"
+        )
+    _TRACK_TURF_MODEL[track.upper()] = turf_model
 
 
 def register_track_seasonal(track: str, season_map: dict) -> None:
@@ -336,6 +359,7 @@ def get_scoring_models(track: str, underlying_config: Any, race_date=None) -> Sc
         TURF_NY_MODEL=fam.turf_ny_model,
         TURF_NY_ROUTE_MODEL=fam.turf_ny_route_model,
         TURF_CONFIGF=fam.turf_configf,
+        TURF_GP=(_TRACK_TURF_MODEL.get(track.upper()) == "GP") or None,
         MAIDEN_ENSEMBLE=fam.maiden_ensemble,
         MAIDEN_CONFIGF=fam.maiden_configf,
         _underlying=underlying_config,
@@ -348,6 +372,7 @@ def list_registered() -> dict:
         "families": list(_FAMILIES),
         "default": _DEFAULT_FAMILY,
         "track_overrides": dict(_TRACK_TO_FAMILY),
+        "track_turf_models": dict(_TRACK_TURF_MODEL),
     }
 
 

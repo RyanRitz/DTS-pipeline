@@ -332,12 +332,18 @@ def setup_registry(config) -> None:
     #  on any of them are dropped upstream by the breed filter in run_pipeline.)
 
     # ── Gulfstream Park ───────────────────────────────────────────────────
-    # register_family("GP", dirt_models={...}, turf_models={...},
-    #                 maiden_models={...},
-    #                 score_weights={"score1": 0.50, "score2": 0.25, "score3": 0.25},
-    #                 coeff_dir=Path(config.COEFF_DIR) / "GP")
-    # register_track("GP",  "GP")
-    # register_track("GPX", "GP")
+    # TURF non-maiden only (ported 2026-11-25). Six logistic models, frozen
+    # 2026-11-24 on data through 2026-10-03: each horse = mean(distance model
+    # sprint|route, crossed model SC|SN|RC|RN). Coefficients are the six
+    # coef_gp_turf_2026*.csv in COEFF_DIR; scored by score._score_turf_gp,
+    # attributed by attribution._compute_attributions_gp_turf.
+    # GP DIRT and MAIDEN are not built yet, so GP is deliberately NOT a family:
+    # it keeps resolving to the Keeneland fallback (seasonal) for those, and only
+    # its turf non-maiden races switch model. When the GP dirt/maiden models
+    # ship, replace this with a real register_family("GP", ...).
+    from model_registry import register_track_turf_model
+    register_track_turf_model("GP",  "GP")
+    register_track_turf_model("GPX", "GP")   # BRIS code variant
 
     # ──────────────────────────────────────────────────────────────────────
     state = list_registered()

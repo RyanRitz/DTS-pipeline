@@ -138,6 +138,17 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     except Exception as e:                       # never let this break the base pipeline
         logger.warning(f"  DMR turf var layer skipped: {e}")
 
+    # ── GP turf variable layer (global, additive; ported 2026-11-25) ─────────
+    # The 20 GP-turf-only model vars + 3 GP-scoped rebuilds (ipurse16_gpt26,
+    # finpos1_gpt26, effpost_gpt26). All new column names, so inert for every other family;
+    # read only by score._score_turf_gp and its attribution twin. Runs after the
+    # DMR layer because the GP cells also reuse 5 of its vars.
+    try:
+        from gp_turf_vars import build_gp_turf_vars
+        df = build_gp_turf_vars(df)
+    except Exception as e:                       # never let this break the base pipeline
+        logger.warning(f"  GP turf var layer skipped: {e}")
+
     logger.info(f"  Features engineered: {len(df.columns)} total columns")
     return df
 

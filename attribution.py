@@ -756,6 +756,25 @@ except Exception:                      # module absent (KEE/SAR-only deploy)
     _CONFIGF_GRP = FEATURE_GROUPS
 
 # ---------------------------------------------------------------------------
+# GP.Turf.NonMaiden twin (parity with score.py's TURF_GP branch, 2026-11-25)
+# ---------------------------------------------------------------------------
+# score_gp_turf blends, per horse, mean(distance model, crossed model) of 2 of 6
+# logistic models. Same isolation as the DMR twins: the GP groups / phrases are
+# layered over the global pools into SCOPED maps used only on the GP turf path.
+try:
+    from attribution_gp_turf import (
+        GP_TURF_FEATURE_GROUPS, GP_TURF_SYNONYMS, load_gp_turf_attr_betas,
+    )
+    _GP_SYN = {**SYNONYMS, **GP_TURF_SYNONYMS}
+    _GP_GRP = {**FEATURE_GROUPS, **GP_TURF_FEATURE_GROUPS}
+except Exception:                      # module absent
+    GP_TURF_FEATURE_GROUPS = {}
+    GP_TURF_SYNONYMS = {}
+    load_gp_turf_attr_betas = lambda _cd: {}
+    _GP_SYN = SYNONYMS
+    _GP_GRP = FEATURE_GROUPS
+
+# ---------------------------------------------------------------------------
 # DMR.Maiden config-F twin (parity with score.py's MAIDEN_CONFIGF branch)
 # ---------------------------------------------------------------------------
 # score_dmr_maiden blends, per horse, mean(cell, surface-parent, racetype-parent,
@@ -965,8 +984,16 @@ def add_attributions(
         if getattr(config, "MAIDEN_CONFIGF", False) else None
     )
 
+    # GP turf twin: when the TRACK runs score.py's TURF_GP branch, turf
+    # non-maiden races in the GP domain are scored by score_gp_turf. Races
+    # outside that domain (MO turf) stay on the fallback family's own path.
+    gp_turf_betas = (
+        load_gp_turf_attr_betas(coeff_dir)
+        if getattr(config, "TURF_GP", False) else None
+    )
+
     if (not any(coeff_sets.values()) and not configf_betas
-            and not maiden_configf_betas):
+            and not maiden_configf_betas and not gp_turf_betas):
         logger.warning("attribution: no coefficient files loaded — skipping")
         return df
 
@@ -985,7 +1012,11 @@ def add_attributions(
 
         # config-F turf twin: parity with score.py's TURF_CONFIGF branch.
         use_configf = (model_id == 2 and configf_betas)
-        if use_configf:
+        if model_id == 2 and gp_turf_betas and _gp_turf_race(rg):
+            # GP turf twin: parity with score.py's TURF_GP branch.
+            attributions = _compute_attributions_gp_turf(rg, gp_turf_betas)
+            pool_map = _GP_SYN
+        elif use_configf:
             attributions = _compute_attributions_configf(rg, configf_betas)
             pool_map = _CONFIGF_SYN
         elif model_id == 3 and maiden_configf_betas:
@@ -1441,6 +1472,71 @@ def _compute_attributions_configf(race_df, betas: dict):
     return _rank_contributions(
         race_df, contrib_rows, all_feats,
         synonyms=_CONFIGF_SYN, feature_groups=_CONFIGF_GRP,
+    )
+
+
+def _gp_turf_race(race_df) -> bool:
+    """True when this race is in the GP turf model's domain (turf, RaceType not
+    in M/S/MO) -- the same mask score._score_turf_gp overwrites `predicted` on."""
+    try:
+        from score_gp_turf import gp_turf_domain
+        return bool(gp_turf_domain(race_df).all())
+    except Exception:
+        return False
+
+
+def _compute_attributions_gp_turf(race_df, betas: dict):
+    """
+    GP.Turf.NonMaiden attribution -- the twin of score_gp_turf.
+
+    Mirrors the scoring blend exactly: each horse is routed to (distance model,
+    crossed model) via score_gp_turf._route, and the per-feature contribution is
+    the equal-mean of coef*value across those TWO models -- matching
+    (p_dist + p_cell)/2. No class parent, no core. Uses the SCOPED GP synonym /
+    group maps so nothing leaks into the other families.
+
+    Returns {row_index: (like_list, fade_list)} or None if nothing to attribute.
+    """
+    if not betas:
+        return None
+    from score_gp_turf import _route
+
+    all_feats = set()
+    for b in betas.values():
+        all_feats.update(k for k in b.keys() if k not in EXCLUDE)
+    all_feats = [f for f in sorted(all_feats) if f in race_df.columns]
+    if not all_feats:
+        return None
+
+    distkey, cellkey = _route(race_df)
+
+    contrib_rows = {}
+    for pos, idx in enumerate(race_df.index):
+        row = race_df.loc[idx]
+        fvals = {}
+        for f in all_feats:
+            v = row.get(f)
+            try:
+                fvals[f] = 0.0 if pd.isna(v) else float(v)
+            except (TypeError, ValueError):
+                fvals[f] = 0.0
+        contrib = {f: 0.0 for f in all_feats}
+        for k in (str(distkey[pos]), str(cellkey[pos])):
+            b = betas.get(k, {})
+            for f in all_feats:
+                c = b.get(f)
+                if c is not None:
+                    contrib[f] += c * fvals[f]
+        for f in all_feats:
+            contrib[f] /= 2.0            # equal-mean of the 2, == GP blend
+        contrib_rows[idx] = contrib
+
+    if not contrib_rows:
+        return None
+
+    return _rank_contributions(
+        race_df, contrib_rows, all_feats,
+        synonyms=_GP_SYN, feature_groups=_GP_GRP,
     )
 
 

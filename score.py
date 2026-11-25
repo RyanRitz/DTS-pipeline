@@ -213,6 +213,16 @@ def _score_turf(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
                                 qualifies for averaged (matches the SAS hcall
                                 mean), plus coreNY/NYr NY-bred routing.
     """
+    # GP turf (frozen 2026-11-24): a per-TRACK turf model layered over whatever
+    # family the track resolves to (GP dirt/maiden stay on the Keeneland
+    # fallback). Checked FIRST because that fallback family may be KEE_OCT.
+    if getattr(config, "TURF_GP", False):
+        return _score_turf_gp(df, coeff_dir, config)
+    return _score_turf_family(df, coeff_dir, config)
+
+
+def _score_turf_family(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """The family's own turf path (dispatch unchanged from before the GP port)."""
     # KEE Oct26 turf (locked): dispatch by the 102026 coefficient filenames
     _tm = getattr(config, "TURF_MODELS", {}) or {}
     if any("102026" in str(f) for f in _tm.values()):
@@ -1211,4 +1221,39 @@ def _score_maiden_dmr(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame
         preds = score_dmr_maiden(sub, coeff_dir, normalize=False)
         result.loc[sub.index, "predicted"] = preds.reindex(sub.index).values
     result["model"] = 3
+    return result
+
+
+def _score_turf_gp(df: pd.DataFrame, coeff_dir: Path, config) -> pd.DataFrame:
+    """GP TURF non-maiden scorer (ported 2026-11-25; models frozen 2026-11-24).
+
+    Per horse: mean(distance model sprint|route, crossed model SC|SN|RC|RN) from
+    the six coef_gp_turf_2026*.csv in coeff_dir. RAW blend (no within-race
+    normalize; _normalize_probabilities does that once for all segments).
+    Validated against the frozen SAS predictions on historical GP cards.
+
+    The fallback family's own turf path runs first and its result is kept for
+    every row OUTSIDE the GP domain, so nothing else changes: in particular MO
+    (maiden optional claiming) turf races, which the GP build excludes as
+    maidens but the pipeline's M/S maiden filter sends down the turf path, keep
+    exactly the scoring they had before this port. Rows inside the domain
+    (turf, RaceType not in M/S/MO) get `predicted` overwritten with the GP blend.
+
+    Isolation: only runs when the TRACK is registered for it
+    (model_registry.register_track_turf_model -> config.TURF_GP)."""
+    from score_gp_turf import score_gp_turf, gp_turf_domain
+    result = _score_turf_family(df, coeff_dir, config)
+    if "predicted" not in result.columns:
+        result["predicted"] = np.nan
+    sub = df[gp_turf_domain(df)]
+    if len(sub):
+        key_cols = ["Track", "Date", "Race", "HorseName"]
+        gp = sub[key_cols].copy()
+        gp["_gp_pred"] = score_gp_turf(sub, coeff_dir, normalize=False).values
+        gp = gp.drop_duplicates(subset=key_cols)
+        result = result.merge(gp, on=key_cols, how="left", indicator="_gp_in")
+        in_dom = result["_gp_in"] == "both"
+        result.loc[in_dom, "predicted"] = result.loc[in_dom, "_gp_pred"]
+        result = result.drop(columns=["_gp_pred", "_gp_in"])
+    result["model"] = 2
     return result
