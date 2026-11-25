@@ -10,13 +10,18 @@ Consumed only by score_gp_turf / attribution_gp_turf, but built globally per the
 architecture: every name here is new, so building them on every card is inert
 for every other family.
 
-Three more variables are GP-SCOPED REBUILDS of names that already exist in the
-shared layer with a different definition than the one the GP cells were fitted
-on (found in the 2026-11-25 parity run; see GP_TURF_VAR_ALIASES):
+One more variable is a GP-SCOPED REBUILD of a name that already exists in the
+shared layer (see GP_TURF_VAR_ALIASES):
   ipurse16_gpt26 -> used where the coefficients say ipurse16_kta13
-  finpos1_gpt26  -> used where the coefficients say finpos1_dmrc26
-  effpost_gpt26  -> used where the coefficients say effpost
-The shared columns are left untouched so no other family moves.
+The GP cells were fitted on KEE_AllModelVars_master.sas L324, which has lost the
+per-leg clip every other build applies (KEE Apr/Oct, SAR, DMR all clip each leg
+to .25-2.5 before the mean). model_vars.ipurse16_kta13 is correct for those 20
+live coefficient sets, so it is NOT changed; GP gets its own column instead.
+
+(The parity run also found two real shared-layer bugs -- the DNF past-position
+rule and effpost row order. Both were fixed at source on 2026-11-25, in
+race_normalize._convert_positions and model_vars.effpost, so GP reads the
+shared finpos1_dmrc26 / effpost / FrstCallPosition like every other model.)
 
 SAS line refs are to BTSM_GP_TurfModel_2026.sas. Convention throughout:
 missing handled FIRST, then clip (matches the SAS if/else-if ladders).
@@ -67,22 +72,6 @@ def _pp_block(df, base, n):
                             for i in range(1, n + 1)])
 
 
-_DNF_MONEY = {"99", "89", "28"}
-
-
-def _pos_with_dnf_rule(df, base, i):
-    """Past-line position i with the 5.sas L160-185 cleanup: a numeric position
-    is kept; a non-numeric one becomes Numofentrants{i} when MoneyPosition{i} is
-    99/89/28 (did not finish / disqualified); otherwise missing."""
-    pos = _num(df, f"{base}{i}")
-    money = _g(df, f"MoneyPosition{i}")
-    mnum = pd.to_numeric(money, errors="coerce")
-    is_dnf = (money.astype("string").str.strip().isin(_DNF_MONEY).fillna(False)
-              | mnum.isin([99, 89, 28]))
-    ne = _num(df, f"Numofentrants{i}")
-    return pos.where(pos.notna(), ne.where(is_dnf, np.nan))
-
-
 def build_gp_turf_vars(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     new = {}
@@ -128,36 +117,12 @@ def build_gp_turf_vars(df: pd.DataFrame) -> pd.DataFrame:
     # ---- GP-scoped rebuilds of two shared names -------------------------
     # ipurse16: the GP build data carries the KEE_AllModelVars_master.sas L324
     # definition = plain mean of the last-6 indexed purses, missing skipped, NO
-    # clip. model_vars.ipurse16_kta13 is the older scoring-file version (each leg
-    # clipped .25-2.5, missing -> .25). Verified 5e-11 vs the SAS RN export.
+    # clip (the master dropped the clip loop). model_vars.ipurse16_kta13 clips
+    # each leg .25-2.5 (missing -> .25), as every other build does. Verified
+    # 5e-11 vs the SAS RN export.
     # All six missing never occurs in training; neutral index 1.0 if it does.
     ip = pd.concat([_num(df, f"IPurse{i}") for i in range(1, 7)], axis=1).mean(axis=1, skipna=True)
     new["ipurse16_gpt26"] = ip.fillna(1.0)
-
-    # finpos1: 5.sas L160-185 turns a non-numeric past position (K = lost rider,
-    # etc.) into that race's field size when MoneyPosition is 99/89/28 (DNF/DQ).
-    # The Python feature layer leaves it missing, which also shifts the race
-    # mean for every other horse in the race. Rebuilt here with the 5.sas rule,
-    # then centered and recoded exactly like finpos1_dmrc26 (KEE master L218).
-    fp1 = _pos_with_dnf_rule(df, "FinishPosition", 1)
-    xfp1 = fp1 - _race_mean(df, fp1)
-    new["finpos1_gpt26"] = _fill_clip(xfp1, 0.0, -2.5, 5.0)
-
-    # effpost: the SAS build sorts by track/date/race/POSTPOSITION before the
-    # within-race counter (BTSM_GP_TurfModel_2026.sas L1942 + KEE master L156-160).
-    # model_vars.effpost counts in DRF ROW order, which differs whenever a
-    # coupled entry (1 / 1A) is listed together but drawn into different gates.
-    # Rebuilt here as the rank of PostPosition within the race (missing first,
-    # ties in row order = SAS stable sort), capped at 13.
-    pp = _num(df, "PostPosition")
-    order = pd.DataFrame({"pp": pp.fillna(-np.inf), "row": np.arange(len(df))}, index=df.index)
-    keys = [df[k] for k in RACE_GROUP if k in df.columns]
-    if keys:
-        order = order.sort_values(["pp", "row"], kind="mergesort")
-        cnt = order.groupby([k.reindex(order.index) for k in keys], sort=False).cumcount() + 1
-        new["effpost_gpt26"] = cnt.reindex(df.index).clip(upper=13).astype(float)
-    else:
-        new["effpost_gpt26"] = pd.Series(np.nan, index=df.index)
 
     # ---- six past-performance variables (SAS data _cx_raw .. data model) ----
     n = len(df)
@@ -168,8 +133,7 @@ def build_gp_turf_vars(df: pd.DataFrame) -> pd.DataFrame:
     dist = _pp_block(df, "Distanceinyards", 10)
     spd = _pp_block(df, "BRISSpeedRating", 10)
     lp = _pp_block(df, "BRISLatePaceFig", 10)
-    fc = np.column_stack([_pos_with_dnf_rule(df, "FrstCallPosition", i).to_numpy(dtype=float)
-                          for i in range(1, 4)])   # 5.sas DNF rule applies to call positions too
+    fc = _pp_block(df, "FrstCallPosition", 3)   # numeric, DNF rule applied upstream (race_normalize)
     ne = _pp_block(df, "Numofentrants", 3)
 
     # today sprint: abs() because BRIS stores "about" distances as negatives.
@@ -235,12 +199,10 @@ def build_gp_turf_vars(df: pd.DataFrame) -> pd.DataFrame:
 # coefficient name -> the frame column the GP model must read instead.
 GP_TURF_VAR_ALIASES = {
     "ipurse16_kta13": "ipurse16_gpt26",
-    "finpos1_dmrc26": "finpos1_gpt26",
-    "effpost":        "effpost_gpt26",
 }
 
 GP_TURF_NEW_VARS = [
-    "ipurse16_gpt26", "finpos1_gpt26", "effpost_gpt26",
+    "ipurse16_gpt26",
     "xJKYatDisJkyEPSc", "xTrnCYwp_gpt26", "IEPSpy_gpt26", "IJkyDTstr_gpt26",
     "xPY_WPpct_gpt26", "xTrnCYwpct_kst26", "xTrnCYwinp_kst26", "xEPSfd_gptclm26",
     "jtWP365_gptnc26", "IJkyCYst_gptnc26", "xStCY_gptsn26", "xAWwin_gptrn26",

@@ -984,7 +984,21 @@ def _kee_oct26_dirt_vars(df: pd.DataFrame) -> pd.DataFrame:
     # effpost — scratch-adjusted post = sequential counter within race (cap 13).
     # SAS: by track date race; first.race -> _pr=0; _pr+1; min(_pr,13).
     # Row order = DRF order (post order); replicate with within-race cumcount.
-    _pr = df.groupby([df["Track"], df["Date"], df["Race"]]).cumcount() + 1
+    # FIXED 2026-11-25: the model builds sort by track/date/race/POSTPOSITION
+    # before the counter (BTSM_KEE_DirtModel_Oct26.sas L1927, GP turf L1942).
+    # Row order equals post order except when a coupled entry (1 / 1A) is listed
+    # together but drawn into different gates, so rank by PostPosition (missing
+    # first, ties in row order = SAS stable sort) instead of plain row order.
+    _ppcol = next((c for c in df.columns if c.lower() == "postposition"), None)
+    if _ppcol is not None:
+        _ord = pd.DataFrame({
+            "t": df["Track"].values, "d": df["Date"].values, "r": df["Race"].values,
+            "pp": pd.to_numeric(df[_ppcol], errors="coerce").fillna(-np.inf).values,
+            "row": np.arange(len(df)),
+        }, index=df.index).sort_values(["pp", "row"], kind="mergesort")
+        _pr = (_ord.groupby(["t", "d", "r"], sort=False).cumcount() + 1).reindex(df.index)
+    else:
+        _pr = df.groupby([df["Track"], df["Date"], df["Race"]]).cumcount() + 1
     df["effpost"] = _pr.clip(upper=13).astype(float)
 
     # helper: clip-with-fill in SAS "if missing then FILL; clip [lo,hi]" order

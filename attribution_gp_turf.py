@@ -22,7 +22,7 @@ variables with a NEGATIVE coefficient the like phrase therefore describes the
 LOW value (fewer lifetime starts, nearer the front early, dropping in price).
 
 Keys are FRAME columns, i.e. after gp_turf_vars.GP_TURF_VAR_ALIASES is applied
-(ipurse16_gpt26, finpos1_gpt26, effpost_gpt26). baseprob2 / Intercept are excluded upstream.
+(ipurse16_gpt26). baseprob2 / Intercept are excluded upstream.
 """
 
 # ---------------------------------------------------------------------------
@@ -47,7 +47,7 @@ GP_TURF_FEATURE_GROUPS = {
     "xClmDrop_rc26":      "class",
     # form / record
     "xPY_WPpct_gpt26":    "form",
-    "finpos1_gpt26":      "form",
+    "finpos1_dmrc26":     "form",
     "ltstarts_dmrt26":    "form",
     "xStCY_gptsn26":      "form",
     # surface
@@ -65,8 +65,6 @@ GP_TURF_FEATURE_GROUPS = {
     "xJKYatDisJkyEPSc":   "jockey",
     # trainer/jockey combo
     "jtWP365_gptnc26":    "connections",
-    # post
-    "effpost_gpt26":      "post",
 }
 
 # ---------------------------------------------------------------------------
@@ -134,7 +132,7 @@ GP_TURF_SYNONYMS = {
         ["Hit the board often last year", "Reliable top-two finisher a year ago", "Last season's record holds up"],
         ["Rarely hit the top two last year", "Last season's record was light", "Didn't threaten much a year ago"],
     ),
-    "finpos1_gpt26": (
+    "finpos1_dmrc26": (
         ["Finished well last out", "Good finish position last time", "Ran a strong race last out"],
         ["Finished poorly last out", "Buried at the wire last time", "Last-out finish was flat"],
     ),
@@ -185,11 +183,6 @@ GP_TURF_SYNONYMS = {
     "xJKYatDisJkyEPSc": (
         ["Rider earns at this turf trip", "Pilot is money at the distance on grass", "Right rider for this turf trip"],
         ["Rider light at this turf trip", "Pilot thin at the grass distance", "Jockey-turf-distance combo a concern"],
-    ),
-    # -- post (same phrases as the shared effpost) -----------------------
-    "effpost_gpt26": (
-        ["Good gate today", "Liked the draw", "Post gives {OBJ} every chance"],
-        ["Wide post a concern", "Outside post is a headache", "A lot of ground to make up from here"],
     ),
     # -- trainer/jockey combo ------------------------------------------
     "jtWP365_gptnc26": (

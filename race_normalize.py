@@ -596,14 +596,20 @@ def _convert_positions(df: pd.DataFrame) -> pd.DataFrame:
     """Convert string finish position fields to numeric."""
     def to_numeric_pos(series, dnf_val, entrants_series):
         def _conv(row):
-            s, e = row
+            s, d, e = row
             if isinstance(s, str) and s.strip()[:1].isdigit():
                 return float(s.strip()[:2])
-            if str(s) in ("99","89","28"):
+            # 5.sas / 5scoring.sas L160-196: a non-numeric position (K = lost
+            # rider, etc.) becomes that race's field size when the line's
+            # MONEY position is 99/89/28 (did not finish / disqualified).
+            # FIXED 2026-11-25: this used to test the position string itself
+            # for 99/89/28, which never matches, so DNF lines came out missing
+            # (and shifted the race mean for the rest of the field).
+            if str(d).strip() in ("99","89","28"):
                 return float(e) if pd.notna(e) else np.nan
             return np.nan
         return pd.Series(
-            [_conv(r) for r in zip(series, entrants_series)],
+            [_conv(r) for r in zip(series, dnf_val, entrants_series)],
             index=series.index)
 
     for i in range(1, 11):
